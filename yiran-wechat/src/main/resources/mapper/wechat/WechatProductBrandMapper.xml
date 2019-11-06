@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.wechat.mapper.WechatProductBrandMapper">
+    
+    <resultMap type="WechatProductBrand" id="WechatProductBrandResult">
+        <result property="productBrandId"    column="product_brand_id"    />
+        <result property="productCategoryId"    column="product_category_id"    />
+        <result property="productCategoryName"    column="product_category_name"    />
+        <result property="name"    column="name"    />
+        <result property="imageUrl"    column="image_url"    />
+        <result property="orders"    column="orders"    />
+        <result property="status"    column="status"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+	
+	<sql id="selectWechatProductBrandVo">
+        select product_brand_id, product_category_id,product_category_name, name, image_url, orders, status, create_time from wechat_product_brand
+    </sql>
+	
+    <select id="selectWechatProductBrandList" parameterType="WechatProductBrand" resultMap="WechatProductBrandResult">
+        <include refid="selectWechatProductBrandVo"/>
+        <where>  
+            <if test="productBrandId != null "> and product_brand_id = #{productBrandId}</if>
+             <if test="productCategoryId != null  and productCategoryId != '' "> and product_category_id = #{productCategoryId}</if>
+             <if test="name != null  and name != '' "> and name = #{name}</if>
+             <if test="imageUrl != null  and imageUrl != '' "> and image_url = #{imageUrl}</if>
+             <if test="orders != null  and orders != '' "> and orders = #{orders}</if>
+             <if test="status != null  and status != '' "> and status = #{status}</if>
+         </where>
+    </select>
+    <select id="selectWechatProductBrandListByCategoryId" parameterType="String" resultMap="WechatProductBrandResult">
+        <include refid="selectWechatProductBrandVo"/>
+        where product_category_id = #{categoryId}
+        and status = 1
+    </select>
+    
+    <select id="selectWechatProductBrandById" parameterType="Integer" resultMap="WechatProductBrandResult">
+        <include refid="selectWechatProductBrandVo"/>
+        where product_brand_id = #{productBrandId}
+    </select>
+        
+    <insert id="insertWechatProductBrand" parameterType="WechatProductBrand" useGeneratedKeys="true" keyProperty="productBrandId">
+        insert into wechat_product_brand
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="productCategoryId != null  and productCategoryId != ''  ">product_category_id,</if>
+			<if test="productCategoryName != null  and productCategoryName != ''  ">product_category_name,</if>
+			<if test="name != null  and name != ''  ">name,</if>
+			<if test="imageUrl != null  and imageUrl != ''  ">image_url,</if>
+			<if test="orders != null  and orders != ''  ">orders,</if>
+			<if test="status != null  and status != ''  ">status,</if>
+			create_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="productCategoryId != null  and productCategoryId != ''  ">#{productCategoryId},</if>
+			<if test="productCategoryName != null  and productCategoryName != ''  ">#{productCategoryName},</if>
+			<if test="name != null  and name != ''  ">#{name},</if>
+			<if test="imageUrl != null  and imageUrl != ''  ">#{imageUrl},</if>
+			<if test="orders != null  and orders != ''  ">#{orders},</if>
+			<if test="status != null  and status != ''  ">#{status},</if>
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateWechatProductBrand" parameterType="WechatProductBrand">
+        update wechat_product_brand
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="productCategoryId != null  and productCategoryId != ''  ">product_category_id = #{productCategoryId},</if>
+            <if test="productCategoryName != null  and productCategoryName != ''  ">product_category_name = #{productCategoryName},</if>
+            <if test="name != null  and name != ''  ">name = #{name},</if>
+            <if test="imageUrl != null  and imageUrl != ''  ">image_url = #{imageUrl},</if>
+            <if test="orders != null  and orders != ''  ">orders = #{orders},</if>
+            <if test="status != null  and status != ''  ">status = #{status},</if>
+            create_time = sysdate()
+        </trim>
+        where product_brand_id = #{productBrandId}
+    </update>
+
+	<delete id="deleteWechatProductBrandById" parameterType="Integer">
+        delete from wechat_product_brand where product_brand_id = #{productBrandId}
+    </delete>
+	
+    <delete id="deleteWechatProductBrandByIds" parameterType="String">
+        delete from wechat_product_brand where product_brand_id in 
+        <foreach item="productBrandId" collection="array" open="(" separator="," close=")">
+            #{productBrandId}
+        </foreach>
+    </delete>
+    
+</mapper>

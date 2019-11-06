@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.payorder.mapper.PayResultNotifyLogMapper">
+    
+    <resultMap type="PayResultNotifyLog" id="PayResultNotifyLogResult">
+        <result property="notifyRequestId"    column="notify_request_id"    />
+        <result property="notifyId"    column="notify_id"    />
+        <result property="notifyReturnData"    column="notify_return_data"    />
+        <result property="serverIdentity"    column="server_identity"    />
+        <result property="gmtNotify"    column="gmt_notify"    />
+        <result property="gmtReturn"    column="gmt_return"    />
+    </resultMap>
+	
+	<sql id="selectPayResultNotifyLogVo">
+        select notify_request_id, notify_id, notify_return_data, server_identity, gmt_notify, gmt_return from pay_result_notify_log
+    </sql>
+	
+    <select id="selectPayResultNotifyLogList" parameterType="PayResultNotifyLog" resultMap="PayResultNotifyLogResult">
+        <include refid="selectPayResultNotifyLogVo"/>
+        <where>  
+            <if test="notifyRequestId != null "> and notify_request_id = #{notifyRequestId}</if>
+             <if test="notifyId != null  and notifyId != '' "> and notify_id = #{notifyId}</if>
+             <if test="notifyReturnData != null  and notifyReturnData != '' "> and notify_return_data = #{notifyReturnData}</if>
+             <if test="serverIdentity != null  and serverIdentity != '' "> and server_identity = #{serverIdentity}</if>
+             <if test="gmtNotify != null "> and gmt_notify = #{gmtNotify}</if>
+             <if test="gmtReturn != null "> and gmt_return = #{gmtReturn}</if>
+         </where>
+    </select>
+    
+    <select id="selectPayResultNotifyLogById" parameterType="Integer" resultMap="PayResultNotifyLogResult">
+        <include refid="selectPayResultNotifyLogVo"/>
+        where notify_request_id = #{notifyRequestId}
+    </select>
+        
+    <insert id="insertPayResultNotifyLog" parameterType="PayResultNotifyLog" useGeneratedKeys="true" keyProperty="notifyRequestId">
+        insert into pay_result_notify_log
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="notifyId != null  and notifyId != ''  ">notify_id,</if>
+			<if test="notifyReturnData != null  and notifyReturnData != ''  ">notify_return_data,</if>
+			<if test="serverIdentity != null  and serverIdentity != ''  ">server_identity,</if>
+			gmt_notify,
+			gmt_return
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="notifyId != null  and notifyId != ''  ">#{notifyId},</if>
+			<if test="notifyReturnData != null  and notifyReturnData != ''  ">#{notifyReturnData},</if>
+			<if test="serverIdentity != null  and serverIdentity != ''  ">#{serverIdentity},</if>
+			sysdate(),
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updatePayResultNotifyLog" parameterType="PayResultNotifyLog">
+        update pay_result_notify_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="notifyId != null  and notifyId != ''  ">notify_id = #{notifyId},</if>
+            <if test="notifyReturnData != null  and notifyReturnData != ''  ">notify_return_data = #{notifyReturnData},</if>
+            <if test="serverIdentity != null  and serverIdentity != ''  ">server_identity = #{serverIdentity},</if>
+            gmt_return = sysdate()
+        </trim>
+        where notify_request_id = #{notifyRequestId}
+    </update>
+
+	<delete id="deletePayResultNotifyLogById" parameterType="Integer">
+        delete from pay_result_notify_log where notify_request_id = #{notifyRequestId}
+    </delete>
+	
+    <delete id="deletePayResultNotifyLogByIds" parameterType="String">
+        delete from pay_result_notify_log where notify_request_id in 
+        <foreach item="notifyRequestId" collection="array" open="(" separator="," close=")">
+            #{notifyRequestId}
+        </foreach>
+    </delete>
+    
+</mapper>

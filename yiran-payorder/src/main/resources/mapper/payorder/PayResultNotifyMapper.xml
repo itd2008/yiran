@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.payorder.mapper.PayResultNotifyMapper">
+    
+    <resultMap type="PayResultNotify" id="PayResultNotifyResult">
+        <result property="notifyId"    column="notify_id"    />
+        <result property="instOrderId"    column="inst_order_id"    />
+        <result property="eventCode"    column="event_code"    />
+        <result property="notifyTarget"    column="notify_target"    />
+        <result property="notifyData"    column="notify_data"    />
+        <result property="notifyStatus"    column="notify_status"    />
+        <result property="inputCharset"    column="input_charset"    />
+        <result property="signatureType"    column="signature_type"    />
+        <result property="partnerId"    column="partner_id"    />
+        <result property="clientId"    column="client_id"    />
+        <result property="serverIdentity"    column="server_identity"    />
+        <result property="retryingFlag"    column="retrying_flag"    />
+        <result property="retryCount"    column="retry_count"    />
+        <result property="gmtRetry"    column="gmt_retry"    />
+        <result property="memo"    column="memo"    />
+        <result property="gmtCreate"    column="gmt_create"    />
+        <result property="gmtModified"    column="gmt_modified"    />
+    </resultMap>
+	
+	<sql id="selectPayResultNotifyVo">
+        select notify_id, inst_order_id, event_code, notify_target, notify_data, notify_status, input_charset, signature_type, partner_id, client_id, server_identity, retrying_flag, retry_count, gmt_retry, memo, gmt_create, gmt_modified from pay_result_notify
+    </sql>
+	
+    <select id="selectPayResultNotifyList" parameterType="PayResultNotify" resultMap="PayResultNotifyResult">
+        <include refid="selectPayResultNotifyVo"/>
+        <where>  
+            <if test="notifyId != null  and notifyId != '' "> and notify_id = #{notifyId}</if>
+             <if test="instOrderId != null  and instOrderId != '' "> and inst_order_id = #{instOrderId}</if>
+             <if test="eventCode != null  and eventCode != '' "> and event_code = #{eventCode}</if>
+             <if test="notifyTarget != null  and notifyTarget != '' "> and notify_target = #{notifyTarget}</if>
+             <if test="notifyData != null  and notifyData != '' "> and notify_data = #{notifyData}</if>
+             <if test="notifyStatus != null  and notifyStatus != '' "> and notify_status = #{notifyStatus}</if>
+             <if test="inputCharset != null  and inputCharset != '' "> and input_charset = #{inputCharset}</if>
+             <if test="signatureType != null  and signatureType != '' "> and signature_type = #{signatureType}</if>
+             <if test="partnerId != null  and partnerId != '' "> and partner_id = #{partnerId}</if>
+             <if test="clientId != null  and clientId != '' "> and client_id = #{clientId}</if>
+             <if test="serverIdentity != null  and serverIdentity != '' "> and server_identity = #{serverIdentity}</if>
+             <if test="retryingFlag != null  and retryingFlag != '' "> and retrying_flag = #{retryingFlag}</if>
+             <if test="retryCount != null "> and retry_count = #{retryCount}</if>
+             <if test="gmtRetry != null "> and gmt_retry = #{gmtRetry}</if>
+             <if test="memo != null  and memo != '' "> and memo = #{memo}</if>
+             <if test="gmtCreate != null "> and gmt_create = #{gmtCreate}</if>
+             <if test="gmtModified != null "> and gmt_modified = #{gmtModified}</if>
+         </where>
+    </select>
+    
+    <select id="selectPayResultNotifyListIsFail"  resultMap="PayResultNotifyResult">
+        <include refid="selectPayResultNotifyVo"/>
+        where event_code = 'PAY_AWAIT' or notify_status = 'I'
+    </select>
+    
+    <select id="selectPayResultNotifyById" parameterType="String" resultMap="PayResultNotifyResult">
+        <include refid="selectPayResultNotifyVo"/>
+        where notify_id = #{notifyId}
+    </select>
+    
+    <select id="selectPayResultNotifyByPaymentSeqNo" parameterType="String" resultMap="PayResultNotifyResult">
+        <include refid="selectPayResultNotifyVo"/>
+        where inst_order_id = #{paymentSeqNo}
+    </select>
+        
+    <insert id="insertPayResultNotify" parameterType="PayResultNotify">
+        insert into pay_result_notify
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="notifyId != null  and notifyId != ''  ">notify_id,</if>
+			<if test="instOrderId != null  and instOrderId != ''  ">inst_order_id,</if>
+			<if test="eventCode != null  and eventCode != ''  ">event_code,</if>
+			<if test="notifyTarget != null  and notifyTarget != ''  ">notify_target,</if>
+			<if test="notifyData != null  and notifyData != ''  ">notify_data,</if>
+			<if test="notifyStatus != null  and notifyStatus != ''  ">notify_status,</if>
+			<if test="inputCharset != null  and inputCharset != ''  ">input_charset,</if>
+			<if test="signatureType != null  and signatureType != ''  ">signature_type,</if>
+			<if test="partnerId != null  and partnerId != ''  ">partner_id,</if>
+			<if test="clientId != null  and clientId != ''  ">client_id,</if>
+			<if test="serverIdentity != null  and serverIdentity != ''  ">server_identity,</if>
+			<if test="retryingFlag != null  and retryingFlag != ''  ">retrying_flag,</if>
+			<if test="retryCount != null  ">retry_count,</if>
+			<if test="gmtRetry != null  ">gmt_retry,</if>
+			<if test="memo != null  and memo != ''  ">memo,</if>
+			gmt_create,
+			gmt_modified
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="notifyId != null  and notifyId != ''  ">#{notifyId},</if>
+			<if test="instOrderId != null  and instOrderId != ''  ">#{instOrderId},</if>
+			<if test="eventCode != null  and eventCode != ''  ">#{eventCode},</if>
+			<if test="notifyTarget != null  and notifyTarget != ''  ">#{notifyTarget},</if>
+			<if test="notifyData != null  and notifyData != ''  ">#{notifyData},</if>
+			<if test="notifyStatus != null  and notifyStatus != ''  ">#{notifyStatus},</if>
+			<if test="inputCharset != null  and inputCharset != ''  ">#{inputCharset},</if>
+			<if test="signatureType != null  and signatureType != ''  ">#{signatureType},</if>
+			<if test="partnerId != null  and partnerId != ''  ">#{partnerId},</if>
+			<if test="clientId != null  and clientId != ''  ">#{clientId},</if>
+			<if test="serverIdentity != null  and serverIdentity != ''  ">#{serverIdentity},</if>
+			<if test="retryingFlag != null  and retryingFlag != ''  ">#{retryingFlag},</if>
+			<if test="retryCount != null  ">#{retryCount},</if>
+			<if test="gmtRetry != null  ">#{gmtRetry},</if>
+			<if test="memo != null  and memo != ''  ">#{memo},</if>
+			sysdate(),
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updatePayResultNotify" parameterType="PayResultNotify">
+        update pay_result_notify
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="instOrderId != null  and instOrderId != ''  ">inst_order_id = #{instOrderId},</if>
+            <if test="eventCode != null  and eventCode != ''  ">event_code = #{eventCode},</if>
+            <if test="notifyTarget != null  and notifyTarget != ''  ">notify_target = #{notifyTarget},</if>
+            <if test="notifyData != null  and notifyData != ''  ">notify_data = #{notifyData},</if>
+            <if test="notifyStatus != null  and notifyStatus != ''  ">notify_status = #{notifyStatus},</if>
+            <if test="inputCharset != null  and inputCharset != ''  ">input_charset = #{inputCharset},</if>
+            <if test="signatureType != null  and signatureType != ''  ">signature_type = #{signatureType},</if>
+            <if test="partnerId != null  and partnerId != ''  ">partner_id = #{partnerId},</if>
+            <if test="clientId != null  and clientId != ''  ">client_id = #{clientId},</if>
+            <if test="serverIdentity != null  and serverIdentity != ''  ">server_identity = #{serverIdentity},</if>
+            <if test="retryingFlag != null  and retryingFlag != ''  ">retrying_flag = #{retryingFlag},</if>
+            <if test="retryCount != null  ">retry_count = #{retryCount},</if>
+            <if test="gmtRetry != null  ">gmt_retry = #{gmtRetry},</if>
+            <if test="memo != null  and memo != ''  ">memo = #{memo},</if>
+            gmt_modified = sysdate()
+        </trim>
+        where notify_id = #{notifyId}
+    </update>
+
+	<delete id="deletePayResultNotifyById" parameterType="String">
+        delete from pay_result_notify where notify_id = #{notifyId}
+    </delete>
+	
+    <delete id="deletePayResultNotifyByIds" parameterType="String">
+        delete from pay_result_notify where notify_id in 
+        <foreach item="notifyId" collection="array" open="(" separator="," close=")">
+            #{notifyId}
+        </foreach>
+    </delete>
+    
+</mapper>

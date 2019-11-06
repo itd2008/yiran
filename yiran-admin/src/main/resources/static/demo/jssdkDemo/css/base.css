@@ -1,0 +1,16 @@
+
+body {
+    font-family: microsoft yahei, sans-serif;
+    tap-heilight-color:transparent;
+    -webkit-tap-highlight-color: transparent;
+}
+a {
+    color: #ffffff;
+}
+
+.f-left {
+    float: left;
+}
+.f-right {
+    float: right;
+}

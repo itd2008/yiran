@@ -1,0 +1,130 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+						<ul>
+							<li>
+								消息投递状态:
+								<select name="status" th:with="type=${@dict.getType('rabbitMQ_message_status')}">
+								  <option value="">所有</option>
+								  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+								  </option>
+								</select>
+							</li>
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+	        <div class="btn-group-sm hidden-xs" id="toolbar" role="group">
+				<!-- <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="amqp:mqMessageLog:add">
+					<i class="fa fa-plus"></i> 添加
+				</a>
+				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.edit()" shiro:hasPermission="amqp:mqMessageLog:edit">
+					<i class="fa fa-edit"></i> 修改
+				</a> -->
+				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="amqp:mqMessageLog:remove">
+					<i class="fa fa-remove"></i> 删除
+				</a>
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="amqp:mqMessageLog:export">
+						<i class="fa fa-download"></i> 导出
+				 </a>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('amqp:mqMessageLog:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('amqp:mqMessageLog:remove')}]];
+        var prefix = ctx + "amqp/mqMessageLog";
+        var messageStatusDatas = [[${@dict.getType('rabbitMQ_message_status')}]];
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+                modalName: "MQ消息记录",
+		        showExport: true,
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'messageId', 
+					title : '消息唯一ID',
+					visible: true
+				},
+				{
+					field : 'message', 
+					title : '消息内容',
+					sortable: true
+				},
+				{
+					field : 'tryCount', 
+					title : '重试次数',
+					sortable: true
+				},
+				{
+					field : 'status', 
+					title : '消息投递状态 ',
+					sortable: true,
+				 	formatter: function(value, row, index) {
+					   return $.table.selectDictLabel(messageStatusDatas, value);
+					}
+				},
+				{
+					field : 'nextRetry', 
+					title : '下一次重试时间',
+					sortable: true
+				},
+				{
+					field : 'createTime', 
+					title : '创建时间',
+					sortable: true
+				},
+				{
+					field : 'updateTime', 
+					title : '更新时间',
+					sortable: true
+				},
+		        {
+		            title: '操作',
+		            align: 'center',
+		            formatter: function(value, row, index) {
+		            	var actions = [];
+		            	 if(row.status == "2"){
+		            		 actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="humanIntervention(\'' + row.messageId + '\')"><i class="fa fa-edit"></i>人工重发</a> &nbsp;');
+		                     actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.messageId + '\')"><i class="fa fa-remove"></i>删除消息</a>');
+                         }
+						return actions.join('');
+		            }
+		        }]
+            };
+            $.table.init(options);
+        });
+        
+        
+        function humanIntervention(id){
+        	$.modal.confirm("确认要重新发送这条【"+id+"】MQ消息吗?", function() {
+    			var url = ctx + 'amqp/mqMessageLog/humanIntervention/' + id;
+    			$.operate.get(url);
+    		});
+        }
+    </script>
+</body>
+</html>

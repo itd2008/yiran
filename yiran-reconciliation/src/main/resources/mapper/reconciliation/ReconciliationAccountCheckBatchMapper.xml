@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.reconciliation.mapper.ReconciliationAccountCheckBatchMapper">
+    
+    <resultMap type="ReconciliationAccountCheckBatch" id="ReconciliationAccountCheckBatchResult">
+        <result property="id"    column="id"    />
+        <result property="version"    column="version"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="editor"    column="editor"    />
+        <result property="creater"    column="creater"    />
+        <result property="editTime"    column="edit_time"    />
+        <result property="status"    column="status"    />
+        <result property="remark"    column="remark"    />
+        <result property="batchNo"    column="batch_no"    />
+        <result property="billDate"    column="bill_date"    />
+        <result property="billType"    column="bill_type"    />
+        <result property="handleStatus"    column="handle_status"    />
+        <result property="bankType"    column="bank_type"    />
+        <result property="mistakeCount"    column="mistake_count"    />
+        <result property="unhandleMistakeCount"    column="unhandle_mistake_count"    />
+        <result property="tradeCount"    column="trade_count"    />
+        <result property="bankTradeCount"    column="bank_trade_count"    />
+        <result property="tradeAmount"    column="trade_amount"    />
+        <result property="bankTradeAmount"    column="bank_trade_amount"    />
+        <result property="refundAmount"    column="refund_amount"    />
+        <result property="bankRefundAmount"    column="bank_refund_amount"    />
+        <result property="bankFee"    column="bank_fee"    />
+        <result property="orgCheckFilePath"    column="org_check_file_path"    />
+        <result property="releaseCheckFilePath"    column="release_check_file_path"    />
+        <result property="releaseStatus"    column="release_status"    />
+        <result property="checkFailMsg"    column="check_fail_msg"    />
+        <result property="bankErrMsg"    column="bank_err_msg"    />
+    </resultMap>
+	
+	<sql id="selectReconciliationAccountCheckBatchVo">
+        select id, version, create_time, editor, creater, edit_time, status, remark, batch_no, bill_date, bill_type, handle_status, bank_type, mistake_count, unhandle_mistake_count, trade_count, bank_trade_count, trade_amount, bank_trade_amount, refund_amount, bank_refund_amount, bank_fee, org_check_file_path, release_check_file_path, release_status, check_fail_msg, bank_err_msg from reconciliation_account_check_batch
+    </sql>
+	
+    <select id="selectReconciliationAccountCheckBatchList" parameterType="ReconciliationAccountCheckBatch" resultMap="ReconciliationAccountCheckBatchResult">
+        <include refid="selectReconciliationAccountCheckBatchVo"/>
+        <where>  
+             <if test="version != null "> and version = #{version}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="editor != null  and editor != '' "> and editor = #{editor}</if>
+             <if test="creater != null  and creater != '' "> and creater = #{creater}</if>
+             <if test="editTime != null "> and edit_time = #{editTime}</if>
+             <if test="status != null  and status != '' "> and status = #{status}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+             <if test="batchNo != null  and batchNo != '' "> and batch_no = #{batchNo}</if>
+             <if test="billDate != null "> and bill_date = #{billDate}</if>
+             <if test="billType != null  and billType != '' "> and bill_type = #{billType}</if>
+             <if test="handleStatus != null  and handleStatus != '' "> and handle_status = #{handleStatus}</if>
+             <if test="bankType != null  and bankType != '' "> and bank_type = #{bankType}</if>
+             <if test="mistakeCount != null "> and mistake_count = #{mistakeCount}</if>
+             <if test="unhandleMistakeCount != null "> and unhandle_mistake_count = #{unhandleMistakeCount}</if>
+             <if test="tradeCount != null "> and trade_count = #{tradeCount}</if>
+             <if test="bankTradeCount != null "> and bank_trade_count = #{bankTradeCount}</if>
+             <if test="tradeAmount != null "> and trade_amount = #{tradeAmount}</if>
+             <if test="bankTradeAmount != null "> and bank_trade_amount = #{bankTradeAmount}</if>
+             <if test="refundAmount != null "> and refund_amount = #{refundAmount}</if>
+             <if test="bankRefundAmount != null "> and bank_refund_amount = #{bankRefundAmount}</if>
+             <if test="bankFee != null "> and bank_fee = #{bankFee}</if>
+             <if test="orgCheckFilePath != null  and orgCheckFilePath != '' "> and org_check_file_path = #{orgCheckFilePath}</if>
+             <if test="releaseCheckFilePath != null  and releaseCheckFilePath != '' "> and release_check_file_path = #{releaseCheckFilePath}</if>
+             <if test="releaseStatus != null  and releaseStatus != '' "> and release_status = #{releaseStatus}</if>
+             <if test="checkFailMsg != null  and checkFailMsg != '' "> and check_fail_msg = #{checkFailMsg}</if>
+             <if test="bankErrMsg != null  and bankErrMsg != '' "> and bank_err_msg = #{bankErrMsg}</if>
+         </where>
+    </select>
+    
+    <select id="selectBatchList" parameterType="java.util.Map" resultMap="ReconciliationAccountCheckBatchResult">
+        <include refid="selectReconciliationAccountCheckBatchVo"/>
+        <where>  
+           	<if test="billDate != null and billDate != ''">
+				and bill_date between #{billDate} AND CONCAT(#{billDate},' 23:59:59')
+			</if>
+			<if test="fundChannelCode != null and fundChannelCode != ''">
+				and bank_type = #{fundChannelCode}
+			</if>
+			<!-- 状态不为error的情况 -->
+			<if test="status != null and status != ''">
+				and status not in ( #{status})
+			</if>
+         </where>
+    </select>
+    
+    <select id="selectReconciliationAccountCheckBatchById" parameterType="Integer" resultMap="ReconciliationAccountCheckBatchResult">
+        <include refid="selectReconciliationAccountCheckBatchVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertReconciliationAccountCheckBatch" parameterType="ReconciliationAccountCheckBatch">
+        insert into reconciliation_account_check_batch
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="version != null  ">version,</if>
+			<if test="editor != null  and editor != ''  ">editor,</if>
+			<if test="creater != null  and creater != ''  ">creater,</if>
+			<if test="editTime != null  ">edit_time,</if>
+			<if test="status != null  and status != ''  ">status,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="batchNo != null  and batchNo != ''  ">batch_no,</if>
+			<if test="billDate != null  ">bill_date,</if>
+			<if test="billType != null  and billType != ''  ">bill_type,</if>
+			<if test="handleStatus != null  and handleStatus != ''  ">handle_status,</if>
+			<if test="bankType != null  and bankType != ''  ">bank_type,</if>
+			<if test="mistakeCount != null  ">mistake_count,</if>
+			<if test="unhandleMistakeCount != null  ">unhandle_mistake_count,</if>
+			<if test="tradeCount != null  ">trade_count,</if>
+			<if test="bankTradeCount != null  ">bank_trade_count,</if>
+			<if test="tradeAmount != null  ">trade_amount,</if>
+			<if test="bankTradeAmount != null  ">bank_trade_amount,</if>
+			<if test="refundAmount != null  ">refund_amount,</if>
+			<if test="bankRefundAmount != null  ">bank_refund_amount,</if>
+			<if test="bankFee != null  ">bank_fee,</if>
+			<if test="orgCheckFilePath != null  and orgCheckFilePath != ''  ">org_check_file_path,</if>
+			<if test="releaseCheckFilePath != null  and releaseCheckFilePath != ''  ">release_check_file_path,</if>
+			<if test="releaseStatus != null  and releaseStatus != ''  ">release_status,</if>
+			<if test="checkFailMsg != null  and checkFailMsg != ''  ">check_fail_msg,</if>
+			<if test="bankErrMsg != null  and bankErrMsg != ''  ">bank_err_msg,</if>
+			create_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="version != null  ">#{version},</if>
+			<if test="editor != null  and editor != ''  ">#{editor},</if>
+			<if test="creater != null  and creater != ''  ">#{creater},</if>
+			<if test="editTime != null  ">#{editTime},</if>
+			<if test="status != null  and status != ''  ">#{status},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="batchNo != null  and batchNo != ''  ">#{batchNo},</if>
+			<if test="billDate != null  ">#{billDate},</if>
+			<if test="billType != null  and billType != ''  ">#{billType},</if>
+			<if test="handleStatus != null  and handleStatus != ''  ">#{handleStatus},</if>
+			<if test="bankType != null  and bankType != ''  ">#{bankType},</if>
+			<if test="mistakeCount != null  ">#{mistakeCount},</if>
+			<if test="unhandleMistakeCount != null  ">#{unhandleMistakeCount},</if>
+			<if test="tradeCount != null  ">#{tradeCount},</if>
+			<if test="bankTradeCount != null  ">#{bankTradeCount},</if>
+			<if test="tradeAmount != null  ">#{tradeAmount},</if>
+			<if test="bankTradeAmount != null  ">#{bankTradeAmount},</if>
+			<if test="refundAmount != null  ">#{refundAmount},</if>
+			<if test="bankRefundAmount != null  ">#{bankRefundAmount},</if>
+			<if test="bankFee != null  ">#{bankFee},</if>
+			<if test="orgCheckFilePath != null  and orgCheckFilePath != ''  ">#{orgCheckFilePath},</if>
+			<if test="releaseCheckFilePath != null  and releaseCheckFilePath != ''  ">#{releaseCheckFilePath},</if>
+			<if test="releaseStatus != null  and releaseStatus != ''  ">#{releaseStatus},</if>
+			<if test="checkFailMsg != null  and checkFailMsg != ''  ">#{checkFailMsg},</if>
+			<if test="bankErrMsg != null  and bankErrMsg != ''  ">#{bankErrMsg},</if>
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateReconciliationAccountCheckBatch" parameterType="ReconciliationAccountCheckBatch">
+        update reconciliation_account_check_batch
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="version != null  ">version = #{version},</if>
+            <if test="editor != null  and editor != ''  ">editor = #{editor},</if>
+            <if test="status != null  and status != ''  ">status = #{status},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="batchNo != null  and batchNo != ''  ">batch_no = #{batchNo},</if>
+            <if test="billDate != null  ">bill_date = #{billDate},</if>
+            <if test="billType != null  and billType != ''  ">bill_type = #{billType},</if>
+            <if test="handleStatus != null  and handleStatus != ''  ">handle_status = #{handleStatus},</if>
+            <if test="bankType != null  and bankType != ''  ">bank_type = #{bankType},</if>
+            <if test="mistakeCount != null  ">mistake_count = #{mistakeCount},</if>
+            <if test="unhandleMistakeCount != null  ">unhandle_mistake_count = #{unhandleMistakeCount},</if>
+            <if test="tradeCount != null  ">trade_count = #{tradeCount},</if>
+            <if test="bankTradeCount != null  ">bank_trade_count = #{bankTradeCount},</if>
+            <if test="tradeAmount != null  ">trade_amount = #{tradeAmount},</if>
+            <if test="bankTradeAmount != null  ">bank_trade_amount = #{bankTradeAmount},</if>
+            <if test="refundAmount != null  ">refund_amount = #{refundAmount},</if>
+            <if test="bankRefundAmount != null  ">bank_refund_amount = #{bankRefundAmount},</if>
+            <if test="bankFee != null  ">bank_fee = #{bankFee},</if>
+            <if test="orgCheckFilePath != null  and orgCheckFilePath != ''  ">org_check_file_path = #{orgCheckFilePath},</if>
+            <if test="releaseCheckFilePath != null  and releaseCheckFilePath != ''  ">release_check_file_path = #{releaseCheckFilePath},</if>
+            <if test="releaseStatus != null  and releaseStatus != ''  ">release_status = #{releaseStatus},</if>
+            <if test="checkFailMsg != null  and checkFailMsg != ''  ">check_fail_msg = #{checkFailMsg},</if>
+            <if test="bankErrMsg != null  and bankErrMsg != ''  ">bank_err_msg = #{bankErrMsg},</if>
+            edit_time = sysdate()
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteReconciliationAccountCheckBatchById" parameterType="Integer">
+        delete from reconciliation_account_check_batch where id = #{id}
+    </delete>
+	
+    <delete id="deleteReconciliationAccountCheckBatchByIds" parameterType="String">
+        delete from reconciliation_account_check_batch where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

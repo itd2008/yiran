@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.amqp.mapper.MqExchangesQueueMapper">
+    
+    <resultMap type="MqExchangesQueue" id="MqExchangesQueueResult">
+        <result property="exchangesId"    column="exchanges_id"    />
+        <result property="queueId"    column="queue_id"    />
+    </resultMap>
+	
+	<sql id="selectMqExchangesQueueVo">
+        select exchanges_id, queue_id from sys_mq_exchanges_queue
+    </sql>
+	
+    <select id="selectMqExchangesQueueList" parameterType="MqExchangesQueue" resultMap="MqExchangesQueueResult">
+        <include refid="selectMqExchangesQueueVo"/>
+        <where>  
+            <if test="exchangesId != null "> and exchanges_id = #{exchangesId}</if>
+             <if test="queueId != null "> and queue_id = #{queueId}</if>
+         </where>
+    </select>
+    
+    <select id="selectMqExchangesQueueById" parameterType="Integer" resultMap="MqExchangesQueueResult">
+        <include refid="selectMqExchangesQueueVo"/>
+        where exchanges_id = #{exchangesId}
+    </select>
+    
+    <select id="selectMqExchangesQueueByQueueId" parameterType="Integer" resultMap="MqExchangesQueueResult">
+        <include refid="selectMqExchangesQueueVo"/>
+        where queue_id = #{queueId}
+    </select>
+        
+    <insert id="insertMqExchangesQueue" parameterType="MqExchangesQueue">
+        insert into sys_mq_exchanges_queue
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="exchangesId != null  ">exchanges_id,</if>
+			<if test="queueId != null  ">queue_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="exchangesId != null  ">#{exchangesId},</if>
+			<if test="queueId != null  ">#{queueId},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateMqExchangesQueue" parameterType="MqExchangesQueue">
+        update sys_mq_exchanges_queue
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="queueId != null  ">queue_id = #{queueId},</if>
+        </trim>
+        where exchanges_id = #{exchangesId}
+    </update>
+
+	<delete id="deleteMqExchangesQueueById" parameterType="Integer">
+        delete from sys_mq_exchanges_queue where exchanges_id = #{exchangesId}
+    </delete>
+	<delete id="deleteMqExchangesQueue" parameterType="MqExchangesQueue">
+        delete from sys_mq_exchanges_queue where exchanges_id = #{exchangesId} and queue_id = #{queueId}
+    </delete>
+	
+    <delete id="deleteMqExchangesQueueByIds" parameterType="String">
+        delete from sys_mq_exchanges_queue where exchanges_id in 
+        <foreach item="exchangesId" collection="array" open="(" separator="," close=")">
+            #{exchangesId}
+        </foreach>
+    </delete>
+    
+    <insert id="batchMqExchangesQueue">
+		insert into sys_mq_exchanges_queue(exchanges_id, queue_id) values
+		<foreach item="item" index="index" collection="list" separator=",">
+			(#{item.exchangesId},#{item.queueId})
+		</foreach>
+	</insert>
+    
+</mapper>

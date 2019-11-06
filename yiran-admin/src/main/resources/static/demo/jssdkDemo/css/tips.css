@@ -1,0 +1,302 @@
+/* 懒人图库 搜集整理 www.lanrentuku.com */
+
+/*-------------------------
+	Simple reset
+--------------------------*/
+
+
+*{
+    margin:0;
+    padding:0;
+}
+
+
+/*-------------------------
+	General Styles
+--------------------------*/
+
+
+html{
+    background-color:#eaf0f2;
+}
+
+body{
+    font:14px/1.4 'Arial', 'Helvetica', sans-serif;
+    color: #5b6469;
+}
+
+a, a:visited {
+    outline:none;
+    color:#389dc1;
+}
+
+a:hover{
+    text-decoration:none;
+}
+
+section, footer, header, hgroup, aside{
+    display: block;
+}
+
+p{
+    margin-bottom:20px;
+}
+
+p:last-child{
+    margin-bottom: 0;
+}
+
+
+/*-------------------------
+	The headings
+--------------------------*/
+
+
+hgroup{
+    text-align: center;
+    padding: 60px 0 48px;
+    font-family: 'PT Serif', 'Cambria', serif;
+}
+
+hgroup h1{
+    color:#828e93;
+    font-size:18px;
+    font-weight: normal;
+}
+
+hgroup h2{
+    font-size:48px;
+}
+
+
+/*-------------------------
+	The color buttons
+--------------------------*/
+
+
+ul{
+    list-style:none;
+    text-align:center;
+    margin-bottom:48px;
+}
+
+
+ul li{
+    display: inline-block;
+    margin: 0 8px;
+}
+
+ul li:hover{
+    opacity: 0.9;
+}
+
+ul li a{
+    color:#fff !important;
+    text-decoration: none !important;
+    font-size:15px;
+    font-weight: bold;
+    display: inline-block;
+    padding:6px 14px;
+    border-radius:3px;
+    box-shadow: 1px 1px 1px rgba(0,0,0,0.1);
+}
+
+ul li:nth-child(1) a{
+    background-color: #6bb9e1;
+}
+
+ul li:nth-child(2) a{
+    background-color: #ec7164;
+}
+
+ul li:nth-child(3) a{
+    background-color: #6ad3c3;
+}
+
+
+/*-------------------------
+	The content section
+--------------------------*/
+
+
+#content{
+    background-color: #FFF;
+    border-radius: 4px;
+    padding: 40px;
+    margin: 0 auto;
+    max-width: 600px;
+    position: relative;
+    margin: 0 auto 100px;
+}
+
+
+
+/*-------------------------
+	Inline help tip
+--------------------------*/
+
+
+.help-tip{
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    margin-left: -25px;
+    position: absolute;
+    right: 12px;
+    text-align: center;
+    background-color: #2a6496;
+    border-radius: 50%;
+    font-size: 15px;
+    line-height: 50px;
+    cursor: default;
+}
+
+.help-tip:before{
+    content:'?';
+    font-weight: bold;
+    color:#fff;
+}
+
+.help-tip:hover p{
+    display:block;
+    transform-origin: 100% 0%;
+
+    -webkit-animation: fadeIn 0.3s ease-in-out;
+    animation: fadeIn 0.3s ease-in-out;
+
+}
+
+.help-tip p{
+    display: none;
+    text-align: left;
+    background-color: #1E2021;
+    padding: 20px;
+    width: 300px;
+    position: absolute;
+    border-radius: 3px;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+    right: -4px;
+    color: #FFF;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.help-tip p:before{
+    position: absolute;
+    content: '';
+    width:0;
+    height: 0;
+    border:6px solid transparent;
+    border-bottom-color:#1E2021;
+    right:10px;
+    top:-12px;
+}
+
+.help-tip p:after{
+    width:100%;
+    height:40px;
+    content:'';
+    position: absolute;
+    top:-40px;
+    left:0;
+}
+
+@-webkit-keyframes fadeIn {
+    0% {
+        opacity:0;
+        transform: scale(0.6);
+    }
+
+    100% {
+        opacity:100%;
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeIn {
+    0% { opacity:0; }
+    100% { opacity:100%; }
+}
+
+
+
+/*----------------------------
+	The Demo Footer
+-----------------------------*/
+
+
+footer{
+
+    width: 770px;
+    font: normal 16px Arial, Helvetica, sans-serif;
+    padding: 15px 35px;
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    margin-left: -420px;
+
+    background-color:#1f1f1f;
+    background-image:linear-gradient(to bottom, #1f1f1f, #101010);
+
+    border-radius:2px 2px 0 0;
+    box-shadow: 0 -1px 4px rgba(0,0,0,0.4);
+    z-index:1;
+}
+
+footer a.tz{
+    font-weight:normal;
+    font-size:16px !important;
+    text-decoration:none !important;
+    display:block;
+    margin-right: 300px;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    color:#bfbfbf !important;
+    z-index:1;
+}
+
+footer a.tz:before{
+    content: '';
+    background: url('http://cdn.tutorialzine.com/misc/enhance/v2_footer_bg.png') no-repeat 0 -53px;
+    width: 138px;
+    height: 20px;
+    display: inline-block;
+    position: relative;
+    bottom: -3px;
+}
+
+footer .close{
+    position: absolute;
+    cursor: pointer;
+    width: 8px;
+    height: 8px;
+    background: url('http://cdn.tutorialzine.com/misc/enhance/v2_footer_bg.png') no-repeat 0 0px;
+    top:10px;
+    right:10px;
+    z-index: 3;
+}
+
+footer #tzine-actions{
+    position: absolute;
+    top: 8px;
+    width: 500px;
+    right: 50%;
+    margin-right: -650px;
+    text-align: right;
+    z-index: 2;
+}
+
+footer #tzine-actions iframe{
+    display: inline-block;
+    height: 21px;
+    width: 95px;
+    position: relative;
+    float: left;
+    margin-top: 11px;
+}
+
+@media (max-width: 1024px) {
+    #bsaHolder, footer{ display:none;}
+}

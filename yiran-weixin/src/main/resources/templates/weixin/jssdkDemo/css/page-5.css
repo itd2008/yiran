@@ -1,0 +1,206 @@
+.fp-controlArrow.fp-prev {
+    -webkit-animation: shake 2s ease ;
+    animation: shake 2s ease ;
+
+}
+
+.fp-controlArrow.fp-next {
+    -webkit-animation: shake 2s ease ;
+    animation: shake 2s ease ;
+    -webkit-animation-delay: .5s;
+}
+
+
+
+.item-5 .container {
+    margin-top:50px;
+}
+
+
+.isotope, .isotope .isotope-item {
+    /* change duration value to whatever you like */
+    -webkit-transition-duration: 0.8s;
+    -moz-transition-duration: 0.8s;
+    transition-duration: 0.8s;
+}
+.isotope-item {
+    margin-right: -1px;
+    font-size: 12px;
+}
+
+.portfolio-item {
+    margin-bottom: 30px;
+    -webkit-transition: all 0.5s ease-out;
+    transition: all 0.5s ease-out;
+}
+.portfolio-item:hover {
+    margin-bottom: 30px;
+    -webkit-transform: scale(1.2);
+    transform: scale(1.2);
+}
+.portfolio-item .hover-bg {
+    height: 260px;
+    overflow: hidden;
+    position: relative;
+}
+.hover-bg .hover-text {
+    position: absolute;
+    text-align: center;
+    margin: 0 auto;
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.66);
+    padding: 25% 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: all 0.5s;
+}
+.hover-bg .hover-text>h4 {
+    opacity: 0;
+    -webkit-transform: translateY(100%);
+    transform: translateY(100%);
+    transition: all 0.3s;
+}
+.hover-bg:hover .hover-text>h4 {
+    opacity: 1;
+    -webkit-backface-visibility: hidden;
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+}
+.hover-bg .hover-text>i {
+    opacity: 0;
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    transition: all 0.3s;
+}
+.hover-bg:hover .hover-text>i {
+    opacity: 1;
+    -webkit-backface-visibility: hidden;
+    -webkit-transform: translateY(100%);
+    transform: translateY(100%);
+}
+.hover-bg:hover .hover-text {
+    opacity: 1;
+}
+
+/****************************************************第二瓶********************************************/
+.rotator{
+    background-color:#222;
+    width:800px;
+    height:300px;
+    margin:40px auto 0 auto;
+    position:relative;
+    font-family:'Myriad Pro',Arial,Helvetica,sans-serif;
+    color:#fff;
+    /*text-transform:uppercase;*/
+    letter-spacing:-1px;
+    border:3px solid #f0f0f0;
+    overflow:hidden;
+    -moz-box-shadow:0px 0px 10px #222;
+    -webkit-box-shadow:0px 0px 10px #222;
+    box-shadow:0px 0px 10px #222;
+    /*display: none;*/
+}
+@media(max-width:768px){
+    .rotator{
+        width: 140%;
+        margin-top: 30px;
+        left: -50%;
+        margin-left:100px;
+        transform: rotate(90deg);
+        -webkit-transform: rotate(90deg);
+    }
+}
+img.bg{
+    position:absolute;
+    top:0px;
+    left:0px;
+}
+.rotator ul{
+    list-style:none;
+    position:absolute;
+    right:0px;
+    top:0px;
+    margin-top:6px;
+    z-index:999999;
+}
+.rotator ul li{
+    display:block;
+    float:left;
+    clear:both;
+    width:260px;
+}
+.rotator ul li a{
+    width:230px;
+    float:right;
+    /*clear:both;*/
+    padding-left:10px;
+    text-decoration:none;
+    display:block;
+    height:52px;
+    line-height:52px;
+    background-color:#222;
+    margin:1px -20px 1px 0px;
+    opacity:0.7;
+    color:#f0f0f0;
+    font-size:20px !important;
+    border:2px solid #000;
+    border-right:none;
+    outline:none;
+    /*text-shadow:-1px 1px 1px #000;*/
+    -moz-border-radius:10px 0px 0px 20px;
+    -webkit-border-top-left-radius:10px;
+    -webkit-border-bottom-left-radius:20px;
+    border-top-left-radius:10px;
+    border-bottom-left-radius:20px;
+}
+
+.rotator ul li a:hover{
+    text-shadow:0px 0px 2px #fff;
+}
+
+.rotator .heading{
+    position:absolute;
+    top:0px;
+    left:0px;
+    width:500px;
+}
+
+
+.rotator .heading h1{
+    text-shadow:-1px 1px 1px #555;
+    font-weight:normal;
+    font-size:46px !important;
+    padding:20px;
+}
+.rotator .description{
+    width:500px;
+    height:80px;
+    position:absolute;
+    bottom:0px;
+    left:0px;
+    padding:20px;
+    background-color:#222;
+    -moz-border-radius:0px 10px 0px 0px;
+    -webkit-border-top-right-radius:10px;
+    border-top-right-radius:10px;
+    opacity:0.7;
+    border-top:2px solid #000;
+    border-right:2px solid #000;
+}
+
+.rotator .description p{
+    text-shadow:-1px 1px 1px #000;
+    text-transform:none;
+    letter-spacing:normal;
+    line-height:26px;
+}
+a.more{
+    color:orange;
+    text-decoration:none;
+    text-transform:uppercase;
+    font-size:10px;
+}
+a.more:hover{
+    color:#fff;
+}

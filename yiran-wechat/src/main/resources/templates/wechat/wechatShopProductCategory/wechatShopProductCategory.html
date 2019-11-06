@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+
+    <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="menu-form">
+					<div class="select-list">
+						<ul>
+							<li>
+								商品类目名称：<input type="text" name="name"/>
+							</li>
+							<li>
+								商品类目状态：<select name="status" th:with="type=${@dict.getType('product_ategory_show_hide')}">
+									<option value="">所有</option>
+									<option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+								</select>
+							</li>
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.treeTable.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+                
+            <div class="btn-group-sm hidden-xs" id="toolbar" role="group">
+		        <a class="btn btn-success" onclick="$.operate.add(1)" shiro:hasPermission="system:menu:add">
+                    <i class="fa fa-plus"></i> 新增
+                </a>
+                <a class="btn btn-primary" onclick="$.operate.edit()" shiro:hasPermission="system:menu:edit">
+		            <i class="fa fa-edit"></i> 修改
+		        </a>
+                <a class="btn btn-info" id="expandAllBtn">
+                    <i class="fa fa-exchange"></i> 展开/折叠
+                </a>
+	        </div>
+       		 <div class="col-sm-12 select-table table-striped">
+	            <table id="bootstrap-tree-table" data-mobile-responsive="true"></table>
+	        </div>
+	    </div>
+	</div>
+	
+	<div th:include="include :: footer"></div>
+	<script th:inline="javascript">
+		var addFlag = [[${@permission.hasPermi('wechat:wechatShopProductCategory:add')}]];
+		var editFlag = [[${@permission.hasPermi('wechat:wechatShopProductCategory:edit')}]];
+	    var removeFlag = [[${@permission.hasPermi('wechat:wechatShopProductCategory:remove')}]];
+	    var prefix = ctx + "wechat/wechatShopProductCategory";
+		var product_ategory_datas = [[${@dict.getType('product_ategory_show_hide')}]];
+
+		$(function() {
+		    var options = {
+		        code: "id",
+		        parentCode: "pid",
+		        uniqueId: "id",
+		        expandAll: false,
+		        expandFirst: true,
+		        url: prefix + "/list",
+		        createUrl: prefix + "/add/{id}",
+		        updateUrl: prefix + "/edit/{id}",
+		        removeUrl: prefix + "/remove/{id}",
+		        modalName: "微信商城类目",
+		        columns: [{
+                    field: 'selectItem', 
+                    radio: true
+                 },
+                 {
+		            title: '类目名称',
+		            field: 'name',
+		            width: '20%',
+		            formatter: function(value, row, index) {
+		                if ($.common.isEmpty(row.icon)) {
+		                    return row.name;
+		                } else {
+		                    return '<i class="' + row.icon + '"></i> <span class="nav-label">' + row.name + '</span>';
+		                }
+		            }
+		        },
+		        {
+					field : 'id', 
+					title : '类目编号',
+					width: '10%',
+		            align: "left"
+				},
+		        {
+		            field: 'status',
+		            title: '可见',
+		            width: '10%',
+		            align: "left",
+		            formatter: function(value, row, index) {
+		            	return $.table.selectDictLabel(product_ategory_datas, row.status);
+		            }
+		        },
+		        {
+		            title: '操作',
+		            width: '20%',
+		            align: "left",
+		            formatter: function(value, row, index) {
+		                var actions = [];
+		                actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+		                actions.push('<a class="btn btn-info btn-xs ' + addFlag + '" href="#" onclick="$.operate.add(\'' + row.id + '\')"><i class="fa fa-plus"></i>新增</a> ');
+		                actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+		                return actions.join('');
+		            }
+		        }]
+		    };
+		    $.treeTable.init(options);
+		});
+		
+		function remove(id) {
+			$.modal.confirm("确定删除该条" + $.table._option.modalName + "信息吗？", function() {
+				$.ajax({
+					type : 'post',
+					url: prefix + "/remove/" + id,
+					success : function(result) {
+						if (result.code == web_status.SUCCESS) {
+		                	$.modal.msgSuccess(result.msg);
+		                	$.treeTable.refresh();
+		                } else {
+		                	$.modal.msgError(result.msg);
+		                }
+					}
+				});
+			});
+		}
+	</script>
+</body>
+</html>

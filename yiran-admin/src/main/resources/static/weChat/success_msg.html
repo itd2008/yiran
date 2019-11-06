@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+      <link rel="stylesheet" href="css/weui.css" type="text/css">
+      <link rel="stylesheet" href="//cdn.bootcss.com/weui/0.4.3/style/weui.min.css" type="text/css">
+      <link rel="stylesheet" href="//cdn.bootcss.com/jquery-weui/0.8.0/css/jquery-weui.min.css" type="text/css">
+			<script src="lib/jquery-2.1.4.js"></script> 
+<style>
+		.placeholder {
+				margin: 5px;
+				padding: 0 10px;
+				background-color: #ebebeb;
+				height: 2.3em;
+				line-height: 2.3em;
+				text-align: left;
+				color: #cfcfcf;
+		}
+</style>
+     
+  </head>
+
+  <body ontouchstart>
+
+    <div class="weui-msg">
+      <div class="weui-msg__icon-area"><i class="weui-icon-success weui-icon_msg"></i></div>
+      <div class="weui-msg__text-area">
+        <h2 class="weui-msg__title">订单支付成功</h2>
+      </div>
+     
+      <div class="weui-form-preview">
+      	<div class="weui-form-preview__hd">
+      		<div class="weui-form-preview__item">
+      			<label class="weui-form-preview__label">支付金额</label>
+      			<em class="weui-form-preview__value" style="color: red;">¥&nbsp;<em id="weui_form_preview__value"></em></em>
+      		</div>
+      	</div>
+      	<div class="weui-form-preview__bd">
+      		<div class="weui-form-preview__item">
+      			<label class="weui-form-preview__label">订单号</label>
+      			<span class="weui-form-preview__value" id="order_id"></span>
+      		</div>
+      		<!-- <div class="weui-form-preview__item">
+      			<label class="weui-form-preview__label">订单详情</label>
+      			<span class="weui-form-preview__value"></span>
+      		</div>
+      		<div class="weui-form-preview__item">
+      			<label class="weui-form-preview__label" id="weui_form_preview_label">土豆烧肉x1</label>
+      		</div> -->
+      	</div>
+      	<div class="weui-form-preview__ft">
+      		<a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:return_my_order()">返回我的订单</a>
+					
+      	</div>
+      	<div class="weui-form-preview__ft">
+      		<a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:return_index()">返回商城首页</a>
+					
+      	</div>
+				
+      </div>
+    </div>
+      <script src="//cdn.bootcss.com/jquery-weui/0.8.0/js/jquery-weui.min.js"></script>
+      <script src="js/config.js"></script>
+			<script>
+					$(function() {
+						//获取订单号
+						var orderId = sessionStorage.getItem('orderId');
+						console.info("订单号："+orderId);
+						//根据订单号获取订单信息
+						$.ajax({
+							type: "post",
+							url: base_url+"/api/yiran/weChatMall/order/getOrdersByOrderId/"+orderId,
+							async: false, //同步
+							success: function(data) {
+								console.info(data.data);
+								var order = data.data;
+								$("#weui_form_preview__value").html(order.productAmountTotal);
+								$("#order_id").html(order.orderNo);
+							},
+						});
+						
+					});
+					
+					function return_my_order(){
+						window.location.href = "all_orders.html";
+					}
+					
+					function return_index(){
+						window.location.href = "index.html";
+					}
+			</script>
+  </body>
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+						<ul>
+							<li>
+								机构编码：<input type="text" name="instCode"/>
+							</li>
+
+							<li>
+								机构订单号：<input type="text" name="instOrderNo"/>
+							</li>
+
+							<li>
+								订单类型：
+								<select name="orderType" th:with="type=${@dict.getType('channel_pay_order_Type')}">
+								  <option value="">所有</option>
+								  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+								  </option>
+								</select>
+							</li>
+
+
+							<li>
+								状态：
+								<select name="status" th:with="type=${@dict.getType('channel_pay_order_status')}">
+								  <option value="">所有</option>
+								  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+								  </option>
+								</select>
+							</li>
+
+
+							<li>
+								通讯状态：
+								<select name="communicateStatus" th:with="type=${@dict.getType('communicate_status')}">
+								  <option value="">所有</option>
+								  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+								  </option>
+								</select>
+							</li>
+
+
+							<li>
+								渠道编号：<input type="text" name="fundChannelCode"/>
+							</li>
+
+							<li>
+								风控审核状态：
+								<select name="riskStatus" th:with="type=${@dict.getType('risk_status')}">
+								  <option value="">所有</option>
+								  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+								  </option>
+								</select>
+							</li>
+
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+	        <div class="btn-group-sm hidden-xs" id="toolbar" role="group">
+				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="payorder:payInstOrder:remove">
+					<i class="fa fa-remove"></i> 删除
+				</a>
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="payorder:payInstOrder:export">
+						<i class="fa fa-download"></i> 导出
+				 </a>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('payorder:payInstOrder:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('payorder:payInstOrder:remove')}]];
+        var prefix = ctx + "payorder/payInstOrder";
+
+        var channel_pay_order_Type = [[${@dict.getType('channel_pay_order_Type')}]];
+        var channel_pay_order_status = [[${@dict.getType('channel_pay_order_status')}]];
+        var communicate_type = [[${@dict.getType('communicate_type')}]];
+        var communicate_status = [[${@dict.getType('communicate_status')}]];
+        var risk_status = [[${@dict.getType('risk_status')}]];
+        
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+				detailUrl: prefix + "/edit/{id}",
+                modalName: "提交机构订单",
+		        showExport: true,
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'instOrderId', 
+					title : '机构订单ID',
+					visible: false
+				},
+				
+				{
+					field : 'instOrderNo', 
+					title : '机构订单号',
+					sortable: true
+				},
+				{
+					field : 'fundChannelApi', 
+					title : '渠道API',
+					sortable: true
+				},
+				{
+					field : 'orderType', 
+					title : '订单类型',
+					sortable: true,
+				 	formatter: function(value, row, index) {
+				      return $.table.selectDictLabel(channel_pay_order_Type, value);
+				  	}
+				},
+				{
+					field : 'instCode', 
+					title : '机构编码',
+					sortable: true
+				},
+				{
+					field : 'currency', 
+					title : '币种',
+					sortable: true
+				},
+				{
+					field : 'amount', 
+					title : '金额',
+					sortable: true
+				},
+				{
+					field : 'status', 
+					title : '状态',
+					sortable: true,
+				 	formatter: function(value, row, index) {
+				      return $.table.selectDictLabel(channel_pay_order_status, value);
+				  	}
+				},
+				{
+					field : 'communicateType', 
+					title : '通讯类型',
+					sortable: true,
+				 	formatter: function(value, row, index) {
+				      return $.table.selectDictLabel(communicate_type, value);
+				  	}
+				},
+				{
+					field : 'communicateStatus', 
+					title : '通讯状态',
+					sortable: true,
+				 	formatter: function(value, row, index) {
+				      return $.table.selectDictLabel(communicate_status, value);
+				  	}
+				},
+				{
+					field : 'payMode', 
+					title : '支付方式',
+					sortable: true
+				},
+				{
+					field : 'riskStatus', 
+					title : '风控审核状态',
+					sortable: true,
+				 	formatter: function(value, row, index) {
+				      return $.table.selectDictLabel(risk_status, value);
+				  	}
+				},
+				{
+					field : 'paySeqNo', 
+					title : '渠道订单号',
+					sortable: true
+				},
+				{
+					field : 'gmtSubmit', 
+					title : '提交时间',
+					sortable: true
+				},
+				{
+					field : 'gmtCreate', 
+					title : '创建时间',
+					sortable: true
+				},
+				{
+					field : 'gmtModified', 
+					title : '最后修改时间',
+					sortable: true
+				},
+				{
+					field : 'memo', 
+					title : '备注',
+					sortable: true
+				},
+		        {
+		            title: '操作',
+		            align: 'center',
+		            formatter: function(value, row, index) {
+		            	var actions = [];
+		            	actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.detail(\'' + row.instOrderId + '\')"><i class="fa fa-edit"></i>详情</a> ');
+						return actions.join('');
+		            }
+		        }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

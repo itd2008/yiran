@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body>
+    <div class="form-content">
+        <form id="form-applicationLeave-edit" th:object="${applicationLeave}" class="form-horizontal">
+            <h4 class="form-header h4">流程基本信息</h4>
+            <div class="row">
+            	<div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">标题：</label>
+                        <div class="col-sm-10">
+                            <input name="title" id="title" readonly="readonly" class="form-control" type="text" th:field="*{title}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">请假类型：</label>
+                        <div class="col-sm-10">
+                            <input name="vacationType" readonly="readonly"  class="form-control" type="text" th:field="*{vacationType}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">开始时间：</label>
+                        <div class="col-sm-8">
+                            <input id="beginDate" name="beginDate" readonly="readonly"  th:value="${#dates.format(applicationLeave.beginDate,'yyyy-MM-dd HH:mm:ss')}" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">结束时间：</label>
+                        <div class="col-sm-8">
+                            <input id="endDate" name="endDate" readonly="readonly" th:value="${#dates.format(applicationLeave.endDate,'yyyy-MM-dd HH:mm:ss')}"  class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">请假天数：</label>
+                        <div class="col-sm-10">
+                            <input id="days" name="days" readonly="readonly" th:field="*{days}" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+            	<div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">请假事由：</label>
+                        <div class="col-xs-10">
+                            <textarea name="reason" autocomplete="off" readonly="readonly" maxlength="500" class="form-control" rows="3">[[*{reason}]]</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h4 class="form-header h4">申请人基本信息</h4>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">申请人姓名：</label>
+                        <div class="col-sm-8">
+                            <input name="userName" readonly="readonly" class="form-control" type="text" th:field="${user.userName}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">申请人部门：</label>
+                        <div class="col-sm-8">
+                            <input name="deptName" readonly="readonly" class="form-control" type="text" th:field="${user.dept.deptName}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">申请人电话：</label>
+                        <div class="col-sm-8">
+                            <input name="phonenumber" readonly="readonly" class="form-control" type="text" th:field="${user.phonenumber}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">申请时间：</label>
+                        <div class="col-sm-8">
+                            <input name="apptime" readonly="readonly" class="form-control" type="text" th:value="${#dates.format(applicationLeave.createTime,'yyyy-MM-dd HH:mm:ss')}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <h4 class="form-header h4">审批详情</h4>
+        <!-- 审批详情 -->
+        <div class="wrapper wrapper-content">
+            <div class="row animated fadeInRight">
+                <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content inspinia-timeline">
+                    	
+                        <div class="timeline-item" th:each="al,iterStat : ${approvalLeaves}">
+                            <div class="row">
+                                <div class="col-xs-3 date">
+                                    <i class="fa fa-user-md"></i>
+                                    <small th:text="${#dates.format(al.auditTime,'HH:mm:ss')}"></small>
+                                    <small th:text="${#dates.format(al.auditTime,'yyyy-MM-dd')}"></small>
+                                </div>
+                                <div class="col-xs-7 content">
+                                    <p class="m-b-xs"><strong th:text="${al.userName}"></strong><span>【<span th:text="${al.deptName}"></span>】</span></p>
+                                    <p>审批意见：<span th:text="${al.comment}"></span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    
+	<div th:include="include::footer"></div>
+	<script th:src="@{/ajax/libs/select/select2.js}"></script>
+</body>
+</html>

@@ -1,0 +1,224 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+						<ul>
+							
+							<li>
+								联系人名称：<input type="text" name="contactName"/>
+							</li>
+
+							<li>
+								手机：<input type="text" name="mobile"/>
+							</li>
+
+							<li>
+								邮箱：<input type="text" name="email"/>
+							</li>
+
+							<li>
+								微信：<input type="text" name="wechart"/>
+							</li>
+
+							<li>
+								状态：<select name="status" th:with="type=${@dict.getType('member_contact_status')}">
+								  <option value="">所有</option>
+								  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+								  </option>
+								</select>
+							</li>
+
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+	        <div class="btn-group-sm hidden-xs" id="toolbar" role="group">
+				<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="member:memberTmContact:add">
+					<i class="fa fa-plus"></i> 添加
+				</a>
+				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.edit()" shiro:hasPermission="member:memberTmContact:edit">
+					<i class="fa fa-edit"></i> 修改
+				</a>
+				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="member:memberTmContact:remove">
+					<i class="fa fa-remove"></i> 删除
+				</a>
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="member:memberTmContact:export">
+						<i class="fa fa-download"></i> 导出
+				 </a>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('member:memberTmContact:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('member:memberTmContact:remove')}]];
+        var prefix = ctx + "member/memberTmContact";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+                modalName: "联系人",
+		        showExport: true,
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'contactId', 
+					title : '主键ID',
+					visible: false
+				},
+				{
+					field : 'objectId', 
+					title : '联系信息所属对象ID',
+					sortable: true
+				},
+				{
+					field : 'contactName', 
+					title : '联系人名称',
+					sortable: true
+				},
+				{
+					field : 'contactType', 
+					title : '联系人类型',
+					sortable: true
+				},
+				{
+					field : 'country', 
+					title : '国家,区划码',
+					sortable: true
+				},
+				{
+					field : 'province', 
+					title : '省份,区划码',
+					sortable: true
+				},
+				{
+					field : 'city', 
+					title : '城市,区划码',
+					sortable: true
+				},
+				{
+					field : 'town', 
+					title : '城镇/区/街',
+					sortable: true
+				},
+				{
+					field : 'address', 
+					title : '地址',
+					sortable: true
+				},
+				{
+					field : 'postcode', 
+					title : '邮政编码',
+					sortable: true
+				},
+				{
+					field : 'website', 
+					title : '网站',
+					sortable: true
+				},
+				{
+					field : 'fax', 
+					title : '传真',
+					sortable: true
+				},
+				{
+					field : 'mobile', 
+					title : '手机',
+					sortable: true
+				},
+				{
+					field : 'tel', 
+					title : '电话',
+					sortable: true
+				},
+				{
+					field : 'email', 
+					title : '邮箱',
+					sortable: true
+				},
+				{
+					field : 'qq', 
+					title : 'QQ',
+					sortable: true
+				},
+				{
+					field : 'wechart', 
+					title : '微信',
+					sortable: true
+				},
+				{
+					field : 'position', 
+					title : '职位',
+					sortable: true
+				},
+				{
+					field : 'dept', 
+					title : '部门',
+					sortable: true
+				},
+				{
+					field : 'createTime', 
+					title : '建立时间',
+					sortable: true
+				},
+				{
+					field : 'updateTime', 
+					title : '更新时间',
+					sortable: true
+				},
+				{
+					field : 'createUser', 
+					title : '建立人',
+					sortable: true
+				},
+				{
+					field : 'updateUser', 
+					title : '更新人',
+					sortable: true
+				},
+				{
+					field : 'memo', 
+					title : '备注信息',
+					sortable: true
+				},
+				{
+					field : 'status', 
+					title : '状态',
+					sortable: true
+				},
+		        {
+		            title: '操作',
+		            align: 'center',
+		            formatter: function(value, row, index) {
+		            	var actions = [];
+		            	actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.contactId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.contactId + '\')"><i class="fa fa-remove"></i>删除</a>');
+						return actions.join('');
+		            }
+		        }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

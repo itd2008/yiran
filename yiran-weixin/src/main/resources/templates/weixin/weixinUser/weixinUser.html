@@ -1,0 +1,109 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    <div class="container-div">
+		<div class="btn-group hidden-xs" id="toolbar" role="group">
+			<a class="btn btn-outline btn-success btn-rounded" onclick="$.operate.add()" shiro:hasPermission="weixin:weixinUser:add">
+				<i class="fa fa-plus"></i> 新增
+			</a>
+			<a class="btn btn-outline btn-danger btn-rounded" onclick="$.operate.batRemove()" shiro:hasPermission="weixin:weixinUser:remove">
+				<i class="fa fa-trash-o"></i> 删除
+			</a>
+		</div>
+			
+		<div class="col-sm-12 select-table table-striped">
+			<table id="bootstrap-table" data-mobile-responsive="true"></table>
+		</div>
+    </div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('weixin:weixinUser:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('weixin:weixinUser:remove')}]];
+        var prefix = ctx + "weixin/weixinUser"
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                modalName: "公众号微信用户",
+                columns: [{
+		            checkbox: true
+		        },
+		        {
+					field : 'headimgurl', 
+					title : '用户头像' ,
+					align: "center",
+					formatter: function(value, row, index) {
+		                return '<img width="120px" height="120px" alt="用户图像" src="'+value+'"/>';
+		            }
+				},
+		        {
+					field : 'openid', 
+					title : '用户标识' 
+				},
+		        {
+					field : 'nickname', 
+					title : '用户昵称' 
+				},
+				{
+					field : 'subscribe', 
+					title : '是否订阅',
+					align: 'center',
+		            formatter: function(value, row, index) {
+		                if (value == '0') {
+		                    return '<span class="badge badge-primary">未订阅</span>';
+		                } else {
+		                    return '<span class="badge badge-danger">已订阅</span>';
+		                }
+		            }
+				},
+				{
+					field : 'sex', 
+					title : '性别' ,
+					align: 'center',
+		            formatter: function(value, row, index) {
+		                if (value == '1') {
+		                    return '<span class="badge badge-primary">男</span>';
+		                } else if(value == '2'){
+		                    return '<span class="badge badge-danger">女</span>';
+		                }else if(value == '0'){
+		                    return '<span class="badge badge-danger">未知</span>';
+		                }
+		            }
+				},
+				{
+					field : 'name', 
+					title : '姓名' 
+				},
+				{
+					field : 'phone', 
+					title : '电话号码' 
+				},
+				{
+					field : 'province', 
+					title : '省份' 
+				},
+				{
+					field : 'city', 
+					title : '城市' 
+				},
+		        {
+		            title: '操作',
+		            align: 'center',
+		            formatter: function(value, row, index) {
+		            	var actions = [];
+		            	actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+						return actions.join('');
+		            }
+		        }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

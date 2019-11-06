@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-memberTdAccountConfig-add">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">账户类型：</label>
+				<div class="col-sm-8">
+					<input id="accountType" name="accountType" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">一个会员该类型账户最大数目(负数代表无限制)：</label>
+				<div class="col-sm-8">
+					<input id="maxAccountCount" name="maxAccountCount" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">状态(0不可用;1可用)：</label>
+				<div class="col-sm-8">
+					<input id="status" name="status" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">支持的会员类型，以,分隔：</label>
+				<div class="col-sm-8">
+					<input id="supportMemberTypes" name="supportMemberTypes" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<input id="memo" name="memo" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">是否共用基本户的支付密码：</label>
+				<div class="col-sm-8">
+					<input id="shareBasePwd" name="shareBasePwd" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">账户属性：1:对私、2:对公：</label>
+				<div class="col-sm-8">
+					<input id="accountAttr" name="accountAttr" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">账户子类型,对应dpm中账户类型:1:基本户    2:一般户    3:专用户    4:临时户    5:保证金户：</label>
+				<div class="col-sm-8">
+					<input id="accountSubType" name="accountSubType" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+	</div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "member/memberTdAccountConfig"
+		$("#form-memberTdAccountConfig-add").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/add", $('#form-memberTdAccountConfig-add').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

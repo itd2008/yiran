@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.paychannel.mapper.TmFundChannelInstMapper">
+    
+    <resultMap type="TmFundChannelInst" id="TmFundChannelInstResult">
+        <result property="instCode"    column="inst_code"    />
+        <result property="instType"    column="inst_type"    />
+        <result property="instName"    column="inst_name"    />
+        <result property="instBranchName"    column="inst_branch_name"    />
+        <result property="bankLineNo"    column="bank_line_no"    />
+        <result property="areaCode"    column="area_code"    />
+        <result property="gmtCreate"    column="gmt_create"    />
+        <result property="gmtModified"    column="gmt_modified"    />
+        <result property="memo"    column="memo"    />
+        <result property="extension"    column="extension"    />
+    </resultMap>
+	
+	<sql id="selectTmFundChannelInstVo">
+        select inst_code, inst_type, inst_name, inst_branch_name, bank_line_no, area_code, gmt_create, gmt_modified, memo, extension from tm_fund_channel_inst
+    </sql>
+	
+    <select id="selectTmFundChannelInstList" parameterType="TmFundChannelInst" resultMap="TmFundChannelInstResult">
+        <include refid="selectTmFundChannelInstVo"/>
+        <where>  
+            <if test="instCode != null  and instCode != '' "> and inst_code = #{instCode}</if>
+             <if test="instType != null  and instType != '' "> and inst_type = #{instType}</if>
+             <if test="instName != null  and instName != '' "> and inst_name = #{instName}</if>
+             <if test="instBranchName != null  and instBranchName != '' "> and inst_branch_name = #{instBranchName}</if>
+             <if test="bankLineNo != null  and bankLineNo != '' "> and bank_line_no = #{bankLineNo}</if>
+             <if test="areaCode != null  and areaCode != '' "> and area_code = #{areaCode}</if>
+             <if test="gmtCreate != null "> and gmt_create = #{gmtCreate}</if>
+             <if test="gmtModified != null "> and gmt_modified = #{gmtModified}</if>
+             <if test="memo != null  and memo != '' "> and memo = #{memo}</if>
+             <if test="extension != null  and extension != '' "> and extension = #{extension}</if>
+         </where>
+    </select>
+    
+    <select id="selectTmFundChannelInstById" parameterType="String" resultMap="TmFundChannelInstResult">
+        <include refid="selectTmFundChannelInstVo"/>
+        where inst_code = #{instCode}
+    </select>
+        
+    <insert id="insertTmFundChannelInst" parameterType="TmFundChannelInst">
+        insert into tm_fund_channel_inst
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="instCode != null  and instCode != ''  ">inst_code,</if>
+			<if test="instType != null  and instType != ''  ">inst_type,</if>
+			<if test="instName != null  and instName != ''  ">inst_name,</if>
+			<if test="instBranchName != null  and instBranchName != ''  ">inst_branch_name,</if>
+			<if test="bankLineNo != null  and bankLineNo != ''  ">bank_line_no,</if>
+			<if test="areaCode != null  and areaCode != ''  ">area_code,</if>
+			<if test="memo != null  and memo != ''  ">memo,</if>
+			<if test="extension != null  and extension != ''  ">extension,</if>
+			gmt_create,
+			gmt_modified
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="instCode != null  and instCode != ''  ">#{instCode},</if>
+			<if test="instType != null  and instType != ''  ">#{instType},</if>
+			<if test="instName != null  and instName != ''  ">#{instName},</if>
+			<if test="instBranchName != null  and instBranchName != ''  ">#{instBranchName},</if>
+			<if test="bankLineNo != null  and bankLineNo != ''  ">#{bankLineNo},</if>
+			<if test="areaCode != null  and areaCode != ''  ">#{areaCode},</if>
+			<if test="memo != null  and memo != ''  ">#{memo},</if>
+			<if test="extension != null  and extension != ''  ">#{extension},</if>
+			sysdate(),
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateTmFundChannelInst" parameterType="TmFundChannelInst">
+        update tm_fund_channel_inst
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="instType != null  and instType != ''  ">inst_type = #{instType},</if>
+            <if test="instName != null  and instName != ''  ">inst_name = #{instName},</if>
+            <if test="instBranchName != null  and instBranchName != ''  ">inst_branch_name = #{instBranchName},</if>
+            <if test="bankLineNo != null  and bankLineNo != ''  ">bank_line_no = #{bankLineNo},</if>
+            <if test="areaCode != null  and areaCode != ''  ">area_code = #{areaCode},</if>
+            <if test="memo != null  and memo != ''  ">memo = #{memo},</if>
+            <if test="extension != null  and extension != ''  ">extension = #{extension},</if>
+            gmt_modified = sysdate()
+        </trim>
+        where inst_code = #{instCode}
+    </update>
+
+	<delete id="deleteTmFundChannelInstById" parameterType="String">
+        delete from tm_fund_channel_inst where inst_code = #{instCode}
+    </delete>
+	
+    <delete id="deleteTmFundChannelInstByIds" parameterType="String">
+        delete from tm_fund_channel_inst where inst_code in 
+        <foreach item="instCode" collection="array" open="(" separator="," close=")">
+            #{instCode}
+        </foreach>
+    </delete>
+    
+</mapper>

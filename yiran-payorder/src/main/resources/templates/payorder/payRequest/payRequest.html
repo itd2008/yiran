@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+			</div>
+			
+	        <div class="btn-group-sm hidden-xs" id="toolbar" role="group">
+				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="payorder:payRequest:remove">
+					<i class="fa fa-remove"></i> 删除
+				</a>
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="payorder:payRequest:export">
+						<i class="fa fa-download"></i> 导出
+				 </a>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('payorder:payRequest:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('payorder:payRequest:remove')}]];
+        var prefix = ctx + "payorder/payRequest";
+		var request_Is_retry_allowed = [[${@dict.getType('request_Is_retry_allowed')}]];
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+                modalName: "请求，用于控制唯一",
+		        showExport: true,
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'paymentSeqNo', 
+					title : '支付流水号',
+					visible: true
+				},
+				{
+					field : 'settlementId', 
+					title : '结算id',
+					sortable: true
+				},
+				{
+					field : 'canRetry', 
+					title : '是否允许重试',
+					sortable: true,
+				 	formatter: function(value, row, index) {
+				      return $.table.selectDictLabel(request_Is_retry_allowed, value);
+				  	}
+				},
+				{
+					field : 'gmtCreate', 
+					title : '创建时间',
+					sortable: true
+				},
+				{
+					field : 'gmtModified', 
+					title : '最后修改时间',
+					sortable: true
+				}]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

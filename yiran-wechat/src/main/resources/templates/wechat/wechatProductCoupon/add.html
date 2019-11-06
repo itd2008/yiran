@@ -1,0 +1,131 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<style>
+	span{
+		color: red;
+	}
+</style>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-wechatProductCoupon-add">
+			<div class="row">
+            	<div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">序列号：</label>
+                        <div class="col-sm-8">
+                            <input id="serialNo" name="serialNo" class="form-control" type="text" readonly="readonly">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">优惠券名称：</label>
+                        <div class="col-sm-8">
+                            <input id="name" name="name" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+			<div class="row">
+            	<div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">优惠券面值：<span >*</span></label>
+                        <div class="col-sm-8">
+                            <input id="faceValue" name="faceValue" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">优惠券数量：<span >*</span></label>
+                        <div class="col-sm-8">
+                            <input id="quantity" name="quantity" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+			<div class="row">
+            	<div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">使用条件：</label>
+                        <div class="col-sm-8">
+                            <input id="conditionValue" name="conditionValue" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">使用条件说明：</label>
+                        <div class="col-sm-8">
+                           <input id="conditionDesc" name="conditionDesc" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+			<div class="row">
+            	<div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">生效时间：<span >*</span></label>
+                        <div class="col-sm-8">
+                            <input id="startTime" name="startTime"  class="time-input form-control" type="text" placeholder="生效时间">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">失效时间：<span >*</span></label>
+                        <div class="col-sm-8">
+                            <input id="endTime" name="endTime" class="time-input form-control" type="text" placeholder="失效时间">
+                        </div>
+                    </div>
+                </div>
+            </div>
+			
+			<div class="row">
+            	<div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">排列次序：<span >*</span></label>
+                        <div class="col-sm-8">
+                            <input id="sort" name="sort" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">状态:<span >*</span></label>
+                        <div class="col-sm-8">
+                            <select id="status" name="status" class="form-control" th:with="type=${@dict.getType('wechat_product_coupon_status')}">
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+							</select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+		</form>
+	</div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "wechat/wechatProductCoupon"
+		$(function () {
+			var serialNo = randomString(8);
+			$("#serialNo").val(serialNo);
+		});
+		$("#form-wechatProductCoupon-add").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/add", $('#form-wechatProductCoupon-add').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

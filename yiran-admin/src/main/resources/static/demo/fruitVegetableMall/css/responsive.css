@@ -1,0 +1,51 @@
+@charset "utf-8";
+
+/*-- 默认Android -------------------------------------------*/
+html{font-size: 20px;}
+
+@media only screen and (max-width:320px){
+	html{font-size: 17.5px;}
+}
+
+/*-- 兼容iphone4/4s -------------------------------------------*/
+@media (device-height:480px) and (-webkit-min-device-pixel-ratio:2){
+	html{font-size: 18px;}
+	header .header{top: initial !important;}
+}
+
+
+/*-- 兼容iphone5 -----------------------------------------*/
+@media (device-height:568px) and (-webkit-min-device-pixel-ratio:2){
+	html{font-size: 20px;}
+	header .header{top: initial !important;}
+}
+
+
+/*-- 兼容iphone 6 --------------------------------------------*/
+@media (device-width:375px) and (-webkit-min-device-pixel-ratio:2){
+	html{font-size: 20px;}
+	header .header{top: initial !important;}
+	.D-BuyNum input{top: 0 !important;}
+	.cartContentList .D-BuyNum button{line-height: 1.15rem;}
+}
+
+
+/*-- 兼容iphone6 plus --------------------------------------------*/
+@media (device-width:414px) and (-webkit-min-device-pixel-ratio:3.0){
+	html{font-size: 23px;}
+	header .header{top: initial !important;}
+}
+
+
+/*-- 兼容 iPad 3 & 4 ------------------------------------------*/
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px)
+and (-webkit-min-device-pixel-ratio: 2) {
+	html{font-size: 30px;}
+	header .header{top: initial !important;}
+	.order-Address dl dt i{font-size: .8rem;}
+	menu i.icon-cart span{right: 23%;}
+}
+
+

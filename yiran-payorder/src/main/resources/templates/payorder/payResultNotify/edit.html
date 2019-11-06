@@ -1,0 +1,126 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-payResultNotify-edit" th:object="${payResultNotify}">
+            <input id="notifyId" name="notifyId" th:field="*{notifyId}"  type="hidden">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">机构订单号：</label>
+				<div class="col-sm-8">
+					<input id="instOrderId" name="instOrderId" th:field="*{instOrderId}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">通知事件编码：</label>
+				<div class="col-sm-8">
+					<input id="eventCode" name="eventCode" th:field="*{eventCode}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">通知地址：</label>
+				<div class="col-sm-8">
+					<input id="notifyTarget" name="notifyTarget" th:field="*{notifyTarget}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">通知数据：</label>
+				<div class="col-sm-8">
+					<input id="notifyData" name="notifyData" th:field="*{notifyData}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">通知状态：</label>
+				<div class="col-sm-8">
+					<input id="notifyStatus" name="notifyStatus" th:field="*{notifyStatus}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">字符集编码：</label>
+				<div class="col-sm-8">
+					<input id="inputCharset" name="inputCharset" th:field="*{inputCharset}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">签名类型：</label>
+				<div class="col-sm-8">
+					<input id="signatureType" name="signatureType" th:field="*{signatureType}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">合作方ID：</label>
+				<div class="col-sm-8">
+					<input id="partnerId" name="partnerId" th:field="*{partnerId}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">客户端ID：</label>
+				<div class="col-sm-8">
+					<input id="clientId" name="clientId" th:field="*{clientId}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">服务器标识：</label>
+				<div class="col-sm-8">
+					<input id="serverIdentity" name="serverIdentity" th:field="*{serverIdentity}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">重试中标识：</label>
+				<div class="col-sm-8">
+					<input id="retryingFlag" name="retryingFlag" th:field="*{retryingFlag}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">通知次数：</label>
+				<div class="col-sm-8">
+					<input id="retryCount" name="retryCount" th:field="*{retryCount}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">重试时间：</label>
+				<div class="col-sm-8">
+					<input id="gmtRetry" name="gmtRetry" th:field="*{gmtRetry}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">系统备注：</label>
+				<div class="col-sm-8">
+					<input id="memo" name="memo" th:field="*{memo}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">创建时间：</label>
+				<div class="col-sm-8">
+					<input id="gmtCreate" name="gmtCreate" th:field="*{gmtCreate}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">最后修改时间：</label>
+				<div class="col-sm-8">
+					<input id="gmtModified" name="gmtModified" th:field="*{gmtModified}" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+    </div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "payorder/payResultNotify";
+		$("#form-payResultNotify-edit").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/edit", $('#form-payResultNotify-edit').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

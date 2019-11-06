@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.message.mapper.EmailMapper">
+
+	<resultMap type="Email" id="EmailResult">
+        <result property="emailId"    		column="email_id"    />
+        <result property="emailSite"    	column="email_site"    />
+        <result property="formUser"    		column="form_user"    />
+        <result property="toUser"    		column="to_user"    />
+        <result property="toUserEmail"    	column="to_user_email"    />
+        <result property="emailSubject"    	column="email_subject"    />
+        <result property="emailContent"    	column="email_content"    />
+        <result property="emailStatus"    	column="email_status"    />
+        <result property="emailType"    	column="email_type"    />
+        <result property="emailFolder"    	column="email_folder"    />
+        <result property="emailLabel"    	column="email_label"    />
+        <result property="sendStatus"    	column="send_status"    />
+        <result property="createBy"    		column="create_by"    />
+        <result property="createTime"    	column="create_time"    />
+        <result property="userName"    	    column="user_name"    />
+    </resultMap>
+    
+    <sql id="selectEmailVo">
+        select email_id, email_site, form_user, to_user, to_user_email, email_subject, email_content, email_status, email_type, email_folder, email_label, send_status, create_by, create_time from sys_email
+    </sql>
+	
+    <select id="selectEmailList" parameterType="Email" resultMap="EmailResult">
+        select e.email_id, e.email_site, e.form_user, e.to_user, e.to_user_email, e.email_subject, e.email_content, e.email_status, e.email_type, e.email_folder, e.email_label, e.send_status, e.create_by, e.create_time, u.user_name
+        from sys_email e left join sys_user u on u.user_id = e.form_user
+        <where>  
+        	 email_status = 0
+             <if test="emailId != null and emailId != ''"> and email_id = #{emailId}</if>
+             <if test="emailSite != null and emailSite != ''"> and email_site = #{emailSite}</if>
+             <if test="formUser != null and formUser != ''"> and form_user = #{formUser}</if>
+             <if test="toUser != null and toUser != ''"> and to_user = #{toUser}</if>
+             <if test="toUserEmail != null and toUserEmail != ''"> and to_user_email = #{toUserEmail}</if>
+             <if test="emailSubject != null and emailSubject != ''"> and email_subject = #{emailSubject}</if>
+             <if test="emailContent != null and emailContent != ''"> and email_content = #{emailContent}</if>
+             <if test="emailType != null and emailType != ''"> and find_in_set(#{emailType},email_type)</if>
+             <if test="emailFolder != null and emailFolder != ''"> and email_folder = #{emailFolder}</if>
+             <if test="emailLabel != null and emailLabel != ''"> and find_in_set(#{emailLabel},email_label)</if>
+             <if test="sendStatus != null and sendStatus != ''"> and send_status = #{sendStatus}</if>
+             <if test="createBy != null and createBy != ''"> and create_by = #{createBy}</if>
+             <if test="createTime != null and createTime != ''"> and create_time = #{createTime}</if>
+         </where>
+    </select>
+    
+    <select id="selectEmailById" parameterType="Long" resultMap="EmailResult">
+        <include refid="selectEmailVo"/>
+        where email_id = #{emailId}
+    </select>
+    
+	<delete id="deleteEmailById" parameterType="Long">
+ 		delete from sys_email where user_id = #{emailId}
+ 	</delete>
+ 	
+ 	<delete id="deleteEmailByIds" parameterType="Long">
+ 		update sys_email set email_status = 1 where email_id in
+ 		<foreach collection="array" item="emailId" open="(" separator="," close=")">
+ 			#{emailId}
+        </foreach> 
+ 	</delete>
+ 	
+ 	<delete id="truncateEmailByIds" parameterType="String">
+        delete from sys_email where email_id in 
+        <foreach item="emailId" collection="array" open="(" separator="," close=")">
+            #{emailId}
+        </foreach>
+    </delete>
+    
+    <update id="moveToRough" parameterType="Email">
+        update sys_email set email_folder = 2 where email_id = #{emailId}
+    </update>
+    
+    <update id="moveToRecoveryBin" parameterType="Email">
+        update sys_email set email_folder = 3 where email_id = #{emailId}
+    </update>
+    
+    <insert id="insertEmail" parameterType="Email">
+        insert into sys_email
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="emailId != null and emailId != '' ">email_id,</if>
+			<if test="emailSite != null and emailSite != '' ">email_site,</if>
+			<if test="formUser != null and formUser != '' ">form_user,</if>
+			<if test="toUser != null and toUser != '' ">to_user,</if>
+			<if test="toUserEmail != null and toUserEmail != '' ">to_user_email,</if>
+			<if test="emailSubject != null and emailSubject != '' ">email_subject,</if>
+			<if test="emailContent != null and emailContent != '' ">email_content,</if>
+			<if test="emailStatus != null and emailStatus != '' ">email_status,</if>
+			<if test="emailType != null and emailType != '' ">email_type,</if>
+			<if test="emailFolder != null and emailFolder != '' ">email_folder,</if>
+			<if test="emailLabel != null and emailLabel != '' ">email_label,</if>
+			<if test="sendStatus != null">send_status,</if>
+			<if test="createBy != null and createBy != '' ">create_by,</if>
+			create_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="emailId != null and emailId != ''">#{emailId},</if>
+			<if test="emailSite != null and emailSite != ''">#{emailSite},</if>
+			<if test="formUser != null and formUser != ''">#{formUser},</if>
+			<if test="toUser != null and toUser != ''">#{toUser},</if>
+			<if test="toUserEmail != null and toUserEmail != ''">#{toUserEmail},</if>
+			<if test="emailSubject != null and emailSubject != ''">#{emailSubject},</if>
+			<if test="emailContent != null and emailContent != ''">#{emailContent},</if>
+			<if test="emailStatus != null and emailStatus != ''">#{emailStatus},</if>
+			<if test="emailType != null and emailType != ''">#{emailType},</if>
+			<if test="emailFolder != null and emailFolder != ''">#{emailFolder},</if>
+			<if test="emailLabel != null and emailLabel != ''">#{emailLabel},</if>
+			<if test="sendStatus != null">#{sendStatus},</if>
+			<if test="createBy != null and createBy != ''">#{createBy},</if>
+			sysdate()         
+		</trim>
+    </insert>
+	 
+    <update id="updateEmail" parameterType="Email">
+        update sys_email
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="emailSite != null  ">email_site = #{emailSite},</if>
+            <if test="formUser != null  ">form_user = #{formUser},</if>
+            <if test="toUser != null  ">to_user = #{toUser},</if>
+            <if test="toUserEmail != null  and toUserEmail != ''  ">to_user_email = #{toUserEmail},</if>
+            <if test="emailSubject != null  and emailSubject != ''  ">email_subject = #{emailSubject},</if>
+            <if test="emailContent != null  and emailContent != ''  ">email_content = #{emailContent},</if>
+            <if test="emailStatus != null  ">email_status = #{emailStatus},</if>
+            <if test="emailType != null  and emailType != ''  ">email_type = #{emailType},</if>
+            <if test="emailFolder != null  and emailFolder != ''  ">email_folder = #{emailFolder},</if>
+            <if test="emailLabel != null  and emailLabel != ''  ">email_label = #{emailLabel},</if>
+            <if test="sendStatus != null  ">send_status = #{sendStatus},</if>
+            <if test="createBy != null  and createBy != ''  ">create_by = #{createBy},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+        </trim>
+        where email_id = #{emailId}
+    </update>
+    
+</mapper> 

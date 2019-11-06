@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.payorder.mapper.VOrderMapper">
+    
+    <resultMap type="VOrder" id="VOrderResult">
+    	<result property="orderId"    column="order_id"    />
+        <result property="customerName"    column="nickname"    />
+        <result property="orderNo"    column="order_no"    />
+        <result property="escrowTradeNo"    column="escrow_trade_no"    />
+        <result property="orderStatus"    column="order_status"    />
+        <result property="payStatus"    column="pay_status"    />
+        <result property="productCount"    column="product_count"    />
+        <result property="logisticsFee"    column="logistics_fee"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+	
+	<sql id="selectVOrderVo">
+        select 
+        	order_id,
+        	order_no,
+        	escrow_trade_no,
+        	order_status,
+        	pay_status,
+        	product_count,
+        	logistics_fee,
+        	create_time,
+        	update_time,
+        	nickname
+        from 
+        	v_order
+    </sql>
+	
+    <select id="selectOrderList" parameterType="VOrder" resultMap="VOrderResult">
+        <include refid="selectVOrderVo"/>
+        <where>  
+            <if test="escrowTradeNo != null "> and escrow_trade_no = #{escrowTradeNo}</if>
+         </where>
+         order by create_time desc
+    </select>
+    
+    
+</mapper>

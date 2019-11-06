@@ -1,0 +1,252 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-memberTrBankAccount-edit" th:object="${memberTrBankAccount}">
+            <input id="id" name="id" th:field="*{id}"  type="hidden">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">会员ID：</label>
+				<div class="col-sm-8">
+					<input id="memberId" name="memberId" th:field="*{memberId}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">银行编号：</label>
+				<div class="col-sm-8">
+					<input id="bankId" name="bankId" th:field="*{bankId}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">银行名称：</label>
+				<div class="col-sm-8">
+					<input id="bankName" name="bankName" th:field="*{bankName}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">支行名称：</label>
+				<div class="col-sm-8">
+					<input id="bankBranch" name="bankBranch" th:field="*{bankBranch}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">银行卡号：</label>
+				<div class="col-sm-8">
+					<input id="bankAccountNo" name="bankAccountNo" th:field="*{bankAccountNo}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">户名：</label>
+				<div class="col-sm-8">
+					<input id="bankAccountName" name="bankAccountName" th:field="*{bankAccountName}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">卡属性(0对公 1对私)：</label>
+				<div class="col-sm-8">
+					<input id="cardAttribute" name="cardAttribute" th:field="*{cardAttribute}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">卡类型(1借记卡 2信用卡,3存折,4其它)：</label>
+				<div class="col-sm-8">
+					<input id="cardType" name="cardType" th:field="*{cardType}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">协议号：</label>
+				<div class="col-sm-8">
+					<input id="agreementNo" name="agreementNo" th:field="*{agreementNo}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">别名：</label>
+				<div class="col-sm-8">
+					<input id="alias" name="alias" th:field="*{alias}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">银行卡皮肤：</label>
+				<div class="col-sm-8">
+					<input id="cardSkin" name="cardSkin" th:field="*{cardSkin}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">账户摘要：</label>
+				<div class="col-sm-8">
+					<input id="accountNoSummary" name="accountNoSummary" th:field="*{accountNoSummary}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">省份：</label>
+				<div class="col-sm-8">
+					<input id="province" name="province" th:field="*{province}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">城市：</label>
+				<div class="col-sm-8">
+					<input id="city" name="city" th:field="*{city}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">认证状态(0未认证 1已认证)：</label>
+				<div class="col-sm-8">
+					<input id="isVerified" name="isVerified" th:field="*{isVerified}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">是否签约（Y是 N否）：</label>
+				<div class="col-sm-8">
+					<input id="isSigning" name="isSigning" th:field="*{isSigning}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">状态(0失效  1正常 2锁定)：</label>
+				<div class="col-sm-8">
+					<input id="status" name="status" th:field="*{status}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">建立时间：</label>
+				<div class="col-sm-8">
+					<input id="createTime" name="createTime" th:field="*{createTime}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">更新时间：</label>
+				<div class="col-sm-8">
+					<input id="updateTime" name="updateTime" th:field="*{updateTime}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">建立人：</label>
+				<div class="col-sm-8">
+					<input id="createUser" name="createUser" th:field="*{createUser}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">更新人：</label>
+				<div class="col-sm-8">
+					<input id="updateUser" name="updateUser" th:field="*{updateUser}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备注信息：</label>
+				<div class="col-sm-8">
+					<input id="memo" name="memo" th:field="*{memo}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">扩展信息：</label>
+				<div class="col-sm-8">
+					<input id="extendable" name="extendable" th:field="*{extendable}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">协议号：</label>
+				<div class="col-sm-8">
+					<input id="signNo" name="signNo" th:field="*{signNo}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">内部协议号：</label>
+				<div class="col-sm-8">
+					<input id="signId" name="signId" th:field="*{signId}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">证件类型：</label>
+				<div class="col-sm-8">
+					<input id="certType" name="certType" th:field="*{certType}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">证件号：</label>
+				<div class="col-sm-8">
+					<input id="certNo" name="certNo" th:field="*{certNo}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">cvv2：</label>
+				<div class="col-sm-8">
+					<input id="cvNo" name="cvNo" th:field="*{cvNo}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">卡片有效期：</label>
+				<div class="col-sm-8">
+					<input id="cardValidDate" name="cardValidDate" th:field="*{cardValidDate}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">协议有效期：</label>
+				<div class="col-sm-8">
+					<input id="agreementValidDate" name="agreementValidDate" th:field="*{agreementValidDate}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">手机号：</label>
+				<div class="col-sm-8">
+					<input id="mobileNo" name="mobileNo" th:field="*{mobileNo}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">支付属性：</label>
+				<div class="col-sm-8">
+					<input id="payAttribute" name="payAttribute" th:field="*{payAttribute}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">是否填充证件号：</label>
+				<div class="col-sm-8">
+					<input id="isFillCertNo" name="isFillCertNo" th:field="*{isFillCertNo}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">渠道编号：</label>
+				<div class="col-sm-8">
+					<input id="channelCode" name="channelCode" th:field="*{channelCode}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">激活时间：</label>
+				<div class="col-sm-8">
+					<input id="activateDate" name="activateDate" th:field="*{activateDate}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">联行号：</label>
+				<div class="col-sm-8">
+					<input id="branchNo" name="branchNo" th:field="*{branchNo}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">理财标识，Y是理财卡，否则不是：</label>
+				<div class="col-sm-8">
+					<input id="financialCard" name="financialCard" th:field="*{financialCard}" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+    </div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "member/memberTrBankAccount";
+		$("#form-memberTrBankAccount-edit").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/edit", $('#form-memberTrBankAccount-edit').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

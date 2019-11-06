@@ -1,0 +1,255 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>订单详情</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+		<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+		<link rel="stylesheet" href="lib/weui.min.css">
+		<link rel="stylesheet" href="css/jquery-weui.css">
+		<link rel="stylesheet" href="css/style.css">
+	</head>
+	<body ontouchstart>
+		<!--主体-->
+		<header class="wy-header">
+			<div class="wy-header-icon-back" onclick="javascript:history.go(-1)"><span></span></div>
+			<div class="wy-header-title">订单详情</div>
+		</header>
+		<div class="weui-content">
+			<div class="wy-media-box weui-media-box_text address-select">
+				<div class="weui-media-box_appmsg">
+					<div class="weui-media-box__hd proinfo-txt-l" style="width:20px;"><span class="promotion-label-tit"><img src="images/icon_nav_city.png" /></span></div>
+					<div class="weui-media-box__bd" id="address_html">
+						
+					</div>
+					<div class="weui-media-box__hd proinfo-txt-l" style="width:16px;">
+						<div class="weui-cell_access"><span class="weui-cell__ft"></span></div>
+					</div>
+				</div>
+			</div>
+			<div class="wy-media-box weui-media-box_text">
+				<div class="weui-media-box__bd" id="order_product_list">
+
+
+				</div>
+			</div>
+			<div class="weui-panel">
+				<div class="weui-panel__bd">
+					<div class="weui-media-box weui-media-box_small-appmsg">
+						<div class="weui-cells">
+							<div class="weui-cell weui-cell_access">
+								<div class="weui-cell__bd weui-cell_primary">
+									<p class="font-14"><span class="mg-r-10">配送方式</span><span class="fr">快递</span></p>
+								</div>
+							</div>
+							<div class="weui-cell weui-cell_access" href="javascript:;">
+								<div class="weui-cell__bd weui-cell_primary">
+									<p class="font-14"><span class="mg-r-10">运费</span><span class="fr txt-color-red"><em class="num">免费</em></span></p>
+								</div>
+							</div>
+							
+							<a class="weui-cell weui-cell_access" id="coupon_href_" >
+								<div class="weui-cell__bd weui-cell_primary">
+									<p class="font-14"><span class="mg-r-10">优惠券</span><span class="sitem-tip"><em class="num" id="coupon_number_id"></em>张可用</span></p>
+								</div>
+								<span class="weui-cell__ft"></span>
+							</a>
+							<div id="is_show_coupon">
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="wy-media-box weui-media-box_text">
+				<div class="mg10-0 t-c">总金额：<span class="wy-pro-pri mg-tb-5">¥<em class="num font-20" id="totalMoney"></em></span></div>
+				<div class="mg10-0"><a href="javascript:createOrderAndPay()" class="weui-btn weui-btn_primary">微信付款</a></div>
+			</div>
+		</div>
+		<script src="lib/jquery-2.1.4.js"></script>
+		<script src="lib/fastclick.js"></script>
+		<script type="text/javascript" src="js/jquery.Spinner.js"></script>
+		<script type="text/javascript" src="js/config.js"></script>
+		<script>
+			$(function() {
+				FastClick.attach(document.body);
+			});
+		</script>
+		<script type="text/javascript">
+			$(function() {
+				//获取默认收件人地址(当前用户默认收件人地址)
+				var addressHtml = "";
+				//选中收件人地址ID
+				var selectAddressId = sessionStorage.selectAddressId;
+				console.info("selectAddressId="+selectAddressId)
+				if(selectAddressId == undefined || selectAddressId == "" || selectAddressId == null){
+					$.ajax({
+						type: "post",
+						url: base_url+"/api/yiran/weChatMall/address/queryDefaultAddress/"+sessionStorage.openId,
+						async: false, //同步
+						success: function (data) {
+							var address = data.data;
+							if(address == null){//没有收件人地址
+								addressHtml = "<a href='address_list.html' class='weui-cell_access'><div class='address-txt'>还没有收件人地址，点击添加收件人</div></a>";
+								$("#address_html").html(addressHtml);
+							}else{
+								addressHtml = "<a href='address_list.html' class='weui-cell_access'><h4 class='address-name'><span>"+address.realname+"</span><span>"+address.telephone+"</span></h4><div class='address-txt'>"+address.province+address.city+address.area+address.detailedAddress+"</div></a><input type='hidden' id='address_id' value='"+address.id+"'/>";
+								$("#address_html").html(addressHtml);
+							}
+						},
+						//调用出错执行的函数
+						error: function(){
+							$.alert("请求服务器api失败，无法获取数据");
+						}
+					});
+				}else{
+					$.ajax({
+						type: "post",
+						url: base_url+"/api/yiran/weChatMall/address/getAddressById/"+selectAddressId,
+						async: false, //同步
+						success: function (data) {
+							var address = data.data;
+							addressHtml = "<a href='address_list.html' class='weui-cell_access'><h4 class='address-name'><span>"+address.realname+"</span><span>"+address.telephone+"</span></h4><div class='address-txt'>"+address.province+address.city+address.area+address.detailedAddress+"</div></a><input type='hidden' id='address_id' value='"+address.id+"'/>";
+								$("#address_html").html(addressHtml);
+						},
+						//调用出错执行的函数
+						error: function(){
+							$.alert("请求服务器api失败，无法获取数据");
+						}
+					});
+				}
+				
+				
+				var procatlist = JSON.parse(sessionStorage.getItem("procatlist"));
+				var orderProductListHtml = "";
+				var temp_total_money= 0 ;
+				for (var i = 0; i < procatlist.length; i++) {
+					orderProductListHtml +=
+						"<div class='weui-media-box_appmsg ord-pro-list'><div class='weui-media-box__hd'><a href='#'><img class='weui-media-box__thumb' src='" +
+						procatlist[i].pictureUrl +
+						"' ></a></div><div class='weui-media-box__bd'><h1 class='weui-media-box__desc'><a href='#' alt='"+procatlist[i].title +"' class='ord-pro-link'>" +
+						procatlist[i].title + "</a></h1><p class='weui-media-box__desc'>" + procatlist[i].attr +
+						"</p><div class='clear mg-t-10'><div class='wy-pro-pri fl'>¥<em class='num font-15'>" + procatlist[i].totalPrice +
+						"</em></div><div class='pro-amount fr'><span class='font-13'>数量×<em class='name'>" + procatlist[i].totalNum +
+						"</em></span></div></div></div></div>";
+						temp_total_money += parseFloat(procatlist[i].totalPrice);
+				}
+				$("#order_product_list").html(orderProductListHtml);
+				$("#totalMoney").html(temp_total_money);
+				//将总金额加入sessionStorage
+				sessionStorage.temp_total_money = temp_total_money;
+				
+				$.ajax({
+					type: "post",
+					url: base_url+"/api/yiran/weChatMall/product/queryCouponByOpenId/"+sessionStorage.openId,
+					async: false, //同步
+					success: function (data) {
+						var coupons = data.data;
+						//可用优惠券
+						var notUsedList = coupons.notUsedList;
+						//判断是否有可用的优惠券
+						if(notUsedList.length > 0){
+							var count = 0;
+							for(var i=0;i<notUsedList.length;i++){
+								if(temp_total_money > notUsedList[i].conditionValue){
+									count ++;
+								}
+							}
+							$("#coupon_number_id").html(count);
+							$("#coupon_href_").attr("href","about-coupon.html");
+						}else{
+							$("#coupon_number_id").html(0);
+							$("#coupon_href_").attr("href","#");
+						}
+					},
+					//调用出错执行的函数
+					error: function(){
+						$.alert("请求服务器api失败，无法获取数据");
+					}
+				});
+				
+				var faceValue = sessionStorage.faceValue;
+				//undefined
+				if(typeof(faceValue)!="undefined"){
+					var faceValueHtml = "<div class='weui-cell weui-cell_access' href='javascript:;'><div class='weui-cell__bd weui-cell_primary'><p class='font-14'><span class='mg-r-10'>优惠券金额</span><span class='fr txt-color-red'><em class='num' id='coupon_faceValue'>"+faceValue+"</em></span></p></div></div>";
+					$("#is_show_coupon").html(faceValueHtml);
+					var temp = temp_total_money - faceValue;
+					$("#totalMoney").html(temp);
+				}
+				
+			});
+			
+			var OrderRequest = function OrderRequest(productCatList,couponValue,addressId,openId){
+				this.productCatList = productCatList;
+				this.couponValue = couponValue;
+				this.addressId = addressId;
+				this.openId = openId;
+			}
+			
+			//创建订单并支付
+			var createOrderAndPay = function(){
+				var address_id = $("#address_id").val();
+				if(address_id == "" || address_id == undefined ){
+					$.alert("请先添加收货人地址")
+				}
+				var productCatList = JSON.parse(sessionStorage.getItem("procatlist"));
+				var addressId = $("#address_id").val();
+				var couponValue = $("#coupon_faceValue").html();
+				console.info("couponValue="+couponValue)
+				if(couponValue == "" || couponValue == undefined){
+					couponValue = "0";
+				}
+				var orderRequest = new OrderRequest(productCatList,couponValue,addressId,sessionStorage.openId); 
+				var jsondata = JSON.stringify(orderRequest);
+				$.ajax({
+					type: "post",
+					url: base_url + "/api/yiran/weChatMall/order/createOrder",
+					data: jsondata,
+					//参数格式为json
+					contentType: "application/json; charset=utf-8",
+					async: false, //同步
+					success: function (data) {
+						sessionStorage.setItem("procatlist","");
+						var orderId = data.data;
+						sessionStorage.setItem('orderId', orderId);
+						if(orderId !=-1){
+							//发起支付
+							$.ajax({
+								type: "post",
+								url: base_url+"/api/yiran/weChatMall/order/createPay/"+orderId,
+								async: false, //同步
+								success: function (data) {
+									var result = data.data.result;
+									var returnUrl = data.data.returnUrl;
+									sessionStorage.setItem('appId', result.appId);
+									sessionStorage.setItem('timeStamp', result.timeStamp);
+									sessionStorage.setItem('nonceStr', result.nonceStr);
+									sessionStorage.setItem('package', result.packAge);
+									sessionStorage.setItem('signType', result.signType);
+									sessionStorage.setItem('paySign', result.paySign);
+									sessionStorage.setItem('returnUrl', returnUrl);
+									window.location.href="createpay.html";
+								},
+								//调用出错执行的函数
+								error: function(){
+									$.alert("请求服务器api失败，无法获取数据");
+								}
+							}); 
+							
+						}else{
+							$.alert("创建订单失败!");
+						}
+					},
+					//调用出错执行的函数
+					error: function(){
+						$.alert("请求服务器api失败，无法获取数据");
+					}
+				});
+			}
+		</script>
+		<script src="js/jquery-weui.js"></script>
+
+	</body>
+</html>

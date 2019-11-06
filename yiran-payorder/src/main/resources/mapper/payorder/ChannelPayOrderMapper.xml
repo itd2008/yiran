@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.payorder.mapper.ChannelPayOrderMapper">
+    
+    <resultMap type="ChannelPayOrderDO" id="ChannelPayOrderResult">
+        <result property="paySeqNo"    column="pay_seq_no"    />
+        <result property="paymentSeqNo"    column="payment_seq_no"    />
+        <result property="requestBatchNo"    column="request_batch_no"    />
+        <result property="orderType"    column="order_type"    />
+        <result property="productCode"    column="product_code"    />
+        <result property="paymentCode"    column="payment_code"    />
+        <result property="memberId"    column="member_id"    />
+        <result property="amount"    column="amount"    />
+        <result property="currency"    column="currency"    />
+        <result property="instCode"    column="inst_code"    />
+        <result property="paymentNotifyStatus"    column="payment_notify_status"    />
+        <result property="communicateType"    column="communicate_type"    />
+        <result property="status"    column="status"    />
+        <result property="operator"    column="operator"    />
+        <result property="gmtSubmit"    column="gmt_submit"    />
+        <result property="instOrderId"    column="inst_order_id"    />
+        <result property="gmtCreate"    column="gmt_create"    />
+        <result property="bizDate"    column="biz_date"    />
+        <result property="gmtModified"    column="gmt_modified"    />
+        <result property="memo"    column="memo"    />
+        <result property="confirmStatus"    column="confirm_status"    />
+        <result property="payMode"    column="pay_mode"    />
+        <result property="submitBatchNo"    column="submit_batch_no"    />
+        <result property="orgiPaymentSeqNo"    column="orgi_payment_seq_no"    />
+        <result property="expectTime"    column="expect_time"    />
+        <result property="extension"    column="extension"    />
+        <result property="settlementId"    column="settlement_id"    />
+        <result property="orgiSettlementId"    column="orgi_settlement_id"    />
+    </resultMap>
+	
+	<sql id="selectChannelPayOrderVo">
+        select pay_seq_no, payment_seq_no, request_batch_no, order_type, product_code, payment_code, member_id, amount, currency, inst_code, payment_notify_status, communicate_type, status, operator, gmt_submit, inst_order_id, gmt_create, biz_date, gmt_modified, memo, confirm_status, pay_mode, submit_batch_no, orgi_payment_seq_no, expect_time, extension, settlement_id, orgi_settlement_id from channel_pay_order
+    </sql>
+	
+    <select id="selectChannelPayOrderList" parameterType="ChannelPayOrderDO" resultMap="ChannelPayOrderResult">
+        <include refid="selectChannelPayOrderVo"/>
+        <where>  
+            <if test="paySeqNo != null "> and pay_seq_no = #{paySeqNo}</if>
+             <if test="paymentSeqNo != null  and paymentSeqNo != '' "> and payment_seq_no = #{paymentSeqNo}</if>
+             <if test="requestBatchNo != null  and requestBatchNo != '' "> and request_batch_no = #{requestBatchNo}</if>
+             <if test="orderType != null  and orderType != '' "> and order_type = #{orderType}</if>
+             <if test="productCode != null  and productCode != '' "> and product_code = #{productCode}</if>
+             <if test="paymentCode != null  and paymentCode != '' "> and payment_code = #{paymentCode}</if>
+             <if test="memberId != null  and memberId != '' "> and member_id = #{memberId}</if>
+             <if test="currency != null  and currency != '' "> and currency = #{currency}</if>
+             <if test="instCode != null  and instCode != '' "> and inst_code = #{instCode}</if>
+             <if test="paymentNotifyStatus != null  and paymentNotifyStatus != '' "> and payment_notify_status = #{paymentNotifyStatus}</if>
+             <if test="communicateType != null  and communicateType != '' "> and communicate_type = #{communicateType}</if>
+             <if test="status != null  and status != '' "> and status = #{status}</if>
+             <if test="instOrderId != null and instOrderId != '' "> and inst_order_id = #{instOrderId}</if>
+             <if test="confirmStatus != null  and confirmStatus != '' "> and confirm_status = #{confirmStatus}</if>
+             <if test="payMode != null  and payMode != '' "> and pay_mode = #{payMode}</if>
+             <if test="submitBatchNo != null  and submitBatchNo != '' "> and submit_batch_no = #{submitBatchNo}</if>
+             <if test="orgiPaymentSeqNo != null  and orgiPaymentSeqNo != '' "> and orgi_payment_seq_no = #{orgiPaymentSeqNo}</if>
+             <if test="settlementId != null  and settlementId != '' "> and settlement_id = #{settlementId}</if>
+             <if test="orgiSettlementId != null  and orgiSettlementId != '' "> and orgi_settlement_id = #{orgiSettlementId}</if>
+         </where>
+         order by gmt_create desc
+    </select>
+    <select id="selectChannelPayOrderListIsNotS" resultMap="ChannelPayOrderResult">
+        <include refid="selectChannelPayOrderVo"/>
+       where payment_notify_status !='S' or payment_notify_status is null
+    </select>
+    <select id="loadByPaymentSeqNo" resultMap="ChannelPayOrderResult">
+        <include refid="selectChannelPayOrderVo"/>
+        where payment_seq_no =#{paymentSeqNo}
+        	and settlement_id =#{settlementId}
+        	order by pay_seq_no desc
+    </select>
+    
+    <select id="selectChannelPayOrderById" parameterType="String" resultMap="ChannelPayOrderResult">
+        <include refid="selectChannelPayOrderVo"/>
+        where pay_seq_no = #{paySeqNo}
+    </select>
+    
+    <select id="loadByInstOrderId" parameterType="Integer" resultMap="ChannelPayOrderResult">
+        <include refid="selectChannelPayOrderVo"/>
+        where inst_order_id = #{instOrderId}
+    </select>
+    
+    <select id="selectByPaymentSeqNo" parameterType="String" resultMap="ChannelPayOrderResult">
+        <include refid="selectChannelPayOrderVo"/>
+        where payment_seq_no =#{paymentSeqNo}
+    </select>
+    <select id="loadByOrgiPaymentSeqNo" parameterType="String" resultMap="ChannelPayOrderResult">
+        <include refid="selectChannelPayOrderVo"/>
+        where orgi_payment_seq_no = #{orgiPaymentSeqNo}
+    </select>
+    
+    <insert id="insertChannelPayOrder" parameterType="ChannelPayOrderDO" useGeneratedKeys="true" keyProperty="paySeqNo">
+        insert into channel_pay_order
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			pay_seq_no,
+			<if test="paymentSeqNo != null  and paymentSeqNo != ''  ">payment_seq_no,</if>
+			<if test="requestBatchNo != null  and requestBatchNo != ''  ">request_batch_no,</if>
+			<if test="orderType != null  and orderType != ''  ">order_type,</if>
+			<if test="productCode != null  and productCode != ''  ">product_code,</if>
+			<if test="paymentCode != null  and paymentCode != ''  ">payment_code,</if>
+			<if test="memberId != null  and memberId != ''  ">member_id,</if>
+			<if test="amount != null  ">amount,</if>
+			<if test="currency != null  and currency != ''  ">currency,</if>
+			<if test="instCode != null  and instCode != ''  ">inst_code,</if>
+			<if test="paymentNotifyStatus != null  and paymentNotifyStatus != ''  ">payment_notify_status,</if>
+			<if test="communicateType != null  and communicateType != ''  ">communicate_type,</if>
+			<if test="status != null  and status != ''  ">status,</if>
+			<if test="operator != null  and operator != ''  ">operator,</if>
+			<if test="gmtSubmit != null  ">gmt_submit,</if>
+			<if test="instOrderId != null  ">inst_order_id,</if>
+			<if test="bizDate != null  and bizDate != ''  ">biz_date,</if>
+			<if test="memo != null  and memo != ''  ">memo,</if>
+			<if test="confirmStatus != null  and confirmStatus != ''  ">confirm_status,</if>
+			<if test="payMode != null  and payMode != ''  ">pay_mode,</if>
+			<if test="submitBatchNo != null  and submitBatchNo != ''  ">submit_batch_no,</if>
+			<if test="orgiPaymentSeqNo != null and orgiPaymentSeqNo != ''  ">orgi_payment_seq_no,</if>
+			<if test="expectTime != null  ">expect_time,</if>
+			<if test="extension != null  and extension != ''  ">extension,</if>
+			<if test="settlementId != null  and settlementId != ''  ">settlement_id,</if>
+			<if test="orgiSettlementId != null  and orgiSettlementId != ''  ">orgi_settlement_id,</if>
+			gmt_create,
+			gmt_modified
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        	#{paySeqNo},
+			<if test="paymentSeqNo != null  and paymentSeqNo != ''  ">#{paymentSeqNo},</if>
+			<if test="requestBatchNo != null  and requestBatchNo != ''  ">#{requestBatchNo},</if>
+			<if test="orderType != null  and orderType != ''  ">#{orderType},</if>
+			<if test="productCode != null  and productCode != ''  ">#{productCode},</if>
+			<if test="paymentCode != null  and paymentCode != ''  ">#{paymentCode},</if>
+			<if test="memberId != null  and memberId != ''  ">#{memberId},</if>
+			<if test="amount != null  ">#{amount},</if>
+			<if test="currency != null  and currency != ''  ">#{currency},</if>
+			<if test="instCode != null  and instCode != ''  ">#{instCode},</if>
+			<if test="paymentNotifyStatus != null  and paymentNotifyStatus != ''  ">#{paymentNotifyStatus},</if>
+			<if test="communicateType != null  and communicateType != ''  ">#{communicateType},</if>
+			<if test="status != null  and status != ''  ">#{status},</if>
+			<if test="operator != null  and operator != ''  ">#{operator},</if>
+			<if test="gmtSubmit != null  ">#{gmtSubmit},</if>
+			<if test="instOrderId != null  ">#{instOrderId},</if>
+			<if test="bizDate != null  and bizDate != ''  ">#{bizDate},</if>
+			<if test="memo != null  and memo != ''  ">#{memo},</if>
+			<if test="confirmStatus != null  and confirmStatus != ''  ">#{confirmStatus},</if>
+			<if test="payMode != null  and payMode != ''  ">#{payMode},</if>
+			<if test="submitBatchNo != null  and submitBatchNo != ''  ">#{submitBatchNo},</if>
+			<if test="orgiPaymentSeqNo != null  and orgiPaymentSeqNo != '' ">#{orgiPaymentSeqNo},</if>
+			<if test="expectTime != null  ">#{expectTime},</if>
+			<if test="extension != null  and extension != ''  ">#{extension},</if>
+			<if test="settlementId != null  and settlementId != ''  ">#{settlementId},</if>
+			<if test="orgiSettlementId != null  and orgiSettlementId != ''  ">#{orgiSettlementId},</if>
+			sysdate(),
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateChannelPayOrder" parameterType="ChannelPayOrderDO">
+        update channel_pay_order
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="paymentSeqNo != null  and paymentSeqNo != ''  ">payment_seq_no = #{paymentSeqNo},</if>
+            <if test="requestBatchNo != null  and requestBatchNo != ''  ">request_batch_no = #{requestBatchNo},</if>
+            <if test="orderType != null  and orderType != ''  ">order_type = #{orderType},</if>
+            <if test="productCode != null  and productCode != ''  ">product_code = #{productCode},</if>
+            <if test="paymentCode != null  and paymentCode != ''  ">payment_code = #{paymentCode},</if>
+            <if test="memberId != null  and memberId != ''  ">member_id = #{memberId},</if>
+            <if test="amount != null  ">amount = #{amount},</if>
+            <if test="currency != null  and currency != ''  ">currency = #{currency},</if>
+            <if test="instCode != null  and instCode != ''  ">inst_code = #{instCode},</if>
+            <if test="paymentNotifyStatus != null  and paymentNotifyStatus != ''  ">payment_notify_status = #{paymentNotifyStatus},</if>
+            <if test="communicateType != null  and communicateType != ''  ">communicate_type = #{communicateType},</if>
+            <if test="status != null  and status != ''  ">status = #{status},</if>
+            <if test="operator != null  and operator != ''  ">operator = #{operator},</if>
+            <if test="gmtSubmit != null  ">gmt_submit = #{gmtSubmit},</if>
+            <if test="instOrderId != null  ">inst_order_id = #{instOrderId},</if>
+            <if test="gmtCreate != null  ">gmt_create = #{gmtCreate},</if>
+            <if test="bizDate != null  and bizDate != ''  ">biz_date = #{bizDate},</if>
+            <if test="gmtModified != null  ">gmt_modified = #{gmtModified},</if>
+            <if test="memo != null  and memo != ''  ">memo = #{memo},</if>
+            <if test="confirmStatus != null  and confirmStatus != ''  ">confirm_status = #{confirmStatus},</if>
+            <if test="payMode != null  and payMode != ''  ">pay_mode = #{payMode},</if>
+            <if test="submitBatchNo != null  and submitBatchNo != ''  ">submit_batch_no = #{submitBatchNo},</if>
+            <if test="orgiPaymentSeqNo != null  ">orgi_payment_seq_no = #{orgiPaymentSeqNo},</if>
+            <if test="expectTime != null  ">expect_time = #{expectTime},</if>
+            <if test="extension != null  and extension != ''  ">extension = #{extension},</if>
+            <if test="settlementId != null  and settlementId != ''  ">settlement_id = #{settlementId},</if>
+            <if test="orgiSettlementId != null  and orgiSettlementId != ''  ">orgi_settlement_id = #{orgiSettlementId},</if>
+        </trim>
+        where pay_seq_no = #{paySeqNo}
+    </update>
+
+	<delete id="deleteChannelPayOrderById" parameterType="Integer">
+        delete from channel_pay_order where pay_seq_no = #{paySeqNo}
+    </delete>
+	
+    <delete id="deleteChannelPayOrderByIds" parameterType="String">
+        delete from channel_pay_order where pay_seq_no in 
+        <foreach item="paySeqNo" collection="array" open="(" separator="," close=")">
+            #{paySeqNo}
+        </foreach>
+    </delete>
+    
+     <update id="updateInstById" >
+        update channel_pay_order set gmt_modified = sysdate(),inst_order_id =#{instOrderId} where pay_seq_no = #{paySeqNo}
+     </update>
+     
+     <update id="updateConfirmStatusById" >
+        update channel_pay_order set gmt_modified = sysdate(),confirm_status =#{confirmStatus} where pay_seq_no = #{paySeqNo}
+     </update>
+     
+     <update id="updateStatusById" >
+        update channel_pay_order set gmt_modified = sysdate(),status =#{status} where pay_seq_no = #{paySeqNo}
+     </update>
+     
+     <update id="updatePaymentNotifyStatusById" >
+        update channel_pay_order set gmt_modified = sysdate(),payment_notify_status =#{paymentNotifyStatus} where pay_seq_no = #{paySeqNo}
+     </update>
+    
+</mapper>

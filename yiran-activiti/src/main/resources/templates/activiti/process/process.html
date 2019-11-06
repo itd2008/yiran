@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+
+	<div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="config-form">
+					<div class="select-list">
+						<ul>
+						    <li>
+								流程名称：<input type="text" name="name"/>
+							</li>
+							<li>
+								部署编号：<input type="text" name="deploymentId"/>
+							</li>
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+			<div class="btn-group-sm hidden-xs" id="toolbar" role="group">
+				<a class="btn btn-success " onclick="$.operate.add()" shiro:hasPermission="activiti:process:add">
+					<i class="fa fa-plus"></i> 添加
+				</a>
+				<a class="btn btn-danger btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="activiti:process:remove">
+					<i class="fa fa-remove"></i> 删除
+				</a>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+<div th:include="include :: footer"></div>
+<script th:inline="javascript">
+    var removeFlag = [[${@permission.hasPermi('activiti:process:remove')}]];
+    var modelFlag = [[${@permission.hasPermi('activiti:process:model')}]];
+    var prefix = ctx + "activiti/process";
+
+    $(function () {
+        var options = {
+        	uniqueId: "deploymentId",
+            url: prefix + "/list",
+            createUrl: prefix + "/add",
+            removeUrl: prefix + "/remove",
+            modalName: "流程",
+            search: false,
+            showExport: false,
+            columns: [{
+                checkbox: true
+            },
+            {
+                field: 'processId',
+                title: '流程编号'
+            },
+            {
+                field: 'deploymentId',
+                title: '部署编号'
+            },
+            {
+                field: 'name',
+                title: '流程名称'
+            },
+            {
+                field: 'key',
+                title: '流程KEY'
+            },
+            {
+                field: 'category',
+                title: '流程类别'
+            },
+            {
+                field: 'version',
+                title: '流程版本'
+            },
+            {
+                title: '流程文件名称',
+                formatter: function (value, row, index) {
+                	var url = prefix + '/resource/' + row.resourceName + '/' + row.deploymentId;
+                    var action = '<a href="' + url + '" target="_blank">' + row.resourceName + '</a>';
+                    return action;
+                }
+            },
+            {
+                title: '流程图片名称',
+                formatter: function (value, row, index) {
+                	var url = prefix + '/resource/' + row.diagramResourceName + '/' + row.deploymentId;
+                    var action = '<a href="' + url + '" target="_blank">' + row.diagramResourceName + '</a>';
+                    return action;
+                }
+            },
+            {
+                title: '操作',
+                align: 'center',
+                formatter: function (value, row, index) {
+                    var actions = [];
+                    actions.push('<a class="btn btn-primary btn-xs ' + modelFlag + '" href="#" onclick="covertToModel(\'' + row.processId + '\')"><i class="fa fa-play-circle-o"></i>转为模型</a> ');
+                    actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.deploymentId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                    return actions.join('');
+                }
+            }]
+        };
+        $.table.init(options);
+    });
+
+    function covertToModel(processId) {
+        $.modal.confirm("确定要将部署的流程转换为模型吗？", function () {
+        	var url = prefix + "/convertToModel/" + processId;
+            $.operate.get(url);
+        });
+    }
+</script>
+</body>
+</html>

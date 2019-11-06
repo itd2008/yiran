@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.wechat.mapper.WechatProductDescriptionMapper">
+    
+    <resultMap type="WechatProductDescription" id="WechatProductDescriptionResult">
+        <result property="productDescriptionId"    column="product_description_id"    />
+        <result property="productId"    column="product_id"    />
+        <result property="title"    column="title"    />
+        <result property="code"    column="code"    />
+        <result property="content"    column="content"    />
+    </resultMap>
+	
+	<sql id="selectWechatProductDescriptionVo">
+        select product_description_id, product_id, title, code, content from wechat_product_description
+    </sql>
+	
+    <select id="selectWechatProductDescriptionList" parameterType="WechatProductDescription" resultMap="WechatProductDescriptionResult">
+        <include refid="selectWechatProductDescriptionVo"/>
+        <where>  
+            <if test="productDescriptionId != null "> and product_description_id = #{productDescriptionId}</if>
+             <if test="productId != null "> and product_id = #{productId}</if>
+             <if test="title != null  and title != '' "> and title = #{title}</if>
+             <if test="code != null  and code != '' "> and code = #{code}</if>
+             <if test="content != null  and content != '' "> and content = #{content}</if>
+         </where>
+    </select>
+    
+    <select id="selectWechatProductDescriptionById" parameterType="Integer" resultMap="WechatProductDescriptionResult">
+        <include refid="selectWechatProductDescriptionVo"/>
+        where product_description_id = #{productDescriptionId}
+    </select>
+    
+    <select id="selectWechatProductDescriptionByProductId" parameterType="Integer" resultMap="WechatProductDescriptionResult">
+        <include refid="selectWechatProductDescriptionVo"/>
+        where product_id = #{productId}
+    </select>
+        
+    <insert id="insertWechatProductDescription" parameterType="WechatProductDescription" useGeneratedKeys="true" keyProperty="productDescriptionId">
+        insert into wechat_product_description
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="productId != null  ">product_id,</if>
+			<if test="title != null  and title != ''  ">title,</if>
+			<if test="code != null  and code != ''  ">code,</if>
+			<if test="content != null  and content != ''  ">content,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="productId != null  ">#{productId},</if>
+			<if test="title != null  and title != ''  ">#{title},</if>
+			<if test="code != null  and code != ''  ">#{code},</if>
+			<if test="content != null  and content != ''  ">#{content},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateWechatProductDescription" parameterType="WechatProductDescription">
+        update wechat_product_description
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="productId != null  ">product_id = #{productId},</if>
+            <if test="title != null  and title != ''  ">title = #{title},</if>
+            <if test="code != null  and code != ''  ">code = #{code},</if>
+            <if test="content != null  and content != ''  ">content = #{content},</if>
+        </trim>
+        where product_description_id = #{productDescriptionId}
+    </update>
+
+	<delete id="deleteWechatProductDescriptionById" parameterType="Integer">
+        delete from wechat_product_description where product_description_id = #{productDescriptionId}
+    </delete>
+	
+    <delete id="deleteWechatProductDescriptionByIds" parameterType="String">
+        delete from wechat_product_description where product_description_id in 
+        <foreach item="productDescriptionId" collection="array" open="(" separator="," close=")">
+            #{productDescriptionId}
+        </foreach>
+    </delete>
+    
+</mapper>

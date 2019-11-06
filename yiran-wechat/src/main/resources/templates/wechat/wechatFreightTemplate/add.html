@@ -1,0 +1,133 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link rel="stylesheet" th:href="@{/product/css/iCheck/custom.css}" />
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-wechatFreightTemplate-add">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">模板名称：</label>
+				<div class="col-sm-8">
+					<input id="templateName" name="templateName" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">模板类型：</label>
+				<div class="col-sm-8">
+					<input id="templateType" name="templateType" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">包邮区：</label>
+				<div class="col-sm-8" >
+					<label class='check-box' ><input type="checkbox" value="" id="parcelPostAreaAll"/>全选</label></br>
+					<div id="parcelPostAreaId">
+						<label class='check-box' th:each="province,provinceStat:${provinceList}"> 
+						<input th:id="parcelPostArea_+${province.provinceCode}" name="parcelPostArea" type="checkbox" th:value="${province.shortName}" th:text="${province.shortName}"></label>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">不配送区域：</label>
+				<div class="col-sm-8" id="nonDistributionAreaId">
+					<label class='check-box' th:each="province,provinceStat:${provinceList}"> 
+					<input th:id="nonDistributionArea_+${province.provinceCode}" name="nonDistributionArea" type="checkbox" th:value="${province.shortName}" th:text="${province.shortName}"></label>
+					
+				</div>
+			</div>
+			<!-- <div class="form-group">	
+				<label class="col-sm-3 control-label">买家付邮费区域：</label>
+				<div class="col-sm-8" id="buyerPaymentAreaId">
+					<label class='check-box' th:each="province,provinceStat:${provinceList}"> 
+					<input th:id="buyerPaymentArea_+${province.provinceCode}" name="buyerPaymentArea" type="checkbox" th:value="${province.provinceCode}" th:text="${province.shortName}"></label>
+					
+				</div>
+			</div> -->
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<input id="remark" name="remark" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+	</div>
+    <div th:include="include::footer"></div>
+    <script th:src="@{/ajax/libs/iCheck/icheck.min.js}"></script>
+    <script type="text/javascript">
+		var prefix = ctx + "wechat/wechatFreightTemplate"
+		$("#form-wechatFreightTemplate-add").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/add", $('#form-wechatFreightTemplate-add').serialize());
+	        }
+	    }
+		//ifChecked：输入框的状态变为 checked
+　　		//ifUnchecked：checked 状态被移除
+　　		//ifChanged：输入框的 checked 或 disabled 状态改变了
+  		
+  		$('#parcelPostAreaAll').on('ifChecked', function(event){
+ 			$("#parcelPostAreaId input[type=checkbox]").iCheck('check');
+ 			$("#nonDistributionAreaId input[type=checkbox]").iCheck('uncheck');
+		});
+		
+  		$('#parcelPostAreaAll').on('ifUnchecked', function(event){
+  			$("#parcelPostAreaId input[type=checkbox]").iCheck('uncheck');
+  			$("#nonDistributionAreaId input[type=checkbox]").iCheck('uncheck');
+  		})
+		
+		$('#parcelPostAreaId input[type=checkbox]').on('ifUnchecked', function(event){
+			  var provinceCode = this.id.substring(this.id.indexOf("_")+1);
+			if($("#parcelPostArea_"+provinceCode).is(':checked')){//这里就可以判断当前是否被选择了 
+				$("#nonDistributionArea_"+provinceCode).iCheck('uncheck');
+			}else{
+				$("#nonDistributionArea_"+provinceCode).iCheck('check');
+			}
+		});
+  		
+  		$('#parcelPostAreaId input[type=checkbox]').on('ifChecked', function(event){
+  			var provinceCode = this.id.substring(this.id.indexOf("_")+1);
+  			$("#nonDistributionArea_"+provinceCode).iCheck('uncheck');
+		});
+  		
+  		
+  		
+
+  		$('#nonDistributionAreaId input[type=checkbox]').on('ifUnchecked', function(event){
+			 var provinceCode = this.id.substring(this.id.indexOf("_")+1);
+			 $("#parcelPostArea_"+provinceCode).iCheck('check');
+			 $("#buyerPaymentArea_"+provinceCode).iCheck('uncheck');
+		});
+		
+  		$('#nonDistributionAreaId input[type=checkbox]').on('ifChecked', function(event){
+			 var provinceCode = this.id.substring(this.id.indexOf("_")+1);
+			 $("#parcelPostArea_"+provinceCode).iCheck('uncheck');
+			 $("#buyerPaymentArea_"+provinceCode).iCheck('uncheck');
+		});
+		
+  		/* $('#buyerPaymentAreaId input[type=checkbox]').on('ifChecked', function(event){
+		  var provinceCode = this.value;
+		  if($("#parcelPostArea"+provinceCode).is(':checked')){
+			  $("#parcelPostArea"+provinceCode).iCheck('uncheck');
+		  }
+		  
+		}); */
+  		
+  		/* $('#buyerPaymentAreaId input[type=checkbox]').on('ifUnchecked', function(event){
+  		  var provinceCode = this.value;
+  		  	$("#parcelPostArea"+provinceCode).iCheck('check');
+  			$("#nonDistributionArea"+provinceCode).iCheck('uncheck');
+  		}); */
+  		
+  		
+	</script>
+</body>
+</html>

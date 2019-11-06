@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>评价</title>
+		<meta name="keywords" content="KEYWORDS..." />
+		<meta name="description" content="DESCRIPTION..." />
+		<meta name="author" content="DeathGhost" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name='apple-touch-fullscreen' content='yes'>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no">
+		<meta name="format-detection" content="address=no">
+		<link rel="icon" href="images/icon/favicon.ico" type="image/x-icon">
+		<link rel="apple-touch-icon-precomposed" sizes="57x57" href="images/icon/apple-touch-icon-57x57-precomposed.png">
+		<link rel="apple-touch-icon-precomposed" sizes="120x120" href="images/icon/apple-touch-icon-120x120-precomposed.png">
+		<link rel="apple-touch-icon-precomposed" sizes="196x196" href="images/icon/apple-touch-icon-196x196-precomposed.png">
+		<meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, user-scalable=no">
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<link rel="stylesheet" type="text/css" href="css/reset.css" />
+		<script src="js/jquery.js"></script>
+
+	</head>
+
+	<body style="background-color: #e7e7e7;">
+		<div class="evaluate">
+			<div class="evaluate-title clearfix">
+				<img src="img/photo-title.png" />
+				<h1>合肥南站点</h1>
+			</div>
+
+			<div id="startone" class="block">
+				<div class="attitude"></div>
+				<div class="star_score"></div>
+			</div>
+			<div class="inputType">
+				<textarea id="copyText" type="text"></textarea>
+				<div class="copyList clearfix">
+					<p>餐品一</p>
+					<p>餐品二</p>
+					<p>餐品三</p>
+					<p>餐品四</p>
+				</div>
+			</div>
+		</div>
+		<div class="SubmitButton">提交评价</div>
+		<script type="text/javascript" src="js/startScore.js"></script>
+		<script>
+			scoreFun($("#startone"))
+		</script>
+		<script>
+			//显示分数
+			$(".show_number li p").each(function(index, element) {
+				var num = $(this).attr("tip");
+				var www = num * 2 * 16; //
+				$(this).css("width", www);
+				$(this).parent(".atar_Show").siblings("span").text(num + "分");
+			});
+		</script>
+
+	</body>
+
+</html>

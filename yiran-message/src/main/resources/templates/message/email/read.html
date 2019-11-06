@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link th:href="@{/ajax/libs/iCheck/custom.css}" rel="stylesheet"/>
+<link rel="stylesheet" th:href="@{/ajax/libs/froala/css/froala_editor.css}">
+<link rel="stylesheet" th:href="@{/ajax/libs/froala/css/froala_style.css}">
+<link rel="stylesheet" th:href="@{/ajax/libs/froala/css/plugins/code_view.css}">
+<link rel="stylesheet" th:href="@{/ajax/libs/froala/css/plugins/colors.css}">
+<link rel="stylesheet" th:href="@{/ajax/libs/froala/css/plugins/emoticons.css}">
+<link rel="stylesheet" th:href="@{/ajax/libs/froala/css/plugins/image_manager.css}">
+<link rel="stylesheet" th:href="@{/ajax/libs/froala/css/plugins/image.css}">
+<link rel="stylesheet" th:href="@{/ajax/libs/froala/css/plugins/line_breaker.css}">
+<link rel="stylesheet" th:href="@{/ajax/libs/froala/css/plugins/table.css}">
+<link rel="stylesheet" th:href="@{/ajax/libs/froala/css/plugins/char_counter.css}">
+<link rel="stylesheet" th:href="@{/ajax/libs/froala/css/plugins/video.css}">
+<link rel="stylesheet" th:href="@{/ajax/libs/froala/css/plugins/fullscreen.css}">
+<link rel="stylesheet" th:href="@{/ajax/libs/froala/css/plugins/file.css}">
+<link rel="stylesheet" th:href="@{/ajax/libs/froala/css/plugins/quick_insert.css}">
+<body class="gray-bg">
+	<div class="wrapper wrapper-content">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content mailbox-content">
+                        <div class="file-manager">
+                            <h5>文件夹</h5>
+                            <ul class="folder-list m-b-md" style="padding: 0" th:with="type=${@dict.getType('email_folder')}">
+                                <li th:each="dicts:${type}">
+                                	<a th:href="${dicts['dictLink']}" th:id="${dicts['dictCode']}" th:value="${dicts['dictValue']}">
+                                		<i th:class="${dicts['cssClass']}"></i>
+                                		<span th:for="${dicts['dictCode']}" th:text="${dicts['dictLabel']}"></span> 
+                                	</a>
+                                </li>
+                            </ul>
+                            <h5>分类</h5>
+                            <ul class="category-list" style="padding: 0" th:with="type=${@dict.getType('email_type')}">
+                                <li th:each="dicts:${type}">
+                                	<a th:href="${emailLink}==null?'0'+${dicts['dictLink']}:${emailLink}+${dicts['dictLink']}" th:id="${dicts['dictCode']}" th:value="${dicts['dictValue']}">
+                                		<i th:class="${dicts['cssClass']}"></i>
+                                		<span th:for="${dicts['dictCode']}" th:text="${dicts['dictLabel']}"></span> 
+                                	</a>
+                                </li>
+                            </ul>
+                            <h5 class="tag-title">标签</h5>
+                            <ul class="tag-list" style="padding: 0" th:with="type=${@dict.getType('email_label')}">
+                                <li th:each="dicts:${type}">
+                                	<a th:href="${emailLink}==null?'0'+${dicts['dictLink']}:${emailLink}+${dicts['dictLink']}" th:id="${dicts['dictCode']}" th:value="${dicts['dictValue']}">
+                                		<i class="fa fa-tag"></i> 
+                                		<span th:for="${dicts['dictCode']}" th:text="${dicts['dictLabel']}"></span> 
+                                	</a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           <div class="col-sm-9 animated fadeInRight">
+                <div class="mail-box-header">
+                    <div class="pull-right tooltip-demo">
+                        <a onclick="$.operate.href('message/email/write')" class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="回复"><i class="fa fa-reply"></i>&nbsp;回复</a>
+						<a href="mail_detail.html#" class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="打印邮件"><i class="fa fa-print"></i> </a>
+                        <a href="#" onclick="moveToRecoveryBin()" class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="移入回收站"><i class="fa fa-trash-o"></i></a>
+                    </div>
+                    <h2> 查看邮件 </h2>
+                    <div class="mail-tools tooltip-demo m-t-md">
+                    <h3><span class="font-noraml">主题： </span><span th:utext="${email.emailSubject}"></span></h3>
+                    <h5>
+                    	<span class="pull-right font-noraml" th:text="${#dates.format(email.createTime,'yyyy 年 MM 月 dd 号  E a HH 点 mm 分')}"></span>
+                        <span class="font-noraml">发件人： </span><span th:utext="${email.createBy}"></span>
+                    </h5>
+                    </div>
+                </div>
+                <div class="mail-box">
+                    <div class="mail-body" th:utext="${email.emailContent}"></div>
+                    <div class="mail-body text-right tooltip-demo">
+                        <a class="btn btn-sm btn-white" href="#" onclick="$.operate.href('message/email/write')"><i class="fa fa-reply"></i>&nbsp;回复</a>
+						<a class="btn btn-sm btn-white" href="#" onclick="$.operate.href(\'message/email/read?emailId='+row.emailId+'\')"><i class="fa fa-arrow-right"></i> 下一封</a>
+						<button title="" data-placement="top" data-toggle="tooltip" type="button" data-original-title="打印这封邮件" class="btn btn-sm btn-white"><i class="fa fa-print"></i> 打印</button>
+                        <button title="" data-placement="top" data-toggle="tooltip" data-original-title="删除邮件" class="btn btn-sm btn-white" onclick="remove()"><i class="fa fa-remove"></i>&nbsp;删除</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:include="include :: footer"></div>
+    <script th:src="@{/ajax/libs/select/select2.js}"></script>
+    <script th:src="@{/ajax/libs/iCheck/icheck.min.js}"></script>
+    <script type="text/javascript" th:src="@{/ajax/libs/froala/js/froala_editor.min.js}" ></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/align.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/code_beautifier.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/code_view.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/colors.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/draggable.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/emoticons.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/font_size.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/font_family.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/image.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/file.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/image_manager.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/line_breaker.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/link.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/lists.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/paragraph_format.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/paragraph_style.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/video.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/table.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/url.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/entities.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/char_counter.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/inline_style.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/quick_insert.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/save.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/fullscreen.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/quote.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/languages/zh_cn.js}"></script>
+    <script>
+    
+        function moveToRecoveryBin(){
+        	var url = ctx + "message/email/moveToRecoveryBin"; 
+        	var data = {'emailId':[[${email.emailId}]]};
+        	$.operate.post(url,data);
+		}
+        
+        function remove(){
+        	var backUrl = "message/email/1";
+			var removeUrl = ctx + "message/email/physicsRemove"; 
+			var data = {'ids':[[${email.emailId}]]};
+        	$.operate.post(removeUrl,data);
+        	$.operate.href(backUrl);
+        }
+    </script>
+</body>
+</html>

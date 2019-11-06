@@ -1,0 +1,80 @@
+@charset "utf-8";
+body {
+	background: #F1F1F1;
+}
+.siteIcon {
+	max-width: 330px;
+	margin: 15px auto;
+	text-align: center;
+}
+.siteIcon img {
+	cursor: pointer;
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+}
+.siteIcon img:hover {
+	-moz-transition: all 0.8s ease-in-out;
+	-webkit-transition: all 0.8s ease-in-out;
+	-o-transition: all 0.8s ease-in-out;
+	-ms-transition: all 0.8s ease-in-out;
+	transition: all 0.8s ease-in-out;
+	-moz-transform: rotate(360deg);
+	-webkit-transform: rotate(360deg);
+	-o-transform: rotate(360deg);
+	-ms-transform: rotate(360deg);
+	transform: rotate(360deg);
+}
+.siteIcon img:active {
+	-webkit-transform: scale(1.05);
+	transform: scale(1.05);
+	-webkit-transition-timing-function: cubic-bezier(0.47, 2.02, 0.31, -0.36);
+	transition-timing-function: cubic-bezier(0.47, 2.02, 0.31, -0.36);
+}
+.form-signin {
+	max-width: 330px;
+	padding: 15px;
+	margin: 0 auto;
+	background: #FFF;
+	-moz-box-shadow: 0px 1px 5px rgba(0,0,0,.1);
+	-webkit-box-shadow: 0px 1px 5px rgba(0,0,0,.1);
+	box-shadow: 0px 1px 5px rgba(0,0,0,.1);
+}
+.form-signin .form-signin-heading, .form-signin .checkbox {
+	margin-bottom: 10px;
+}
+.form-signin .checkbox {
+	font-weight: normal;
+}
+.form-signin .form-control {
+	position: relative;
+	height: auto;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	padding: 10px;
+	font-size: 16px;
+}
+.form-signin .form-control:focus {
+	z-index: 2;
+}
+#userName {
+	margin-bottom: -1px;
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+}
+#userPwd {
+	margin-bottom: 10px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+.footer {
+	max-width: 330px;
+	margin: 15px auto;
+	text-align: right;
+	padding:0 5px;
+}
+.btn-primary.disabled, .btn-primary.disabled:hover {
+	background-color: #3399CC;
+	border-color: #2890C4;
+}

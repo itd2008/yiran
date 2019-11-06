@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head>
+	<style type="text/css">	
+		.vid-wrapper{
+		    /* 
+		    height: 0; 
+		    width:100%;
+		    position:relative;
+		    padding-bottom:56.25%;    /*需要用padding来维持16:9比例,也就是9除以16*/
+		    
+		    width: 800px;
+		    height: 500px;
+		    border:2px solid red;
+		}
+		.vid-wrapper video{
+		    position: absolute;
+		    top:0;
+		    left: 0;
+		    width: 100%;
+		    height: 500px;
+		}
+	</style>
+</head>
+<body>
+	<div style="width: 100%;height: 0px;position:relative;">
+	    <video style="position: absolute;top:0;left: 0;width: 100%;height: 500px;" th:src="${info.ossUrl}" controls>您的浏览器暂不支持播放该视频，请升级至最新版浏览器。</video>
+	</div>
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+					</div>
+				</form>
+			</div>
+			
+	        <div class="btn-group-sm hidden-xs" id="toolbar" role="group">
+				<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="member:memberTmOperator:add">
+					<i class="fa fa-plus"></i> 添加
+				</a>
+				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.edit()" shiro:hasPermission="member:memberTmOperator:edit">
+					<i class="fa fa-edit"></i> 修改
+				</a>
+				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="member:memberTmOperator:remove">
+					<i class="fa fa-remove"></i> 删除
+				</a>
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="member:memberTmOperator:export">
+						<i class="fa fa-download"></i> 导出
+				 </a>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('member:memberTmOperator:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('member:memberTmOperator:remove')}]];
+        var prefix = ctx + "member/memberTmOperator";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+                modalName: "操作员",
+		        showExport: true,
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'operatorId', 
+					title : '操作员编号',
+					visible: true
+				},
+				{
+					field : 'memberId', 
+					title : '会员ID',
+					sortable: true
+				},
+				{
+					field : 'nickname', 
+					title : '昵称',
+					sortable: true
+				},
+				{
+					field : 'operatorType', 
+					title : '操作员类型',
+					sortable: true,
+					formatter: function(value, row, index) {
+		                if (value == '1') {
+		                	return '<span >个人 </span>';
+		                } else if (value == '2') {
+		                    return '<span >企业</span>';
+		                }
+		            }
+				},
+				{
+					field : 'isDefault', 
+					title : '是否为默认操作员',
+					sortable: true,
+					formatter: function(value, row, index) {
+		                if (value == '0') {
+		                	return '<span >否</span>';
+		                } else if (value == '1') {
+		                    return '<span >是</span>';
+		                }
+		            }
+				},
+				{
+					field : 'status', 
+					title : '状态',
+					sortable: true,
+					formatter: function(value, row, index) {
+		                if (value == '0') {
+		                	return '<span >未激活 </span>';
+		                } else if (value == '1') {
+		                    return '<span >正常</span>';
+		                }else if (value == '3') {
+		                    return '<span >注销</span>';
+		                }
+		            }
+				},
+				{
+					field : 'activeTime', 
+					title : '激活时间',
+					sortable: true
+				},
+				{
+					field : 'lockStatus', 
+					title : '锁定状态',
+					sortable: true,
+					formatter: function(value, row, index) {
+		                if (value == '0') {
+		                	return '<span >未锁定 </span>';
+		                } else if (value == '1') {
+		                    return '<span >已锁定</span>';
+		                }
+		            }
+				},
+				{
+					field : 'securityFlag', 
+					title : '安全等级标记 ',
+					sortable: true,
+					formatter: function(value, row, index) {
+		                if (value == '0') {
+		                	return '<span >默认无 </span>';
+		                } else if (value == '1') {
+		                    return '<span >数字证书</span>';
+		                }
+		            }
+				},
+				{
+					field : 'password', 
+					title : '登录密码',
+					sortable: true
+				},
+				{
+					field : 'pwdStatus', 
+					title : '密码状态',
+					sortable: true,
+					formatter: function(value, row, index) {
+		                if (value == '0') {
+		                	return '<span >初始</span>';
+		                } else if (value == '1') {
+		                    return '<span >正常</span>';
+		                }
+		            }
+				},
+				{
+					field : 'contactVerify', 
+					title : '联系方式是否验证',
+					sortable: true,
+					formatter: function(value, row, index) {
+		                if (value == '0') {
+		                	return '<span >初始</span>';
+		                } else if (value == '1') {
+		                    return '<span >已验证</span>';
+		                }
+		            }
+				},
+				{
+					field : 'memo', 
+					title : '备注信息',
+					sortable: true
+				},
+		        {
+		            title: '操作',
+		            align: 'center',
+		            formatter: function(value, row, index) {
+		            	var actions = [];
+		            	actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.operatorId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.operatorId + '\')"><i class="fa fa-remove"></i>删除</a>');
+						return actions.join('');
+		            }
+		        }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+
+.titlebar.reverse{
+	border-color:#0498a1; 
+}
+.head-box{
+	position: relative;
+	padding-top: 10px;
+	height: 210px;
+	background-image: url(../../images/memberbg.jpg);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+}
+
+.head-box h3{
+	color: #fff;
+	width: 5.6rem;
+	margin-top: 5.2rem;
+    line-height: 1.5rem;
+	text-align: center;  
+	font-weight: 300;
+	position: absolute;
+	left: 50%;
+	margin-left: -7.575rem;
+}
+
+.head-box h5{
+	position: absolute;
+	color: #fff;
+	text-align: center;
+	font-size: 0.55rem;
+	bottom: 12px;
+	width: 100%;
+}
+.head-box .level{width: 50%;height: auto;color: #fff;font-size: 14px;float: right;margin-top: 1.6rem;line-height: 1.4rem;border-left: 1px solid #fff;}
+.head-box .level p{padding-left: 0.6rem;}  
+.head-box .level p span a{color: #fff;} 
+.header_box{width: 100%;height: auto;display: table; background-color: rgba(0,0,0,.4);position: absolute; bottom: 0;}
+.header_box li{display: table-cell;border-left: 1px solid #fff;} 
+.header_box li:first-of-type{border: none;} 
+.header_box li span{display:block;width: 100%; text-align: center;line-height: 1.2rem;font-size: 12px;color: #fff;}                       
+.head-box .head-icon-outer{
+	position: absolute;
+	width: 3.75rem;
+	height: 3.75rem;
+	border-radius: 50%;
+	top: 50%;
+	left: 50%;
+	margin-top: -2.875rem;
+	margin-left: -6.875rem;
+	background-color: #fff;
+}
+
+.head-box .head-icon-outer .head-icon{
+	position: absolute;
+	width: 3.4rem;
+	height: 3.4rem;
+	border-radius: 50%;
+	top: 0.175rem;
+	left: 0.175rem;
+	background-size:4rem 4rem!important;
+}
+
+.weui_btn_primary{
+	margin-top: 20px;
+	background-color: #27A9E3;
+}
+
+.weui_btn_primary:not(.weui_btn_disabled):active {
+    background-color: #27A9E3;
+}
+
+.button .bd {
+    padding: 0 25px;
+}
+
+.button .bd .weui_btn{
+    font-size: 0.825rem;
+    line-height: 2.125rem;
+    height: 2.125rem;
+}
+
+.weui_cells{
+	margin-top: 0;
+}
+
+.weui_cells:before{
+	border:0;
+}
+
+body>header+article {
+    padding-top: 220px;
+}
+
+.weui_cell_primary p{
+	font-size: 0.65rem;
+}
+
+.weui_cell_bd{
+	padding: 0 15px;
+}
+
+.weui_cell{
+	padding: 0 0;
+	line-height: 2.5rem;
+}
+
+.weui_cell i{
+	color: #93929a;
+	font-size: 0.8rem;
+}

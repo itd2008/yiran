@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.wechat.mapper.WechatShopProductCategoryMapper">
+    
+    <resultMap type="WechatShopProductCategory" id="WechatShopProductCategoryResult">
+        <result property="id"    column="id"    />
+        <result property="pid"    column="pid"    />
+        <result property="name"    column="name"    />
+        <result property="orders"    column="orders"    />
+        <result property="status"    column="status"    />
+        <result property="type"    column="type"    />
+        <result property="parentName" column="parent_name" />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+	
+	<sql id="selectWechatShopProductCategoryVo">
+        select id, pid, name, orders, status, type, create_by, create_time, update_by, update_time from wechat_shop_product_category
+    </sql>
+    
+    <select id="selectSecondChannelTree" resultMap="WechatShopProductCategoryResult">
+		SELECT
+			tt.id,
+			tt.`NAME`,
+			tt.pid,
+			tt. STATUS
+		FROM
+			(
+				SELECT
+					t2.id,
+					t2.pid,
+					t2. NAME,
+					t2.orders,
+					t2. STATUS,
+					t2.type,
+					t2.create_by,
+					t2.create_time,
+					t2.update_by,
+					t2.update_time
+				FROM
+					wechat_shop_product_category t2
+				WHERE
+					t2.id NOT IN (
+						SELECT
+							t.pid
+						FROM
+							wechat_shop_product_category t
+						GROUP BY
+							t.pid
+					)
+				ORDER BY
+					t2.pid ASC
+			) tt
+		LEFT JOIN wechat_product pt ON tt.id = pt.category_id
+		WHERE
+			pt.product_name IS NOT NULL
+		GROUP BY
+			tt.id
+	</select>
+	
+    <select id="selectWechatShopProductCategoryList" parameterType="WechatShopProductCategory" resultMap="WechatShopProductCategoryResult">
+        <include refid="selectWechatShopProductCategoryVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+             <if test="pid != null "> and pid = #{pid}</if>
+             <if test="name != null  and name != '' "> and name = #{name}</if>
+             <if test="orders != null "> and orders = #{orders}</if>
+             <if test="status != null "> and status = #{status}</if>
+             <if test="type != null "> and type = #{type}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+         </where>
+    </select>
+    <select id="selectChannelAll" resultMap="WechatShopProductCategoryResult">
+		<include refid="selectWechatShopProductCategoryVo"/>
+	</select>
+	
+    <select id="selectWechatShopProductCategoryById" parameterType="Integer" resultMap="WechatShopProductCategoryResult">
+        select t.id, t.pid, t.name, t.orders, t.status, t.type, t.create_by, t.create_time, t.update_by, t.update_time, 
+        (select name from wechat_shop_product_category where id = t.pid) parent_name
+        from wechat_shop_product_category t
+        where t.id = #{id}
+    </select>
+    
+    <select id="selectChannelCount" parameterType="WechatShopProductCategory" resultType="int">
+		select count(*) from wechat_shop_product_category
+		<where>
+			<if test="id != null and id != 0"> and id = #{id} </if>
+			<if test="pid != null and pid != 0"> and pid = #{pid} </if>
+		</where>
+	</select>
+	
+	<select id="checkDeptNameUnique" parameterType="String" resultMap="WechatShopProductCategoryResult">
+	    <include refid="selectWechatShopProductCategoryVo"/>
+		where name=#{name}
+	</select>
+        
+    <insert id="insertWechatShopProductCategory" parameterType="WechatShopProductCategory" useGeneratedKeys="true" keyProperty="id">
+        insert into wechat_shop_product_category
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="pid != null  ">pid,</if>
+			<if test="name != null  and name != ''  ">name,</if>
+			<if test="orders != null  ">orders,</if>
+			<if test="status != null  ">status,</if>
+			<if test="type != null  ">type,</if>
+			create_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="pid != null  ">#{pid},</if>
+			<if test="name != null  and name != ''  ">#{name},</if>
+			<if test="orders != null  ">#{orders},</if>
+			<if test="status != null  ">#{status},</if>
+			<if test="type != null  ">#{type},</if>
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateWechatShopProductCategory" parameterType="WechatShopProductCategory">
+        update wechat_shop_product_category
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pid != null  ">pid = #{pid},</if>
+            <if test="name != null  and name != ''  ">name = #{name},</if>
+            <if test="orders != null  ">orders = #{orders},</if>
+            <if test="status != null  ">status = #{status},</if>
+            <if test="type != null  ">type = #{type},</if>
+            update_time = sysdate()
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteWechatShopProductCategoryById" parameterType="Integer">
+        delete from wechat_shop_product_category where id = #{id}
+    </delete>
+	
+    <delete id="deleteWechatShopProductCategoryByIds" parameterType="String">
+        delete from wechat_shop_product_category where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

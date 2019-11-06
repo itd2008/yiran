@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+
+<div class="container-div">
+    <div class="row">
+        <div class="col-sm-12 search-collapse">
+            <div class="row border-bottom white-bg">
+                <nav class="navbar navbar-static-top">
+                    <div class="navbar-header"></div>
+                    <div class="navbar-collapse collapse" id="navbar">
+                        <ul class="nav navbar-nav nav-main">
+                            <li><a href="#" class="menu-item" id="myTask">我的任务</a></li>
+                            <li><a href="#" class="menu-item" id="todoTask">代办任务</a></li>
+                            <li><a href="#" class="menu-item" id="finishedTask">已办任务</a></li>
+                            <li><a href="#" class="menu-item " id="involvedTask">受邀任务</a></li>
+                            <li><a href="#" class="menu-item" id="archivedTask">已经归档</a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+
+        <div class="col-sm-12 select-table table-striped">
+            <table id="bootstrap-table" data-mobile-responsive="true"></table>
+        </div>
+    </div>
+</div>
+<div th:include="include :: footer"></div>
+<script th:inline="javascript">
+    var editFlag = [[${@permission.hasPermi('activiti:process:edit')}]];
+    var removeFlag = [[${@permission.hasPermi('activiti:process:remove')}]];
+    var deployFlag = [[${@permission.hasPermi('activiti:process:deploy')}]];
+
+    var prefix = ctx +"activiti/task";
+
+    $(function () {
+        var options = {
+            url: prefix + "/list",
+            createUrl: prefix + "/add",
+            removeUrl: prefix + "/remove",
+            updateUrl: prefix + "/edit/{id}",
+            exportUrl: prefix + "/export",
+            deploy: prefix + "/deploy/",
+            sortName: "createTime",
+            sortOrder: "desc",
+            modalName: "流程实例",
+            search: false,
+            showExport: false,
+            uniqueId: "deploymentId",
+            columns: [
+                {
+                    field: 'id', // 列字段名
+                    title: '任务' // 列标题
+                },
+                {
+                    field: 'title', // 列字段名
+                    title: '标题' // 列标题
+                },
+                {
+                    field: 'name',
+                    title: '任务名称'
+                },
+                {
+                    field: 'executionId',
+                    title: '跟踪',
+                    formatter: function (value, row, index) {
+                        return '<a onclick="createMenuItem(\'/activiti/task/trace/photo/' + row.processDefinitionId + '/' + row.executionId + '\',\''+row.processDefinitionId+'\')">跟踪</a>';
+                    }
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-primary btn-xs" title="查看" href="#" onclick="viewform(\'' + row.businessId + '\')">查看</a> ');
+                        return actions.join('');
+                    }
+                }]
+        };
+        $.table.init(options);
+
+        $('.menu-item').click(function () {
+            var menu = $(this).attr('id');
+            if (menu == 'myTask') {
+                options.url = prefix + '/list';
+                options.columns = [
+                    {
+                        field: 'id', // 列字段名
+                        title: '任务' // 列标题
+                    },
+                    {
+                        field: 'title', // 列字段名
+                        title: '标题' // 列标题
+                    },
+                    {
+                        field: 'name',
+                        title: '任务名称'
+                    },
+                    {
+                        field: 'executionId',
+                        title: '跟踪',
+                        formatter: function (value, row, index) {
+                            return '<a onclick="createMenuItem(\'/activiti/task/trace/photo/' + row.processDefinitionId + '/' + row.executionId + '\',\''+row.processDefinitionId+'\')">跟踪</a>';
+                        }
+                    },
+                    {
+                        title: '操作',
+                        align: 'center',
+                        formatter: function (value, row, index) {
+                            var actions = [];
+                            actions.push('<a class="btn btn-primary btn-xs" title="查看" href="#" onclick="viewform(\'' + row.businessId + '\')">查看</a> ');
+                            return actions.join('');
+                        }
+                    }]
+            }
+            if (menu == 'todoTask') {
+                options.url = prefix + '/todo';
+                options.columns = [
+                    {
+                        field: 'id', // 列字段名
+                        title: '任务' // 列标题
+                    },
+                    {
+                        field: 'title', // 列字段名
+                        title: '标题' // 列标题
+                    },
+                    {
+                        field: 'name',
+                        title: '任务名称'
+                    },
+                    {
+                        field: 'executionId',
+                        title: '跟踪',
+                        formatter: function (value, row, index) {
+                            return '<a onclick="createMenuItem(\'/activiti/task/trace/photo/' + row.processDefinitionId + '/' + row.executionId + '\',\''+row.processDefinitionId+'\')">跟踪</a>';
+                        }
+                    },
+                    {
+                        title: '操作',
+                        align: 'center',
+                        formatter: function (value, row, index) {
+                            var actions = [];
+                            actions.push('<a class="btn btn-primary btn-xs" title="查看" href="#" onclick="viewform(\'' + row.businessId + '\')">查看</a> ');
+                           
+                            if(row.name == "调整申请"){
+                            	actions.push('<a class="btn btn-primary btn-xs" title="调整申请" href="#" onclick="adjustment(\'' + row.businessId + '\')">调整申请</a> ');
+                            }else{
+                            	actions.push('<a class="btn btn-primary btn-xs" title="审批" href="#" onclick="form(\'' + row.businessId + '\')">审批</a> ');
+                            }
+                            return actions.join('');
+                        }
+                    }]
+            }
+            if (menu == 'finishedTask') {
+                options.url = prefix + '/finishedTask';
+                options.columns = [
+                    {
+                        field: 'id', // 列字段名
+                        title: '任务' // 列标题
+                    },
+                    {
+                        field: 'title', // 列字段名
+                        title: '标题' // 列标题
+                    },
+                    {
+                        field: 'name',
+                        title: '任务名称'
+                    },
+                    {
+                        field: 'executionId',
+                        title: '跟踪',
+                        formatter: function (value, row, index) {
+                            return '<a onclick="createMenuItem(\'/activiti/task/trace/photo/' + row.processDefinitionId + '/' + row.executionId + '\',\''+row.processDefinitionId+'\')">跟踪</a>';
+                        }
+                    },
+                    {
+                        title: '操作',
+                        align: 'center',
+                        formatter: function (value, row, index) {
+                            var actions = [];
+                            actions.push('<a class="btn btn-primary btn-xs" title="查看" href="#" onclick="viewform(\'' + row.businessId + '\')">查看</a> ');
+                            return actions.join('');
+                        }
+                    }]
+            }
+            if (menu == 'involvedTask') {
+                options.url = prefix + '/involved';
+                options.columns = [
+                    {
+                        field: 'id', // 列字段名
+                        title: '任务' // 列标题
+                    },
+                    {
+                        field: 'title', // 列字段名
+                        title: '标题' // 列标题
+                    },
+                    {
+                        field: 'name',
+                        title: '任务名称'
+                    },
+                    {
+                        field: 'executionId',
+                        title: '跟踪',
+                        formatter: function (value, row, index) {
+                            return '<a onclick="createMenuItem(\'/activiti/task/trace/photo/' + row.processDefinitionId + '/' + row.executionId + '\',\''+row.processDefinitionId+'\')">跟踪</a>';
+                        }
+                    },
+                    {
+                        title: '操作',
+                        align: 'center',
+                        formatter: function (value, row, index) {
+                            var actions = [];
+                            actions.push('<a class="btn btn-primary btn-xs" title="查看" href="#" onclick="viewform(\'' + row.businessId + '\')">查看</a> ');
+                            actions.push('<a class="btn btn-primary btn-xs" title="拾取任务" href="#" onclick="pickupTask(\'' + row.businessId + '\')">拾取任务</a> ');
+                            return actions.join('');
+                        }
+                    }]
+            }
+            if (menu == 'archivedTask') {
+                options.url = prefix + '/archived';
+                options.columns = [
+                    {
+                        field: 'id', // 列字段名
+                        title: '任务' // 列标题
+                    },
+                    {
+                        field: 'title', // 列字段名
+                        title: '标题' // 列标题
+                    },
+                    {
+                        field: 'name',
+                        title: '任务名称'
+                    },
+                    {
+                        field: 'executionId',
+                        title: '跟踪',
+                        formatter: function (value, row, index) {
+                            return '<a onclick="createMenuItem(\'/activiti/task/trace/photo/' + row.processDefinitionId + '/' + row.executionId + '\',\''+row.processDefinitionId+'\')">跟踪</a>';
+                        }
+                    },
+                    {
+                        title: '操作',
+                        align: 'center',
+                        formatter: function (value, row, index) {
+                            var actions = [];
+                            actions.push('<a class="btn btn-primary btn-xs" title="查看" href="#" onclick="viewform(\'' + row.businessId + '\')">查看</a> ');
+                            return actions.join('');
+                        }
+                    }]
+            }
+            $("#bootstrap-table").bootstrapTable('refreshOptions', options);
+        });
+    });
+
+    function form(businessId) {
+    	layer.open({
+            type: 2,
+            title: '流程审批',
+            maxmin: true,
+            shadeClose: false,
+            area: ['100%', '100%'],
+            content: ctx + 'activiti/applicationLeave/approvalLeave/' + businessId 
+        })
+    }
+    
+    function viewform(businessId) {
+        createMenuItem(ctx + 'activiti/applicationLeave/viewApproval/' + businessId , "查看流程详情");
+    }
+    
+    function adjustment(formId){
+    	createMenuItem(ctx + 'activiti/applicationLeave/edit/' + formId , "调整流程申请");
+    }
+    
+    function pickupTask(businessId){
+    	$.modal.confirm("确认要拾取这个任务吗?", function() {
+			var url = ctx + 'activiti/applicationLeave/pickupTask/' + businessId;
+			$.operate.get(url);
+		});
+    }
+</script>
+</body>
+</html>

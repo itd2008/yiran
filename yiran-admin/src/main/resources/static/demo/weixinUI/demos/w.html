@@ -1,0 +1,581 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人简历</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <meta name="description" content="前端工程师简历模板，fullpage个人简历模板"/>
+    <meta name="author" content="李奎  age:25 "/>
+    <meta name="keywords" content="求职 Android"/>
+    <meta name="contact" content="tel 15140386653 e-mail:1105264413@qq.com"/>
+
+    <link rel="shortcut icon" href="../img/favicon.ico"/>
+    <link rel="stylesheet" href="../css/bootstrap.css"/>
+    <link rel="stylesheet" href="../css/jquery.fullPage.css"/>
+    <link rel="stylesheet" href="../css/animate.css">
+    <link rel="stylesheet" type="text/css" href="../css/layer.css">
+    <link rel="stylesheet" href="../css/index.css"/>
+
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        img {
+            display: block;
+            border: none;
+        }
+
+        ul, li {
+            list-style: none;
+        }
+
+        .lubo {
+            width: 100%;
+            min-width: 1000px;
+            clear: both;
+            position: relative;
+            height: 368px;
+            top: -78px;
+        }
+
+        .lubo_box {
+            position: relative;
+            width: 100%;
+            height: 368px;
+        }
+
+        .lubo_box li {
+            float: left;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 368px;
+            opacity: 0;
+            filter: alpha(opacity=0);
+        }
+
+        .lubo_box li a {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .lubo_box li img {
+            width: 100%;
+            height: 368px;
+        }
+
+        /*圆点*/
+        .cir_box {
+            overflow: hidden;
+            position: absolute;
+            z-index: 100;
+        }
+
+        .cir_box li {
+            float: left;
+            width: 30px;
+            height: 5px;
+            margin: 0 5px;
+            cursor: pointer;
+            background: #fff;
+            opacity: 0.8;
+            filter: alpha(opacity=80);
+        }
+
+        .cir_on {
+            background: #000 !important;
+        }
+
+        /*按钮*/
+        .lubo_btn {
+            position: absolute;
+            width: 100%;
+            top: 140px;
+        }
+
+        .left_btn, .right_btn {
+            width: 30px;
+            height: 80px;
+            background: #000;
+            opacity: 0.8;
+            filter: alpha(opacity=80);
+            cursor: pointer;
+            color: #fff;
+            line-height: 80px;
+            font-size: 30px;
+            text-align: center;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .left_btn {
+            float: left;
+        }
+
+        .right_btn {
+            float: right;
+        }
+    </style>
+
+</head>
+<body>
+<!--导航栏-->
+<nav class="navbar navbar-default resume">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand EngName" data-menuanchor="page1" href="#page1"></a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right" id="menu">
+                <li data-menuanchor="page2" class="active">
+                    <a href="#page2">基本资料</a>
+                </li>
+                <li data-menuanchor="page3">
+                    <a href="#page3">专业技能</a>
+                </li>
+                <li data-menuanchor="page4">
+                    <a href="#page4">工作经历</a>
+                </li>
+                <li data-menuanchor="page5">
+                    <a href="#page5">项目经验</a>
+                </li>
+                <li data-menuanchor="page6">
+                    <a href="#page6">自我评价</a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</nav>
+<div class="guns sky">
+    <div class="clouds_one"></div>
+    <div class="clouds_two"></div>
+    <div class="clouds_three"></div>
+</div>
+<div class="pure">
+
+</div>
+<div id="resume">
+
+    <div class="section item-1">
+
+        <div class="row word">
+            <span class="resume-hide">Android开发</span>
+            <span class="hidden-xs resume-hide">简历</span>
+
+            <p class="motto resume-hide hinge-sty" style="position: relative">态度决定一切，给我一个机会，我会给你一个大大的惊喜</p>
+            <a href="#" class="next-page ">
+                <span class="glyphicon glyphicon-chevron-down"></span>
+            </a>
+        </div>
+
+
+    </div>
+
+    <div class="section item-2">
+        <div class="container">
+            <h class='hidden-xs hidden-sm page2-title'>基本资料</h>
+            <div class="row">
+                <div class=" icon-infomation col-xs-6 col-sm-6 col-md-3">
+                    <img src="../img/glass.png" alt="">
+                    <h4>基本信息</h4>
+                    <p>
+                        姓名: 李奎 男
+                        <br>
+                        年龄: 25岁 籍贯：安徽
+                    </p>
+                </div>
+                <div class=" icon-infomation col-xs-6 col-sm-6 col-md-3">
+                    <img src="../img/hat.png" alt="">
+                    <h4>毕业院校</h4>
+                    <p>
+                        大连理工大学城市学院
+                    </p>
+
+                </div>
+                <div class=" icon-infomation col-xs-6 col-sm-6 col-md-3">
+                    <img src="../img/book.png" alt="">
+                    <h4>学历和专业</h4>
+                    <p>
+                        软件工程 Java方向 本科
+                        <br>
+                        专业技能 编程
+                    </p>
+                </div>
+                <div class=" icon-infomation col-xs-6 col-sm-6 col-md-3">
+                    <img src="../img/tel.png" alt="">
+                    <h4>联系方式</h4>
+                    <p>
+                        邮箱 1105264413@qq.com
+                        <br>
+                        电话15140386653
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="section item-3">
+        <div class="container">
+            <div class="img-3 hidden-xs">
+                <img src="../img/5(2).png" alt="">
+            </div>
+            <div class="bg-img hidden-xs hidden-sm">
+                <img src="../img/1(4).png" alt="">
+            </div>
+            <div class="sm-img fly hidden-xs hidden-sm">
+                <img src="../img/2(3).png" alt="">
+            </div>
+
+            <div class="skill-introduce">
+
+                <div class="media ">
+                    <div class="media-left media-top">
+                        <a href="#" class=''>
+                            <img class="media-object" src="../img/apple6.png" alt="">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">手机端</h4>
+                        <p>Java方向毕业，有较强的Java编码能力 ,理解面向对象设计的基本原则，熟悉常用的设计模式
+                            <br>3年项目经验,熟悉Android开发平台及框架原理、熟悉常用布局、熟悉Android开发技术，熟悉Android 通信机制
+                            <br>较熟练掌握常用第三方开源库，有较强的沟通和表达能力等等。
+                        </p>
+
+                    </div>
+                </div>
+
+                <div class="media">
+                    <div class="media-left media-top">
+                        <a href="#" class=''>
+                            <img class="media-object" src="../img/tv8.png" alt="">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">网页端（微信小程序+h5）</h4>
+                        <p> 1年项目经验
+                            熟练使用 Html5 Css3 JavaScript，能够合理完成移动端页面的编写和维护，
+                            <br>熟练使用原生js,能够合理利用面向对象以及模块化开发,并且能适当完成框架封装。
+                            <br>初步掌握Bootstrap vue.js前端框架，jQuery第三方库，以及 jQueryWEUI MUI等UI库
+                            <br>掌握 Ajax交互原理，根据后台接口能够合理完成前后台交互，数据的增删改查
+                        </p>
+
+                    </div>
+                </div>
+                <div class="media ">
+                    <div class="media-left media-top">
+                        <a href="#" class=''>
+                            <img class="media-object" src="../img/baterry10.png" alt="">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">其他</h4>
+                        <p>愿意不断学习
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!--<div class="skills hidden-xs">-->
+            <!--<span class="subject-9">Zepto</span>-->
+            <!--<span class="subject-2">Bootstrap</span>-->
+            <!--<span class="subject-3">CANVAS</span>-->
+            <!--<span class="subject-4">jQuery</span>-->
+            <!--<span class="subject-10">Angular</span>-->
+            <!--<span class="subject-5">移动端</span>-->
+            <!--<span class="subject-6">CSS3</span>-->
+            <!--<span class="subject-7">响应式</span>-->
+            <!--<span class="subject-8">Nodejs</span>-->
+            <!--<span class="subject-1">HTML5</span>-->
+
+            <!--</div>-->
+        </div>
+    </div>
+
+    <div class="section item-4" id='item-4'>
+        <div class="container">
+            <span class='title hidden-xs  hidden-sm' style='display: inline-block'>工作经验</span>
+            <!--<span class='sign col-xs-12 hidden-xs  hidden-sm' style='font-size: 20px'>热爱技术,专注用户体验</span>-->
+
+            <div class="row" style="margin-top: 15px">
+
+                <div class="col-xs-6 col-md-3">
+                    <div class="thumbnail">
+                        <img src="../img/school.jpg" class=' img-circle team-img' alt="">
+                        <div class="caption">
+                            <h3>大连理工大学城市学院学院</h3>
+                            <p>软件工程专业</p>
+                            <p>Java方向</p>
+                            <p>2011/9-2015/6</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-6 col-md-3" id="fengyang">
+                    <div class="thumbnail">
+                        <img src="../img/fengyang.png" class='img-circle team-img' alt="">
+                        <div class="caption">
+                            <h3>杭州枫杨科技有限公司</h3>
+                            <p>Android开发 点击看明细</p>
+                            <p>2015/7-至今</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-6 col-md-3" id="ruanyun">
+                    <div class="thumbnail">
+                        <img src="../img/anjie.jpg" class='img-circle team-img' alt="">
+                        <div class="caption">
+                            <h3>合肥软云科技</h3>
+                            <p>Android开发 点击看明细</p>
+                            <p>2014/9-2015/3</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-6 col-md-3" id="dongruan">
+                    <div class="thumbnail">
+                        <img src="../img/dongruan.jpg" class='img-circle team-img' alt="">
+                        <div class="caption">
+                            <h3>大连东软</h3>
+                            <p>Android开发助理 点击查看明细</p>
+                            <p>2013/8-2013/10</p>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+    <div class="section item-5">
+        <!--第一屏-->
+        <div class="slide hidden-xs">
+            <div class="container" id='container-img'>
+                <div class="row">
+
+                    <div class="portfolio-items" id="bage">
+                        <div class="col-sm-6 col-md-3 col-lg-3 web">
+                            <div class="portfolio-item">
+                                <div class="hover-bg">
+                                    <div class="hover-text">
+                                        <h4><a href="http://www.busge.com/youtubus/web/jsp/app_download" target='_blank'
+                                               title="巴哥租车">巴哥租车</a></h4>
+                                        <small>点击上面名称 查看明细 其它图片一样</small>
+                                        <i class="fa fa-search"></i></div>
+                                    <img src="../img/right_pic.jpg" class="img-responsive" alt="巴哥租车">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-3 col-lg-3">
+                            <div class="portfolio-item">
+                                <div class="hover-bg">
+                                    <div class="hover-text">
+                                        <h4><a href="http://www.liqucn.com/rj/398140.shtml" target='_blank' title="百折汇">百折汇</a>
+                                        </h4>
+                                        <small>技术：Volley+Glide+RxJava+Retrofit+百度LBS+等等各种第三方<br></small>
+                                        <small>5万+下载量</small>
+
+                                    </div>
+                                    <img src="../img/baizhe.jpg" class="img-responsive" alt=""></div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-3 col-lg-3">
+                            <div class="portfolio-item">
+                                <div class="hover-bg">
+                                    <div class="hover-text">
+                                        <h4><a href="http://sj.qq.com/myapp/detail.htm?apkName=com.flyang.skydstore"
+                                               target='_blank' title="蓝窗店管家">蓝窗店管家</a></h4>
+                                        <small>技术：Asynctask异步机制+Volley+Glide+RxJava+Retrofit+等等各种第三方</small>
+                                        <small>10万+下载量<br></small>
+                                        <small>企业号 sun888</small>
+                                        <br>
+                                        登录用户名：admin
+                                        密码：770770</small>
+                                    </div>
+                                    <img src="../img/lanchuang.jpg" class="img-responsive" alt=""></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-3 col-lg-3">
+                            <div class="portfolio-item">
+                                <div class="hover-bg">
+                                    <div class="hover-text">
+                                        <h4>
+                                            <a href="http://sj.qq.com/myapp/detail.htm?apkName=com.flyang.skydorder.dev&apkCode=1"
+                                               target='_blank' title="蓝窗订货会">蓝窗订货会</a></h4>
+                                        <small>技术：RxBus+Volley+Glide+RxJava+Retrofit+等等各种第三方<br></small>
+                                        <small>企业号 steply</small>
+                                        <br>
+                                        登录用户名：0029
+                                        密码：111111</small>
+                                    </div>
+                                    <img src="../img/dinghuohui.jpg" class="img-responsive" alt="蓝窗订货会">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-3 col-lg-3">
+                            <div class="portfolio-item">
+                                <div class="hover-bg">
+                                    <div class="hover-text">
+                                        <h4>
+                                            <a href="http://sj.qq.com/myapp/detail.htm?apkName=com.flyang.developer.skyvip"
+                                               target='_blank' title="蓝窗会员">蓝窗会员</a></h4>
+                                        <small>技术：RxBus+Volley+Glide+RxJava+Retrofit</small>
+                                    </div>
+                                    <img src="../img/vip.jpg" class="img-responsive" alt="蓝窗会员">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-3 col-lg-3">
+                            <div class="portfolio-item">
+                                <div class="hover-bg">
+                                    <div class="hover-text">
+                                        <h4>
+                                            <a href="http://win.skydispark.com:8080/skydwx/html/home_page.html?version=0.3"
+                                               target='_blank' title="蓝窗会员网页版">蓝窗会员网页版</a></h4>
+                                        <small>技术：Bootstrap+JQuery WEUI+Cryptojs</small>
+                                    </div>
+                                    <img src="../img/h5vip.png" class="img-responsive" alt="蓝窗会员网页版"></div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-3 col-lg-3">
+                            <div class="portfolio-item">
+                                <div class="hover-bg">
+                                    <div class="hover-text">
+                                        <h4><a href="http://www.cnblogs.com/likui007/articles/7550854.html"
+                                               target='_blank' title="蓝窗采购（微信小程序">蓝窗采购（微信小程序）</a></h4>
+                                        <small>技术：Bootstrap+JQuery WEUI+Cryptojs+微信框架</small>
+                                    </div>
+                                    <img src="../img/weixinh5.jpg" class="img-responsive" alt="蓝窗采购（微信小程序）"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-3 col-lg-3">
+                            <div class="portfolio-item">
+                                <div class="hover-bg">
+                                    <div class="hover-text">
+                                        <h4><a href="http://sj.qq.com/myapp/detail.htm?apkName=com.flyang.skydstore"
+                                               target='_blank' title="蓝窗贷款网页">蓝窗贷款网页</a></h4>
+                                        <small>技术：Bootstrap+JQuery WEUI+Cryptojs+微信框架</small>
+                                        <small>贷款专用 侧滑栏底部有贷款按钮</small>
+                                    </div>
+                                    <img src="../img/lanchuang.jpg" class="img-responsive" alt=""></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--第二屏-->
+        <div class="slide">
+            <div class="container" id='container-img2'>
+                <div class="row">
+                    <div class="col-sm-6 col-md-3 col-lg-3">
+                        <div class="portfolio-item">
+                            <div class="hover-bg">
+                                <div class="hover-text">
+                                    <h4><a href="http://m.gcjiujiu.com/page/index.html"
+                                           target='_blank' title="投呗">投呗(微信端网页)</a></h4>
+                                    <small>技术：Bootstrap+JQuery WEUI+AUI+VUE.js+Cryptojs等</small>
+                                    <small>10万+预览量<br></small>
+                                    <small>登录名：15140386653<br></small>
+                                    <small> 密码：212679</small>
+                                </div>
+                                <img src="../img/fabei.jpg" class="img-responsive" alt=""></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="section item-6">
+        <h1>Focus Me</h1>
+        <div class="word">
+            <p>
+                15届软件工程专业Java方向本科毕业生，4年项目经验。<br>自14年参加Android实习工作至今已参与数个已上线的项目，
+            </p>
+        </div>
+        <div class="word">
+            <p>
+                15年7月到17年至今一直在浙大科技园的一家服装管理软件工作，负责服装电商，后台管理等软件。<br>且包括微信小程序以及h5前端网页项目。具体请看项目经验部分。<br>
+            </p>
+        </div>
+
+        <div class="word">
+            <p>
+                有较强的Java编码能力，前端网页编程能力，熟悉Android开发平台及框架原理、熟悉Android开发技术，熟悉Socket编程。<br>包括UI、网络、设计模式等方面以及第三方开源库的使用，熟练掌握与后台的JSON数据交互技术等等，</br>
+                具有很强的自学能力和良好的学习方法，喜欢研究各种新的框架，具体情况可以见面细聊。
+            </p>
+        </div>
+
+        <div class="word" style="margin-top: 25px;margin-left: 270px">
+            <div class="num num7">态度决定一切，给我一个机会，我会给你一个大大的惊喜。</div>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>
+<script src="http://www.jq22.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="../js/jquery.fullPage.min.js"></script>
+<script src="../js/jquery.easing.1.3.js"></script>
+<script src="../js/jquery.isotope.js"></script>
+<script src="../js/bootstrap-3.3.4.js"></script>
+<script src="../js/handler.js"></script>
+<script src="../js/layer.js"></script>
+<script src="../js/resumeEnter.js"></script>
+<script type="text/javascript" src="../js/lubotu.js"></script>
+<script src="../js/divhover.js"></script>
+<script src="../lib/CryptoJS_v3.1.2/cryptojs-3.1.2.js" type="text/javascript"></script>
+<script src="../js/jquery-geren-1.0.0.js" type="text/javascript"></script>
+<script src="../js/main.js"></script>
+<script src="../js/cust_center.js"></script>
+<script type="text/javascript">
+    $(function () {
+
+        $(".num7").num7();
+
+        $(".lubo").lubo({});
+
+        $("#dongruan").click(function () {
+            layer.open({
+                content: '具体Android View层设计与优化，历经三个星期、主要跟踪已完成项目是如何做立项、需求分析、概要设计、详细设计以及如何进行单元、集成、系统、验收测试、使得自己并懂得开发项目的流程，为以后独立开发项目打好了坚实的基础。'
+            });
+        });
+
+        $("#fengyang").click(function () {
+            layer.open({
+                content: '负责枫杨Android多款已经上线产品的架构搭建、核心功能模块设计研发、产品的优化、迭代升级，提高产品性能等。以及微信小程序和h5网页的设计与开发。'
+            });
+        });
+
+        $("#ruanyun").click(function () {
+            layer.open({
+                content: '工作描述：协助项目经理撰写设计开发与实现文档、对企业级定制得App进行敏捷发、以及代码持续优化、并且完成对产品bug进行修复和技术文档的编写和整理、参与对客户软件产品的维护和持续升级工作' +
+                '</br>业绩表述：负责Android平台的客户端产品开发工作，刚进之初，由于Android开发仅我一人、顾要同时兼顾对APP应用架构设计、编码、测试、调试以及与后台人员的紧密合作，但仍有效完成对定制的App开发工作，并已成功上线，15年1月份新入一Android实习生到我组下，得以优化工作流程，使工作更加迅速流畅，在此期间，与团队的紧密合作，并深知与内部紧密合作的重要性。' +
+                '</br>管理经验：在软云做了半年的独立开发后，逐渐使我明白要完成一个项目的独立开发，必须要统筹兼顾，在开发流程中的主次分明，在具体的时间做该做的事，技术只是其中的一部份，使我更加明白团队的重要性。'
+            });
+        });
+    });
+</script>

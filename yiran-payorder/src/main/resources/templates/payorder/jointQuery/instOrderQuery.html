@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="row">
+	<div class="col-sm-12">
+           <div class="ibox float-e-margins">
+               <div class="ibox-title">
+                   <h5>机构订单单笔结果查询</h5>
+                   
+               </div>
+               <div class="ibox-content" style="height: 80px;">
+					<form id="joint_query_form_id">
+						<div class="select-list">
+							<ul>
+								<li>
+									提交机构订单号：<input type="text" name="orderNo"/>
+								</li>
+								<li>
+									<a class="btn btn-primary btn-rounded btn-sm" onclick="jointQuerySearch();"><i class="fa fa-search"></i>&nbsp;搜索</a>
+									<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+								</li>
+							</ul>
+						</div>
+					</form>
+               </div>
+           </div>
+       </div>
+    </div>
+    
+  <div id="show_datas" style="display: none;">
+	<div class="row">
+       <div class="col-sm-12">
+           <div class="ibox float-e-margins">
+               <div class="ibox-title">
+                   <h5>机构订单单笔结果查询</h5>
+               </div>
+               <div class="ibox-content">
+
+                   <span>状态：</span><span id="instorderquery_status" style="color: red;size: 20px"></span></br>
+                   <span>信息：</span><span id="instorderquery_messag" style="color: red;size: 20px"></span>
+
+               </div>
+           </div>
+       </div>
+    </div>
+    
+    </div>
+	
+</body>
+<div th:include="include :: footer"></div>
+<script type="text/javascript">
+		function jointQuerySearch(){
+			var from_data = $('#joint_query_form_id').serialize();
+			var pramas = from_data.split('&');
+			var orderNos = pramas[0].split('=');
+			$.ajax({
+	            url:"/payorder/jointQuery/instOrderQuery/"+orderNos[1],
+	            type: "GET",
+	            success: function (data) {
+	            	debugger
+	            	console.log("data:"+data.data);
+	            	$("#show_datas").show();
+	            	$("#instorderquery_status").html(data.data.status);
+	            	$("#instorderquery_messag").html(data.data.messag);
+	            }
+			}); 		
+		}
+	
+	</script>
+</html>

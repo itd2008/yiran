@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.member.mapper.MemberTmMemberContactMapper">
+    
+    <resultMap type="MemberTmMemberContact" id="MemberTmMemberContactResult">
+        <result property="contactId"    column="contact_id"    />
+        <result property="memberId"    column="member_id"    />
+        <result property="contactType"    column="contact_type"    />
+        <result property="name"    column="name"    />
+        <result property="pinyin"    column="pinyin"    />
+        <result property="contactMemberId"    column="contact_member_id"    />
+        <result property="mobile"    column="mobile"    />
+        <result property="bankName"    column="bank_name"    />
+        <result property="province"    column="province"    />
+        <result property="city"    column="city"    />
+        <result property="bankBranch"    column="bank_branch"    />
+        <result property="bankBranchNo"    column="bank_branch_no"    />
+        <result property="bankAccountName"    column="bank_account_name"    />
+        <result property="bankAccountNo"    column="bank_account_no"    />
+        <result property="accountNoSummary"    column="account_no_summary"    />
+        <result property="cardType"    column="card_type"    />
+        <result property="cardAttribute"    column="card_attribute"    />
+        <result property="status"    column="status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createUser"    column="create_user"    />
+        <result property="updateUser"    column="update_user"    />
+        <result property="memo"    column="memo"    />
+        <result property="contactIdentity"    column="contact_identity"    />
+        <result property="bankCode"    column="bank_code"    />
+    </resultMap>
+	
+	<sql id="selectMemberTmMemberContactVo">
+        select contact_id, member_id, contact_type, name, pinyin, contact_member_id, mobile, bank_name, province, city, bank_branch, bank_branch_no, bank_account_name, bank_account_no, account_no_summary, card_type, card_attribute, status, create_time, update_time, create_user, update_user, memo, contact_identity, bank_code from member_tm_member_contact
+    </sql>
+	
+    <select id="selectMemberTmMemberContactList" parameterType="MemberTmMemberContact" resultMap="MemberTmMemberContactResult">
+        <include refid="selectMemberTmMemberContactVo"/>
+        <where>  
+            <if test="contactId != null "> and contact_id = #{contactId}</if>
+             <if test="memberId != null  and memberId != '' "> and member_id = #{memberId}</if>
+             <if test="contactType != null "> and contact_type = #{contactType}</if>
+             <if test="name != null  and name != '' "> and name = #{name}</if>
+             <if test="pinyin != null  and pinyin != '' "> and pinyin = #{pinyin}</if>
+             <if test="contactMemberId != null  and contactMemberId != '' "> and contact_member_id = #{contactMemberId}</if>
+             <if test="mobile != null  and mobile != '' "> and mobile = #{mobile}</if>
+             <if test="bankName != null  and bankName != '' "> and bank_name = #{bankName}</if>
+             <if test="province != null  and province != '' "> and province = #{province}</if>
+             <if test="city != null  and city != '' "> and city = #{city}</if>
+             <if test="bankBranch != null  and bankBranch != '' "> and bank_branch = #{bankBranch}</if>
+             <if test="bankBranchNo != null  and bankBranchNo != '' "> and bank_branch_no = #{bankBranchNo}</if>
+             <if test="bankAccountName != null  and bankAccountName != '' "> and bank_account_name = #{bankAccountName}</if>
+             <if test="bankAccountNo != null  and bankAccountNo != '' "> and bank_account_no = #{bankAccountNo}</if>
+             <if test="accountNoSummary != null  and accountNoSummary != '' "> and account_no_summary = #{accountNoSummary}</if>
+             <if test="cardType != null "> and card_type = #{cardType}</if>
+             <if test="cardAttribute != null "> and card_attribute = #{cardAttribute}</if>
+             <if test="status != null "> and status = #{status}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="createUser != null  and createUser != '' "> and create_user = #{createUser}</if>
+             <if test="updateUser != null  and updateUser != '' "> and update_user = #{updateUser}</if>
+             <if test="memo != null  and memo != '' "> and memo = #{memo}</if>
+             <if test="contactIdentity != null  and contactIdentity != '' "> and contact_identity = #{contactIdentity}</if>
+             <if test="bankCode != null  and bankCode != '' "> and bank_code = #{bankCode}</if>
+         </where>
+    </select>
+    
+    <select id="selectMemberTmMemberContactById" parameterType="Integer" resultMap="MemberTmMemberContactResult">
+        <include refid="selectMemberTmMemberContactVo"/>
+        where contact_id = #{contactId}
+    </select>
+        
+    <insert id="insertMemberTmMemberContact" parameterType="MemberTmMemberContact" useGeneratedKeys="true" keyProperty="contactId">
+        insert into member_tm_member_contact
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="memberId != null  and memberId != ''  ">member_id,</if>
+			<if test="contactType != null  ">contact_type,</if>
+			<if test="name != null  and name != ''  ">name,</if>
+			<if test="pinyin != null  and pinyin != ''  ">pinyin,</if>
+			<if test="contactMemberId != null  and contactMemberId != ''  ">contact_member_id,</if>
+			<if test="mobile != null  and mobile != ''  ">mobile,</if>
+			<if test="bankName != null  and bankName != ''  ">bank_name,</if>
+			<if test="province != null  and province != ''  ">province,</if>
+			<if test="city != null  and city != ''  ">city,</if>
+			<if test="bankBranch != null  and bankBranch != ''  ">bank_branch,</if>
+			<if test="bankBranchNo != null  and bankBranchNo != ''  ">bank_branch_no,</if>
+			<if test="bankAccountName != null  and bankAccountName != ''  ">bank_account_name,</if>
+			<if test="bankAccountNo != null  and bankAccountNo != ''  ">bank_account_no,</if>
+			<if test="accountNoSummary != null  and accountNoSummary != ''  ">account_no_summary,</if>
+			<if test="cardType != null  ">card_type,</if>
+			<if test="cardAttribute != null  ">card_attribute,</if>
+			<if test="status != null  ">status,</if>
+			<if test="memo != null  and memo != ''  ">memo,</if>
+			<if test="contactIdentity != null  and contactIdentity != ''  ">contact_identity,</if>
+			<if test="bankCode != null  and bankCode != ''  ">bank_code,</if>
+			create_time,
+			update_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="memberId != null  and memberId != ''  ">#{memberId},</if>
+			<if test="contactType != null  ">#{contactType},</if>
+			<if test="name != null  and name != ''  ">#{name},</if>
+			<if test="pinyin != null  and pinyin != ''  ">#{pinyin},</if>
+			<if test="contactMemberId != null  and contactMemberId != ''  ">#{contactMemberId},</if>
+			<if test="mobile != null  and mobile != ''  ">#{mobile},</if>
+			<if test="bankName != null  and bankName != ''  ">#{bankName},</if>
+			<if test="province != null  and province != ''  ">#{province},</if>
+			<if test="city != null  and city != ''  ">#{city},</if>
+			<if test="bankBranch != null  and bankBranch != ''  ">#{bankBranch},</if>
+			<if test="bankBranchNo != null  and bankBranchNo != ''  ">#{bankBranchNo},</if>
+			<if test="bankAccountName != null  and bankAccountName != ''  ">#{bankAccountName},</if>
+			<if test="bankAccountNo != null  and bankAccountNo != ''  ">#{bankAccountNo},</if>
+			<if test="accountNoSummary != null  and accountNoSummary != ''  ">#{accountNoSummary},</if>
+			<if test="cardType != null  ">#{cardType},</if>
+			<if test="cardAttribute != null  ">#{cardAttribute},</if>
+			<if test="status != null  ">#{status},</if>
+			<if test="memo != null  and memo != ''  ">#{memo},</if>
+			<if test="contactIdentity != null  and contactIdentity != ''  ">#{contactIdentity},</if>
+			<if test="bankCode != null  and bankCode != ''  ">#{bankCode},</if>
+			sysdate(),
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateMemberTmMemberContact" parameterType="MemberTmMemberContact">
+        update member_tm_member_contact
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="memberId != null  and memberId != ''  ">member_id = #{memberId},</if>
+            <if test="contactType != null  ">contact_type = #{contactType},</if>
+            <if test="name != null  and name != ''  ">name = #{name},</if>
+            <if test="pinyin != null  and pinyin != ''  ">pinyin = #{pinyin},</if>
+            <if test="contactMemberId != null  and contactMemberId != ''  ">contact_member_id = #{contactMemberId},</if>
+            <if test="mobile != null  and mobile != ''  ">mobile = #{mobile},</if>
+            <if test="bankName != null  and bankName != ''  ">bank_name = #{bankName},</if>
+            <if test="province != null  and province != ''  ">province = #{province},</if>
+            <if test="city != null  and city != ''  ">city = #{city},</if>
+            <if test="bankBranch != null  and bankBranch != ''  ">bank_branch = #{bankBranch},</if>
+            <if test="bankBranchNo != null  and bankBranchNo != ''  ">bank_branch_no = #{bankBranchNo},</if>
+            <if test="bankAccountName != null  and bankAccountName != ''  ">bank_account_name = #{bankAccountName},</if>
+            <if test="bankAccountNo != null  and bankAccountNo != ''  ">bank_account_no = #{bankAccountNo},</if>
+            <if test="accountNoSummary != null  and accountNoSummary != ''  ">account_no_summary = #{accountNoSummary},</if>
+            <if test="cardType != null  ">card_type = #{cardType},</if>
+            <if test="cardAttribute != null  ">card_attribute = #{cardAttribute},</if>
+            <if test="status != null  ">status = #{status},</if>
+            <if test="memo != null  and memo != ''  ">memo = #{memo},</if>
+            <if test="contactIdentity != null  and contactIdentity != ''  ">contact_identity = #{contactIdentity},</if>
+            <if test="bankCode != null  and bankCode != ''  ">bank_code = #{bankCode},</if>
+            update_time = sysdate()
+        </trim>
+        where contact_id = #{contactId}
+    </update>
+
+	<delete id="deleteMemberTmMemberContactById" parameterType="Integer">
+        delete from member_tm_member_contact where contact_id = #{contactId}
+    </delete>
+	
+    <delete id="deleteMemberTmMemberContactByIds" parameterType="String">
+        delete from member_tm_member_contact where contact_id in 
+        <foreach item="contactId" collection="array" open="(" separator="," close=")">
+            #{contactId}
+        </foreach>
+    </delete>
+    
+</mapper>

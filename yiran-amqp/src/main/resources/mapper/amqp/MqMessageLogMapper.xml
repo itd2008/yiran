@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.amqp.mapper.MqMessageLogMapper">
+    
+    <resultMap type="MqMessageLog" id="MqMessageLogResult">
+        <result property="messageId"    column="message_id"    />
+        <result property="message"    column="message"    />
+        <result property="tryCount"    column="try_count"    />
+        <result property="status"    column="status"    />
+        <result property="nextRetry"    column="next_retry"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="exchange"    column="exchange"    />
+        <result property="routingKey"    column="routing_key"    />
+    </resultMap>
+	
+	<sql id="selectMqMessageLogVo">
+        select message_id, message, try_count, status, next_retry, create_time, update_time,exchange,routing_key from sys_mq_message_log
+    </sql>
+	
+    <select id="selectMqMessageLogList" parameterType="MqMessageLog" resultMap="MqMessageLogResult">
+        <include refid="selectMqMessageLogVo"/>
+        <where>  
+            <if test="messageId != null  and messageId != '' "> and message_id = #{messageId}</if>
+             <if test="message != null  and message != '' "> and message = #{message}</if>
+             <if test="tryCount != null "> and try_count = #{tryCount}</if>
+             <if test="status != null  and status != '' "> and status = #{status}</if>
+             <if test="nextRetry != null "> and next_retry = #{nextRetry}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+         </where>
+        order by create_time desc
+    </select>
+    
+    <select id="selectMqMessageLogById" parameterType="String" resultMap="MqMessageLogResult">
+        <include refid="selectMqMessageLogVo"/>
+        where message_id = #{messageId}
+    </select>
+        
+    <insert id="insertMqMessageLog" parameterType="MqMessageLog">
+        insert into sys_mq_message_log
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="messageId != null  and messageId != ''  ">message_id,</if>
+			<if test="message != null  and message != ''  ">message,</if>
+			<if test="tryCount != null  ">try_count,</if>
+			<if test="status != null  and status != ''  ">status,</if>
+			<if test="nextRetry != null  ">next_retry,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="updateTime != null  ">update_time,</if>
+			<if test="exchange != null  and exchange != ''  ">exchange,</if>
+			<if test="routingKey != null  and routingKey != ''  ">routing_key</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="messageId != null  and messageId != ''  ">#{messageId},</if>
+			<if test="message != null  and message != ''  ">#{message},</if>
+			<if test="tryCount != null  ">#{tryCount},</if>
+			<if test="status != null  and status != ''  ">#{status},</if>
+			<if test="nextRetry != null  ">#{nextRetry},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="updateTime != null  ">#{updateTime},</if>
+			<if test="exchange != null  and exchange != ''  ">#{exchange},</if>
+			<if test="routingKey != null  and routingKey != ''  ">#{routingKey}</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateMqMessageLog" parameterType="MqMessageLog">
+        update sys_mq_message_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="message != null  and message != ''  ">message = #{message},</if>
+            <if test="tryCount != null  ">try_count = #{tryCount},</if>
+            <if test="status != null  and status != ''  ">status = #{status},</if>
+            <if test="nextRetry != null  ">next_retry = #{nextRetry},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+        </trim>
+        where message_id = #{messageId}
+    </update>
+
+	<delete id="deleteMqMessageLogById" parameterType="String">
+        delete from sys_mq_message_log where message_id = #{messageId}
+    </delete>
+	
+    <delete id="deleteMqMessageLogByIds" parameterType="String">
+        delete from sys_mq_message_log where message_id in 
+        <foreach item="messageId" collection="array" open="(" separator="," close=")">
+            #{messageId}
+        </foreach>
+    </delete>
+    
+    <select id="query4StatusAndTimeoutMessage" resultMap="MqMessageLogResult">
+          <![CDATA[  
+          select message_id, message, try_count, status, next_retry, create_time, update_time,exchange,routing_key
+              from sys_mq_message_log  
+              where status in ('0','2')
+              and try_count <=3
+          ]]> 
+    </select>
+   
+  <update id="update4ReSend" >
+    update sys_mq_message_log bml
+    set bml.try_count = bml.try_count + 1,
+      bml.update_time = #{updateTime, jdbcType=TIMESTAMP}
+    where bml.message_id = #{messageId,jdbcType=VARCHAR}
+  </update>
+   
+  <update id="changeMQMessageLogStatus" >
+    update sys_mq_message_log bml
+    set bml.status = #{status,jdbcType=VARCHAR},
+          bml.update_time = #{updateTime, jdbcType=TIMESTAMP}
+    where bml.message_id = #{messageId,jdbcType=VARCHAR}  
+  </update>
+
+    
+</mapper>

@@ -1,0 +1,304 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link th:href="@{/ajax/libs/datapicker/bootstrap-datetimepicker.min.css}" rel="stylesheet"/>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-applicationLeave-edit" th:object="${applicationLeave}">
+            <input id="formId" name="formId" th:field="*{formId}"  type="hidden">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">流程类型：</label>
+				<div class="col-sm-8">
+					<select id="processInstanceId" name="processInstanceId" class="form-control m-b" disabled="disabled">
+	                    <option th:each="pd : ${pdList}" th:text="${pd.name}" th:value="${pd.processId}" th:field="*{processInstanceId}" ></option>
+	                </select>
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">开始日期：</label>
+				<div class="col-sm-8">
+	                 <div class="input-group date">
+	                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+	                     <input type="text" id="beginDate" name="beginDate" class="form-control" th:field="*{beginDate}">
+	                 </div>
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">结束日期：</label>
+				<div class="col-sm-8">
+					<div class="input-group date">
+	                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+	                     <input type="text" id="endDate" name="endDate" onblur="caleday()" class="form-control" th:field="*{endDate}">
+	                 </div>
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">请假天数：</label>
+				<div class="col-sm-8">
+					<input id="days" name="days" th:field="*{days}" class="form-control" type="text">(<span style="color: red;">自动去除了周六日，节假日未清除,上班时间8:45-18:00</span>)
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">请假类型：</label>
+				<div class="col-sm-8">
+					<select name="vacationType" class="form-control m-b" th:with="type=${@dict.getType('leave_vacation_type')}">
+						<option>请选择请假类型</option>
+						<option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{vacationType}"></option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">请假事由：</label>
+				<div class="col-sm-8">
+					<textarea id="reason" name="reason" class="form-control" th:field="*{reason}"></textarea>
+				</div>
+			</div>
+			
+		</form>
+    </div>
+    <div class="row">
+        <div class="col-sm-offset-5 col-sm-10">
+            <button type="button" class="btn btn-sm btn-primary" onclick="submitHandler()"><i class="fa fa-check"></i>调整申请</button>&nbsp;
+            <button type="button" class="btn btn-sm btn-primary" onclick="endHandler()"><i class="fa fa-close"></i>结束任务</button>&nbsp;
+            <button type="button" class="btn btn-sm btn-danger" onclick="closeItem()"><i class="fa fa-reply-all"></i>关 闭 </button>
+        </div>
+    </div>
+    <form class="form-horizontal">
+    <h4 class="form-header h4">申请人基本信息</h4>
+          <div class="row">
+              <div class="col-sm-6">
+                  <div class="form-group">
+                      <label class="col-sm-4 control-label">申请人姓名：</label>
+                      <div class="col-sm-8">
+                          <input name="userName" readonly="readonly" class="form-control" type="text" th:field="${user.userName}">
+                      </div>
+                  </div>
+              </div>
+              <div class="col-sm-6">
+                  <div class="form-group">
+                      <label class="col-sm-4 control-label">申请人部门：</label>
+                      <div class="col-sm-8">
+                          <input name="deptName" readonly="readonly" class="form-control" type="text" th:field="${user.dept.deptName}">
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-sm-6">
+                  <div class="form-group">
+                      <label class="col-sm-4 control-label">申请人电话：</label>
+                      <div class="col-sm-8">
+                          <input name="phonenumber" readonly="readonly" class="form-control" type="text" th:field="${user.phonenumber}">
+                      </div>
+                  </div>
+              </div>
+              <div class="col-sm-6">
+                  <div class="form-group">
+                      <label class="col-sm-4 control-label">申请时间：</label>
+                      <div class="col-sm-8">
+                          <input name="apptime" readonly="readonly" class="form-control" type="text" th:value="${#dates.format(applicationLeave.createTime,'yyyy-MM-dd HH:mm:ss')}">
+                      </div>
+                  </div>
+              </div>
+          </div>
+          </form>
+       <h4 class="form-header h4">审批详情</h4>
+       <!-- 审批详情 -->
+       <div class="wrapper wrapper-content">
+          <div class="row animated fadeInRight">
+             <div class="col-lg-12">
+               <div class="ibox float-e-margins">
+                   <div class="ibox-content inspinia-timeline">
+                       <div class="timeline-item" th:each="al,iterStat : ${approvalLeaves}">
+                           <div class="row">
+                               <div class="col-xs-3 date">
+                                   <i class="fa fa-user-md"></i>
+                                   <small th:text="${#dates.format(al.auditTime,'HH:mm:ss')}"></small>
+                                   <small th:text="${#dates.format(al.auditTime,'yyyy-MM-dd')}"></small>
+                               </div>
+                               <div class="col-xs-7 content">
+                                   <p class="m-b-xs"><strong th:text="${al.userName}"></strong><span>【<span th:text="${al.deptName}"></span>】</span></p>
+                                   <p>审批意见：<span th:text="${al.comment}"></span></p>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </div>
+          </div>
+       </div>
+    <div th:include="include::footer"></div>
+    <script th:src="@{/ajax/libs//datapicker/bootstrap-datetimepicker.min.js}"></script>
+    <script>
+       //$(document).ready(function(){setup_draggable();$("#n-columns").on("change",function(){var v=$(this).val();if(v==="1"){var $col=$(".form-body .col-md-12").toggle(true);$(".form-body .col-md-6 .draggable").each(function(i,el){$(this).remove().appendTo($col)});$(".form-body .col-md-6").toggle(false)}else{var $col=$(".form-body .col-md-6").toggle(true);$(".form-body .col-md-12 .draggable").each(function(i,el){$(this).remove().appendTo(i%2?$col[1]:$col[0])});$(".form-body .col-md-12").toggle(false)}});$("#copy-to-clipboard").on("click",function(){var $copy=$(".form-body").clone().appendTo(document.body);$copy.find(".tools, :hidden").remove();$.each(["draggable","droppable","sortable","dropped","ui-sortable","ui-draggable","ui-droppable","form-body"],function(i,c){$copy.find("."+c).removeClass(c).removeAttr("style")});var html=html_beautify($copy.html());$copy.remove();$modal=get_modal(html).modal("show");$modal.find(".btn").remove();$modal.find(".modal-title").html("复制HTML代码");$modal.find(":input:first").select().focus();return false})});var setup_draggable=function(){$(".draggable").draggable({appendTo:"body",helper:"clone"});$(".droppable").droppable({accept:".draggable",helper:"clone",hoverClass:"droppable-active",drop:function(event,ui){$(".empty-form").remove();var $orig=$(ui.draggable);if(!$(ui.draggable).hasClass("dropped")){var $el=$orig.clone().addClass("dropped").css({"position":"static","left":null,"right":null}).appendTo(this);var id=$orig.find(":input").attr("id");if(id){id=id.split("-").slice(0,-1).join("-")+"-"+(parseInt(id.split("-").slice(-1)[0])+1);$orig.find(":input").attr("id",id);$orig.find("label").attr("for",id)}$('<p class="tools col-sm-12 col-sm-offset-3">						<a class="edit-link">编辑HTML<a> | 						<a class="remove-link">移除</a></p>').appendTo($el)}else{if($(this)[0]!=$orig.parent()[0]){var $el=$orig.clone().css({"position":"static","left":null,"right":null}).appendTo(this);$orig.remove()}}}}).sortable()};var get_modal=function(content){var modal=$('<div class="modal" style="overflow: auto;" tabindex="-1">	<div class="modal-dialog"><div class="modal-content"><div class="modal-header"><a type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</a><h4 class="modal-title">编辑HTML</h4></div><div class="modal-body ui-front">	<textarea class="form-control" 	style="min-height: 200px; margin-bottom: 10px;font-family: Monaco, Fixed">'+content+'</textarea><button class="btn btn-success">更新HTML</button></div>				</div></div></div>').appendTo(document.body);return modal};$(document).on("click",".edit-link",function(ev){var $el=$(this).parent().parent();var $el_copy=$el.clone();var $edit_btn=$el_copy.find(".edit-link").parent().remove();var $modal=get_modal(html_beautify($el_copy.html())).modal("show");$modal.find(":input:first").focus();$modal.find(".btn-success").click(function(ev2){var html=$modal.find("textarea").val();if(!html){$el.remove()}else{$el.html(html);$edit_btn.appendTo($el)}$modal.modal("hide");return false})});$(document).on("click",".remove-link",function(ev){$(this).parent().parent().remove()});
+       $(".input-group.date").datetimepicker({
+    	   format: "yyyy-mm-dd hh:ii:ss",
+    	   minView: "month",
+    	   autoclose: true,
+    	   minView: 0,
+    	   minuteStep:1
+    	 });
+       </script>
+    <script type="text/javascript">
+		var prefix = ctx + "activiti/applicationLeave"
+		$("#form-applicationLeave-edit").validate({
+			rules:{
+				processInstanceId:{
+					required:true
+				},
+				beginDate:{
+					required:true
+				},
+				endDate:{
+					required:true
+				},
+				vacationType:{
+					required:true
+				},
+				reason:{
+					required:true
+				}
+				
+			},
+			
+			focusCleanup: true
+		});
+		//失去焦点计算日期
+		function caleday(){
+			$('#days').val("");
+			leaveTime("#beginDate","#endDate",caleEndFun); 
+		}
+		
+		function submitHandler() {
+	       if ($.validate.form()) {
+	            $.operate.save(prefix + "/reApplecationLeave", $('#form-applicationLeave-edit').serialize());
+	        }
+	    }
+		function caleEndFun(leaveTimeObje){
+			$('#days').val(leaveTimeObje)
+		}  
+
+		function leaveTime(timeStart,timeEnd,enFund){
+
+		    var starttime = $(timeStart).val();
+
+		    var endtime = $(timeEnd).val();
+
+		    var datetime1 = new Date(starttime), datetime2 = new Date(endtime);
+
+		    var date1 = datetime1.setHours(0,0,0);    //开始日期，毫秒表示
+
+		    var date2 = datetime2.setHours(0,0,0);    //结束日期，毫秒表示
+
+		    var starttimeleft=starttime.substring(0,10);//获取时间到月份
+
+		    var endtimeleft=endtime.substring(0,10);
+
+		    var beginDate = new Date(starttimeleft.replace(/-/g, "/"));
+
+		    var endDate = new Date(endtimeleft.replace(/-/g, "/"));
+
+		    var dayNum = parseInt(Math.abs(beginDate  -  endDate)  /  1000  /  60  /  60  /24);
+
+		    var startWeek = beginDate.getDay(); 
+
+		    var starHour=Number(starttime.substring(11,13));
+
+		    var endHour=Number(endtime.substring(11,13)); 
+
+		    var travelHours = 0;    //保存请假小时数
+
+		    var travelTimeHours = 0;
+
+		    var iNow = 0;
+
+		    var dayinweek= new Date(starttime).getDay();/////开始日期是星期几
+
+		    var dayendweek = new Date(endtime).getDay();//结束日期是星期几   
+
+			//////根据上班时间 9:00--18:00 把小时变换到工作时区内
+		    if(date1 ==date2 ){//开始结束时间均在一天
+		         if(starHour<=12 ){
+		             if(9<= endHour  && endHour<13){
+		                 travelHours =4;
+		             }else{
+		                 travelHours =8;
+		             }
+		         }else if(starHour>=13 ){
+		             travelHours =4;
+		         }
+		    }else{
+		        //如果开始时间小于8点，则计算工时的时候从8点开始计算
+		        if(starHour<9){
+		            starHour = 9;
+		        }
+		        //如果开始时间大于17点，
+		        if(starHour>18){
+		            starHour = 18;
+		        }
+		        if(endHour<9){
+		            endHour =9;
+		        }
+		        //1.3
+		        if(endHour>18){
+		            endHour = 18;
+		        }
+		         if(0< dayinweek && dayinweek <6 && dayendweek == 0 ||  0< dayinweek && dayinweek <6 && dayendweek == 6){
+		             travelTimeHours +=(weekendBetween(dayNum) - 1)*8; 
+		         }else if(0< dayendweek && dayendweek <6 && dayinweek == 0 ||  0< dayendweek && dayendweek <6 && dayinweek == 6 ){
+		             travelTimeHours +=(weekendBetween(dayNum) - 1)*8; 
+		         }else if(dayinweek !=6 && dayinweek !=0 && dayendweek !=6 && dayendweek !=0){
+		             travelTimeHours +=(weekendBetween(dayNum) - 2)*8; 
+		         }
+		        if(dayinweek !=6 && dayinweek !=0){
+		            if(starHour>=9 && starHour<=12){ 
+		                travelTimeHours+=8; 
+		            }
+		            if(starHour>=13 && starHour<=18){
+		                travelTimeHours+=4; 
+		            }
+		        }  
+		        if(dayendweek !=6 && dayendweek !=0){ 
+		            if(endHour>=9 && endHour<=12){
+		                travelTimeHours+=4; 
+		            } 
+		            if(endHour>=13 && endHour<=18){
+		                travelTimeHours+=8; 
+		            }
+		        } 
+		    var timeDays = travelHours / 8; 
+		    var travelTime = travelTimeHours /8;
+		    var travelTimeDay = timeDays + travelTime;
+		    if(enFund){
+		        enFund(travelTimeDay)
+		    }
+			// 去除周六日  ；
+		    function weekendBetween(dayNum){
+		        var iNow = 0; 
+		        dayNum =dayNum +1;
+		        for (var i=0; i<dayNum; i++) {
+
+		            var firstDay = startWeek % 7; 
+
+		            if(firstDay==0) firstDay=7;
+
+		            if (firstDay < 6) {
+		                iNow++;
+		            }
+		            if (firstDay == 7) {
+		                firstDay = 1;
+		            }
+		            startWeek ++;
+		        }
+		        return iNow;
+		    } 
+		  }
+		}
+		
+		function endHandler() {
+	        $.operate.save(prefix + "/endApprovalLeave/endLeave", $('#form-applicationLeave-edit').serialize());
+	    }
+	</script>
+</body>
+</html>

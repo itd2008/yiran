@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-tmApiResultCode-edit" th:object="${tmApiResultCode}">
+            <input id="apiResultCodeId" name="apiResultCodeId" th:field="*{apiResultCodeId}"  type="hidden">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">资金源编码：</label>
+				<div class="col-sm-8">
+					<input id="fundChannelCode" name="fundChannelCode" th:field="*{fundChannelCode}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">接口类型：</label>
+				<div class="col-sm-8">
+					<input id="apiType" name="apiType" th:field="*{apiType}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">结果编码：</label>
+				<div class="col-sm-8">
+					<input id="resultCode" name="resultCode" th:field="*{resultCode}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">结果子编码：</label>
+				<div class="col-sm-8">
+					<input id="resultSubCode" name="resultSubCode" th:field="*{resultSubCode}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">判断表达式，作为编码映射的一个补充：</label>
+				<div class="col-sm-8">
+					<input id="expression" name="expression" th:field="*{expression}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">描述模板，如不为空则优先使用：</label>
+				<div class="col-sm-8">
+					<input id="descriptionTemplate" name="descriptionTemplate" th:field="*{descriptionTemplate}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">统一结果编码：</label>
+				<div class="col-sm-8">
+					<input id="unityResultCode" name="unityResultCode" th:field="*{unityResultCode}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">订单状态。S（成功），F（失败），A（处理中），W（未知）：</label>
+				<div class="col-sm-8">
+					<input id="orderStatus" name="orderStatus" th:field="*{orderStatus}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">是否启用映射。Y（启用），N（不启用）：</label>
+				<div class="col-sm-8">
+					<input id="useMapping" name="useMapping" th:field="*{useMapping}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">创建时间：</label>
+				<div class="col-sm-8">
+					<input id="gmtCreate" name="gmtCreate" th:field="*{gmtCreate}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">最后修改时间：</label>
+				<div class="col-sm-8">
+					<input id="gmtModified" name="gmtModified" th:field="*{gmtModified}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<input id="memo" name="memo" th:field="*{memo}" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+    </div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "paychannel/tmApiResultCode";
+		$("#form-tmApiResultCode-edit").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/edit", $('#form-tmApiResultCode-edit').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

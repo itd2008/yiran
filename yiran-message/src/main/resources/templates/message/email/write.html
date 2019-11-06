@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link th:href="@{/ajax/libs/iCheck/custom.css}" rel="stylesheet"/>
+<link rel="stylesheet" th:href="@{/ajax/libs/froala/css/froala_editor.css}">
+<link rel="stylesheet" th:href="@{/ajax/libs/froala/css/froala_style.css}">
+<link rel="stylesheet" th:href="@{/ajax/libs/froala/css/plugins/code_view.css}">
+<link rel="stylesheet" th:href="@{/ajax/libs/froala/css/plugins/colors.css}">
+<link rel="stylesheet" th:href="@{/ajax/libs/froala/css/plugins/emoticons.css}">
+<link rel="stylesheet" th:href="@{/ajax/libs/froala/css/plugins/image_manager.css}">
+<link rel="stylesheet" th:href="@{/ajax/libs/froala/css/plugins/image.css}">
+<link rel="stylesheet" th:href="@{/ajax/libs/froala/css/plugins/line_breaker.css}">
+<link rel="stylesheet" th:href="@{/ajax/libs/froala/css/plugins/table.css}">
+<link rel="stylesheet" th:href="@{/ajax/libs/froala/css/plugins/char_counter.css}">
+<link rel="stylesheet" th:href="@{/ajax/libs/froala/css/plugins/video.css}">
+<link rel="stylesheet" th:href="@{/ajax/libs/froala/css/plugins/fullscreen.css}">
+<link rel="stylesheet" th:href="@{/ajax/libs/froala/css/plugins/file.css}">
+<link rel="stylesheet" th:href="@{/ajax/libs/froala/css/plugins/quick_insert.css}">
+<body class="gray-bg">
+	<div class="wrapper wrapper-content">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content mailbox-content">
+                        <div class="file-manager">
+                            <h5>文件夹</h5>
+                            <ul class="folder-list m-b-md" style="padding: 0" th:with="type=${@dict.getType('email_folder')}">
+                                <li th:each="dicts:${type}">
+                                	<a th:href="${dicts['dictLink']}" th:id="${dicts['dictCode']}" th:value="${dicts['dictValue']}">
+                                		<i th:class="${dicts['cssClass']}"></i>
+                                		<span th:for="${dicts['dictCode']}" th:text="${dicts['dictLabel']}"></span> 
+                                	</a>
+                                </li>
+                            </ul>
+                            <h5>分类</h5>
+                            <ul class="category-list" style="padding: 0" th:with="type=${@dict.getType('email_type')}">
+                                <li th:each="dicts:${type}">
+                                	<a th:href="${emailLink}==null?'0'+${dicts['dictLink']}:${emailLink}+${dicts['dictLink']}" th:id="${dicts['dictCode']}" th:value="${dicts['dictValue']}">
+                                		<i th:class="${dicts['cssClass']}"></i>
+                                		<span th:for="${dicts['dictCode']}" th:text="${dicts['dictLabel']}"></span> 
+                                	</a>
+                                </li>
+                            </ul>
+                            <h5 class="tag-title">标签</h5>
+                            <ul class="tag-list" style="padding: 0" th:with="type=${@dict.getType('email_label')}">
+                                <li th:each="dicts:${type}">
+                                	<a th:href="${emailLink}==null?'0'+${dicts['dictLink']}:${emailLink}+${dicts['dictLink']}" th:id="${dicts['dictCode']}" th:value="${dicts['dictValue']}">
+                                		<i class="fa fa-tag"></i> 
+                                		<span th:for="${dicts['dictCode']}" th:text="${dicts['dictLabel']}"></span> 
+                                	</a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-9 animated fadeInRight">
+                <div class="mail-box-header">
+<!--                     <div class="pull-right tooltip-demo"> -->
+<!--                         <a onclick="$.operate.href('tool/email')" class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="存为草稿"><i class="fa fa-pencil"></i> 存为草稿</a> -->
+<!--                         <a onclick="$.operate.href('tool/email')" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="放弃"><i class="fa fa-times"></i> 放弃</a> -->
+<!--                     </div> -->
+                    <h2> 写信  </h2>
+                </div>
+                <div class="mail-box">
+                	<form class="form-horizontal" id="form-email-write">
+	                    <div class="mail-body">
+	                    	<div class="tabs-container">
+			                    <ul class="nav nav-tabs">
+			                        <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true" data-value="0"> 网 站 内 部 信</a></li>
+			                        <li class=""><a data-toggle="tab" href="#tab-2" aria-expanded="false" data-value="1"> 网 站 外 部 信</a></li>
+			                    </ul>
+			                    <div class="tab-content">
+			                        <div id="tab-1" class="tab-pane active">
+			                            <div class="panel-body">
+			                            	<input type="hidden" class="form-control" name="emailSite" value="0">
+				                            <div class="form-group">
+				                                <label class="col-sm-2 control-label">发送给：</label>
+				                                <div class="col-sm-10">
+					                                <select id="user" name="user" class="form-control select2-hidden-accessible" multiple="">
+														<option th:each="user:${users}" th:value="${user.userId}" th:text="${user.userName}" th:disabled="${user.status == '1'}"></option>
+													</select>
+												</div>
+				                            </div>
+				                            <div class="form-group">
+				                                <label class="col-sm-2 control-label">主题：</label>
+				                                <div class="col-sm-10">
+				                                    <input type="text" class="form-control" name="in_emailSubject">
+				                                </div>
+				                            </div>
+				                            <div class="form-group">
+				                                <label class="col-sm-2 control-label">分类：</label>
+				                                <div class="col-sm-10" th:with="type=${@dict.getType('email_type')}">
+				                                   <label th:each="dicts:${type}" class="checkbox-inline i-checks" >
+														<input name="emailType" type="checkbox" th:id="${dicts['dictCode']}" th:value="${dicts['dictValue']}">
+												  		<span th:for="${dicts['dictCode']}" th:text="${dicts['dictLabel']}"></span>
+												   </label>
+				                                </div>
+				                            </div>
+				                            <div class="form-group">
+				                                <label class="col-sm-2 control-label">标签：</label>
+				                                <div class="col-sm-10" th:with="type=${@dict.getType('email_label')}">
+				                                   <label th:each="dicts:${type}" class="checkbox-inline i-checks" >
+														<input name="emailLabel" type="checkbox" th:id="${dicts['dictCode']}" th:value="${dicts['dictValue']}">
+												  		<span th:for="${dicts['dictCode']}" th:text="${dicts['dictLabel']}"></span>
+												   </label>
+				                                </div>
+				                            </div>
+			                            </div>
+			                        </div>
+			                        <div id="tab-2" class="tab-pane">
+			                            <div class="panel-body" style="dispaly:none">
+			                            	<input type="hidden" class="form-control" name="emailSite" value="1">
+				                            <div class="form-group">
+				                                <label class="col-sm-2 control-label">发送给：</label>
+				                                <div class="col-sm-10">
+				                                    <input type="text" class="form-control" name="toUserEmails" placeholder="PS：多个邮箱使用“,”分隔;注意邮箱输入格式，发不出去别怨我哦">
+				                                </div>
+				                            </div>
+				                            <div class="form-group">
+				                                <label class="col-sm-2 control-label">主题：</label>
+				                                <div class="col-sm-10">
+				                                    <input type="text" class="form-control" name="out_emailSubject">
+				                                </div>
+				                            </div>
+				                            <div class="form-group">
+				                                <label class="col-sm-2 control-label">分类：</label>
+				                                <div class="col-sm-10" th:with="type=${@dict.getType('email_type')}">
+				                                   <label th:each="dicts:${type}" class="checkbox-inline i-checks" >
+														<input name="emailType" type="checkbox" th:id="${dicts['dictCode']}" th:value="${dicts['dictValue']}">
+												  		<span th:for="${dicts['dictCode']}" th:text="${dicts['dictLabel']}"></span>
+												   </label>
+				                                </div>
+				                            </div>
+				                            <div class="form-group">
+				                                <label class="col-sm-2 control-label">标签：</label>
+				                                <div class="col-sm-10" th:with="type=${@dict.getType('email_label')}">
+				                                   <label th:each="dicts:${type}" class="checkbox-inline i-checks" >
+														<input name="emailLabel" type="checkbox" th:id="${dicts['dictCode']}" th:value="${dicts['dictValue']}">
+												  		<span th:for="${dicts['dictCode']}" th:text="${dicts['dictLabel']}"></span>
+												   </label>
+				                                </div>
+				                            </div>
+			                            </div>
+			                        </div>
+			                    </div>
+			                </div>
+	                    </div>
+	                    <div class="mail-text h-200">
+	                        <div id="editor">
+							    <div id='edit'></div>
+							</div>
+	                    </div>
+	                    <div class="mail-body text-right tooltip-demo">
+	                    	<button class="btn btn-sm btn-primary" onclick="sendEmail()" data-toggle="tooltip" data-placement="top" title="发送"><i class="fa fa-reply"></i>&nbsp;发送</button>
+	                    	<button class="btn btn-danger btn-sm" onclick="$.operate.href('message/email/0')" data-toggle="tooltip" data-placement="top" title="放弃"><i class="fa fa-times"></i>&nbsp;放弃</button>
+	                    	<button type="submit" class="btn btn-info btn-sm" onclick="saveToRough()" data-toggle="tooltip" data-placement="top" title="存为草稿"><i class="fa fa-pencil"></i>&nbsp;存为草稿</button>
+	                    </div>
+	                    <div class="clearfix"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:include="include :: footer"></div>
+    <script th:src="@{/ajax/libs/select/select2.js}"></script>
+    <script th:src="@{/ajax/libs/iCheck/icheck.min.js}"></script>
+    <script type="text/javascript" th:src="@{/ajax/libs/froala/js/froala_editor.min.js}" ></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/align.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/code_beautifier.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/code_view.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/colors.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/draggable.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/emoticons.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/font_size.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/font_family.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/image.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/file.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/image_manager.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/line_breaker.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/link.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/lists.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/paragraph_format.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/paragraph_style.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/video.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/table.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/url.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/entities.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/char_counter.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/inline_style.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/quick_insert.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/save.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/fullscreen.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/plugins/quote.min.js}"></script>
+	<script type="text/javascript" th:src="@{/ajax/libs/froala/js/languages/zh_cn.js}"></script>
+    <script>
+    	//定义全局参数
+    	var emailSite = "0";
+	    $(function(){
+	    	//Tab清空
+	    	$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+	    		formReset(e);
+	        });
+	    	//富文本框初始化
+	        $('#edit').froalaEditor({
+	    		language: 'zh_cn',
+	    		tabSpaces: 4,
+	    		heightMin: 155
+	        })
+	        $("#form-email-write").validate({
+	        	rules:{
+	        		user:{
+	        			required:true,
+	        		},
+	        		in_emailSubject:{
+	        			required:true,
+	        		}
+	        	}
+	        });
+	    });
+
+        function sendEmail() {
+        	if($("#form-email-write").valid()){
+        		//此处分为两个网关，方便维护
+            	var email,url;
+            	if(emailSite == 0 ){
+            		email = {
+            			emailSite:emailSite,
+            			toUserIds:$.form.selectSelects("user"),
+            			emailSubject:$("input[name='in_emailSubject']").val(),
+            			emailType:$.form.selectCheckeds("emailType"),
+            			emailLabel:$.form.selectCheckeds("emailLabel"),
+            			emailContent:$('.fr-view').html()
+            		}
+            		url = ctx + "message/email/sendWithInside";
+            	}else{
+            		email = {
+               			emailSite:emailSite,
+               			toUserEmails:$("input[name='toUserEmails']").val(),
+               			emailSubject:$("input[name='out_emailSubject']").val(),
+               			emailType:$.form.selectCheckeds("emailType"),
+               			emailLabel:$.form.selectCheckeds("emailLabel"),
+               			emailContent:$('.fr-view').html()
+               		}
+            		url = ctx + "message/email/sendWithOutside";
+            	}
+            	//开始发送
+              	$.operate.submit(url,"POST","json",email);
+        	}
+        }
+        
+        function saveToRough(){
+        	if($("#form-email-write").valid()){
+	       		var email,url;
+	           	if(emailSite == 0 ){
+	           		email = {
+	           			emailSite:emailSite,
+	           			toUserIds:$.form.selectSelects("user"),
+	           			emailSubject:$("input[name='in_emailSubject']").val(),
+	           			emailType:$.form.selectCheckeds("emailType"),
+	           			emailLabel:$.form.selectCheckeds("emailLabel"),
+	           			emailFolder:2,
+	           			emailContent:$('.fr-view').html()
+	           		}
+	           	}else{
+	           		email = {
+	           			emailSite:emailSite,
+	           			toUserEmails:$("input[name='toUserEmails']").val(),
+	           			emailSubject:$("input[name='out_emailSubject']").val(),
+	           			emailType:$.form.selectCheckeds("emailType"),
+	           			emailLabel:$.form.selectCheckeds("emailLabel"),
+	           			emailFolder:2,
+	           			emailContent:$('.fr-view').html()
+	           		}
+	           	}
+	           	url = ctx + "message/email/saveToRough";
+	           	$.operate.submit(url,"POST","json",email);
+        	}
+        }
+        
+        function formReset(e){
+        	emailSite = $(e.target).attr('data-value');
+    		$("#user").val(null).trigger("change");
+    		$("input[name='toUserEmails']").val('');
+    		$("input[name='in_emailSubject']").val('');
+    		$("input[name='out_emailSubject']").val('');
+			$("input:checkbox[name='emailType']:checked").iCheck('uncheck');
+			$("input:checkbox[name='emailLabel']:checked").iCheck('uncheck');
+			paramValidateMake(emailSite);  
+        }
+       
+        var paramValidateMake=function(e){  
+            if(e == 0){
+           		$("#user").rules("add",{required:true}); 
+                $("input[name='in_emailSubject']").rules("add",{required:true});
+           	    $("input[name='toUserEmails']").rules("remove"); 
+           	    $("input[name='out_emailSubject']").rules("remove"); 
+            }else if(e == 1){
+            	$("#user").rules("remove");  
+                $("input[name='in_emailSubject']").rules("remove"); 
+                $("input[name='toUserEmails']").rules("add",{required:true}); 
+             	$("input[name='out_emailSubject']").rules("add",{required:true}); 
+            }
+        }  
+    </script>
+</body>
+</html>

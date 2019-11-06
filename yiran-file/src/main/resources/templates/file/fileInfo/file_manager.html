@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org"
+	xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<title>文件管理器</title>
+<link rel="stylesheet" th:href="@{/product/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/product/css/font-awesome.css}" />
+<link rel="stylesheet" th:href="@{/product/css/animate.css}" />
+<link rel="stylesheet" th:href="@{/product/css/style.css}" />
+<body>
+
+	<div id="wrapper">
+			<div class="wrapper wrapper-content">
+				<div class="row">
+					<div class="col-sm-3">
+						<div class="ibox float-e-margins">
+							<div class="ibox-content">
+								<div class="file-manager">
+									<h5>显示:</h5>
+									<a th:href="@{/file/fileInfo/filemanager/0}"  th:class="${file_top_all_class}">全部</a> 
+									<a th:href="@{/file/fileInfo/filemanager/1}"  th:class="${file_top_file_class}">文档</a> 
+									<a th:href="@{/file/fileInfo/filemanager/4}"  th:class="${file_top_audio_class}">音乐</a>
+									<a th:href="@{/file/fileInfo/filemanager/2}"  th:class="${file_top_picture_class}">图片</a>
+									<a th:href="@{/file/fileInfo/filemanager/3}"  th:class="${file_top_video_class}">视频</a>
+									<div class="hr-line-dashed"></div>
+									<button class="btn btn-primary btn-block" onclick="$.operate.upload()">上传文件</button>
+									<div class="hr-line-dashed"></div>
+									<h5>文件夹</h5>
+									<ul class="folder-list" style="padding: 0">
+										<li><a th:href="@{/file/fileInfo/filemanager/1}"><i th:class="${file_b_file_class}"></i> 文档</a></li>
+										<li><a th:href="@{/file/fileInfo/filemanager/2}"><i th:class="${file_b_picture_class}"></i> 图片</a></li>
+										<li><a th:href="@{/file/fileInfo/filemanager/4}"><i th:class="${file_b_audio_class}"></i> 音乐</a></li>
+										<li><a th:href="@{/file/fileInfo/filemanager/3}"><i th:class="${file_b_video_class}"></i> 视频</a></li>
+										<li><a th:href="@{/file/fileInfo/filemanager/5}"><i th:class="${file_b_Otherclass}"></i> 其它</a></li>
+									</ul>
+									
+									<div class="clearfix"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-9 animated fadeInRight">
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="file-box" th:each="f: ${list}">
+									<div class="file">
+										<span class="corner"></span>
+										
+										<div class="icon" th:if="${f.suffix ne 'jpg'}">
+											<i th:class="${f.cssStyle}"></i>
+										</div>
+										<div class="image" th:if="${f.suffix eq 'jpg'}" >
+                                            <img alt="image" class="img-responsive" style="width: 200px;height: 100px;" th:src="${f.ossUrl}">
+                                        </div>
+										<div class="file-name">
+											<span th:text="${f.newName}"></span> <br /> 
+											<small><a th:href="${f.ossUrl}" target="_blank" >预览</a>&nbsp;&nbsp;
+											&nbsp;&nbsp;
+											<a href="#" th:onclick="'javascript:deleteFile('+${f.id}+')'">删除</a></small>
+										</div>
+									</div>
+								</div>
+								
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	<!-- Mainly scripts -->
+	<script th:src="@{/product/js/bootstrap.min.js}"></script>
+	<script th:src="@{/product/js/jquery-3.1.1.min.js}"></script>
+	<script th:src="@{/product/js/jquery.metisMenu.js}"></script>
+	<script th:src="@{/product/js/jquery.slimscroll.min.js}"></script>
+	<script th:src="@{/ajax/libs/blockUI/jquery.blockUI.js}"></script>
+	<script th:src="@{/ajax/libs/layer/layer.min.js}"></script>
+	<script th:src="@{/ajax/libs/layui/layui.js}"></script>
+	<script th:src="@{/yiran/js/common.js}"></script>
+	<script th:src="@{/yiran/js/ry-ui.js}"></script>
+
+	<!-- Custom and plugin javascript -->
+	<script th:src="@{/product/js/pace.min.js}"></script>
+	<script th:src="@{/product/js/inspinia.js}"></script>
+	<script th:inline="javascript"> var ctx = [[@{/}]]; </script>
+	<script th:inline="javascript">
+	    var prefix = ctx + "file/fileInfo"
+	    
+        $(document).ready(function(){
+            $('.file-box').each(function() {
+                animationHover(this, 'pulse');
+            });
+            var options = {
+            	uploadUrl: prefix + "/uploadMode",
+            }
+            $.table.init(options);
+        });
+	    //下载
+	    function dowloadFile(id){
+	    	location.href=prefix + "/dowload/"+id;
+	    }
+	    //删除
+	    function deleteFile(id){
+	    	$.modal.confirm("确定删除信息吗？", function() {
+            	var url = prefix + "/delete/"+id;
+            	$.operate.submit(url, "get", "json","");
+            	$.modal.msgReload("文件删除成功！","success");
+        	});
+	    }
+	    //显示
+	    function showFile(id){
+	    	createMenuItem(prefix + "/show/"+id, "预览");
+	    	//$.modal.openFull("预览", prefix + "/show/"+id);
+	    }
+    </script>
+</body>
+
+</html>

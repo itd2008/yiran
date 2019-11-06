@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.member.mapper.MemberTmMemberMapper">
+    
+    <resultMap type="MemberTmMember" id="MemberTmMemberResult">
+        <result property="memberId"    column="member_id"    />
+        <result property="memberName"    column="member_name"    />
+        <result property="memberShortName"    column="member_short_name"    />
+        <result property="memberType"    column="member_type"    />
+        <result property="status"    column="status"    />
+        <result property="lockStatus"    column="lock_status"    />
+        <result property="fromIp"    column="from_ip"    />
+        <result property="activeTime"    column="active_time"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createUser"    column="create_user"    />
+        <result property="updateUser"    column="update_user"    />
+        <result property="memo"    column="memo"    />
+        <result property="registerSource"    column="register_source"    />
+        <result property="verifyLevel"    column="verify_level"    />
+        <result property="invitCode"    column="invit_code"    />
+        <result property="registerSourceExt"    column="register_source_ext"    />
+    </resultMap>
+	
+	<sql id="selectMemberTmMemberVo">
+        select member_id, member_name, member_short_name, member_type, status, lock_status, from_ip, active_time, create_time, update_time, create_user, update_user, memo, register_source, verify_level, invit_code, register_source_ext from member_tm_member
+    </sql>
+	
+    <select id="selectMemberTmMemberList" parameterType="MemberTmMember" resultMap="MemberTmMemberResult">
+        <include refid="selectMemberTmMemberVo"/>
+        <where>  
+            <if test="memberId != null  and memberId != '' "> and member_id = #{memberId}</if>
+             <if test="memberName != null  and memberName != '' "> and member_name = #{memberName}</if>
+             <if test="memberShortName != null  and memberShortName != '' "> and member_short_name = #{memberShortName}</if>
+             <if test="memberType != null "> and member_type = #{memberType}</if>
+             <if test="status != null "> and status = #{status}</if>
+             <if test="lockStatus != null "> and lock_status = #{lockStatus}</if>
+             <if test="fromIp != null  and fromIp != '' "> and from_ip = #{fromIp}</if>
+             <if test="activeTime != null "> and active_time = #{activeTime}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="createUser != null  and createUser != '' "> and create_user = #{createUser}</if>
+             <if test="updateUser != null  and updateUser != '' "> and update_user = #{updateUser}</if>
+             <if test="memo != null  and memo != '' "> and memo = #{memo}</if>
+             <if test="registerSource != null "> and register_source = #{registerSource}</if>
+             <if test="verifyLevel != null "> and verify_level = #{verifyLevel}</if>
+             <if test="invitCode != null  and invitCode != '' "> and invit_code = #{invitCode}</if>
+             <if test="registerSourceExt != null  and registerSourceExt != '' "> and register_source_ext = #{registerSourceExt}</if>
+         </where>
+    </select>
+    
+    <select id="selectMemberTmMemberById" parameterType="String" resultMap="MemberTmMemberResult">
+        <include refid="selectMemberTmMemberVo"/>
+        where member_id = #{memberId}
+    </select>
+    
+    <select id="lockMemberById" parameterType="String" resultMap="MemberTmMemberResult">
+        <include refid="selectMemberTmMemberVo"/>
+        where member_id = #{memberId} for update
+    </select>
+        
+    <insert id="insertMemberTmMember" parameterType="MemberTmMember">
+        insert into member_tm_member
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="memberId != null  and memberId != ''  ">member_id,</if>
+			<if test="memberName != null  and memberName != ''  ">member_name,</if>
+			<if test="memberShortName != null  and memberShortName != ''  ">member_short_name,</if>
+			<if test="memberType != null  ">member_type,</if>
+			<if test="status != null  ">status,</if>
+			<if test="lockStatus != null  ">lock_status,</if>
+			<if test="fromIp != null  and fromIp != ''  ">from_ip,</if>
+			<if test="activeTime != null  ">active_time,</if>
+			<if test="memo != null  and memo != ''  ">memo,</if>
+			<if test="registerSource != null  ">register_source,</if>
+			<if test="verifyLevel != null  ">verify_level,</if>
+			<if test="invitCode != null  and invitCode != ''  ">invit_code,</if>
+			<if test="registerSourceExt != null  and registerSourceExt != ''  ">register_source_ext,</if>
+			create_time,
+			update_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="memberId != null  and memberId != ''  ">#{memberId},</if>
+			<if test="memberName != null  and memberName != ''  ">#{memberName},</if>
+			<if test="memberShortName != null  and memberShortName != ''  ">#{memberShortName},</if>
+			<if test="memberType != null  ">#{memberType},</if>
+			<if test="status != null  ">#{status},</if>
+			<if test="lockStatus != null  ">#{lockStatus},</if>
+			<if test="fromIp != null  and fromIp != ''  ">#{fromIp},</if>
+			<if test="activeTime != null  ">#{activeTime},</if>
+			<if test="memo != null  and memo != ''  ">#{memo},</if>
+			<if test="registerSource != null  ">#{registerSource},</if>
+			<if test="verifyLevel != null  ">#{verifyLevel},</if>
+			<if test="invitCode != null  and invitCode != ''  ">#{invitCode},</if>
+			<if test="registerSourceExt != null  and registerSourceExt != ''  ">#{registerSourceExt},</if>
+			sysdate(),
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateMemberTmMember" parameterType="MemberTmMember">
+        update member_tm_member
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="memberName != null  and memberName != ''  ">member_name = #{memberName},</if>
+            <if test="memberShortName != null  and memberShortName != ''  ">member_short_name = #{memberShortName},</if>
+            <if test="memberType != null  ">member_type = #{memberType},</if>
+            <if test="status != null  ">status = #{status},</if>
+            <if test="lockStatus != null  ">lock_status = #{lockStatus},</if>
+            <if test="fromIp != null  and fromIp != ''  ">from_ip = #{fromIp},</if>
+            <if test="activeTime != null  ">active_time = #{activeTime},</if>
+            <if test="memo != null  and memo != ''  ">memo = #{memo},</if>
+            <if test="registerSource != null  ">register_source = #{registerSource},</if>
+            <if test="verifyLevel != null  ">verify_level = #{verifyLevel},</if>
+            <if test="invitCode != null  and invitCode != ''  ">invit_code = #{invitCode},</if>
+            <if test="registerSourceExt != null  and registerSourceExt != ''  ">register_source_ext = #{registerSourceExt},</if>
+            update_time = sysdate()
+        </trim>
+        where member_id = #{memberId}
+    </update>
+    
+     <update id="updateActiveTime" parameterType="MemberTmMember">
+        update member_tm_member set
+            status = #{status},
+            active_time = sysdate(),
+            update_time = sysdate()
+        where member_id = #{memberId}
+    </update>
+    
+    <update id="updateMember" parameterType="MemberTmMember">
+        update member_tm_member set
+            status = #{status},
+            update_time = sysdate()
+        where member_id = #{memberId}
+    </update>
+    
+    <update id="updateLockStatus" parameterType="MemberTmMember">
+         update member_tm_member set 
+	         lock_status=#{lockStatus}, 
+	         update_user=#{updateUser}, 
+	         update_time=sysdate() 
+         where member_id = #{memberId}
+    </update>
+    
+    <update id="getMemberByIdForUpdate" parameterType="String" >
+        SELECT
+			member_id,
+			member_name,
+			member_short_name,
+			member_type,
+			STATUS,
+			lock_status,
+			from_ip,
+			active_time,
+			create_time,
+			update_time,
+			create_user,
+			update_user,
+			memo,
+			register_source,
+			verify_level,
+			invit_code,
+			register_source_ext
+		FROM
+			member_tm_member
+		where member_id = #{memberId}
+		 for UPDATE
+    </update>
+
+	<delete id="deleteMemberTmMemberById" parameterType="String">
+        delete from member_tm_member where member_id = #{memberId}
+    </delete>
+	
+    <delete id="deleteMemberTmMemberByIds" parameterType="String">
+        delete from member_tm_member where member_id in 
+        <foreach item="memberId" collection="array" open="(" separator="," close=")">
+            #{memberId}
+        </foreach>
+    </delete>
+    
+</mapper>

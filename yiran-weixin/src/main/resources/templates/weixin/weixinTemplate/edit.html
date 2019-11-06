@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-weixinTemplate-edit" th:object="${weixinTemplate}">
+            <input id="id" name="id" th:field="*{id}"  type="hidden">
+            <div class="form-group">	
+                <label class="col-sm-3 control-label">模板KEY：</label>
+                <div class="col-sm-8">
+                    <input id="templateKey" name="templateKey" th:field="*{templateKey}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">	
+                <label class="col-sm-3 control-label">模板Id：</label>
+                <div class="col-sm-8">
+                    <input id="templateId" name="templateId" th:field="*{templateId}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">	
+                <label class="col-sm-3 control-label">模板标题：</label>
+                <div class="col-sm-8">
+                    <input id="templateTitle" name="templateTitle" th:field="*{templateTitle}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">	
+                <label class="col-sm-3 control-label">模板内容：</label>
+                <div class="col-sm-8">
+					<textarea id="templateContent" name="templateContent" rows="5" cols="65" th:field="*{templateContent}"></textarea>
+				</div>
+            </div>
+            
+            <div class="form-group">	
+                <label class="col-sm-3 control-label">模板行业：</label>
+                <div class="col-sm-8">
+                    <input id="templateIndustry" name="templateIndustry" th:field="*{templateIndustry}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">	
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <input id="remark" name="remark" th:field="*{remark}" class="form-control" type="text">
+                </div>
+            </div>
+		</form>
+    </div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+	    function CKupdate(){
+			for (instance in CKEDITOR.instances){
+	    		CKEDITOR.instances[instance].updateElement();       
+	    	}  
+		}   
+		var prefix = ctx + "weixin/weixinTemplate"
+		$("#form-weixinTemplate-edit").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	        	$.operate.save(prefix + "/save", $('#form-weixinTemplate-edit').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link th:href="@{/yiran/css/ry-ui.css}" rel="stylesheet"/>
+<style>
+    .droppable-active{background-color:#ffe!important}.tools a{cursor:pointer;font-size:80%}.form-body .col-md-6,.form-body .col-md-12{min-height:400px}.draggable{cursor:move}
+</style>
+<body class="gray-bg">
+    <div class="wrapper wrapper-content">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>请输入<span style="color: red;">Ticket</span></h5>
+                    </div>
+                    <div class="ibox-content">
+                        <form id="decrypt-from" class="form-horizontal m">
+                            <div class="form-group draggable">
+                                <label class="col-sm-3 control-label">Ticket：</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="ticket" id="ticket" class="form-control" placeholder="请输入Ticket">
+                                </div>
+                            </div>
+                            <div class="form-group draggable">
+                                <div class="col-sm-12 col-sm-offset-3">
+									<button type="button" class="btn btn-primary" onclick="submitHandler()">解密</button>
+                                </div>
+                            </div>
+                            </form>
+                            <div class="hr-line-dashed"></div>
+                            <h5>下面是<span style="color: red;">原文</span></h5>
+                            <div class="form-group draggable">
+                            	<label class="col-sm-3 control-label">原文：</label>
+                                <div class="col-sm-9">
+                                    <textarea type="text" name="originalText" id="originalText" class="form-control" readonly="readonly" placeholder="解密后才能有结果....."></textarea>
+                                </div>
+                            </div>
+                        
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+   <div th:include="include :: footer"></div>
+   <script th:src="@{/js/jquery-ui-1.10.4.min.js}"></script>
+   <script th:src="@{/ajax/libs/beautifyhtml/beautifyhtml.js}"></script>
+   <script type="text/javascript">
+	    var prefix = ctx + "tool/uesEnData";
+		function submitHandler() {
+			var ticket = $("#ticket").val();
+			if(ticket == ""){
+				$.modal.alertError("解密ticket不能为空！");
+				return false;
+			}
+	        var config = {
+        	        url: prefix + "/decrypt",
+        	        type: "post",
+        	        dataType: "json",
+        	        data: $('#decrypt-from').serialize(),
+        	        success: function(result) {
+                       	$("#originalText").html(result.data);
+        	        }
+        	    };
+        	    $.ajax(config)
+	    }
+	</script>
+</body>
+</html>

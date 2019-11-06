@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.wechat.mapper.WechatProductAndSpecificationMapper">
+    
+    <resultMap type="WechatProductAndSpecification" id="WechatProductAndSpecificationResult">
+        <result property="productAndSpecificationId"    column="product_and_specification_id"    />
+        <result property="productId"    column="product_id"    />
+        <result property="productSpecificationId"    column="product_specification_id"    />
+        <result property="stock"    column="stock"    />
+        <result property="price"    column="price"    />
+        <result property="intro"    column="intro"    />
+    </resultMap>
+	
+	<sql id="selectWechatProductAndSpecificationVo">
+        select product_and_specification_id, product_id, product_specification_id, stock, price, intro from wechat_product_and_specification
+    </sql>
+	
+    <select id="selectWechatProductAndSpecificationList" parameterType="WechatProductAndSpecification" resultMap="WechatProductAndSpecificationResult">
+        <include refid="selectWechatProductAndSpecificationVo"/>
+        <where>  
+            <if test="productAndSpecificationId != null "> and product_and_specification_id = #{productAndSpecificationId}</if>
+             <if test="productId != null  and productId != '' "> and product_id = #{productId}</if>
+             <if test="productSpecificationId != null  and productSpecificationId != '' "> and product_specification_id = #{productSpecificationId}</if>
+             <if test="stock != null  and stock != '' "> and stock = #{stock}</if>
+             <if test="price != null  and price != '' "> and price = #{price}</if>
+             <if test="intro != null  and intro != '' "> and intro = #{intro}</if>
+         </where>
+    </select>
+    
+    <select id="selectWechatProductAndSpecificationById" parameterType="Integer" resultMap="WechatProductAndSpecificationResult">
+        <include refid="selectWechatProductAndSpecificationVo"/>
+        where product_and_specification_id = #{productAndSpecificationId}
+    </select>
+    
+     <select id="selectWechatProductAndSpecificationByProductIdAndSpecificationId"  resultMap="WechatProductAndSpecificationResult">
+        <include refid="selectWechatProductAndSpecificationVo"/>
+        where product_id = #{productId}
+        	and product_specification_id = #{specificationId}
+    </select>
+        
+    <insert id="insertWechatProductAndSpecification" parameterType="WechatProductAndSpecification" useGeneratedKeys="true" keyProperty="productAndSpecificationId">
+        insert into wechat_product_and_specification
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="productId != null  and productId != ''  ">product_id,</if>
+			<if test="productSpecificationId != null  and productSpecificationId != ''  ">product_specification_id,</if>
+			<if test="stock != null  and stock != ''  ">stock,</if>
+			<if test="price != null  and price != ''  ">price,</if>
+			<if test="intro != null  and intro != ''  ">intro,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="productId != null  and productId != ''  ">#{productId},</if>
+			<if test="productSpecificationId != null  and productSpecificationId != ''  ">#{productSpecificationId},</if>
+			<if test="stock != null  and stock != ''  ">#{stock},</if>
+			<if test="price != null  and price != ''  ">#{price},</if>
+			<if test="intro != null  and intro != ''  ">#{intro},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateWechatProductAndSpecification" parameterType="WechatProductAndSpecification">
+        update wechat_product_and_specification
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="productId != null  and productId != ''  ">product_id = #{productId},</if>
+            <if test="productSpecificationId != null  and productSpecificationId != ''  ">product_specification_id = #{productSpecificationId},</if>
+            <if test="stock != null  and stock != ''  ">stock = #{stock},</if>
+            <if test="price != null  and price != ''  ">price = #{price},</if>
+            <if test="intro != null  and intro != ''  ">intro = #{intro},</if>
+        </trim>
+        where product_and_specification_id = #{productAndSpecificationId}
+    </update>
+
+	<delete id="deleteWechatProductAndSpecificationById" parameterType="Integer">
+        delete from wechat_product_and_specification where product_and_specification_id = #{productAndSpecificationId}
+    </delete>
+	
+    <delete id="deleteWechatProductAndSpecificationByIds" parameterType="String">
+        delete from wechat_product_and_specification where product_and_specification_id in 
+        <foreach item="productAndSpecificationId" collection="array" open="(" separator="," close=")">
+            #{productAndSpecificationId}
+        </foreach>
+    </delete>
+    
+</mapper>

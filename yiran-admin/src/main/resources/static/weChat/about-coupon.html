@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>优惠券</title>
+		<meta name="keywords" content="KEYWORDS..." />
+		<meta name="description" content="DESCRIPTION..." />
+		<meta name="author" content="DeathGhost" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name='apple-touch-fullscreen' content='yes'>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no">
+		<meta name="format-detection" content="address=no">
+		<meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, user-scalable=no">
+		<link rel="stylesheet" type="text/css" href="css/coupon/style.css" />
+		<link rel="stylesheet" type="text/css" href="css/coupon/reset.css" />
+	</head>
+
+	<body>
+	<dl class="tab_proList">
+		<dt>
+		  <a>未使用</a>
+		  <a>已使用</a>
+		  <a>已过期</a>
+		</dt>
+		<dd >
+			<ul id="notUsedList"></ul>
+		</dd>
+		<dd id="bgImg-user1">
+			<ul id="usedList"></ul>
+		</dd>
+		<dd id="bgImg-user" >
+			<ul id="expiredList"></ul>
+		</dd>
+	</dl>
+
+		<script src="lib/jquery-2.1.4.js"></script> 
+		<script src="js/swiper.min.js"></script>
+		<script type="text/javascript" src="js/config.js"></script>
+		<script>
+			//获取总金额
+			var temp_total_money = sessionStorage.temp_total_money;
+			$(document).ready(function() {
+				console.info("总金额："+temp_total_money);
+				//获取当前用户优惠券
+				$.ajax({
+					type: "post",
+					url: base_url+"/api/yiran/weChatMall/product/queryCouponByOpenId/"+sessionStorage.openId,
+					async: false, //同步
+					success: function (data) {
+						console.info(data)
+						//未使用的优惠券
+						var notUsedList = data.data.notUsedList;
+						var notUsedListHtml ="";
+						//使用过的优惠券
+						var usedList = data.data.usedList;
+						var usedListHtml ="";
+						//已过期的优惠券
+						var expiredList = data.data.expiredList;
+						var expiredListHtml ="";
+						
+						if(notUsedList.length > 0){
+							for(var i=0;i<notUsedList.length;i++){
+								notUsedListHtml += "<li class='coupon-list'><a href='javascript:useCoupons(\""+notUsedList[i].serialNo+"\")' class='clearfix'><div class='fl coupon-left' ><h1 class='f05 fl line-height14 colorfff'>¥<em id='coupon_money_"+notUsedList[i].serialNo+"'>"+notUsedList[i].faceValue+"</em></h1><h2 class='f032 fl colorfff mt10 ml5 line-height-02rem'>YUAN</br>优惠券</h2></div><div class='fr coupon-right f028 '><p>1."+notUsedList[i].conditionDesc+"</p><p style='line-height:0.35rem'>2.有限期至："+new Date((new Date(notUsedList[i].endTime)).getTime()).format("yyyy-MM-dd hh:mm:ss")+"</p></div></a><input type='hidden' id='serialNo_"+notUsedList[i].serialNo+"' value='"+notUsedList[i].conditionValue+"'/></li>";
+							}
+						}
+						$("#notUsedList").html(notUsedListHtml);
+						if(usedList.length > 0){
+							for(var i=0;i<usedList.length;i++){
+								usedListHtml += "<li class='coupon-list'><a href='javascript:void(0)' class='clearfix'><div class='fl coupon-left'><h1 class='f05 fl line-height14 colorfff'>¥<em>"+usedList[i].faceValue+"</em></h1><h2 class='f032 fl colorfff mt10 ml5 line-height-02rem'>YUAN</br>优惠券</h2></div><div class='fr coupon-right f028 '><p>1."+usedList[i].conditionDesc+"</p><p style='line-height:0.35rem'>2.有限期至："+new Date((new Date(usedList[i].endTime)).getTime()).format("yyyy-MM-dd hh:mm:ss")+"</p></div><div class='syImg'><img src='img/sy.png' /></div></a><input type='hidden' id='serialNo_"+usedList[i].serialNo+"' value='"+usedList[i].conditionValue+"'/></li>";
+							}
+						}
+						$("#usedList").html(usedListHtml);
+						if(expiredList.length > 0){
+							for(var i=0;i<expiredList.length;i++){
+								expiredListHtml += "<li class='coupon-list'><a href='javascript:void(0)' class='clearfix'><div class='fl coupon-left'><h1 class='f05 fl line-height14 colorfff'>¥<em>"+expiredList[i].faceValue+"</em></h1><h2 class='f032 fl colorfff mt10 ml5 line-height-02rem'>YUAN</br>优惠券</h2></div><div class='fr coupon-right f028 '><p>1."+expiredList[i].conditionDesc+"</p><p style='line-height:0.35rem'>2.有限期至："+new Date((new Date(expiredList[i].endTime)).getTime()).format("yyyy-MM-dd hh:mm:ss")+"</p></div><div class='syImg'><img src='img/gq.png' /></div></a><input type='hidden' id='serialNo_"+expiredList[i].serialNo+"' value='"+expiredList[i].conditionValue+"'/></li>";
+							}
+						}
+						$("#expiredList").html(expiredListHtml);
+					},
+					//调用出错执行的函数
+					error: function(){
+						alert("请求服务器api失败，无法获取数据");
+					}
+				});
+				
+				//product list:Tab
+				$(".tab_proList dd").eq(0).show().siblings(".tab_proList dd").hide();
+				$(".tab_proList dt a").eq(0).addClass("currStyle");
+				$(".tab_proList dt a").click(function() {
+					var liindex = $(".tab_proList dt a").index(this);
+					$(this).addClass("currStyle").siblings().removeClass("currStyle");
+					$(".tab_proList dd").eq(liindex).fadeIn(150).siblings(".tab_proList dd").hide();
+				});
+			});
+			
+			
+			Date.prototype.format = function(fmt) { 
+			     var o = { 
+			        "M+" : this.getMonth()+1,                 //月份 
+			        "d+" : this.getDate(),                    //日 
+			        "h+" : this.getHours(),                   //小时 
+			        "m+" : this.getMinutes(),                 //分 
+			        "s+" : this.getSeconds(),                 //秒 
+			        "q+" : Math.floor((this.getMonth()+3)/3), //季度 
+			        "S"  : this.getMilliseconds()             //毫秒 
+			    }; 
+			    if(/(y+)/.test(fmt)) {
+			            fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length)); 
+			    }
+			     for(var k in o) {
+			        if(new RegExp("("+ k +")").test(fmt)){
+			             fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+			         }
+			     }
+			    return fmt; 
+			}  
+			
+		//使用优惠券
+		function useCoupons(serialNo){
+			console.info("选中的优惠券序号："+serialNo);
+			//判断总金额是否满足优惠券条件
+			var coupon_money = $("#serialNo_"+serialNo).val();
+			console.info("优惠券金额："+coupon_money);
+			if(parseFloat(temp_total_money) < parseFloat(coupon_money)){//总金额不满足优惠券
+				alert("总金额不满足优惠券");
+				return false;
+			}
+			//优惠券面值
+			sessionStorage.faceValue = $("#coupon_money_"+serialNo).html();
+			//修改状态
+			$.ajax({
+				type: "post",
+				url: base_url+"/api/yiran/weChatMall/product/updateCouponBySerialNo/"+serialNo,
+				async: false, //同步
+				success: function (data) {
+					console.info(data);
+					window.location.href="order_info2.html";
+				},
+				//调用出错执行的函数
+				error: function(){
+					alert("请求服务器api失败，无法获取数据");
+				} 
+			});
+			
+		}
+		
+		</script>
+	</body>
+
+</html>

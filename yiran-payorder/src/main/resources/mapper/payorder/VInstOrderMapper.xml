@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.payorder.mapper.VInstOrderMapper">
+    
+    <resultMap type="VInstOrder" id="VInstOrderResult">
+        <result property="instOrderId"    column="inst_order_id"    />
+        <result property="instOrderNo"    column="inst_order_no"    />
+        <result property="fundChannel"    column="fund_channel"    />
+        <result property="orderType"    column="order_type"    />
+        <result property="amount"    column="amount"    />
+        <result property="status"    column="status"    />
+        <result property="communicateType"    column="communicate_type"    />
+        <result property="communicateStatus"    column="communicate_status"    />
+        <result property="archiveBatchId"    column="archive_batch_id"    />
+        <result property="gmtBookingSubmit"    column="gmt_booking_submit"    />
+        <result property="gmtCreate"    column="gmt_create"    />
+        <result property="gmtModified"    column="gmt_modified"    />
+    </resultMap>
+	
+	<sql id="selectVInstOrderVo">
+        SELECT
+			inst_order_id,
+			inst_order_no,
+			fund_channel,
+			order_type,
+			amount,
+			status,
+			communicate_type,
+			communicate_status,
+			archive_batch_id,
+			gmt_booking_submit,
+			gmt_create,
+			gmt_modified
+		FROM
+			v_inst_order
+    </sql>
+	
+    <select id="selectInstOrderList" parameterType="VInstOrder" resultMap="VInstOrderResult">
+        <include refid="selectVInstOrderVo"/>
+        <where>  
+            <if test="instOrderId != null "> and inst_order_id = #{instOrderId}</if>
+             <if test="instOrderNo != null  and instOrderNo != '' "> and inst_order_no = #{instOrderNo}</if>
+         </where>
+         order by gmt_create desc
+    </select>
+    
+    
+</mapper>

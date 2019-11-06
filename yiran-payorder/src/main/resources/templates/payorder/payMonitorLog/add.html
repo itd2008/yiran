@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-payMonitorLog-add">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">IP地址：</label>
+				<div class="col-sm-8">
+					<input id="ipAddress" name="ipAddress" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">订单号：</label>
+				<div class="col-sm-8">
+					<input id="eventMessage" name="eventMessage" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">事件描述：</label>
+				<div class="col-sm-8">
+					<input id="actionId" name="actionId" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">监控事件ID：</label>
+				<div class="col-sm-8">
+					<input id="alertLevel" name="alertLevel" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">报警级别: info, warn, error, fatal：</label>
+				<div class="col-sm-8">
+					<input id="logStatus" name="logStatus" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">异常日志：</label>
+				<div class="col-sm-8">
+					<input id="exceptionLog" name="exceptionLog" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<input id="memo" name="memo" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">创建时间：</label>
+				<div class="col-sm-8">
+					<input id="gmtCreate" name="gmtCreate" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">最后修改时间：</label>
+				<div class="col-sm-8">
+					<input id="gmtModified" name="gmtModified" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+	</div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "payorder/payMonitorLog"
+		$("#form-payMonitorLog-add").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/add", $('#form-payMonitorLog-add').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

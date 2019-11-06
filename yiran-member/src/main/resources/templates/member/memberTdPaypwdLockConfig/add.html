@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-memberTdPaypwdLockConfig-add">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">锁定策略：</label>
+				<div class="col-sm-8">
+					<input id="lockStrategy" name="lockStrategy" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">错误输入检测时间段(以分钟记)：</label>
+				<div class="col-sm-8">
+					<input id="inputDetectSpan" name="inputDetectSpan" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">触发锁定的错误输入次数：</label>
+				<div class="col-sm-8">
+					<input id="wrongInputCount" name="wrongInputCount" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">锁定时间段(以分钟记)：</label>
+				<div class="col-sm-8">
+					<input id="lockSpan" name="lockSpan" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">状态(0不可用;1可用)：</label>
+				<div class="col-sm-8">
+					<input id="status" name="status" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<input id="memo" name="memo" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+	</div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "member/memberTdPaypwdLockConfig"
+		$("#form-memberTdPaypwdLockConfig-add").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/add", $('#form-memberTdPaypwdLockConfig-add').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

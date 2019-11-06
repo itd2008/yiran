@@ -1,0 +1,215 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-payInstOrderResult-add">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">批次结果ID：</label>
+				<div class="col-sm-8">
+					<input id="batchResultId" name="batchResultId" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">机构订单ID：</label>
+				<div class="col-sm-8">
+					<input id="instOrderId" name="instOrderId" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">机构流水号：</label>
+				<div class="col-sm-8">
+					<input id="instSeqNo" name="instSeqNo" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">订单类型：</label>
+				<div class="col-sm-8">
+					<input id="orderType" name="orderType" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">实际金额：</label>
+				<div class="col-sm-8">
+					<input id="realAmount" name="realAmount" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">实际币种：</label>
+				<div class="col-sm-8">
+					<input id="realCurrency" name="realCurrency" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">帐户名称：</label>
+				<div class="col-sm-8">
+					<input id="accountName" name="accountName" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">帐户帐号：</label>
+				<div class="col-sm-8">
+					<input id="accountNo" name="accountNo" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">卡类型：</label>
+				<div class="col-sm-8">
+					<input id="cardType" name="cardType" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">原机构订单号：</label>
+				<div class="col-sm-8">
+					<input id="orgiInstOrderNo" name="orgiInstOrderNo" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">对账状态 ：</label>
+				<div class="col-sm-8">
+					<input id="compareStatus" name="compareStatus" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">状态：</label>
+				<div class="col-sm-8">
+					<input id="instStatus" name="instStatus" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">流水同步状态：</label>
+				<div class="col-sm-8">
+					<input id="glideStatus" name="glideStatus" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">统一结果编码：</label>
+				<div class="col-sm-8">
+					<input id="instResultCode" name="instResultCode" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">修改时间：</label>
+				<div class="col-sm-8">
+					<input id="gmtModified" name="gmtModified" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">创建时间：</label>
+				<div class="col-sm-8">
+					<input id="gmtCreate" name="gmtCreate" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<input id="memo" name="memo" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">批次类型：</label>
+				<div class="col-sm-8">
+					<input id="batchType" name="batchType" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">渠道编号：</label>
+				<div class="col-sm-8">
+					<input id="fundChannelCode" name="fundChannelCode" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">机构订单号：</label>
+				<div class="col-sm-8">
+					<input id="instOrderNo" name="instOrderNo" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">该笔订单结果操作状态：</label>
+				<div class="col-sm-8">
+					<input id="operateStatus" name="operateStatus" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">差异信息：</label>
+				<div class="col-sm-8">
+					<input id="diffMsg" name="diffMsg" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">归档批次ID：</label>
+				<div class="col-sm-8">
+					<input id="archiveBatchId" name="archiveBatchId" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">原入款订单号：</label>
+				<div class="col-sm-8">
+					<input id="fundinOrgiInstOrderNo" name="fundinOrgiInstOrderNo" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">同步结果给渠道.S发送成功,F发送失败,I发送中：</label>
+				<div class="col-sm-8">
+					<input id="syncChannelStatus" name="syncChannelStatus" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">通知BankOrder状态 ：</label>
+				<div class="col-sm-8">
+					<input id="notifyBankorderStatus" name="notifyBankorderStatus" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">渠道API结果码：</label>
+				<div class="col-sm-8">
+					<input id="apiResultCode" name="apiResultCode" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">渠道API结果子码：</label>
+				<div class="col-sm-8">
+					<input id="apiResultSubCode" name="apiResultSubCode" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">接口类型：</label>
+				<div class="col-sm-8">
+					<input id="apiType" name="apiType" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">风险标识：</label>
+				<div class="col-sm-8">
+					<input id="riskFlag" name="riskFlag" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">扩展信息：</label>
+				<div class="col-sm-8">
+					<input id="extension" name="extension" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+	</div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "payorder/payInstOrderResult"
+		$("#form-payInstOrderResult-add").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/add", $('#form-payInstOrderResult-add').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

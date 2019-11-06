@@ -1,0 +1,210 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+						<ul>
+							<li>
+								签约渠道编号：<input type="text" name="fundChannelCode"/>
+							</li>
+							<li>
+								卡号：<input type="text" name="cardNo"/>
+							</li>
+							<li>
+								状态：
+								<select name="status" th:with="type=${@dict.getType('sign_info_status')}">
+									<option value="">所有</option>
+									<option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+								</select>
+							</li>
+							<li>
+								签约短信最终发送方：
+								<select name="signSmsSender" th:with="type=${@dict.getType('sign_sms_sender')}">
+									<option value="">所有</option>
+									<option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+								</select>
+							</li>
+							<li>
+								签约发起方：
+								<select name="signSource" th:with="type=${@dict.getType('sign_source')}">
+									<option value="">所有</option>
+									<option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+								</select>
+							</li>
+
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+	        <div class="btn-group-sm hidden-xs" id="toolbar" role="group">
+				<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="payorder:paySignInfo:add">
+					<i class="fa fa-plus"></i> 添加
+				</a>
+				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="payorder:paySignInfo:remove">
+					<i class="fa fa-remove"></i> 删除
+				</a>
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="payorder:paySignInfo:export">
+						<i class="fa fa-download"></i> 导出
+				 </a>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('payorder:paySignInfo:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('payorder:paySignInfo:remove')}]];
+        var prefix = ctx + "payorder/paySignInfo";
+        var sign_info_status = [[${@dict.getType('sign_info_status')}]];
+        var sign_sms_sender = [[${@dict.getType('sign_sms_sender')}]];
+        var sign_source = [[${@dict.getType('sign_source')}]];
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+                modalName: "签约",
+		        showExport: true,
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'signReqId', 
+					title : '主键',
+					visible: false
+				},
+				{
+					field : 'fundChannelCode', 
+					title : '签约渠道编号',
+					sortable: true
+				},
+				{
+					field : 'cardNo', 
+					title : '卡号',
+					sortable: true
+				},
+				{
+					field : 'targetInstCode', 
+					title : '银行代码',
+					sortable: true
+				},
+				{
+					field : 'bankCardId', 
+					title : '银行卡信息表主键',
+					sortable: true
+				},
+				{
+					field : 'channelSignNo', 
+					title : '签约协议号',
+					sortable: true
+				},
+				{
+					field : 'channelSignTime', 
+					title : '签约时间',
+					sortable: true
+				},
+				{
+					field : 'channelSignValid', 
+					title : '渠道签约有效期',
+					sortable: true
+				},
+				{
+					field : 'status', 
+					title : '状态',
+					sortable: true,
+		            formatter: function(value, row, index) {
+		            	return $.table.selectDictLabel(sign_info_status, row.status);
+		            }
+				},
+				{
+					field : 'signSmsSender', 
+					title : '签约短信最终发送方',
+					sortable: true,
+		            formatter: function(value, row, index) {
+		            	return $.table.selectDictLabel(sign_sms_sender, row.signSmsSender);
+		            }
+				},
+				{
+					field : 'signSource', 
+					title : '签约发起方)',
+					sortable: true,
+		            formatter: function(value, row, index) {
+		            	return $.table.selectDictLabel(sign_source, row.signSource);
+		            }
+				},
+				{
+					field : 'payMode', 
+					title : '支付方式',
+					sortable: true
+				},
+				{
+					field : 'accessChannel', 
+					title : '访问方式',
+					sortable: true
+				},
+				{
+					field : 'sourceExtInfo', 
+					title : '签约扩展信息',
+					sortable: true
+				},
+				{
+					field : 'memberId', 
+					title : '会员id',
+					sortable: true
+				},
+				{
+					field : 'sourceSeqNo', 
+					title : '来源请求号',
+					sortable: true
+				},
+				{
+					field : 'paySeqNo', 
+					title : 'pay流水号',
+					sortable: true
+				},
+				{
+					field : 'channelExtInfo', 
+					title : '签约扩展参数',
+					sortable: true
+				},
+				{
+					field : 'failReason', 
+					title : '失败原因',
+					sortable: true
+				},
+				{
+					field : 'gmtCreate', 
+					title : '创建时间',
+					sortable: true
+				},
+		        {
+		            title: '操作',
+		            align: 'center',
+		            formatter: function(value, row, index) {
+		            	var actions = [];
+		            	actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.signReqId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.signReqId + '\')"><i class="fa fa-remove"></i>删除</a>');
+						return actions.join('');
+		            }
+		        }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

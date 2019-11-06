@@ -1,0 +1,199 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+						<ul>
+							
+							<li>
+								对账批次号：<input type="text" name="accountCheckBatchNo"/>
+							</li>
+
+							<li>
+								账单日期：<input type="text" name="billDate"/>
+							</li>
+
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+	        <div class="btn-group-sm hidden-xs" id="toolbar" role="group">
+				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.edit()" shiro:hasPermission="reconciliation:reconciliationAccountCheckMistake:edit">
+					<i class="fa fa-edit"></i> 修改
+				</a>
+				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="reconciliation:reconciliationAccountCheckMistake:remove">
+					<i class="fa fa-remove"></i> 删除
+				</a>
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="reconciliation:reconciliationAccountCheckMistake:export">
+						<i class="fa fa-download"></i> 导出
+				 </a>
+			</div>
+			<div class="col-sm-12 select-table table-striped table-bordered">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('reconciliation:reconciliationAccountCheckMistake:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('reconciliation:reconciliationAccountCheckMistake:remove')}]];
+        var prefix = ctx + "reconciliation/reconciliationAccountCheckMistake";
+    	var reconciliation_err_type = [[${@dict.getType('reconciliation_err_type')}]];
+    	var reconciliation_handle_status = [[${@dict.getType('reconciliation_handle_status')}]];
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+                modalName: "对账差错",
+		        showExport: true,
+		        fixedColumns: true,
+    		    fixedNumber: 8, 
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'id', 
+					title : '编码',
+					visible: false
+				},
+				{
+					field : 'accountCheckBatchNo', 
+					title : '对账批次号'
+				},
+				{
+					field : 'billDate', 
+					title : '账单日期',
+				 	formatter: function(value, row, index) {
+					   return value.substring(0,10);
+					}
+					
+				},
+				{
+					field : 'bankType', 
+					title : '银行类型'
+				},
+				{
+					field : 'orderTime', 
+					title : '下单时间 '
+				},
+				{
+					field : 'errType', 
+					title : '差错类型',
+				 	formatter: function(value, row, index) {
+					   return $.table.selectDictLabel(reconciliation_err_type, value);
+					}
+				},
+				{
+					field : 'handleStatus', 
+					title : '批次处理状态',
+				 	formatter: function(value, row, index) {
+					   return $.table.selectDictLabel(reconciliation_handle_status, value);
+					}
+				},
+				{
+					field : 'merchantNo', 
+					title : '商家编号'
+				},
+				{
+					field : 'orderNo', 
+					title : '商家订单号'
+				},
+				{
+					field : 'tradeTime', 
+					title : '平台交易时间 '
+				},
+				{
+					field : 'trxNo', 
+					title : '平台流水号'
+				},
+				{
+					field : 'orderAmount', 
+					title : '平台交易金额'
+				},
+				{
+					field : 'refundAmount', 
+					title : '平台退款金额 '
+				},
+				{
+					field : 'tradeStatus', 
+					title : '平台交易状态'
+				},
+				{
+					field : 'fee', 
+					title : '平台手续费'
+				},
+				{
+					field : 'bankTradeTime', 
+					title : '银行交易时间'
+				},
+				{
+					field : 'bankOrderNo', 
+					title : '银行订单号'
+				},
+				{
+					field : 'bankTrxNo', 
+					title : '银行流水号'
+				},
+				{
+					field : 'bankTradeStatus', 
+					title : '银行交易状态'
+				},
+				{
+					field : 'bankAmount', 
+					title : '银行交易金额'
+				},
+				{
+					field : 'bankRefundAmount', 
+					title : '银行退款金额'
+				},
+				{
+					field : 'bankFee', 
+					title : '银行手续费'
+				},
+				
+				{
+					field : 'handleValue', 
+					title : '处理结果'
+				},
+				{
+					field : 'handleRemark', 
+					title : '处理备注'
+				},
+				{
+					field : 'operatorName', 
+					title : '操作人'
+				},
+				{
+					field : 'createTime', 
+					title : '创建时间'
+				},
+		        {
+		            title: '操作',
+		            align: 'center',
+		            formatter: function(value, row, index) {
+		            	var actions = [];
+		            	actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+						return actions.join('');
+		            }
+		        }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

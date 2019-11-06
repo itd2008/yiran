@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    <div class="container-div">
+		<div class="col-sm-12">
+           <!-- Example Events -->
+           <div class="example-wrap">
+               <div class="example">
+                   <table id="exampleTableEvents" data-height="400" data-mobile-responsive="true">
+                       <thead>
+                           <tr>
+                           	   <th data-field="name">队列名称</th>
+                               <th data-field="routingKey">路由KEY</th>
+                               <th data-field="appName">应用名称(被那个系统使用)</th>
+                              <!--  <th >操作</th> -->
+                           </tr>
+                       </thead>
+                       <tbody>
+                       		<tr th:each="q,iterStat : ${queues}">
+                       			<td data-field="queueName" th:text="${q.queueName}"></td>
+                       			<td data-field="routingKey" th:text="${q.routingKey}"></td>
+                       			<td data-field="appName" th:text="${q.appName}"></td>
+                           		<!-- <td >
+	                           		<a class="btn btn-success btn-xs"  th:onclick="untyingQueue([[${q.queueId}]]);"><i class="fa fa-edit" ></i>解绑</a> 
+                           		</td> -->
+                           </tr>
+                       </tbody>
+                   </table>
+               </div>
+           </div>
+           <!-- End Example Events -->
+       </div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+    var prefix = ctx + "amqp/mqExchanges";
+    function untyingQueue(queueId){
+    	$.modal.confirm("确定解绑该队列吗？", function() {
+    		$.operate.get(prefix + "/untyingQueue/"+[[${exchangesId}]]+"/"+queueId);
+        	window.location.href=prefix +"/showQueues/"+[[${exchangesId}]];
+    	});
+    }
+    </script>
+</body>
+</html>

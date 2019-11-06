@@ -1,0 +1,237 @@
+@charset "utf-8";
+/*!
+ * @名称：base.css
+ * @功能：1、重设浏览器默认样式
+ *       2、设置通用原子类
+ */
+/* 防止用户自定义背景颜色对网页的影响，添加让用户可以自定义字体 */
+em{font-style: normal;list-style: none;font-weight: normal;}
+*{
+    box-sizing: border-box;
+}
+/* 内外边距通常让各个浏览器样式的表现位置不同 */
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,hr,button,article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section {
+    margin:0;
+    padding:0;
+}
+/* 要注意表单元素并不继承父级 font 的问题 */
+
+input,select,textarea {
+    font-size:100%;
+    outline: none;
+    border:none;
+}
+i{
+    font-style: normal;
+}
+img,a,ul,li{
+    padding:0;
+    margin:0;
+}
+/* 去掉 table cell 的边距并让其边重合 */
+table {
+    border-collapse:collapse;
+    border-spacing:0;
+}
+/* ie bug：th 不继承 text-align */
+th {
+    text-align:inherit;
+}
+/* 去除默认边框 */
+fieldset,img {
+    border:none;
+}
+/* ie6 7 8(q) bug 显示为行内表现 */
+iframe {
+    display:block;
+}
+/* 去掉 firefox 下此元素的边框 */
+abbr,acronym {
+    border:none;
+    font-variant:normal;
+}
+/* 一致的 del 样式 */
+del {
+    text-decoration:line-through;
+}
+address,caption,cite,code,dfn,em,th,var {
+    font-style:normal;
+    font-weight:500;
+}
+/* 去掉列表前的标识，li 会继承 */
+ol,ul {
+    list-style:none;
+}
+/* 对齐是排版最重要的因素，别让什么都居中 */
+caption,th {
+    text-align:left;
+}
+/* 来自yahoo，让标题都自定义，适应多个系统应用 */
+h1,h2,h3,h4,h5,h6 {
+    font-size:100%;
+    font-weight:500;
+}
+q:before,q:after {
+    content:'';
+}
+/* 统一上标和下标 */
+sub,sup {
+    font-size:75%;
+    line-height:0;
+    position:relative;
+    vertical-align:baseline;
+}
+sup {
+    top:-0.5em;
+}
+sub {
+    bottom:-0.25em;
+}
+/* 让链接在 hover 状态下显示下划线 */
+/*a:hover {
+    text-decoration:underline;
+}*/
+/* 默认不显示下划线，保持页面简洁 */
+ins,a {
+    text-decoration:none;
+}
+/* 去除 ie6 & ie7 焦点点状线 */
+a:focus,*:focus {
+    outline:none;
+}
+a,button,input,textarea{
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    /*-webkit-user-modify:read-write-plaintext-only; */
+}
+/* 清除浮动 */
+.clearfix:before,.clearfix:after {
+    content:"";
+    display:table;
+}
+.clearfix:after {
+    clear:both;
+    overflow:hidden;
+}
+.clearfix {
+    zoom:1; /* for ie6 & ie7 */
+}
+.clear {
+    clear:both;
+    display:block;
+    font-size:0;
+    height:0;
+    line-height:0;
+    overflow:hidden;
+}
+/* 设置显示和隐藏，通常用来与 js 配合 */
+.hide {
+    display:none;
+}
+.block {
+    display:block;
+}
+/* 设置浮动，减少浮动带来的 bug */
+.fl,.fr {
+    display:inline;
+}
+.fl {
+    float:left;
+}
+.fr {
+    float:right;
+}
+
+/*字体颜色*/
+.colorccc{color: #ccc;}
+.colorf00{color: #f00;}
+.color-ec7602{color: #ec7602;}
+.color26c400{color: #26c400;}
+.color000{color: #000;}
+.colorfff{color: #fff;}
+.colore2bf1e{color: #e2bf1e;}
+/*背景颜色*/
+.bg-ec7602{background-color: #ec7602;}
+.bg-3acd17{background-color: #3acd17;}
+.bgcolore7e7e7{background-color:#e7e7e7;}
+.mr4{margin-right:4%;}
+.bg-fff{background-color: #fff;}
+
+/*字体大小*/
+.f02{font-size: 0.2rem;}
+.f024{font-size: 0.24rem;}
+.f028{font-size: 0.28rem;}
+.f029{font-size: 0.29rem;}
+.f03{font-size:0.3rem}
+.f032{font-size:0.32rem}
+.f035{font-size: 0.35rem;}
+.f038{font-size: 0.36rem;}
+.f04{font-size: 0.4rem;}
+.f042{font-size: 0.42rem;}
+.f05{font-size: 0.5rem;}
+
+.padl3{padding-left: 3%;}
+.padr3{padding-right: 3%;}
+.padl4{padding-left:4%;}
+.padl5{padding-left:5%;}
+.padl6{padding-left:6%;}
+
+.mt03{margin-top: 3%}
+.mt10{margin-top: 10%;}
+.mt15{margin-top: 15%;}
+.ml5{margin-left: 5%;}
+.ml3{margin-left: 3%;}
+.mr3{margin-right: 3%;}
+.font-weight400{font-weight: 400;}
+
+/*间距*/
+.bor-top10-f1{border-top: solid 10px #f1f1f1;}
+.bor-top5-f1{border-top: solid 5px #f1f1f1;}
+.bor-top1-f1{border-top: solid 1px #f1f1f1;}
+.bor-bottom1-f1{border-bottom: solid 1px #f1f1f1;}
+.bor-bottom5-f1{border-bottom: solid 5px #f1f1f1;}
+
+.line-height-02rem{line-height: 0.5rem;}
+.line-height-08rem{line-height: 0.8rem;}
+.line-height-1rem{line-height: 1rem;}
+.line-height13{line-height: 1.3rem;}
+.line-height14{line-height: 1.4rem;}
+.line-height15{line-height: 1.5rem;}
+
+.padding-right23{padding-right:12%;}
+.padt03{padding-top: 0.3rem;}
+.padb03{padding-bottom: 0.3rem;}
+/*字体样式*/
+.font-weight-bold{font-weight: bold;}
+
+
+/*宽度*/
+.w100{width: 100%;}
+.w20{width: 20%;}
+.w79{width:79%;}
+.w33{width: 33%;}
+
+/*对齐方式*/
+.text-center{text-align: center;margin: auto;}
+.text-right{text-align: right;}
+.text-left{text-align:left;}
+
+/*color颜色*/
+.color999{color: #999;}
+
+
+
+input[type=text]{
+	-webkit-appearance:none;
+	outline:none
+}
+
+select{
+	background-color:transparent; border-color:transparent;
+	-webkit-appearance: none;
+}
+
+
+
+
+
+

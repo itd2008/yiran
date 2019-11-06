@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.member.mapper.MemberTrMemberAccountDetailMapper">
+    
+    <resultMap type="MemberTrMemberAccountDetail" id="MemberTrMemberAccountDetailResult">
+        <result property="id"    column="id"    />
+        <result property="memberAccId"    column="memberAccId"    />
+        <result property="balance"    column="balance"    />
+        <result property="availableBalance"    column="availableBalance"    />
+        <result property="frozenBalance"    column="frozenBalance"    />
+        <result property="withdrawBalance"    column="withdrawBalance"    />
+        <result property="currencyCode"    column="currencyCode"    />
+        <result property="extention"    column="extention"    />
+    </resultMap>
+	
+	<sql id="selectMemberTrMemberAccountDetailVo">
+        select id, memberAccId, balance, availableBalance, frozenBalance, withdrawBalance, currencyCode, extention from member_tr_member_account_detail
+    </sql>
+	
+    <select id="selectMemberTrMemberAccountDetailList" parameterType="MemberTrMemberAccountDetail" resultMap="MemberTrMemberAccountDetailResult">
+        <include refid="selectMemberTrMemberAccountDetailVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+             <if test="memberAccId != null "> and memberAccId = #{memberAccId}</if>
+             <if test="balance != null  and balance != '' "> and balance = #{balance}</if>
+             <if test="availableBalance != null  and availableBalance != '' "> and availableBalance = #{availableBalance}</if>
+             <if test="frozenBalance != null  and frozenBalance != '' "> and frozenBalance = #{frozenBalance}</if>
+             <if test="withdrawBalance != null  and withdrawBalance != '' "> and withdrawBalance = #{withdrawBalance}</if>
+             <if test="currencyCode != null  and currencyCode != '' "> and currencyCode = #{currencyCode}</if>
+             <if test="extention != null  and extention != '' "> and extention = #{extention}</if>
+         </where>
+    </select>
+    
+    <select id="selectMemberTrMemberAccountDetailById" parameterType="Integer" resultMap="MemberTrMemberAccountDetailResult">
+        <include refid="selectMemberTrMemberAccountDetailVo"/>
+        where id = #{id}
+    </select>
+    
+    <select id="selectMemberTrMemberAccountDetailByMemberAccountId" parameterType="Integer" resultMap="MemberTrMemberAccountDetailResult">
+        <include refid="selectMemberTrMemberAccountDetailVo"/>
+        where memberAccId = #{memberAccId}
+    </select>
+        
+    <insert id="insertMemberTrMemberAccountDetail" parameterType="MemberTrMemberAccountDetail" useGeneratedKeys="true" keyProperty="id">
+        insert into member_tr_member_account_detail
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="balance != null  and balance != ''  ">balance,</if>
+			<if test="availableBalance != null  and availableBalance != ''  ">availableBalance,</if>
+			<if test="frozenBalance != null  and frozenBalance != ''  ">frozenBalance,</if>
+			<if test="withdrawBalance != null  and withdrawBalance != ''  ">withdrawBalance,</if>
+			<if test="currencyCode != null  and currencyCode != ''  ">currencyCode,</if>
+			<if test="extention != null  and extention != ''  ">extention,</if>
+			memberAccId
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="balance != null  and balance != ''  ">#{balance},</if>
+			<if test="availableBalance != null  and availableBalance != ''  ">#{availableBalance},</if>
+			<if test="frozenBalance != null  and frozenBalance != ''  ">#{frozenBalance},</if>
+			<if test="withdrawBalance != null  and withdrawBalance != ''  ">#{withdrawBalance},</if>
+			<if test="currencyCode != null  and currencyCode != ''  ">#{currencyCode},</if>
+			<if test="extention != null  and extention != ''  ">#{extention},</if>
+			#{memberAccId}
+         </trim>
+    </insert>
+	 
+    <update id="updateMemberTrMemberAccountDetail" parameterType="MemberTrMemberAccountDetail">
+        update member_tr_member_account_detail
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="balance != null  and balance != ''  ">balance = #{balance},</if>
+            <if test="availableBalance != null  and availableBalance != ''  ">availableBalance = #{availableBalance},</if>
+            <if test="frozenBalance != null  and frozenBalance != ''  ">frozenBalance = #{frozenBalance},</if>
+            <if test="withdrawBalance != null  and withdrawBalance != ''  ">withdrawBalance = #{withdrawBalance},</if>
+            <if test="currencyCode != null  and currencyCode != ''  ">currencyCode = #{currencyCode},</if>
+            <if test="extention != null  and extention != ''  ">extention = #{extention},</if>
+            memberAccId = #{memberAccId}
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteMemberTrMemberAccountDetailById" parameterType="Integer">
+        delete from member_tr_member_account_detail where id = #{id}
+    </delete>
+	
+    <delete id="deleteMemberTrMemberAccountDetailByIds" parameterType="String">
+        delete from member_tr_member_account_detail where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

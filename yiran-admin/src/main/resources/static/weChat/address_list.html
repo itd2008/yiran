@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>地址管理</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+		<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+		<link rel="stylesheet" href="lib/weui.min.css">
+		<link rel="stylesheet" href="css/jquery-weui.css">
+		<link rel="stylesheet" href="css/style.css">
+	</head>
+	<body ontouchstart>
+		<!--主体-->
+		<header class="wy-header">
+			<div class="wy-header-icon-back" onclick="javascript:history.go(-1)"><span></span></div>
+			<div class="wy-header-title">地址管理</div>
+		</header>
+		<div class="weui-content" >
+			<div class="weui-panel address-box" id="address_all_list">
+				
+			</div>
+			<div class="weui-btn-area">
+				<a class="weui-btn weui-btn_primary" href="address_add.html" id="showTooltips">添加收货地址</a>
+			</div>
+		</div>
+
+		<script src="lib/jquery-2.1.4.js"></script>
+		<script src="lib/fastclick.js"></script>
+		<script type="text/javascript" src="js/jquery.Spinner.js"></script>
+		<script type="text/javascript" src="js/config.js"></script>
+		<script>
+			$(function() {
+				FastClick.attach(document.body);
+			});
+		</script>
+		<script src="js/jquery-weui.js"></script>
+		<script>
+			$.ajax({
+				type: "post",
+				url: base_url + "/api/yiran/weChatMall/address/queryAddressList/"+sessionStorage.openId,
+				async: false, //同步
+				success: function(data) {
+					console.info(data.data)
+					var addressList = data.data;
+					var addressListHtml = "";
+					if (addressList.length > 0) {
+						for (var i = 0; i < addressList.length; i++) {
+							addressListHtml +="<div class='weui-panel__bd'><div class='weui-media-box weui-media-box_text address-list-box'><a href='javascript:editAddress("+addressList[i].id+")' class='address-edit'></a><h4 class='weui-media-box__title' onclick='javacsript:selectAddress("+addressList[i].id+")'><span>" +addressList[i].realname + "</span>&nbsp;&nbsp;<span>" + addressList[i].telephone +"</span></h4><p class='weui-media-box__desc address-txt'>" +addressList[i].province + addressList[i].city + addressList[i].area + addressList[i].detailedAddress + "</p>";
+							if (addressList[i].isDefaultAddress == 1) {
+								addressListHtml += "<span class='default-add'>默认地址</span>";
+							}
+							addressListHtml += "</div></div>";
+						}
+					}
+					$("#address_all_list").html(addressListHtml);
+				},
+				//调用出错执行的函数
+				error: function() {
+					alert("请求服务器api失败，无法获取数据");
+				}
+			});
+			
+			var editAddress = function(id){
+				sessionStorage.addressId = id;
+				window.location.href="address_edit.html";
+			}
+			
+			var selectAddress = function(id){
+				sessionStorage.selectAddressId = id;
+				window.location.href="order_info2.html";
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.wechat.mapper.WechatIndexColumnMapper">
+    
+    <resultMap type="WechatIndexColumn" id="WechatIndexColumnResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="isShow"    column="is_show"    />
+        <result property="orders"    column="orders"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+	
+	<sql id="selectWechatIndexColumnVo">
+        select id, name, is_show, orders, create_by, create_time, update_by, update_time from wechat_index_column
+    </sql>
+	
+    <select id="selectWechatIndexColumnList" parameterType="WechatIndexColumn" resultMap="WechatIndexColumnResult">
+        <include refid="selectWechatIndexColumnVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+             <if test="name != null "> and name = #{name}</if>
+             <if test="isShow != null "> and is_show = #{isShow}</if>
+             <if test="orders != null "> and orders = #{orders}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+         </where>
+         order by orders asc
+    </select>
+    
+    <select id="selectWechatIndexColumnById" parameterType="Integer" resultMap="WechatIndexColumnResult">
+        <include refid="selectWechatIndexColumnVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertWechatIndexColumn" parameterType="WechatIndexColumn" useGeneratedKeys="true" keyProperty="id">
+        insert into wechat_index_column
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name != null  ">name,</if>
+			<if test="isShow != null  ">is_show,</if>
+			<if test="orders != null  ">orders,</if>
+			create_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="name != null  ">#{name},</if>
+			<if test="isShow != null  ">#{isShow},</if>
+			<if test="orders != null  ">#{orders},</if>
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateWechatIndexColumn" parameterType="WechatIndexColumn">
+        update wechat_index_column
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null  ">name = #{name},</if>
+            <if test="isShow != null  ">is_show = #{isShow},</if>
+            <if test="orders != null  ">orders = #{orders},</if>
+            update_time = sysdaye()
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteWechatIndexColumnById" parameterType="Integer">
+        delete from wechat_index_column where id = #{id}
+    </delete>
+	
+    <delete id="deleteWechatIndexColumnByIds" parameterType="String">
+        delete from wechat_index_column where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,372 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>购物车</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+<link rel="stylesheet" href="lib/weui.min.css">
+<link rel="stylesheet" href="css/jquery-weui.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body ontouchstart>
+<!--主体-->
+<header class="wy-header">
+  <div class="wy-header-icon-back" onclick="javascript:history.go(-1)"><span></span></div>
+  <div class="wy-header-title">购物车</div>
+</header>
+<div class="weui-content" id="shop_car_product">
+	
+</div>
+<!--底部导航-->
+<div class="foot-black"></div>
+<div class="weui-tabbar wy-foot-menu" id="to_creat_order">
+  <div class="npd cart-foot-check-item weui-cells_checkbox allselect">
+    <label class="weui-cell allsec-well weui-check__label" for="all">
+        <div class="weui-cell__hd">
+          <input type="checkbox" class="weui-check" name="all-sec" id="all" >
+          <i class="weui-icon-checked"></i>
+        </div>
+        <div class="weui-cell__bd">
+          <p class="font-14">全选</p>
+        </div>
+    </label>
+  </div>
+  <div class="weui-tabbar__item  npd">
+    <p class="cart-total-txt">合计：<i>￥</i><em class="num font-16" id="zongMoney"></em></p>
+  </div>
+  <a href="javascript:settlement()" class="red-color npd w-90 t-c">
+    <p class="promotion-foot-menu-label">去结算</p>
+  </a>
+</div>
+
+<div class="weui-tabbar wy-foot-menu" style="display: none;" id="show_menu">
+  <a href="index.html" class="weui-tabbar__item ">
+    <div class="weui-tabbar__icon foot-menu-home"></div>
+    <p class="weui-tabbar__label">首页</p>
+  </a>
+  <a href="classify.html" class="weui-tabbar__item">
+    <div class="weui-tabbar__icon foot-menu-list"></div>
+    <p class="weui-tabbar__label">分类</p>
+  </a>
+  <a href="shopcart.html" class="weui-tabbar__item weui-bar__item--on">
+    <span id="car_product_badge_weui" class="weui-badge" style="position: absolute;top: -.4em;right: 1em;"><span id="car_product_number"></span></span>
+    <div class="weui-tabbar__icon foot-menu-cart"></div>
+    <p class="weui-tabbar__label">购物车</p>
+  </a>
+  <a href="mine.html" class="weui-tabbar__item">
+    <div class="weui-tabbar__icon foot-menu-member"></div>
+    <p class="weui-tabbar__label">我的</p>
+  </a>
+</div>
+
+<script src="lib/jquery-2.1.4.js"></script> 
+<script src="lib/fastclick.js"></script> 
+<script type="text/javascript" src="js/jquery.Spinner.js"></script>
+<script>
+  $(function() {
+    FastClick.attach(document.body);
+  });
+</script>
+<script src="js/jquery-weui.js"></script>
+<script type="text/javascript" src="js/config.js"></script>
+<script type="text/javascript">
+$(document).ready(function () {      
+	$.ajax({
+		type: "post",
+		url: base_url+"/api/yiran/weChatMall/queryCarProduct/"+sessionStorage.openId,
+		async: false, //同步
+		success: function (data) {
+			var carProduct = data.data;
+			var carProductHtml = "";
+			var total = 0.00;
+			if(data.code == '200'){
+				if(carProduct.length > 0){
+					for(var i = 0; i < carProduct.length; i++){
+						carProductHtml += "<div class='weui-panel weui-panel_access'><div class='weui-panel__hd'><span>"+carProduct[i].wechatProduct.productName+"</span><a href='javascript:;' class='wy-dele' id='delete_pro_"+carProduct[i].productId+"'></a></div><div class='weui-panel__bd'><div class='weui-media-box_appmsg pd-10'><div class='weui-media-box__hd check-w weui-cells_checkbox'><label class='weui-check__label' for='cart-pto"+carProduct[i].productId+"'><div class='weui-cell__hd cat-check'><input type='checkbox' class='weui-check' name='cartpro"+carProduct[i].productId+"' id='cart-pto"+carProduct[i].productId+"' onclick='javascript:selectAll("+carProduct[i].productId+")'><i class='weui-icon-checked' ></i></div></label></div><div class='weui-media-box__hd'><a href='#'><img class='weui-media-box__thumb' src='"+carProduct[i].wechatProduct.pictureUrl+"' id='product_img_"+carProduct[i].productId+"' alt='"+carProduct[i].wechatProduct.pictureUrl+"'></a></div><div class='weui-media-box__bd'><h1 class='weui-media-box__desc'><a href='#' class='ord-pro-link' id='product_title_"+carProduct[i].productId+"'>"+carProduct[i].productTitle+"</a></h1><p class='weui-media-box__desc' id='product_attr_"+carProduct[i].productId+"'>"+carProduct[i].attr+"</p><div class='clear mg-t-10'><div class='wy-pro-pri fl'>¥<em class='num font-15' name='price_money_"+carProduct[i].productId+"' id='price_money_"+carProduct[i].productId+"'>"+carProduct[i].wechatProduct.p4+"</em></div><input type='hidden' id='pro_num_"+carProduct[i].productId+"'  value='1'/><div class='pro-amount fr'><div class='Spinner' onclick='javascript:spinnerNum("+carProduct[i].productId+")'></div></div></div></div></div></div></div>";
+						total += parseFloat(carProduct[i].wechatProduct.p4);
+					}
+				}else{
+					carProductHtml +="购物车还是空的，去挑几件中意的商品吧";
+					$("#to_creat_order").hide();
+					$("#show_menu").show();
+				}
+				
+			}
+			$("#shop_car_product").append(carProductHtml);
+			$("#zongMoney").html(total);
+		},
+		//调用出错执行的函数
+		error: function(){
+			$("#shop_car_product").html("请求服务器api失败，无法获取数据");
+		}
+	});
+
+});
+	
+	//购物车数量
+	$.ajax({
+		type: "post",
+		url: base_url+"/api/yiran/weChatMall/queryCarProduct/"+sessionStorage.openId,
+		async: false, //同步
+		success: function (data) {
+			var cardata = data.data;
+			var carHtml = "";
+			if(data.code == '200'){
+				if(cardata.length > 0){
+					carHtml = cardata.length;
+					$("#car_product_number").html(carHtml);
+				}else{
+					$("#car_product_badge_weui").hide();
+				}
+			}
+			
+		},
+		//调用出错执行的函数
+				error: function(){
+						//请求出错处理
+				}
+	});
+	function selectAll(producId){
+		var total_temp = 0;
+		var flag = false;
+		$("input[name^='cartpro']").each(function () {
+			if($(this).prop("checked")){
+				flag = true;
+				return false;
+			}
+		});
+		$("input[name^='cartpro']").each(function () {
+			
+			if($(this).prop("checked")){
+				//获取选中的产品id
+				var id = $(this).context.id;
+				var pid = id.substring(8);
+				var price = $("#price_money_"+pid).html();
+				total_temp += parseFloat(price);
+			}
+		});
+		if(flag){
+			$("#all").prop("checked", true);
+		}else{
+			$("#all").prop("checked", false);
+		}
+		if(total_temp == 0){
+			$("input[name^='cartpro']").each(function () {
+				var id = $(this).context.id;
+				var pid = id.substring(8);
+				var price = $("#price_money_"+pid).html();
+				total_temp += parseFloat(price);
+			});
+		}
+		$("#zongMoney").html(total_temp);
+	}
+
+		$(".allselect").click(function () {
+			var total_temp = 0;
+			if($(this).find("input[name=all-sec]").prop("checked")){
+				$("input[name^='cartpro']").each(function () {
+					$(this).prop("checked", true);
+				});
+			
+			} else {
+				$("input[name^='cartpro']").each(function () {
+					if ($(this).prop("checked")) {
+						$(this).prop("checked", false);
+					} else {
+						$(this).prop("checked", true);
+					}
+				});
+				//是否有选中的商品
+				var isselect = false;
+				$("input[name^='cartpro']").each(function () {
+					
+					if($(this).prop("checked")){
+						isselect = true;
+					}
+				});
+				
+				if(isselect){//如果有选中的商品,就显示选中的商品的价格
+					var total_temp = 0;
+					$("input[name^='cartpro']").each(function () {
+						
+						if($(this).prop("checked")){
+							//获取选中的产品id
+							var id = $(this).context.id;
+							var pid = id.substring(8);
+							var price = $("#price_money_"+pid).html();
+							total_temp += parseFloat(price);
+						}
+					});
+					$("#zongMoney").html(total_temp);
+				}else{//没有选中的显示所有商品总价
+					var total_temp = 0;
+					$("em[name^='price_money_']").each(function () {
+							total_temp += parseFloat($(this).html());
+					});
+					$("#zongMoney").html(total_temp);
+				}
+			}
+			
+			
+		});
+		$(document).on("click", ".wy-dele", function() {
+			var id = $(this).context.id;
+			var pid = id.split("_")[2];
+			console.info("商品id="+pid)
+			$.confirm("您确定要把此商品从购物车删除吗?", "确认删除?", function() {
+				$.ajax({
+					type: "post",
+					url: base_url+"/api/yiran/weChatMall/product/deleteShopCat/"+pid,
+					async: false, //同步
+					success: function (data) {
+						if(data.code == '200'){
+							window.location.href="shopcart.html";
+						}
+					},
+					//调用出错执行的函数
+					error: function(){
+						console.info("请求服务器api失败，无法获取数据");
+					}
+				});
+			}, function() {
+				//取消操作
+			});
+		});
+
+		$(function(){
+			$(".Spinner").Spinner({value:1, len:3, max:999});
+			
+		});
+		//点击+ 和 -
+		function spinnerNum(productId){
+			var num = this.bv;
+			$("#pro_num_"+productId).val(num);
+			if(num != 0){
+				var product = getProductByProductId(productId);
+				var price = product.price;
+				//计算金额
+				var tempPrice = num * price;
+				$("#price_money_"+productId).html(tempPrice);
+				//是否有选中的商品
+				var isselect = false;
+				$("input[name^='cartpro']").each(function () {
+					
+					if($(this).prop("checked")){
+						isselect = true;
+					}
+				});
+				
+				if(isselect){//如果有选中的商品,就显示选中的商品的价格
+					var total_temp = 0;
+					$("input[name^='cartpro']").each(function () {
+						if($(this).prop("checked")){
+							//获取选中的产品id
+							var id = $(this).context.id;
+							var pid = id.substring(8);
+							var price = $("#price_money_"+pid).html();
+							total_temp += parseFloat(price);
+						}
+					});
+					$("#zongMoney").html(total_temp);
+				}else{//没有选中的显示所有商品总价
+					var total_temp = 0;
+					$("em[name^='price_money_']").each(function () {
+							total_temp += parseFloat($(this).html());
+					});
+					$("#zongMoney").html(total_temp);
+				}
+			}
+		}
+		
+		var Product = function Product(productName,title,price,pictureUrl,brandName) {
+			this.productName = productName;
+			this.title = title;
+			this.price = price;
+			this.pictureUrl = pictureUrl;
+			this.brandName = brandName;
+			}
+			
+		function getProductByProductId(productId){
+			var product = null;
+			$.ajax({
+				type: "post",
+				url: base_url+"/api/yiran/weChatMall/product/queryProduct/"+productId,
+				async: false, //同步
+				success: function (data) {
+					var product_data = data.data.product;
+					product = new Product(product_data.productName,
+												product_data.title,
+												product_data.p4,
+												product_data.pictureUrl,
+												product_data.brandName); 
+				},
+				//调用出错执行的函数
+				error: function(){
+					console.info("请求服务器api失败，无法获取数据");
+				}
+			});
+			return product;
+		}	
+		
+		//购物车商品对象
+		var ProductCat = function ProductCat(productId,totalPrice,totalNum,title,attr,pictureUrl) {
+			this.productId = productId;
+			this.totalPrice = totalPrice;
+			this.totalNum = totalNum;
+			this.title = title;
+			this.attr = attr;
+			this.pictureUrl = pictureUrl;
+		}
+		
+		//去结算
+		function settlement(){
+			var proCatlist = [];
+			//是否有选中的商品
+			var isselect = false;
+			$("input[name^='cartpro']").each(function () {
+				if($(this).prop("checked")){
+					isselect = true;
+				}
+			});
+			if(isselect){//如果有选中的商品,就显示选中的商品
+				$("input[name^='cartpro']").each(function () {
+					if($(this).prop("checked")){
+						//获取选中的产品id
+						var id = $(this).context.id;
+						var pid = id.substring(8);
+						//获取价格
+						var totalPrice = $("#price_money_"+pid).html(); 
+						//获取数量
+						var totalNum = $("#pro_num_"+pid).val();
+						var title = $("#product_title_"+pid).html();
+						var attr = $("#product_attr_"+pid).html();
+						var pictureUrl = $("#product_img_"+pid).attr("alt");
+						var product = new ProductCat(pid,totalPrice,totalNum,title,attr,pictureUrl);
+						proCatlist.push(product);
+					}
+				});
+			}else{//没有选中的显示所有商品
+				$("em[name^='price_money_']").each(function () {
+						var id = $(this).context.id;
+						var pid = id.split("_")[2];
+						//获取价格
+						var totalPrice = $("#price_money_"+pid).html(); 
+						//获取数量
+						var totalNum = $("#pro_num_"+pid).val();
+						var title = $("#product_title_"+pid).html();
+						var attr = $("#product_attr_"+pid).html();
+						var pictureUrl = $("#product_img_"+pid).attr("alt");
+						var product = new ProductCat(pid,totalPrice,totalNum,title,attr,pictureUrl);
+						proCatlist.push(product);
+				});
+			}
+			sessionStorage.setItem("procatlist",JSON.stringify(proCatlist));
+			window.location.href="order_info2.html";
+		}
+</script>
+
+</body>
+</html>

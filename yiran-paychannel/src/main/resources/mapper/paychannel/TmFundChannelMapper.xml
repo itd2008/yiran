@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.paychannel.mapper.TmFundChannelMapper">
+    
+    <resultMap type="TmFundChannel" id="TmFundChannelResult">
+        <result property="fundChannelCode"    column="fund_channel_code"    />
+        <result property="name"    column="name"    />
+        <result property="description"    column="description"    />
+        <result property="instCode"    column="inst_code"    />
+        <result property="bizType"    column="biz_type"    />
+        <result property="payMode"    column="pay_mode"    />
+        <result property="signedCrop"    column="signed_crop"    />
+        <result property="status"    column="status"    />
+        <result property="validFrom"    column="valid_from"    />
+        <result property="validTo"    column="valid_to"    />
+        <result property="maxAmount"    column="max_amount"    />
+        <result property="minAmount"    column="min_amount"    />
+        <result property="expectArriveTime"    column="expect_arrive_time"    />
+        <result property="gmtCreate"    column="gmt_create"    />
+        <result property="gmtModified"    column="gmt_modified"    />
+        <result property="memo"    column="memo"    />
+        <result property="channelMode"    column="channel_mode"    />
+        <result property="priority"    column="priority"    />
+    </resultMap>
+	
+	<sql id="selectTmFundChannelVo">
+        select fund_channel_code, name, description, inst_code, biz_type, pay_mode, signed_crop, status, valid_from, valid_to, max_amount, min_amount, expect_arrive_time, gmt_create, gmt_modified, memo, channel_mode, priority from tm_fund_channel
+    </sql>
+	
+    <select id="selectTmFundChannelList" parameterType="TmFundChannel" resultMap="TmFundChannelResult">
+        <include refid="selectTmFundChannelVo"/>
+        <where>  
+            <if test="fundChannelCode != null  and fundChannelCode != '' "> and fund_channel_code = #{fundChannelCode}</if>
+             <if test="name != null  and name != '' "> and name = #{name}</if>
+             <if test="description != null  and description != '' "> and description = #{description}</if>
+             <if test="instCode != null  and instCode != '' "> and inst_code = #{instCode}</if>
+             <if test="bizType != null  and bizType != '' "> and biz_type = #{bizType}</if>
+             <if test="payMode != null  and payMode != '' "> and pay_mode = #{payMode}</if>
+             <if test="signedCrop != null  and signedCrop != '' "> and signed_crop = #{signedCrop}</if>
+             <if test="status != null  and status != '' "> and status = #{status}</if>
+             <if test="validFrom != null "> and valid_from = #{validFrom}</if>
+             <if test="validTo != null "> and valid_to = #{validTo}</if>
+             <if test="maxAmount != null "> and max_amount = #{maxAmount}</if>
+             <if test="minAmount != null "> and min_amount = #{minAmount}</if>
+             <if test="expectArriveTime != null  and expectArriveTime != '' "> and expect_arrive_time = #{expectArriveTime}</if>
+             <if test="gmtCreate != null "> and gmt_create = #{gmtCreate}</if>
+             <if test="gmtModified != null "> and gmt_modified = #{gmtModified}</if>
+             <if test="memo != null  and memo != '' "> and memo = #{memo}</if>
+             <if test="channelMode != null  and channelMode != '' "> and channel_mode = #{channelMode}</if>
+             <if test="priority != null "> and priority = #{priority}</if>
+         </where>
+    </select>
+    
+     <select id="loadAll" resultMap="TmFundChannelResult">
+        <include refid="selectTmFundChannelVo"/>
+        order by biz_type asc , pay_mode asc, priority desc
+     </select>
+    
+    <select id="getAvailableFundChannels"  resultMap="TmFundChannelResult">
+        SELECT
+			S.FUND_CHANNEL_CODE,
+			S.NAME,
+			S.DESCRIPTION,
+			S.INST_CODE,
+			S.BIZ_TYPE,
+			S.PAY_MODE,
+			S.CHANNEL_MODE,
+			S.SIGNED_CROP,
+			S.STATUS,
+			S.PRIORITY,
+			S.VALID_FROM,
+			S.VALID_TO,
+			S.MAX_AMOUNT,
+			S.MIN_AMOUNT,
+			S.EXPECT_ARRIVE_TIME,
+			S.GMT_CREATE,
+			S.GMT_MODIFIED,
+			S.MEMO 
+		FROM
+			TM_FUND_CHANNEL S 
+		<where>
+			S.STATUS = 'VALID'
+			<if test="targetInst != null ">
+				AND	EXISTS ( SELECT 1 FROM TR_FC_TARGET_INST_RELATION RRR WHERE RRR.FUND_CHANNEL_CODE = S.FUND_CHANNEL_CODE AND RRR.TARGET_INST_CODE = #{targetInst} ) 
+			</if>
+			<if test="payModeList != null and  payModeList.size > 0 ">
+        		and PAY_MODE in 
+		        <foreach item="item" collection="payModeList" open="(" separator="," close=")">
+		            #{item}
+		        </foreach>
+        	</if>
+		</where>
+		ORDER BY
+			S.PRIORITY DESC
+    </select>
+    
+    
+    <select id="selectTmFundChannelById" parameterType="String" resultMap="TmFundChannelResult">
+        <include refid="selectTmFundChannelVo"/>
+        where fund_channel_code = #{fundChannelCode}
+    </select>
+        
+    <insert id="insertTmFundChannel" parameterType="TmFundChannel">
+        insert into tm_fund_channel
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="fundChannelCode != null  and fundChannelCode != ''  ">fund_channel_code,</if>
+			<if test="name != null  and name != ''  ">name,</if>
+			<if test="description != null  and description != ''  ">description,</if>
+			<if test="instCode != null  and instCode != ''  ">inst_code,</if>
+			<if test="bizType != null  and bizType != ''  ">biz_type,</if>
+			<if test="payMode != null  and payMode != ''  ">pay_mode,</if>
+			<if test="signedCrop != null  and signedCrop != ''  ">signed_crop,</if>
+			<if test="status != null  and status != ''  ">status,</if>
+			<if test="validFrom != null  ">valid_from,</if>
+			<if test="validTo != null  ">valid_to,</if>
+			<if test="maxAmount != null  ">max_amount,</if>
+			<if test="minAmount != null  ">min_amount,</if>
+			<if test="expectArriveTime != null  and expectArriveTime != ''  ">expect_arrive_time,</if>
+			<if test="memo != null  and memo != ''  ">memo,</if>
+			<if test="channelMode != null  and channelMode != ''  ">channel_mode,</if>
+			<if test="priority != null  ">priority,</if>
+			gmt_create,
+			gmt_modified
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="fundChannelCode != null  and fundChannelCode != ''  ">#{fundChannelCode},</if>
+			<if test="name != null  and name != ''  ">#{name},</if>
+			<if test="description != null  and description != ''  ">#{description},</if>
+			<if test="instCode != null  and instCode != ''  ">#{instCode},</if>
+			<if test="bizType != null  and bizType != ''  ">#{bizType},</if>
+			<if test="payMode != null  and payMode != ''  ">#{payMode},</if>
+			<if test="signedCrop != null  and signedCrop != ''  ">#{signedCrop},</if>
+			<if test="status != null  and status != ''  ">#{status},</if>
+			<if test="validFrom != null  ">#{validFrom},</if>
+			<if test="validTo != null  ">#{validTo},</if>
+			<if test="maxAmount != null  ">#{maxAmount},</if>
+			<if test="minAmount != null  ">#{minAmount},</if>
+			<if test="expectArriveTime != null  and expectArriveTime != ''  ">#{expectArriveTime},</if>
+			<if test="memo != null  and memo != ''  ">#{memo},</if>
+			<if test="channelMode != null  and channelMode != ''  ">#{channelMode},</if>
+			<if test="priority != null  ">#{priority},</if>
+			sysdate(),
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateTmFundChannel" parameterType="TmFundChannel">
+        update tm_fund_channel
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null  and name != ''  ">name = #{name},</if>
+            <if test="description != null  and description != ''  ">description = #{description},</if>
+            <if test="instCode != null  and instCode != ''  ">inst_code = #{instCode},</if>
+            <if test="bizType != null  and bizType != ''  ">biz_type = #{bizType},</if>
+            <if test="payMode != null  and payMode != ''  ">pay_mode = #{payMode},</if>
+            <if test="signedCrop != null  and signedCrop != ''  ">signed_crop = #{signedCrop},</if>
+            <if test="status != null  and status != ''  ">status = #{status},</if>
+            <if test="validFrom != null  ">valid_from = #{validFrom},</if>
+            <if test="validTo != null  ">valid_to = #{validTo},</if>
+            <if test="maxAmount != null  ">max_amount = #{maxAmount},</if>
+            <if test="minAmount != null  ">min_amount = #{minAmount},</if>
+            <if test="expectArriveTime != null  and expectArriveTime != ''  ">expect_arrive_time = #{expectArriveTime},</if>
+            <if test="memo != null  and memo != ''  ">memo = #{memo},</if>
+            <if test="channelMode != null  and channelMode != ''  ">channel_mode = #{channelMode},</if>
+            <if test="priority != null  ">priority = #{priority},</if>
+            gmt_modified = sysdate()
+        </trim>
+        where fund_channel_code = #{fundChannelCode}
+    </update>
+
+	<delete id="deleteTmFundChannelById" parameterType="String">
+        delete from tm_fund_channel where fund_channel_code = #{fundChannelCode}
+    </delete>
+	
+    <delete id="deleteTmFundChannelByIds" parameterType="String">
+        delete from tm_fund_channel where fund_channel_code in 
+        <foreach item="fundChannelCode" collection="array" open="(" separator="," close=")">
+            #{fundChannelCode}
+        </foreach>
+    </delete>
+    
+</mapper>

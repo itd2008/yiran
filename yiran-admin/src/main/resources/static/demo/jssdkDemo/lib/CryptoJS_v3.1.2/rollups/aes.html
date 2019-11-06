@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>aes测试</title>
+	<script type="text/javascript" src="aes.js"></script>
+	<script type="text/javascript" src="../components/mode-ecb.js"></script>
+</head>
+<body>
+	
+</body>
+
+<script type="text/javascript">
+
+	
+	function Encrypt(word){
+		 var key = CryptoJS.enc.Utf8.parse("abcdefgabcdefg12");	
+
+		 var srcs = CryptoJS.enc.Utf8.parse(word);
+		 var encrypted = CryptoJS.AES.encrypt(srcs, key, {mode:CryptoJS.mode.ECB,padding: CryptoJS.pad.Pkcs7});
+         return encrypted.toString();
+	}
+	function Decrypt(word){
+		 var key = CryptoJS.enc.Utf8.parse("abcdefgabcdefg12");	
+
+		 var decrypt = CryptoJS.AES.decrypt(word, key, {mode:CryptoJS.mode.ECB,padding: CryptoJS.pad.Pkcs7});
+		 return CryptoJS.enc.Utf8.stringify(decrypt).toString();
+	}
+
+	alert(Encrypt("我爱你"));
+	alert(Decrypt(Encrypt("我爱你")))
+
+</script>
+</html>

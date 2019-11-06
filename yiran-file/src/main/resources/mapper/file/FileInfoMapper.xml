@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.file.mapper.FileInfoMapper">
+    
+    <resultMap type="FileInfo" id="FileInfoResult">
+        <result property="id"    column="id"    />
+        <result property="newName"    column="new_name"    />
+        <result property="oldName"    column="old_name"    />
+        <result property="size"    column="size"    />
+        <result property="suffix"    column="suffix"    />
+        <result property="cssStyle"    column="css_style"    />
+        <result property="type"    column="type"    />
+        <result property="bucketName"    column="bucket_name"    />
+        <result property="ossUrl"    column="oss_url"    />
+        <result property="fileName"    column="file_name"    />
+        <result property="lable"    column="lable"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+	
+	<sql id="selectFileInfoVo">
+        select id, new_name, old_name, size, suffix, css_style, type, bucket_name, oss_url, file_name, lable, create_by, create_time, update_by, update_time, remark from sys_file_info
+    </sql>
+	
+    <select id="selectFileInfoList" parameterType="FileInfo" resultMap="FileInfoResult">
+        <include refid="selectFileInfoVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+             <if test="newName != null  and newName != '' "> and new_name = #{newName}</if>
+             <if test="oldName != null  and oldName != '' "> and old_name = #{oldName}</if>
+             <if test="size != null "> and size = #{size}</if>
+             <if test="suffix != null  and suffix != '' "> and suffix = #{suffix}</if>
+             <if test="cssStyle != null  and cssStyle != '' "> and css_style = #{cssStyle}</if>
+             <if test="type != null  and type != '' "> and type = #{type}</if>
+             <if test="bucketName != null  and bucketName != '' "> and bucket_name = #{bucketName}</if>
+             <if test="ossUrl != null  and ossUrl != '' "> and oss_url = #{ossUrl}</if>
+             <if test="fileName != null  and fileName != '' "> and file_name = #{fileName}</if>
+             <if test="lable != null  and lable != '' "> and lable = #{lable}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+         </where>
+         order by create_time desc
+    </select>
+    
+    <select id="selectFileInfoById" parameterType="Integer" resultMap="FileInfoResult">
+        <include refid="selectFileInfoVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertFileInfo" parameterType="FileInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_file_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="newName != null  and newName != ''  ">new_name,</if>
+			<if test="oldName != null  and oldName != ''  ">old_name,</if>
+			<if test="size != null  ">size,</if>
+			<if test="suffix != null  and suffix != ''  ">suffix,</if>
+			<if test="cssStyle != null  and cssStyle != ''  ">css_style,</if>
+			<if test="type != null  and type != ''  ">type,</if>
+			<if test="bucketName != null  and bucketName != ''  ">bucket_name,</if>
+			<if test="ossUrl != null  and ossUrl != ''  ">oss_url,</if>
+			<if test="fileName != null  and fileName != ''  ">file_name,</if>
+			<if test="lable != null  and lable != ''  ">lable,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			create_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="newName != null  and newName != ''  ">#{newName},</if>
+			<if test="oldName != null  and oldName != ''  ">#{oldName},</if>
+			<if test="size != null  ">#{size},</if>
+			<if test="suffix != null  and suffix != ''  ">#{suffix},</if>
+			<if test="cssStyle != null  and cssStyle != ''  ">#{cssStyle},</if>
+			<if test="type != null  and type != ''  ">#{type},</if>
+			<if test="bucketName != null  and bucketName != ''  ">#{bucketName},</if>
+			<if test="ossUrl != null  and ossUrl != ''  ">#{ossUrl},</if>
+			<if test="fileName != null  and fileName != ''  ">#{fileName},</if>
+			<if test="lable != null  and lable != ''  ">#{lable},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateFileInfo" parameterType="FileInfo">
+        update sys_file_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="newName != null  and newName != ''  ">new_name = #{newName},</if>
+            <if test="oldName != null  and oldName != ''  ">old_name = #{oldName},</if>
+            <if test="size != null  ">size = #{size},</if>
+            <if test="suffix != null  and suffix != ''  ">suffix = #{suffix},</if>
+            <if test="cssStyle != null  and cssStyle != ''  ">css_style = #{cssStyle},</if>
+            <if test="type != null  and type != ''  ">type = #{type},</if>
+            <if test="bucketName != null  and bucketName != ''  ">bucket_name = #{bucketName},</if>
+            <if test="ossUrl != null  and ossUrl != ''  ">oss_url = #{ossUrl},</if>
+            <if test="fileName != null  and fileName != ''  ">file_name = #{fileName},</if>
+            <if test="lable != null  and lable != ''  ">lable = #{lable},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            update_time = sysdate()
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteFileInfoById" parameterType="Integer">
+        delete from sys_file_info where id = #{id}
+    </delete>
+	
+    <delete id="deleteFileInfoByIds" parameterType="String">
+        delete from sys_file_info where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

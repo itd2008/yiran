@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="row">
+	<div class="col-sm-12">
+           <div class="ibox float-e-margins">
+               <div class="ibox-title">
+                   <h5>联合查询</h5>
+                   
+               </div>
+               <div class="ibox-content" style="height: 80px;">
+					<form id="joint_query_form_id">
+						<div class="select-list">
+							<ul>
+								<li>
+									订单类型：
+									<select name="orderType" th:with="type=${@dict.getType('joint_query_type')}">
+									  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+									  </option>
+									</select>
+								</li>
+					
+								<li>
+									订单号：<input type="text" name="orderNo"/>
+								</li>
+								<li>
+									<a class="btn btn-primary btn-rounded btn-sm" onclick="jointQuerySearch();"><i class="fa fa-search"></i>&nbsp;搜索</a>
+									<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+								</li>
+							</ul>
+						</div>
+					</form>
+               </div>
+           </div>
+       </div>
+    </div>
+    
+  <div id="show_datas" style="display: none;">
+  
+  	<div class="row">
+       <div class="col-sm-12">
+           <div class="ibox float-e-margins">
+               <div class="ibox-title">
+                   <h5>商家订单信息</h5>
+               </div>
+               <div class="ibox-content">
+
+                   <table class="table table-bordered">
+                       <thead>
+                           <tr>
+                               <th>客户名称</th>
+                               <th>订单号</th>
+                               <th>订单状态</th>
+                               <th>支付状态</th>
+                               <th>商品数量</th>
+                               <th>实付金额</th>
+                               <th>提交订单号</th>
+                               <th>创建时间</th>
+                               <th>最后修改时间</th>
+                           </tr>
+                       </thead>
+                       <tbody id="orderList">
+                            
+                       </tbody>
+                   </table>
+
+               </div>
+           </div>
+       </div>
+    </div>
+    
+	<div class="row">
+       <div class="col-sm-12">
+           <div class="ibox float-e-margins">
+               <div class="ibox-title">
+                   <h5>渠道支付订单</h5>
+               </div>
+               <div class="ibox-content">
+
+                   <table class="table table-bordered">
+                       <thead>
+                           <tr>
+                               <th>ChannelPay流水号</th>
+                               <th>支付流水号</th>
+                               <th>机构订单ID</th>
+                               <th>支付模式</th>
+                               <th>目标机构</th>
+                               <th>支付通知状态</th>
+                               <th>状态</th>
+                               <th>复核状态</th>
+                               <th>创建时间</th>
+                               <th>最后修改时间</th>
+                           </tr>
+                       </thead>
+                       <tbody id="channelPayOrderList">
+                            
+                       </tbody>
+                   </table>
+
+               </div>
+           </div>
+       </div>
+    </div>
+    
+    
+    <div class="row">
+       <div class="col-sm-12">
+           <div class="ibox float-e-margins">
+               <div class="ibox-title">
+                   <h5>支付结果通知</h5>
+               </div>
+               <div class="ibox-content">
+
+                   <table class="table table-bordered">
+                       <thead>
+                           <tr>
+                               <th>通知ID</th>
+                               <th>支付流水号</th>
+                               <th>通知事件</th>
+                               <th>通知地址</th>
+                               <th>通知状态</th>
+                               <th>重试次数</th>
+                               <th>重试中标识</th>
+                               <th>备注</th>
+                               <th>创建时间</th>
+                           </tr>
+                       </thead>
+                       <tbody id="resultNotify">
+                            
+                       </tbody>
+                   </table>
+
+               </div>
+           </div>
+       </div>
+    </div>
+    
+    
+    <div class="row">
+       <div class="col-sm-12">
+           <div class="ibox float-e-margins">
+               <div class="ibox-title">
+                   <h5>支付结果通知明细</h5>
+               </div>
+               <div class="ibox-content">
+
+                   <table class="table table-bordered">
+                       <thead>
+                           <tr>
+                               <th>通知ID</th>
+                               <th>通知响应</th>
+                               <th>服务器IP</th>
+                               <th>发起事件</th>
+                               <th>响应事件</th>
+                           </tr>
+                       </thead>
+                       <tbody id="notifyLogList">
+                            
+                       </tbody>
+                   </table>
+
+               </div>
+           </div>
+       </div>
+    </div>
+    
+    <div class="row">
+       <div class="col-sm-12">
+           <div class="ibox float-e-margins">
+               <div class="ibox-title">
+                   <h5>支付机构订单</h5>
+               </div>
+               <div class="ibox-content">
+
+                   <table class="table table-bordered">
+                       <thead>
+                           <tr>
+                               <th>机构订单ID</th>
+                               <th>提交机构订单号</th>
+                               <th>资金渠道</th>
+                               <th>订单类型</th>
+                               <th>金额</th>
+                               <th>状态</th>
+                               <th>交互类型</th>
+                               <th>交互状态</th>
+                               <th>归档批次</th>
+                               <th>预计提交时间</th>
+                               <th>创建时间</th>
+                               <th>最后修改时间</th>
+                           </tr>
+                       </thead>
+                       <tbody id="instOrderList">
+                           
+                       </tbody>
+                   </table>
+
+               </div>
+           </div>
+       </div>
+    </div>
+    
+    <div class="row">
+       <div class="col-sm-12">
+           <div class="ibox float-e-margins">
+               <div class="ibox-title">
+                   <h5>机构订单结果</h5>
+               </div>
+               <div class="ibox-content">
+
+                   <table class="table table-bordered">
+                       <thead>
+                           <tr>
+                               <th>结果ID</th>
+                               <th>机构订单ID</th>
+                               <th>机构返回流水号</th>
+                               <th>批次类型</th>
+                               <th>机构状态</th>
+                               <th>统一结果码</th>
+                               <th>机构结果代码</th>
+                               <th>实际金额</th>
+                               <th>卡类型</th>
+                               <th>对比状态</th>
+                               <th>创建时间</th>
+                               <th>最后修改时间</th>
+                               <th>备注</th>
+                           </tr>
+                       </thead>
+                       <tbody id="orderResultList">
+                           
+                       </tbody>
+                   </table>
+
+               </div>
+           </div>
+       </div>
+    </div>
+    </div>
+	
+</body>
+<div th:include="include :: footer"></div>
+<script type="text/javascript">
+		function jointQuerySearch(){
+			var from_data = $('#joint_query_form_id').serialize();
+			var pramas = from_data.split('&');
+			var orderTypes = pramas[0].split('=');
+			var orderNos = pramas[1].split('=');
+			$.ajax({
+	            url:"/payorder/jointQuery/query/"+orderTypes[1]+"/"+orderNos[1],
+	            type: "GET",
+	            success: function (data) {
+	            	console.log("data:"+data.data);
+	            	$("#show_datas").show();
+	            	
+	            	var orderList = data.data.orderList;
+	            	debugger
+	            	var orderHtml = "";
+	            	if(orderList.length > 0){//存在数据
+	            		for(var i=0;i<orderList.length;i++){
+	            			orderHtml +="<tr><td>"+orderList[i].customerName+"</td><td>"+orderList[i].orderNo+"</td><td>"+orderList[i].orderStatus+"</td><td>"+orderList[i].payStatus+"</td><td>"+orderList[i].productCount+"</td><td>"+orderList[i].logisticsFee+"</td><td>"+orderList[i].escrowTradeNo+"</td><td>"+orderList[i].createTime+"</td><td>"+orderList[i].updateTime+"</td></tr>";
+	            		}
+	            	}else{//暂无数据
+	            		orderHtml +="<tr><td colspan='9' style='text-align: center;'>暂无数据</td></tr>"
+	            	}
+	            	
+	            	$("#orderList").html(orderHtml);
+	            	
+	            	var channelPayOrderList = data.data.channelPayOrderList;
+	            	debugger
+	            	var channelPayOrderHtml = "";
+	            	if(channelPayOrderList.length > 0){//存在数据
+	            		for(var i=0;i<channelPayOrderList.length;i++){
+	            			channelPayOrderHtml +="<tr><td>"+channelPayOrderList[i].paySeqNo+"</td><td>"+channelPayOrderList[i].paymentSeqNo+"</td><td>"+channelPayOrderList[i].instOrderId+"</td><td>"+channelPayOrderList[i].payMode+"</td><td>"+channelPayOrderList[i].instCode+"</td><td>"+channelPayOrderList[i].paymentNotifyStatus+"</td><td>"+channelPayOrderList[i].status+"</td><td>"+channelPayOrderList[i].confirmStatus+"</td><td>"+channelPayOrderList[i].gmtCreate+"</td><td>"+channelPayOrderList[i].gmtModified+"</td></tr>";
+	            		}
+	            	}else{//暂无数据
+	            		channelPayOrderHtml +="<tr><td colspan='10' style='text-align: center;'>暂无数据</td></tr>"
+	            	}
+	            	
+	            	$("#channelPayOrderList").html(channelPayOrderHtml);
+	            	
+	            	var instOrderList = data.data.instOrderList;
+	            	
+	            	var instOrderListHtml = "";
+	            	if(instOrderList.length > 0){//存在数据
+	            		for(var i=0;i<instOrderList.length;i++){
+	            			instOrderListHtml +="<tr><td>"+instOrderList[i].instOrderId+"</td><td>"+instOrderList[i].instOrderNo+"</td><td>"+instOrderList[i].fundChannel+"</td><td>"+instOrderList[i].orderType+"</td><td>"+instOrderList[i].amount+"</td><td>"+instOrderList[i].status+"</td><td>"+instOrderList[i].communicateType+"</td><td>"+instOrderList[i].communicateStatus+"</td><td>"+instOrderList[i].archiveBatchId+"</td><td>"+instOrderList[i].gmtBookingSubmit+"</td><td>"+instOrderList[i].gmtCreate+"</td><td>"+instOrderList[i].gmtModified+"</td></tr>";
+	            		}
+	            	}else{//暂无数据
+	            		instOrderListHtml +="<tr><td colspan='12' style='text-align: center;'>暂无数据</td></tr>"
+	            	}
+	            	
+	            	$("#instOrderList").html(instOrderListHtml);
+	            	var orderResultList = data.data.orderResultList;
+	            	
+	            	var orderResultListHtml = "";
+	            	if(orderResultList.length > 0){//存在数据
+	            		for(var i=0;i<orderResultList.length;i++){
+	            			orderResultListHtml +="<tr><td>"+orderResultList[i].resultId+"</td><td>"+orderResultList[i].instOrderId+"</td><td>"+orderResultList[i].instSeqNo+"</td><td>"+orderResultList[i].batchType+"</td><td>"+orderResultList[i].instStatus+"</td><td>"+orderResultList[i].instResultCode+"</td><td>"+orderResultList[i].apiResultCode+"</td><td>"+orderResultList[i].realAmount+"</td><td>"+orderResultList[i].cardType+"</td><td>"+orderResultList[i].compareStatus+"</td><td>"+orderResultList[i].gmtCreate+"</td><td>"+orderResultList[i].gmtModified+"</td><td>"+orderResultList[i].memo+"</td></tr>";
+	            		}
+	            	}else{//暂无数据
+	            		orderResultListHtml +="<tr><td colspan='13' style='text-align: center;'>暂无数据</td></tr>"
+	            	}
+	            	
+	            	$("#orderResultList").html(orderResultListHtml);
+	            	
+	            	var resultNotify = data.data.resultNotify;
+	            	var resultNotifyHtml = "";
+	            	if(resultNotify != null){
+	            		resultNotifyHtml +="<tr><td>"+resultNotify.notifyId+"</td><td>"+resultNotify.instOrderId+"</td><td>"+resultNotify.eventCode+"</td><td>"+resultNotify.notifyTarget+"</td><td>"+resultNotify.notifyStatus+"</td><td>"+resultNotify.retryCount+"</td><td>"+resultNotify.retryingFlag+"</td><td>"+resultNotify.memo+"</td><td>"+resultNotify.gmtCreate+"</td></tr>";
+	            	}else{
+	            		resultNotifyHtml +="<tr><td colspan='9' style='text-align: center;'>暂无数据</td></tr>"
+	            	}
+	            	
+	            	$("#resultNotify").html(resultNotifyHtml);
+	            	
+					var notifyLogList = data.data.notifyLogList;
+	            	
+	            	var notifyLogListHtml = "";
+	            	if(notifyLogList.length > 0){//存在数据
+	            		for(var i=0;i<notifyLogList.length;i++){
+	            			notifyLogListHtml +="<tr><td>"+notifyLogList[i].notifyId+"</td><td>"+notifyLogList[i].notifyReturnData+"</td><td>"+notifyLogList[i].serverIdentity+"</td><td>"+notifyLogList[i].gmtNotify+"</td><td>"+notifyLogList[i].gmtReturn+"</td></tr>";
+	            		}
+	            	}else{//暂无数据
+	            		notifyLogListHtml +="<tr><td colspan='5' style='text-align: center;'>暂无数据</td></tr>"
+	            	}
+	            	
+	            	$("#notifyLogList").html(notifyLogListHtml);
+	            }
+			}); 		
+		}
+	
+	</script>
+</html>

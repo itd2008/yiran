@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>店面信息</title>
+		<meta name="keywords" content="KEYWORDS..." />
+		<meta name="description" content="DESCRIPTION..." />
+		<meta name="author" content="DeathGhost" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name='apple-touch-fullscreen' content='yes'>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no">
+		<meta name="format-detection" content="address=no">
+		<link rel="icon" href="images/icon/favicon.ico" type="image/x-icon">
+		<link rel="apple-touch-icon-precomposed" sizes="57x57" href="images/icon/apple-touch-icon-57x57-precomposed.png">
+		<link rel="apple-touch-icon-precomposed" sizes="120x120" href="images/icon/apple-touch-icon-120x120-precomposed.png">
+		<link rel="apple-touch-icon-precomposed" sizes="196x196" href="images/icon/apple-touch-icon-196x196-precomposed.png">
+		<meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, user-scalable=no">
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<link rel="stylesheet" type="text/css" href="css/reset.css" />
+		<script src="js/jquery.js"></script>
+		<script>
+			$(document).ready(function() {
+				$(".formarea li:last input[type='button']").click(function() {
+					alert("测试跳转效果，程序对接予以删除!");
+					location.href = "login.html";
+				});
+			});
+		</script>
+	</head>
+
+	<body>
+		<!--<header>
+			<a href="javascript:history.go(-1);" class="iconfont backIcon">&#60;</a>
+			<h1>其他信息</h1>
+		</header>
+		<div style="height:1rem;"></div>-->
+		<ul class="formarea">
+			<li>
+				<label class="lit">姓名</label>
+				<input type="text" placeholder="请输入您的姓名" class="textbox" />
+			</li>
+			<li>
+				<label class="lit">性别</label>
+				<div class="textbox gender">
+					<span class="add-gender">先生</span>
+					<span>女士</span>
+				</div>
+			</li>
+			<li>
+				<label class="lit">身份证号</label>
+				<input type="number" placeholder="请输入您的身份证号" class="textbox" />
+			</li>
+			<li>
+				<label class="lit">职业</label>
+				<input type="text" placeholder="请输入您的职业" class="textbox" />
+			</li>
+			<li>
+				<label class="lit">岗位</label>
+				<input type="text" placeholder="请输入您的岗位" class="textbox" />
+			</li>
+			<li class="clearfix">
+				<label class="lit">月收入水平</label>
+				<div class="choose">
+					<label><input name="mouth" type="radio" value="" />0~3K </label>
+					<label><input name="mouth" type="radio" value="" />3~6K </label>
+					<label><input name="mouth" type="radio" value="" />6K+ </label>
+				</div>
+			</li>
+		</ul>
+		<div style="height:1.2rem;"></div>
+		<div class="button-order-det">确认</div>
+		<script>
+			$(".gender span").click(
+				function() {
+					$(".gender span").removeClass("add-gender")
+					$(this).addClass("add-gender")
+				}
+			)
+		</script>
+	</body>
+
+</html>

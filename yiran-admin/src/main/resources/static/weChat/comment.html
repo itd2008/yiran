@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>发表评价</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+		<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.">
+		<link rel="stylesheet" href="lib/weui.min.css">
+		<link rel="stylesheet" href="css/jquery-weui.css">
+		<link rel="stylesheet" href="css/style.css">
+	</head>
+	<body ontouchstart>
+		<!--主体-->
+		<header class="wy-header">
+			<div class="wy-header-icon-back" onclick="javascript:history.go(-1)"><span></span></div>
+			<div class="wy-header-title">发表评价</div>
+		</header>
+		<div id="comment_id_body" >
+			
+		</div>
+
+
+		<script src="lib/jquery-2.1.4.js"></script>
+		<script src="lib/fastclick.js"></script>
+		<script type="text/javascript" src="js/jquery.Spinner.js"></script>
+		<script>
+			$(function() {
+				FastClick.attach(document.body);
+			});
+		</script>
+		<script src="js/jquery-weui.js"></script>
+		<script src="js/config.js"></script>
+		<script type="text/javascript">
+			var openId = sessionStorage.openId;
+			$(function() {
+				//获取orderNo
+				var orderNo = sessionStorage.commentOrderNo;
+				console.info("订单号：" + orderNo);
+				$.ajax({
+					type: "post",
+					url: base_url + "/api/yiran/weChatMall/order/getOrdersByOrderNo/" + orderNo+"/"+openId,
+					async: false, //同步
+					success: function(data) {
+						var orderResponse = data.data;
+						console.info(orderResponse)
+						var proList = orderResponse.productCatList;
+						commentHtml = "<div class='weui-panel weui-panel_access'><input type='hidden' value='"+orderResponse.orderId+"' id='order_id'/><div class='weui-panel__hd'><span>单号："+orderResponse.orderNo+"</span><span class='ord-status-txt-ts fr'>交易完成</span></div><div class='weui-media-box__bd  pd-10'>";
+						for(var i=0;i<proList.length;i++){
+							if(proList[i].isComment == 0){
+								commentHtml += "<div class='weui-media-box_appmsg ord-pro-list'><div class='weui-media-box__hd'><a href='#'><img class='weui-media-box__thumb' src='"+proList[i].pictureUrl+"'alt=''></a></div><div class='weui-media-box__bd'><h1 class='weui-media-box__desc'><a href='#' class='ord-pro-link'>"+proList[i].title+"</a></h1><p class='weui-media-box__desc'>"+proList[i].attr+"</p><div class='clear mg-t-10'><div class='wy-pro-pri fl'>¥<em class='num font-15'>"+proList[i].totalPrice+"</em></div><div class='pro-amount fr'><span class='font-13'>数量×<em class='name'>"+proList[i].totalNum+"</em></span></div></div></div></div><div class='weui-content clear'><div class='order-list-Below clear'><h1>商品评价</h1><ul id='commentary_score_"+proList[i].productId+"' ><li class='on'></li><li class='on'></li><li class='on'></li><li class='on'></li><li class='on'></li></ul></div><div class='weui-cells weui-cells_form com-txt-area'><div class='weui-cell'><div class='weui-cell__bd'><textarea id='commentary_content_"+proList[i].productId+"' class='weui-textarea txt-area' placeholder='这个商品满足你的期待吗？说说你的使用心得，分享给想买的他们吧' rows='3'></textarea><div class='weui-textarea-counter font-12 num'><span>0</span>/200</div></div></div></div><div class='weui-cells weui-cells_checkbox commg'></div></div><div class='weui-btn-area'><a class='weui-btn weui-btn_primary' href='javascript:publishComment("+proList[i].productId+");'>发表评价</a></div>";
+							}
+							
+						}
+						commentHtml +="</div></div>";
+						$("#comment_id_body").html(commentHtml);
+					},
+					//调用出错执行的函数
+					error: function() {
+						//请求出错处理
+						alert("请求服务器api失败，无法获取数据");
+					}
+				});
+
+
+			})
+			
+			var OrderProductComment = function OrderProductComment(orderId,productId,comment,commentaryScore,openId){
+				this.orderId = orderId;
+				this.productId = productId;
+				this.comment = comment;
+				this.commentaryScore = commentaryScore;
+				this.openId = openId;
+			}
+
+			var publishComment = function(productId) {
+				//获取订单ID
+				var orderId = $("#order_id").val();
+				//获取评价星星数量
+				var commentary_score = $("#commentary_score_"+productId+" .on");
+				
+				var comment = $("#commentary_content_"+productId).val();
+
+				var orderProductComment = new OrderProductComment(orderId,productId,comment,commentary_score.length,openId);
+				var jsonDate = JSON.stringify(orderProductComment);
+				$.ajax({
+					type: "post",
+					url: base_url+"/api/yiran/weChatMall/order/saveOrderProductComment",
+					data: jsonDate,
+					//参数格式为json
+					contentType: "application/json; charset=utf-8",
+					async: false, //同步
+					success: function (data) {
+						console.info(data)
+						var redrectFlag = data.data;
+						if(redrectFlag == '1'){
+							window.location.href="comment.html";
+						}else{
+							window.location.href="all_orders.html";
+						} 
+					},
+					//调用出错执行的函数
+					error: function(){
+						console.info("请求服务器api失败，无法获取数据");
+					}
+				});
+				
+			}
+			
+			$(document).on("click", ".order-list-Below ul li",
+					function(){
+							var num = $(this).index()+1;
+							var len = $(this).index();
+							var thats = $(this).parent(".order-list-Below ul").find("li");
+							if($(thats).eq(len).attr("class")=="on"){
+									if($(thats).eq(num).attr("class")=="on"){
+											$(thats).removeClass();
+											for (var i=0 ; i<num; i++) {
+													$(thats).eq(i).addClass("on");
+											}
+									}else{
+											$(thats).removeClass();
+											for (var k=0 ; k<len; k++) {
+													$(thats).eq(k).addClass("on");
+											}
+									}
+							}else{
+									$(thats).removeClass();
+									for (var j=0 ; j<num; j++) {
+											$(thats).eq(j).addClass("on");
+									}
+							}
+					}
+			);
+		</script>
+
+	</body>
+</html>

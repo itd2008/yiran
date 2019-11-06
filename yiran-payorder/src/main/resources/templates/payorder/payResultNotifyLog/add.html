@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-payResultNotifyLog-add">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">通知ID：</label>
+				<div class="col-sm-8">
+					<input id="notifyId" name="notifyId" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">通知返回数据：</label>
+				<div class="col-sm-8">
+					<input id="notifyReturnData" name="notifyReturnData" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">服务器IP：</label>
+				<div class="col-sm-8">
+					<input id="serverIdentity" name="serverIdentity" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">创建时间：</label>
+				<div class="col-sm-8">
+					<input id="gmtNotify" name="gmtNotify" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">修改时间：</label>
+				<div class="col-sm-8">
+					<input id="gmtReturn" name="gmtReturn" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+	</div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "payorder/payResultNotifyLog"
+		$("#form-payResultNotifyLog-add").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/add", $('#form-payResultNotifyLog-add').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

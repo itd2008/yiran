@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>商城分类</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+<link rel="stylesheet" href="lib/weui.min.css">
+<link rel="stylesheet" href="css/jquery-weui.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body ontouchstart>
+<!--顶部搜索-->
+<!--主体-->
+<div class="wy-content">
+  <div class="category-top">
+    <header class='weui-header'>
+			<div class="weui-search-bar" id="searchBar">
+				<form class="weui-search-bar__form">
+					<div class="weui-search-bar__box">
+						<i class="weui-icon-search"></i>
+						<input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索您想要的商品" required>
+						<a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
+					</div>
+					<label class="weui-search-bar__label" id="searchText" style="transform-origin: 0px 0px 0px; opacity: 1; transform: scale(1, 1);">
+						<i class="weui-icon-search"></i>
+						<span>搜索您想要的商品</span>
+					</label>
+				</form>
+				<a href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel">取消</a>
+			</div>
+		</header>
+  </div>
+  <aside>
+    <div class="menu-left scrollbar-none" id="sidebar">
+      <ul id="product_category">
+        
+      </ul>
+    </div>
+  </aside>
+	<div id="product_list">
+		
+	</div>
+</div>
+
+<!--底部导航-->
+<div class="foot-black"></div>
+<div class="weui-tabbar wy-foot-menu">
+  <a href="index.html" class="weui-tabbar__item ">
+    <div class="weui-tabbar__icon foot-menu-home"></div>
+    <p class="weui-tabbar__label">首页</p>
+  </a>
+  <a href="classify.html" class="weui-tabbar__item weui-bar__item--on">
+    <div class="weui-tabbar__icon foot-menu-list"></div>
+    <p class="weui-tabbar__label">分类</p>
+  </a>
+  <a href="shopcart.html" class="weui-tabbar__item">
+    <span id="car_product_badge_weui" class="weui-badge" style="position: absolute;top: -.4em;right: 1em;"><span id="car_product_number"></span></span>
+    <div class="weui-tabbar__icon foot-menu-cart"></div>
+    <p class="weui-tabbar__label">购物车</p>
+  </a>
+  <a href="mine.html" class="weui-tabbar__item">
+    <div class="weui-tabbar__icon foot-menu-member"></div>
+    <p class="weui-tabbar__label">我的</p>
+  </a>
+</div>
+<script src="lib/jquery-2.1.4.js"></script> 
+<script src="lib/fastclick.js"></script> 
+<script type="text/javascript" src="js/config.js"></script>
+<script>
+  $(function() {
+    FastClick.attach(document.body);
+  });
+</script>
+<script src="js/jquery-weui.js"></script>
+<script type="text/javascript">
+	$(function($){
+		
+		$.ajax({
+			type: "get",
+			url: base_url+"/api/yiran/weChatMall/productCategorySecondList",
+			async: false, //同步
+			success: function (data) {
+				var productCategory = data.data.categoryList;
+				console.info(data.data.categoryList)
+				var productList = data.data.product;
+				console.info(data.data.product)
+				var productCategoryHtml = "";
+				var productListHtml = "";
+				if(data.code == '200'){
+					productCategoryHtml += "<li class='active'>"+productCategory[0].name+"</li>";
+					for(var i = 1; i < productCategory.length; i++){
+						productCategoryHtml += "<li>"+productCategory[i].name+"</li>";
+					}
+					
+					$("#product_category").html(productCategoryHtml);
+					
+					for(var i = 0; i < productList.length; i++){
+						productListHtml += "<section class='menu-right padding-all j-content' ><h5>"+productCategory[i].name+"</h5><ul>";
+						for(var j =0; j<productList[i].length;j++){
+						productListHtml += "<li class='w-3'><a href='javascript:showProductDes("+productList[i][j].productId+")'></a><img src='"+productList[i][j].pictureUrl+"'><span>"+productList[i][j].productName+"</span></li>";
+						}
+						productListHtml += "</ul></section>";
+					}
+					
+					$("#product_list").html(productListHtml);
+			}
+		},
+		//调用出错执行的函数
+		error: function(){
+			$("#product_category").html("请求服务器api失败，无法获取数据");
+		}
+	});
+	
+	$('#sidebar ul li').click(function(){
+		$(this).addClass('active').siblings('li').removeClass('active');
+		var index = $(this).index();
+		$('.j-content').eq(index).show().siblings('.j-content').hide();
+	});
+})
+	//购物车数量
+	var openId = sessionStorage.openId;
+	$.ajax({
+		type: "post",
+		url: base_url+"/api/yiran/weChatMall/queryCarProduct/"+openId,
+		async: false, //同步
+		success: function (data) {
+			var cardata = data.data;
+			var carHtml = "";
+			if(data.code == '200'){
+				if(cardata.length > 0){
+					carHtml = cardata.length;
+					$("#car_product_number").html(carHtml);
+				}else{
+					$("#car_product_badge_weui").hide();
+				}
+			}
+			
+		},
+		//调用出错执行的函数
+        error: function(){
+            //请求出错处理
+        }
+	});
+function showProductDes(productId){
+	//将产品id存入sessionStorage
+	sessionStorage.productId = productId;
+	window.location.href="pro_info.html";
+}
+</script>
+</body>
+</html>

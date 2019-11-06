@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.wechat.mapper.WechatIndexPicMapper">
+    
+    <resultMap type="WechatIndexPic" id="WechatIndexPicResult">
+        <result property="id"    column="id"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="linkType"    column="link_type"    />
+        <result property="linkUrl"    column="link_url"    />
+        <result property="status"    column="status"    />
+        <result property="subTitle"    column="sub_title"    />
+        <result property="title"    column="title"    />
+        <result property="newName"    column="new_name"    />
+        <result property="oldName"    column="old_name"    />
+        <result property="pos"    column="pos"    />
+    </resultMap>
+	
+	<sql id="selectWechatIndexPicVo">
+        select id, create_date, link_type, link_url, status, sub_title, title, new_name, old_name, pos from wechat_index_pic
+    </sql>
+	
+    <select id="selectWechatIndexPicList" parameterType="WechatIndexPic" resultMap="WechatIndexPicResult">
+        <include refid="selectWechatIndexPicVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+             <if test="createDate != null "> and create_date = #{createDate}</if>
+             <if test="linkType != null "> and link_type = #{linkType}</if>
+             <if test="linkUrl != null  and linkUrl != '' "> and link_url = #{linkUrl}</if>
+             <if test="status != null "> and status = #{status}</if>
+             <if test="subTitle != null  and subTitle != '' "> and sub_title = #{subTitle}</if>
+             <if test="title != null  and title != '' "> and title = #{title}</if>
+             <if test="newName != null  and newName != '' "> and new_name = #{newName}</if>
+             <if test="oldName != null  and oldName != '' "> and old_name = #{oldName}</if>
+             <if test="pos != null "> and pos = #{pos}</if>
+         </where>
+    </select>
+    
+    <select id="selectWechatIndexPicById" parameterType="Integer" resultMap="WechatIndexPicResult">
+        <include refid="selectWechatIndexPicVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertWechatIndexPic" parameterType="WechatIndexPic" useGeneratedKeys="true" keyProperty="id">
+        insert into wechat_index_pic
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="linkType != null  ">link_type,</if>
+			<if test="linkUrl != null  and linkUrl != ''  ">link_url,</if>
+			<if test="status != null  ">status,</if>
+			<if test="subTitle != null  and subTitle != ''  ">sub_title,</if>
+			<if test="title != null  and title != ''  ">title,</if>
+			<if test="newName != null  and newName != ''  ">new_name,</if>
+			<if test="oldName != null  and oldName != ''  ">old_name,</if>
+			<if test="pos != null  ">pos,</if>
+			create_date
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="linkType != null  ">#{linkType},</if>
+			<if test="linkUrl != null  and linkUrl != ''  ">#{linkUrl},</if>
+			<if test="status != null  ">#{status},</if>
+			<if test="subTitle != null  and subTitle != ''  ">#{subTitle},</if>
+			<if test="title != null  and title != ''  ">#{title},</if>
+			<if test="newName != null  and newName != ''  ">#{newName},</if>
+			<if test="oldName != null  and oldName != ''  ">#{oldName},</if>
+			<if test="pos != null  ">#{pos},</if>
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateWechatIndexPic" parameterType="WechatIndexPic">
+        update wechat_index_pic
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="linkType != null  ">link_type = #{linkType},</if>
+            <if test="linkUrl != null  and linkUrl != ''  ">link_url = #{linkUrl},</if>
+            <if test="status != null  ">status = #{status},</if>
+            <if test="subTitle != null  and subTitle != ''  ">sub_title = #{subTitle},</if>
+            <if test="title != null  and title != ''  ">title = #{title},</if>
+            <if test="newName != null  and newName != ''  ">new_name = #{newName},</if>
+            <if test="oldName != null  and oldName != ''  ">old_name = #{oldName},</if>
+            <if test="pos != null  ">pos = #{pos},</if>
+            create_date = sysdate()
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteWechatIndexPicById" parameterType="Integer">
+        delete from wechat_index_pic where id = #{id}
+    </delete>
+	
+    <delete id="deleteWechatIndexPicByIds" parameterType="String">
+        delete from wechat_index_pic where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

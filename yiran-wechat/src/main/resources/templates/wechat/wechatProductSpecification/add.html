@@ -1,0 +1,81 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-wechatProductSpecification-add">
+        	<input name="productCategoryId" type="hidden" id="treeId"/>
+            <input name="parentId"  type="hidden" id="parentId"/>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">商品类别名：</label>
+				<div class="col-sm-8">
+					<div class="input-group">
+                    	<input name="productCategoryName" onclick="selectProductCategoryTree()" id="treeName" type="text" placeholder="请选择类目" class="form-control" required>
+                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                    </div>
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">规格类型 (颜色、尺码、包装等)：</label>
+				<div class="col-sm-8">
+					<input id="specificationType" name="specificationType" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">编码标识(color、size、packge)：</label>
+				<div class="col-sm-8">
+					<input id="specificationCode" name="specificationCode" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">规格值：</label>
+				<div class="col-sm-8">
+					<input id="specificationValue" name="specificationValue" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+	</div>
+    <div th:include="include::footer"></div>
+    <script th:src="@{/ajax/libs/select/select2.js}"></script>
+    <script type="text/javascript">
+		var prefix = ctx + "wechat/wechatProductSpecification"
+		$("#form-wechatProductSpecification-add").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		/*类目选择*/
+        function selectProductCategoryTree() {
+        	var treeId = $("#treeId").val();
+        	var productCategoryId = $.common.isEmpty(treeId) ? "1" : $("#treeId").val();
+			var options = {
+				title: '选择类目',
+				width: "380",
+				url: ctx + "wechat/wechatShopProductCategory/selectChannelTree/" + productCategoryId,
+				callBack: doSubmit
+			};
+			$.modal.openOptions(options);
+		}
+		
+        function doSubmit(index, layero){
+			var tree = layero.find("iframe")[0].contentWindow.$._tree;
+			if ($.tree.notAllowParents(tree)) {
+				var body = layer.getChildFrame('body', index);
+    			$("#treeId").val(body.find('#treeId').val());
+    			$("#treeName").val(body.find('#treeName').val());
+    			$("#productCategoryName").val(body.find('#treeName').val());
+    			layer.close(index);
+			}
+		}
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/add", $('#form-wechatProductSpecification-add').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    <div class="container-div">
+		<div class="col-sm-12">
+           <!-- Example Events -->
+           <div class="example-wrap">
+               <div class="example">
+                   <div class="btn-group hidden-xs" id="exampleTableEventsToolbar" role="group">
+                       <button type="button" class="btn btn-success" onclick="addChannelExt()">
+                           <i class="fa fa-plus"></i> 新增资金源维护期
+                       </button> 
+                   </div>
+                   <table id="exampleTableEvents" data-height="400" data-mobile-responsive="true">
+                       <thead>
+                           <tr>
+                               <th data-field="fundChannelCode">资金源编码</th>
+                               <th data-field="fundChannelBackup">备用资金源</th>
+                               <th data-field="instCode">目标机构值</th>
+                               <th data-field="gmtBegin">维护开始时间</th>
+                               <th data-field="gmtEnd">维护结束时间</th>
+                               <th data-field="description">描述</th>
+                               <th data-field="opt">操作</th>
+                           </tr>
+                       </thead>
+                       <tbody>
+                       		<tr th:each="fm,iterStat : ${list}">
+                           		<td data-field="fundChannelCode" th:text="${fm.fundChannelCode}"></td>
+                           		<td data-field="fundChannelBackup" th:text="${fm.fundChannelBackup}"></td>
+                           		<td data-field="instCode" th:text="${fm.instCode}"></td>
+                           		<td data-field="gmtBegin" th:text="${#dates.format(fm.gmtBegin,'yyyy-MM-dd HH:mm:ss')}"></td>
+                           		<td data-field="gmtEnd" th:text="${#dates.format(fm.gmtEnd,'yyyy-MM-dd HH:mm:ss')}"></td>
+                           		<td data-field="description" th:text="${fm.description}"></td>
+                           		<td data-field="opt">
+	                           		<a class="btn btn-success btn-xs" href="#" th:onclick="'javascript:editChannelExt('+${fm.maintainId}+');'"><i class="fa fa-edit" ></i>编辑</a> 
+	                           		<a class="btn btn-danger btn-xs" href="#" th:onclick="'javascript:removeChannelExt('+${fm.maintainId}+');'"><i class="fa fa-remove" ></i>删除</a>
+                           		</td>
+                           </tr>
+                       </tbody>
+                   </table>
+               </div>
+           </div>
+           <!-- End Example Events -->
+       </div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+    	var prefix = ctx + "paychannel/tmFundChannelMaintain"
+    
+    	function addChannelExt(){
+    		var fundChannelCode = [[${fundChannelCode}]];
+    		var url = prefix+"/add/"+fundChannelCode;
+    		$.modal.open("资金渠道基本配置-维护资金源-新增渠道维护期",url)
+    	}
+    	
+    	function editChannelExt(maintainId){
+    		var url = prefix+"/edit/"+maintainId;
+    		$.modal.open("资金渠道基本配置-维护资金源-修改渠道维护期",url)
+    	}
+    	
+    	function removeChannelExt(maintainId){
+    		$.modal.confirm("确定删除该条信息吗？", function() {
+            	var data = { "ids": maintainId };
+            	$.operate.submit(prefix + "/remove", "post", "json", data);
+            	window.location.reload();
+        	});
+    	}
+    </script>
+</body>
+</html>

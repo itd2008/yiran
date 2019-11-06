@@ -1,0 +1,120 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-wechatProduct-edit" th:object="${wechatProduct}">
+            <input id="productId" name="productId" th:field="*{productId}"  type="hidden">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">商品名称：</label>
+				<div class="col-sm-8">
+					<input id="productName" name="productName" th:field="*{productName}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">商品型号：</label>
+				<div class="col-sm-8">
+					<input id="marque" name="marque" th:field="*{marque}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">仓库条码：</label>
+				<div class="col-sm-8">
+					<input id="barcode" name="barcode" th:field="*{barcode}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">类型编号：</label>
+				<div class="col-sm-8">
+					<input id="typeId" name="typeId" th:field="*{typeId}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">类别编号：</label>
+				<div class="col-sm-8">
+					<input id="categoryId" name="categoryId" th:field="*{categoryId}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">品牌编号：</label>
+				<div class="col-sm-8">
+					<input id="brandId" name="brandId" th:field="*{brandId}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">商品价格：</label>
+				<div class="col-sm-8">
+					<input id="price" name="price" th:field="*{price}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">市场价格：</label>
+				<div class="col-sm-8">
+					<input id="marketPrice" name="marketPrice" th:field="*{marketPrice}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">成本价格: 进货价格：</label>
+				<div class="col-sm-8">
+					<input id="costPrice" name="costPrice" th:field="*{costPrice}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label"> 库存量：</label>
+				<div class="col-sm-8">
+					<input id="stock" name="stock" th:field="*{stock}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">告警库存：</label>
+				<div class="col-sm-8">
+					<input id="warningStock" name="warningStock" th:field="*{warningStock}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">商品积分：</label>
+				<div class="col-sm-8">
+					<input id="integral" name="integral" th:field="*{integral}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">商品图片url：</label>
+				<div class="col-sm-8">
+					<input id="pictureUrl" name="pictureUrl" th:field="*{pictureUrl}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">状态:0下架,1上架,2预售：</label>
+				<div class="col-sm-8">
+					<input id="status" name="status" th:field="*{status}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">创建时间：</label>
+				<div class="col-sm-8">
+					<input id="createTime" name="createTime" th:field="*{createTime}" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+    </div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "wechat/wechatProduct";
+		$("#form-wechatProduct-edit").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/edit", $('#form-wechatProduct-edit').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

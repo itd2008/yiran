@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+        <title>信息管理系统</title>
+        <link rel="stylesheet" href="fonts/iconfont.css"/>
+        <link rel="stylesheet" href="css/font.css"/>
+        <link rel="stylesheet" href="css/mui.css"/>
+        <link rel="stylesheet" href="css/weui.min.css"/>
+        <link rel="stylesheet" href="css/jquery-weui.min.css"/>
+        <link rel="stylesheet" href="css/animate.css"/>
+        <link rel="stylesheet" href="css/pages/login.css"/>     
+        <script>(function (doc, win) {
+          var docEl = doc.documentElement,
+            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+            recalc = function () {
+              var clientWidth = docEl.clientWidth;
+              if (!clientWidth) return;
+              docEl.style.fontSize = 20 * (clientWidth / 320) + 'px';
+            };
+
+          if (!doc.addEventListener) return;
+          win.addEventListener(resizeEvt, recalc, false);
+          doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);</script>
+    </head>
+    <body>
+        <div class="header">
+            <img src="images/login_logo_w.png">
+
+            <h2>高效云电商业务平台</h2>
+        </div>
+        <div class="login-wrap">
+            <div class="login-box">
+                <form action="index.html" method="post" class="form-signin" autocomplete="off">
+                    <div class="input-wrap">
+                        <table style="width:100%;">
+                        <tr class="login_sub" height="56">
+                        <td><label for="userName" class="sr-only">用户名:</label></td>
+                        <td><input type="text" name="username" placeholder="请输入用户名" id="userName" required autofocus autocomplete="off"></td>
+                        </tr>
+                        <tr class="login_sub" height="56">
+                        <td><label for="userPwd" class="sr-only">密码:</label></td>
+                        <td><input type="password" name="userpwd" placeholder="请输入密码" id="userPwd" required autocomplete="off"></td>
+                        </tr>
+                        </table>
+                    </div> 
+                   <button  type="submit" id="signinSubmit" class="weui_btn login_btn weui_btn_primary">登录</button>
+                </form>
+            </div>
+                            
+        </div>
+        <div class="footer">
+            
+        </div>
+    </body>
+<script src="js/jquery-2.1.4.min.js"></script>       
+<script>
+$('#signinSubmit').click(function(){
+    if($('#userName').val() === ''){
+        $(this).text('用户名不能为空');
+    }else if($('#userPwd').val() === ''){
+        $(this).text('密码不能为空');
+    }else{
+        $(this).text('请稍后...');
+    }
+});    
+
+</script>    
+</html>

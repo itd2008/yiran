@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.weixin.mapper.WeixinUserMapper">
+    
+    <resultMap type="WeixinUser" id="WeixinUserResult">
+        <result property="id"    column="id"    />
+        <result property="subscribe"    column="subscribe"    />
+        <result property="openid"    column="openid"    />
+        <result property="nickname"    column="nickname"    />
+        <result property="sex"    column="sex"    />
+        <result property="city"    column="city"    />
+        <result property="country"    column="country"    />
+        <result property="province"    column="province"    />
+        <result property="language"    column="language"    />
+        <result property="headimgurl"    column="headimgurl"    />
+        <result property="subscribeTime"    column="subscribe_time"    />
+        <result property="unionid"    column="unionid"    />
+        <result property="remark"    column="remark"    />
+        <result property="groupid"    column="groupid"    />
+        <result property="tagidList"    column="tagid_list"    />
+        <result property="bind"    column="bind"    />
+        <result property="username"    column="username"    />
+        <result property="password"    column="password"    />
+        <result property="name"    column="name"    />
+        <result property="phone"    column="phone"    />
+        <result property="address"    column="address"    />
+    </resultMap>
+	
+	<sql id="selectWeixinUserVo">
+        select id, subscribe, openid, nickname, sex, city, country, province, language, headimgurl, subscribe_time, unionid, remark, groupid, tagid_list, bind, username, password, name, phone, address from sys_weixin_user
+    </sql>
+	
+    <select id="selectWeixinUserList" parameterType="WeixinUser" resultMap="WeixinUserResult">
+        <include refid="selectWeixinUserVo"/>
+        <where>  
+            <if test="id != null and id != ''"> and id = #{id}</if>
+             <if test="subscribe != null and subscribe != ''"> and subscribe = #{subscribe}</if>
+             <if test="openid != null and openid != ''"> and openid = #{openid}</if>
+             <if test="nickname != null and nickname != ''"> and nickname = #{nickname}</if>
+             <if test="sex != null and sex != ''"> and sex = #{sex}</if>
+             <if test="city != null and city != ''"> and city = #{city}</if>
+             <if test="country != null and country != ''"> and country = #{country}</if>
+             <if test="province != null and province != ''"> and province = #{province}</if>
+             <if test="language != null and language != ''"> and language = #{language}</if>
+             <if test="headimgurl != null and headimgurl != ''"> and headimgurl = #{headimgurl}</if>
+             <if test="subscribeTime != null"> and subscribe_time = #{subscribeTime}</if>
+             <if test="unionid != null and unionid != ''"> and unionid = #{unionid}</if>
+             <if test="remark != null and remark != ''"> and remark = #{remark}</if>
+             <if test="groupid != null and groupid != ''"> and groupid = #{groupid}</if>
+             <if test="tagidList != null and tagidList != ''"> and tagid_list = #{tagidList}</if>
+             <if test="bind != null and bind != ''"> and bind = #{bind}</if>
+             <if test="username != null and username != ''"> and username = #{username}</if>
+             <if test="password != null and password != ''"> and password = #{password}</if>
+             <if test="name != null and name != ''"> and name = #{name}</if>
+             <if test="phone != null and phone != ''"> and phone = #{phone}</if>
+             <if test="address != null and address != ''"> and address = #{address}</if>
+         </where>
+    </select>
+    
+    <select id="selectWeixinUserById" parameterType="String" resultMap="WeixinUserResult">
+        <include refid="selectWeixinUserVo"/>
+        where id = #{id}
+    </select>
+    
+    <select id="selectWeixinUserByOpenId" parameterType="String" resultMap="WeixinUserResult">
+        <include refid="selectWeixinUserVo"/>
+        where openid = #{openid}
+    </select>
+    
+        
+    <insert id="insertWeixinUser" parameterType="WeixinUser">
+        insert into sys_weixin_user (
+			<if test="id != null and id != '' ">id, </if>
+			<if test="nickname != null and nickname != '' ">nickname, </if>
+			<if test="sex != null and sex != '' ">sex, </if>
+			<if test="city != null and city != '' ">city, </if>
+			<if test="country != null and country != '' ">country, </if>
+			<if test="province != null and province != '' ">province, </if>
+			<if test="language != null and language != '' ">language, </if>
+			<if test="headimgurl != null and headimgurl != '' ">headimgurl, </if>
+			<if test="subscribeTime != null">subscribe_time, </if>
+			<if test="unionid != null and unionid != '' ">unionid, </if>
+			<if test="remark != null and remark != '' ">remark, </if>
+			<if test="groupid != null and groupid != '' ">groupid, </if>
+			<if test="tagidList != null and tagidList != '' ">tagid_list, </if>
+			<if test="bind != null and bind != '' ">bind, </if>
+			<if test="username != null and username != '' ">username, </if>
+			<if test="password != null and password != '' ">password, </if>
+			<if test="name != null and name != '' ">name, </if>
+			<if test="phone != null and phone != '' ">phone, </if>
+			<if test="address != null and address != '' ">address,</if>
+			subscribe,
+			openid
+        )values(
+			<if test="id != null and id != ''">#{id}, </if>
+			<if test="nickname != null and nickname != ''">#{nickname}, </if>
+			<if test="sex != null and sex != ''">#{sex}, </if>
+			<if test="city != null and city != ''">#{city}, </if>
+			<if test="country != null and country != ''">#{country}, </if>
+			<if test="province != null and province != ''">#{province}, </if>
+			<if test="language != null and language != ''">#{language}, </if>
+			<if test="headimgurl != null and headimgurl != ''">#{headimgurl}, </if>
+			<if test="subscribeTime != null">#{subscribeTime}, </if>
+			<if test="unionid != null and unionid != ''">#{unionid}, </if>
+			<if test="remark != null and remark != ''">#{remark}, </if>
+			<if test="groupid != null and groupid != ''">#{groupid}, </if>
+			<if test="tagidList != null and tagidList != ''">#{tagidList}, </if>
+			<if test="bind != null and bind != ''">#{bind}, </if>
+			<if test="username != null and username != ''">#{username}, </if>
+			<if test="password != null and password != ''">#{password}, </if>
+			<if test="name != null and name != ''">#{name}, </if>
+			<if test="phone != null and phone != ''">#{phone}, </if>
+			<if test="address != null and address != ''">#{address},</if>
+			#{subscribe},
+			#{openid}
+		)
+    </insert>
+	 
+    <update id="updateWeixinUser" parameterType="WeixinUser">
+        update sys_weixin_user 
+        <set>
+            <if test="subscribe != null and subscribe != ''">subscribe = #{subscribe}, </if>
+            <if test="nickname != null and nickname != ''">nickname = #{nickname}, </if>
+            <if test="sex != null and sex != ''">sex = #{sex}, </if>
+            <if test="city != null and city != ''">city = #{city}, </if>
+            <if test="country != null and country != ''">country = #{country}, </if>
+            <if test="province != null and province != ''">province = #{province}, </if>
+            <if test="language != null and language != ''">language = #{language}, </if>
+            <if test="headimgurl != null and headimgurl != ''">headimgurl = #{headimgurl}, </if>
+            <if test="subscribeTime != null">subscribe_time = #{subscribeTime}, </if>
+            <if test="unionid != null and unionid != ''">unionid = #{unionid}, </if>
+            <if test="remark != null and remark != ''">remark = #{remark}, </if>
+            <if test="groupid != null and groupid != ''">groupid = #{groupid}, </if>
+            <if test="tagidList != null and tagidList != ''">tagid_list = #{tagidList}, </if>
+            <if test="bind != null and bind != ''">bind = #{bind}, </if>
+            <if test="username != null and username != ''">username = #{username}, </if>
+            <if test="password != null and password != ''">password = #{password}, </if>
+            <if test="name != null and name != ''">name = #{name}, </if>
+            <if test="phone != null and phone != ''">phone = #{phone}, </if>
+            <if test="address != null and address != ''">address = #{address},</if>
+            openid = #{openid}
+        </set>
+        where id = #{id}
+    </update>
+	
+	<delete id="deleteWeixinUserById" parameterType="String">
+        delete from sys_weixin_user where id = #{id}
+    </delete>
+	
+    <delete id="deleteWeixinUserByIds" parameterType="String">
+        delete from sys_weixin_user where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

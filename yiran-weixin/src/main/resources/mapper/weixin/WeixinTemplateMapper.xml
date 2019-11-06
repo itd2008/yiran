@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.weixin.mapper.WeixinTemplateMapper">
+    
+    <resultMap type="WeixinTemplate" id="WeixinTemplateResult">
+        <result property="id"    column="id"    />
+        <result property="templateId"    column="templateId"    />
+        <result property="templateTitle"    column="templateTitle"    />
+        <result property="templateContent"    column="templateContent"    />
+        <result property="templateKey"    column="templateKey"    />
+        <result property="templateIndustry"    column="templateIndustry"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+	
+	<sql id="selectWeixinTemplateVo">
+        select id, templateId, templateTitle, templateContent, templateKey, templateIndustry, create_by, create_time, update_by, update_time, remark from sys_weixin_template
+    </sql>
+	
+    <select id="selectWeixinTemplateList" parameterType="WeixinTemplate" resultMap="WeixinTemplateResult">
+        <include refid="selectWeixinTemplateVo"/>
+        <where>  
+            <if test="id != null and id != ''"> and id = #{id}</if>
+             <if test="templateId != null and templateId != ''"> and templateId = #{templateId}</if>
+             <if test="templateTitle != null and templateTitle != ''"> and templateTitle = #{templateTitle}</if>
+             <if test="templateContent != null "> and templateContent = #{templateContent}</if>
+             <if test="templateKey != null and templateKey != ''"> and templateKey = #{templateKey}</if>
+             <if test="templateIndustry != null and templateIndustry != ''"> and templateIndustry = #{templateIndustry}</if>
+             <if test="createBy != null and createBy != ''"> and create_by = #{createBy}</if>
+             <if test="createTime != null and createTime != ''"> and create_time = #{createTime}</if>
+             <if test="updateBy != null and updateBy != ''"> and update_by = #{updateBy}</if>
+             <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime}</if>
+             <if test="remark != null and remark != ''"> and remark = #{remark}</if>
+         </where>
+    </select>
+    
+    <select id="selectWeixinTemplateById" parameterType="String" resultMap="WeixinTemplateResult">
+        <include refid="selectWeixinTemplateVo"/>
+        where id = #{id}
+    </select>
+    
+    <select id="selectWeixinTemplateByTemplateKey" parameterType="String" resultMap="WeixinTemplateResult">
+        <include refid="selectWeixinTemplateVo"/>
+        where templateKey = #{templateKey}
+    </select>
+        
+    <insert id="insertWeixinTemplate" parameterType="WeixinTemplate">
+        insert into sys_weixin_template (
+			<if test="id != null and id != '' ">id, </if>
+			<if test="templateId != null and templateId != '' ">templateId, </if>
+			<if test="templateTitle != null and templateTitle != '' ">templateTitle, </if>
+			<if test="templateContent != null">templateContent, </if>
+			<if test="templateKey != null and templateKey != '' ">templateKey, </if>
+			<if test="templateIndustry != null and templateIndustry != '' ">templateIndustry, </if>
+			<if test="createBy != null and createBy != '' ">create_by, </if>
+			<if test="remark != null and remark != '' ">remark,</if>
+			create_time
+        )values(
+			<if test="id != null and id != ''">#{id}, </if>
+			<if test="templateId != null and templateId != ''">#{templateId}, </if>
+			<if test="templateTitle != null and templateTitle != ''">#{templateTitle}, </if>
+			<if test="templateContent != null ">#{templateContent}, </if>
+			<if test="templateKey != null and templateKey != ''">#{templateKey}, </if>
+			<if test="templateIndustry != null and templateIndustry != ''">#{templateIndustry}, </if>
+			<if test="createBy != null and createBy != ''">#{createBy}, </if>
+			<if test="remark != null and remark != ''">#{remark},</if>
+			sysdate()
+		)
+    </insert>
+	 
+    <update id="updateWeixinTemplate" parameterType="WeixinTemplate">
+        update sys_weixin_template 
+        <set>
+            <if test="templateId != null and templateId != ''">templateId = #{templateId}, </if>
+            <if test="templateTitle != null and templateTitle != ''">templateTitle = #{templateTitle}, </if>
+            <if test="templateContent != null ">templateContent = #{templateContent}, </if>
+            <if test="templateKey != null and templateKey != ''">templateKey = #{templateKey}, </if>
+            <if test="templateIndustry != null and templateIndustry != ''">templateIndustry = #{templateIndustry}, </if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy}, </if>
+            <if test="remark != null and remark != ''">remark = #{remark},</if>
+            update_time = sysdate() 
+        </set>
+        where id = #{id}
+    </update>
+	
+	<delete id="deleteWeixinTemplateById" parameterType="String">
+        delete from sys_weixin_template where id = #{id}
+    </delete>
+	
+    <delete id="deleteWeixinTemplateByIds" parameterType="String">
+        delete from sys_weixin_template where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

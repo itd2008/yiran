@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.paychannel.mapper.TrFcTargetInstRelationMapper">
+    
+    <resultMap type="TrFcTargetInstRelation" id="TrFcTargetInstRelationResult">
+        <result property="id"    column="id"    />
+        <result property="fundChannelCode"    column="fund_channel_code"    />
+        <result property="targetInstCode"    column="target_inst_code"    />
+    </resultMap>
+	
+	<sql id="selectTrFcTargetInstRelationVo">
+        select id, fund_channel_code, target_inst_code from tr_fc_target_inst_relation
+    </sql>
+	
+    <select id="selectTrFcTargetInstRelationList" parameterType="TrFcTargetInstRelation" resultMap="TrFcTargetInstRelationResult">
+        <include refid="selectTrFcTargetInstRelationVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+             <if test="fundChannelCode != null  and fundChannelCode != '' "> and fund_channel_code = #{fundChannelCode}</if>
+             <if test="targetInstCode != null  and targetInstCode != '' "> and target_inst_code = #{targetInstCode}</if>
+         </where>
+    </select>
+    
+    <select id="selectTrFcTargetInstRelationById" parameterType="Integer" resultMap="TrFcTargetInstRelationResult">
+        <include refid="selectTrFcTargetInstRelationVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTrFcTargetInstRelation" parameterType="TrFcTargetInstRelation" useGeneratedKeys="true" keyProperty="id">
+        insert into tr_fc_target_inst_relation
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="fundChannelCode != null  and fundChannelCode != ''  ">fund_channel_code,</if>
+			<if test="targetInstCode != null  and targetInstCode != ''  ">target_inst_code,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="fundChannelCode != null  and fundChannelCode != ''  ">#{fundChannelCode},</if>
+			<if test="targetInstCode != null  and targetInstCode != ''  ">#{targetInstCode},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateTrFcTargetInstRelation" parameterType="TrFcTargetInstRelation">
+        update tr_fc_target_inst_relation
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="fundChannelCode != null  and fundChannelCode != ''  ">fund_channel_code = #{fundChannelCode},</if>
+            <if test="targetInstCode != null  and targetInstCode != ''  ">target_inst_code = #{targetInstCode},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteTrFcTargetInstRelationById" parameterType="Integer">
+        delete from tr_fc_target_inst_relation where id = #{id}
+    </delete>
+	
+    <delete id="deleteTrFcTargetInstRelationByIds" parameterType="String">
+        delete from tr_fc_target_inst_relation where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+    <insert id="insertBatchTrFcTargetInstRelations" parameterType="java.util.List">
+    	insert ignore tr_fc_target_inst_relation
+    	(
+	    	fund_channel_code, 
+	    	target_inst_code
+    	)
+    	values
+    	<foreach collection ="list" item="td" index= "index" separator =",">
+    		(
+	    	#{td.fundChannelCode},
+	    	#{td.targetInstCode}
+    		)
+    	</foreach>
+    </insert>
+    
+</mapper>

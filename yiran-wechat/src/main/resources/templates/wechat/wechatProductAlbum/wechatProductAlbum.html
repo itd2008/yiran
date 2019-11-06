@@ -1,0 +1,135 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<style>
+img{
+    width: 150px !important;
+    height: 100px !important;
+    border-radius: 0 !important;
+}
+</style>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+						<ul>
+							<li>
+								商品编号：<input type="text" name="productId"/>
+							</li>
+
+							<li>
+								状态:0不可显示，1显示：<input type="text" name="status"/>
+							</li>
+
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+	        <div class="btn-group-sm hidden-xs" id="toolbar" role="group">
+				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="wechat:wechatProductAlbum:remove">
+					<i class="fa fa-remove"></i> 删除
+				</a>
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="wechat:wechatProductAlbum:export">
+						<i class="fa fa-download"></i> 导出
+				 </a>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('wechat:wechatProductAlbum:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('wechat:wechatProductAlbum:remove')}]];
+        var prefix = ctx + "wechat/wechatProductAlbum";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+                modalName: "商品相册",
+		        showExport: true,
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'productAlbumId', 
+					title : '自动编号',
+					visible: false
+				},
+				{
+					field : 'productId', 
+					title : '商品编号',
+					sortable: true
+				},
+				{
+					field : 'name', 
+					title : '图片名称',
+					sortable: true
+				},
+				{
+					field : 'imageUrl', 
+					title : '图片url',
+					sortable: true,
+				    formatter: function(value, row, index) {
+				        return "<a href='"+row.imageUrl+"' target='_Blank'>"+$.table.imageView(value, "")+"</a>";
+				    }
+				},
+				{
+					field : 'imageSize', 
+					title : '图片大小',
+					sortable: true
+				},
+				{
+					field : 'width', 
+					title : '图片宽度',
+					sortable: true
+				},
+				{
+					field : 'height', 
+					title : '图片高度',
+					sortable: true
+				},
+				{
+					field : 'intro', 
+					title : '图片介绍',
+					sortable: true
+				},
+				{
+					field : 'sort', 
+					title : '排列次序',
+					sortable: true
+				},
+				{
+					field : 'status', 
+					title : '状态:0不可显示，1显示',
+					sortable: true
+				},
+		        {
+		            title: '操作',
+		            align: 'center',
+		            formatter: function(value, row, index) {
+		            	var actions = [];
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.productAlbumId + '\')"><i class="fa fa-remove"></i>删除</a>');
+						return actions.join('');
+		            }
+		        }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

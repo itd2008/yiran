@@ -1,0 +1,136 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-tmFundChannelExt-add">
+			<input id="fundChannelCode" name="fundChannelCode" th:value="${fundChannelCode}" class="form-control" type="hidden">
+			
+			<div class="row">
+            	<div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">属性名：<span >*</span></label>
+                        <div class="col-sm-8">
+                            <input id="attrKey" name="attrKey" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">属性值：<span >*</span></label>
+                        <div class="col-sm-8">
+                            <input id="attrValue" name="attrValue" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+            	<div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">属性类型：<span >*</span></label>
+                        <div class="col-sm-8">
+                            <select name="attrType" id="attrType" class="form-control " th:with="type=${@dict.getType('channel_attr_type')}">
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+							  </option>
+							</select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">属性字典标识：<span >*</span></label>
+                        <div class="col-sm-8">
+                            <input id="attrCodeKey" name="attrCodeKey" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+            	<div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">值类型：<span >*</span></label>
+                        <div class="col-sm-8">
+                            <select name="valueType" id="valueType" class="form-control " th:with="type=${@dict.getType('channel_valuse_type')}">
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+							  </option>
+							</select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">api编码：</label>
+                        <div class="col-sm-8">
+                            <input id="apiCode" name="apiCode" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+            	<div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">值分隔符，针对有多选属性使用：<span >*</span></label>
+                        <div class="col-sm-8">
+                            <input id="valueSplit" name="valueSplit" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">是否需要满足VALUE指定：</label>
+                        <div class="col-sm-8">
+                            <select name="needMatch" id="needMatch" class="form-control " th:with="type=${@dict.getType('channel_ext_need_match')}">
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+							  </option>
+							</select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+            	<div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">比较类型：<span >*</span></label>
+                        <div class="col-sm-8">
+                            <select name="matchType" id="matchType" class="form-control " th:with="type=${@dict.getType('channel_ext_match_type')}">
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+							  </option>
+							</select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">备注：</label>
+                        <div class="col-sm-8">
+                           	<textarea name="memo" autocomplete="off" maxlength="500" class="form-control" rows="3"></textarea>
+						</div>
+                    </div>
+                </div>
+            </div>
+		</form>
+	</div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "paychannel/tmFundChannelExt"
+		$("#form-tmFundChannelExt-add").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/add", $('#form-tmFundChannelExt-add').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.payorder.mapper.PaySignInfoMapper">
+    
+    <resultMap type="PaySignInfoDO" id="PaySignInfoResult">
+        <result property="signReqId"    column="sign_req_id"    />
+        <result property="fundChannelCode"    column="fund_channel_code"    />
+        <result property="cardNo"    column="card_no"    />
+        <result property="targetInstCode"    column="target_inst_code"    />
+        <result property="bankCardId"    column="bank_card_id"    />
+        <result property="channelSignNo"    column="channel_sign_no"    />
+        <result property="channelSignTime"    column="channel_sign_time"    />
+        <result property="channelSignValid"    column="channel_sign_valid"    />
+        <result property="status"    column="status"    />
+        <result property="signSmsSender"    column="sign_sms_sender"    />
+        <result property="signSource"    column="sign_source"    />
+        <result property="payMode"    column="pay_mode"    />
+        <result property="accessChannel"    column="access_channel"    />
+        <result property="sourceExtInfo"    column="source_ext_info"    />
+        <result property="memberId"    column="member_id"    />
+        <result property="sourceSeqNo"    column="source_seq_no"    />
+        <result property="cmfSeqNo"    column="cmf_seq_no"    />
+        <result property="channelExtInfo"    column="channel_ext_info"    />
+        <result property="failReason"    column="fail_reason"    />
+        <result property="gmtCreate"    column="gmt_create"    />
+        <result property="gmtModified"    column="gmt_modified"    />
+    </resultMap>
+	
+	<sql id="selectPaySignInfoVo">
+        select sign_req_id, fund_channel_code, card_no, target_inst_code, bank_card_id, channel_sign_no, channel_sign_time, channel_sign_valid, status, sign_sms_sender, sign_source, pay_mode, access_channel, source_ext_info, member_id, source_seq_no, cmf_seq_no, channel_ext_info, fail_reason, gmt_create, gmt_modified from pay_sign_info
+    </sql>
+	
+    <select id="selectPaySignInfoList" parameterType="PaySignInfoDO" resultMap="PaySignInfoResult">
+        <include refid="selectPaySignInfoVo"/>
+        <where>  
+            <if test="signReqId != null "> and sign_req_id = #{signReqId}</if>
+             <if test="fundChannelCode != null  and fundChannelCode != '' "> and fund_channel_code = #{fundChannelCode}</if>
+             <if test="cardNo != null  and cardNo != '' "> and card_no = #{cardNo}</if>
+             <if test="targetInstCode != null  and targetInstCode != '' "> and target_inst_code = #{targetInstCode}</if>
+             <if test="bankCardId != null  and bankCardId != '' "> and bank_card_id = #{bankCardId}</if>
+             <if test="channelSignNo != null  and channelSignNo != '' "> and channel_sign_no = #{channelSignNo}</if>
+             <if test="channelSignTime != null "> and channel_sign_time = #{channelSignTime}</if>
+             <if test="channelSignValid != null "> and channel_sign_valid = #{channelSignValid}</if>
+             <if test="status != null  and status != '' "> and status = #{status}</if>
+             <if test="signSmsSender != null  and signSmsSender != '' "> and sign_sms_sender = #{signSmsSender}</if>
+             <if test="signSource != null  and signSource != '' "> and sign_source = #{signSource}</if>
+             <if test="payMode != null  and payMode != '' "> and pay_mode = #{payMode}</if>
+             <if test="accessChannel != null  and accessChannel != '' "> and access_channel = #{accessChannel}</if>
+             <if test="sourceExtInfo != null  and sourceExtInfo != '' "> and source_ext_info = #{sourceExtInfo}</if>
+             <if test="memberId != null  and memberId != '' "> and member_id = #{memberId}</if>
+             <if test="sourceSeqNo != null  and sourceSeqNo != '' "> and source_seq_no = #{sourceSeqNo}</if>
+             <if test="cmfSeqNo != null  and cmfSeqNo != '' "> and cmf_seq_no = #{cmfSeqNo}</if>
+             <if test="channelExtInfo != null  and channelExtInfo != '' "> and channel_ext_info = #{channelExtInfo}</if>
+             <if test="failReason != null  and failReason != '' "> and fail_reason = #{failReason}</if>
+             <if test="gmtCreate != null "> and gmt_create = #{gmtCreate}</if>
+             <if test="gmtModified != null "> and gmt_modified = #{gmtModified}</if>
+         </where>
+         order by gmt_create desc
+    </select>
+    
+    <select id="loadSignInfoByBankCardId" resultMap="PaySignInfoResult">
+        <include refid="selectPaySignInfoVo"/>
+        <where>  
+             <if test="bankCardId != null  and bankCardId != '' "> and bank_card_id = #{bankCardId}</if>
+             <if test="signSource != null  and signSource != '' "> and sign_source = #{signSource}</if>
+             <if test="memberId != null  and memberId != '' "> and member_id = #{memberId}</if>
+         </where>
+    </select>
+    
+    <select id="fetchFinishSignInfoByFundChannelCode" resultMap="PaySignInfoResult">
+        <include refid="selectPaySignInfoVo"/>
+        where fund_channel_code =#{fundChannelCode}
+        and card_no = #{cardNo}
+        and sign_source = #{status}
+    </select>
+    
+    <select id="selectPaySignInfoById" parameterType="Integer" resultMap="PaySignInfoResult">
+        <include refid="selectPaySignInfoVo"/>
+        where sign_req_id = #{signReqId}
+    </select>
+        
+    <insert id="insertPaySignInfo" parameterType="PaySignInfoDO">
+        insert into pay_sign_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="signReqId != null  ">sign_req_id,</if>
+			<if test="fundChannelCode != null  and fundChannelCode != ''  ">fund_channel_code,</if>
+			<if test="cardNo != null  and cardNo != ''  ">card_no,</if>
+			<if test="targetInstCode != null  and targetInstCode != ''  ">target_inst_code,</if>
+			<if test="bankCardId != null  and bankCardId != ''  ">bank_card_id,</if>
+			<if test="channelSignNo != null  and channelSignNo != ''  ">channel_sign_no,</if>
+			<if test="channelSignValid != null  ">channel_sign_valid,</if>
+			<if test="status != null  and status != ''  ">status,</if>
+			<if test="signSmsSender != null  and signSmsSender != ''  ">sign_sms_sender,</if>
+			<if test="signSource != null  and signSource != ''  ">sign_source,</if>
+			<if test="payMode != null  and payMode != ''  ">pay_mode,</if>
+			<if test="accessChannel != null  and accessChannel != ''  ">access_channel,</if>
+			<if test="sourceExtInfo != null  and sourceExtInfo != ''  ">source_ext_info,</if>
+			<if test="memberId != null  and memberId != ''  ">member_id,</if>
+			<if test="sourceSeqNo != null  and sourceSeqNo != ''  ">source_seq_no,</if>
+			<if test="cmfSeqNo != null  and cmfSeqNo != ''  ">cmf_seq_no,</if>
+			<if test="channelExtInfo != null  and channelExtInfo != ''  ">channel_ext_info,</if>
+			<if test="failReason != null  and failReason != ''  ">fail_reason,</if>
+			channel_sign_time,
+			gmt_create,
+			gmt_modified
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="signReqId != null  ">#{signReqId},</if>
+			<if test="fundChannelCode != null  and fundChannelCode != ''  ">#{fundChannelCode},</if>
+			<if test="cardNo != null  and cardNo != ''  ">#{cardNo},</if>
+			<if test="targetInstCode != null  and targetInstCode != ''  ">#{targetInstCode},</if>
+			<if test="bankCardId != null  and bankCardId != ''  ">#{bankCardId},</if>
+			<if test="channelSignNo != null  and channelSignNo != ''  ">#{channelSignNo},</if>
+			<if test="channelSignValid != null  ">#{channelSignValid},</if>
+			<if test="status != null  and status != ''  ">#{status},</if>
+			<if test="signSmsSender != null  and signSmsSender != ''  ">#{signSmsSender},</if>
+			<if test="signSource != null  and signSource != ''  ">#{signSource},</if>
+			<if test="payMode != null  and payMode != ''  ">#{payMode},</if>
+			<if test="accessChannel != null  and accessChannel != ''  ">#{accessChannel},</if>
+			<if test="sourceExtInfo != null  and sourceExtInfo != ''  ">#{sourceExtInfo},</if>
+			<if test="memberId != null  and memberId != ''  ">#{memberId},</if>
+			<if test="sourceSeqNo != null  and sourceSeqNo != ''  ">#{sourceSeqNo},</if>
+			<if test="cmfSeqNo != null  and cmfSeqNo != ''  ">#{cmfSeqNo},</if>
+			<if test="channelExtInfo != null  and channelExtInfo != ''  ">#{channelExtInfo},</if>
+			<if test="failReason != null  and failReason != ''  ">#{failReason},</if>
+			sysdate(),
+			sysdate(),
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updatePaySignInfo" parameterType="PaySignInfoDO">
+        update pay_sign_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="fundChannelCode != null  and fundChannelCode != ''  ">fund_channel_code = #{fundChannelCode},</if>
+            <if test="cardNo != null  and cardNo != ''  ">card_no = #{cardNo},</if>
+            <if test="targetInstCode != null  and targetInstCode != ''  ">target_inst_code = #{targetInstCode},</if>
+            <if test="bankCardId != null  and bankCardId != ''  ">bank_card_id = #{bankCardId},</if>
+            <if test="channelSignNo != null  and channelSignNo != ''  ">channel_sign_no = #{channelSignNo},</if>
+            <if test="channelSignTime != null  ">channel_sign_time = #{channelSignTime},</if>
+            <if test="channelSignValid != null  ">channel_sign_valid = #{channelSignValid},</if>
+            <if test="status != null  and status != ''  ">status = #{status},</if>
+            <if test="signSmsSender != null  and signSmsSender != ''  ">sign_sms_sender = #{signSmsSender},</if>
+            <if test="signSource != null  and signSource != ''  ">sign_source = #{signSource},</if>
+            <if test="payMode != null  and payMode != ''  ">pay_mode = #{payMode},</if>
+            <if test="accessChannel != null  and accessChannel != ''  ">access_channel = #{accessChannel},</if>
+            <if test="sourceExtInfo != null  and sourceExtInfo != ''  ">source_ext_info = #{sourceExtInfo},</if>
+            <if test="memberId != null  and memberId != ''  ">member_id = #{memberId},</if>
+            <if test="sourceSeqNo != null  and sourceSeqNo != ''  ">source_seq_no = #{sourceSeqNo},</if>
+            <if test="cmfSeqNo != null  and cmfSeqNo != ''  ">cmf_seq_no = #{cmfSeqNo},</if>
+            <if test="channelExtInfo != null  and channelExtInfo != ''  ">channel_ext_info = #{channelExtInfo},</if>
+            <if test="failReason != null  and failReason != ''  ">fail_reason = #{failReason},</if>
+            gmt_modified = sysdate()
+        </trim>
+        where sign_req_id = #{signReqId}
+    </update>
+
+	<delete id="deletePaySignInfoById" parameterType="Integer">
+        delete from pay_sign_info where sign_req_id = #{signReqId}
+    </delete>
+	
+    <delete id="deletePaySignInfoByIds" parameterType="String">
+        delete from pay_sign_info where sign_req_id in 
+        <foreach item="signReqId" collection="array" open="(" separator="," close=")">
+            #{signReqId}
+        </foreach>
+    </delete>
+    
+</mapper>

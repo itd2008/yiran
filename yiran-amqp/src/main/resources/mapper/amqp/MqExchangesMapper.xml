@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.amqp.mapper.MqExchangesMapper">
+    
+    <resultMap type="MqExchanges" id="MqExchangesResult">
+        <result property="exchangesId"    column="exchanges_id"    />
+        <result property="name"    column="name"    />
+        <result property="type"    column="type"    />
+        <result property="durability"    column="durability"    />
+        <result property="autoDelete"    column="auto_delete"    />
+        <result property="internal"    column="internal"    />
+        <result property="userWhoPerformedAction"    column="user_who_performed_action"    />
+        <result property="arguments"    column="arguments"    />
+        <result property="vhost"    column="vhost"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <collection  property="queues"   javaType="java.util.List"        resultMap="MqQueueResult" />
+    </resultMap>
+    
+    <resultMap type="MqQueue" id="MqQueueResult">
+        <result property="queueId"    column="queue_id"    />
+        <result property="queueName"    column="queue_name"    />
+        <result property="routingKey"    column="routing_key"    />
+        <result property="appName"    column="app_name"    />
+    </resultMap>
+	
+	<sql id="selectMqExchangesVo">
+        select e.exchanges_id, e.name, e.type, e.durability, e.auto_delete, e.internal, e.user_who_performed_action, e.arguments, e.vhost, e.create_by, e.create_time, e.update_by, e.update_time, e.remark,
+        q.queue_id,q.queue_name,q.routing_key,q.app_name
+        from sys_mq_exchanges e
+        left join sys_mq_exchanges_queue eq on e.exchanges_id = eq.exchanges_id
+        left join sys_mq_queue q on q.queue_id = eq.queue_id
+    </sql>
+	
+    <select id="selectMqExchangesList" parameterType="MqExchanges" resultMap="MqExchangesResult">
+        <include refid="selectMqExchangesVo"/>
+        <where>  
+            <if test="exchangesId != null "> and e.exchanges_id = #{exchangesId}</if>
+             <if test="name != null  and name != '' "> and e.name = #{name}</if>
+             <if test="type != null  and type != '' "> and e.type = #{type}</if>
+             <if test="durability != null  and durability != '' "> and e.durability = #{durability}</if>
+             <if test="autoDelete != null  and autoDelete != '' "> and e.auto_delete = #{autoDelete}</if>
+             <if test="internal != null  and internal != '' "> and e.internal = #{internal}</if>
+             <if test="userWhoPerformedAction != null  and userWhoPerformedAction != '' "> and e.user_who_performed_action = #{userWhoPerformedAction}</if>
+             <if test="arguments != null  and arguments != '' "> and e.arguments = #{arguments}</if>
+             <if test="vhost != null  and vhost != '' "> and e.vhost = #{vhost}</if>
+             <if test="createBy != null  and createBy != '' "> and e.create_by = #{createBy}</if>
+             <if test="createTime != null "> and e.create_time = #{createTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and e.update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and e.update_time = #{updateTime}</if>
+             <if test="remark != null  and remark != '' "> and e.remark = #{remark}</if>
+         </where>
+    </select>
+    
+    <select id="selectMqExchangesById" parameterType="Integer" resultMap="MqExchangesResult">
+        <include refid="selectMqExchangesVo"/>
+        where e.exchanges_id = #{exchangesId}
+    </select>
+    
+     <select id="selectAllMqExchangesList"  resultMap="MqExchangesResult">
+        <include refid="selectMqExchangesVo"/>
+     </select>
+        
+    <insert id="insertMqExchanges" parameterType="MqExchanges" useGeneratedKeys="true" keyProperty="exchangesId">
+        insert into sys_mq_exchanges
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name != null  and name != ''  ">name,</if>
+			<if test="type != null  and type != ''  ">type,</if>
+			<if test="durability != null  and durability != ''  ">durability,</if>
+			<if test="autoDelete != null  and autoDelete != ''  ">auto_delete,</if>
+			<if test="internal != null  and internal != ''  ">internal,</if>
+			<if test="userWhoPerformedAction != null  and userWhoPerformedAction != ''  ">user_who_performed_action,</if>
+			<if test="arguments != null  and arguments != ''  ">arguments,</if>
+			<if test="vhost != null  and vhost != ''  ">vhost,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			create_time,
+			update_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="name != null  and name != ''  ">#{name},</if>
+			<if test="type != null  and type != ''  ">#{type},</if>
+			<if test="durability != null  and durability != ''  ">#{durability},</if>
+			<if test="autoDelete != null  and autoDelete != ''  ">#{autoDelete},</if>
+			<if test="internal != null  and internal != ''  ">#{internal},</if>
+			<if test="userWhoPerformedAction != null  and userWhoPerformedAction != ''  ">#{userWhoPerformedAction},</if>
+			<if test="arguments != null  and arguments != ''  ">#{arguments},</if>
+			<if test="vhost != null  and vhost != ''  ">#{vhost},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			sysdate(),
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateMqExchanges" parameterType="MqExchanges">
+        update sys_mq_exchanges
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null  and name != ''  ">name = #{name},</if>
+            <if test="type != null  and type != ''  ">type = #{type},</if>
+            <if test="durability != null  and durability != ''  ">durability = #{durability},</if>
+            <if test="autoDelete != null  and autoDelete != ''  ">auto_delete = #{autoDelete},</if>
+            <if test="internal != null  and internal != ''  ">internal = #{internal},</if>
+            <if test="userWhoPerformedAction != null  and userWhoPerformedAction != ''  ">user_who_performed_action = #{userWhoPerformedAction},</if>
+            <if test="arguments != null  and arguments != ''  ">arguments = #{arguments},</if>
+            <if test="vhost != null  and vhost != ''  ">vhost = #{vhost},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            update_time = sysdate()
+        </trim>
+        where exchanges_id = #{exchangesId}
+    </update>
+
+	<delete id="deleteMqExchangesById" parameterType="Integer">
+        delete from sys_mq_exchanges where exchanges_id = #{exchangesId}
+    </delete>
+	
+    <delete id="deleteMqExchangesByIds" parameterType="String">
+        delete from sys_mq_exchanges where exchanges_id in 
+        <foreach item="exchangesId" collection="array" open="(" separator="," close=")">
+            #{exchangesId}
+        </foreach>
+    </delete>
+    
+</mapper>

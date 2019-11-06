@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.wechat.mapper.BsProvinceMapper">
+    
+    <resultMap type="BsProvince" id="BsProvinceResult">
+        <result property="provinceId"    column="PROVINCE_ID"    />
+        <result property="provinceCode"    column="PROVINCE_CODE"    />
+        <result property="provinceName"    column="PROVINCE_NAME"    />
+        <result property="shortName"    column="SHORT_NAME"    />
+        <result property="lng"    column="LNG"    />
+        <result property="lat"    column="LAT"    />
+        <result property="sort"    column="SORT"    />
+        <result property="gmtCreate"    column="GMT_CREATE"    />
+        <result property="gmtModified"    column="GMT_MODIFIED"    />
+        <result property="memo"    column="MEMO"    />
+        <result property="dataState"    column="DATA_STATE"    />
+        <result property="tenantCode"    column="TENANT_CODE"    />
+    </resultMap>
+	
+	<sql id="selectBsProvinceVo">
+        select PROVINCE_ID, PROVINCE_CODE, PROVINCE_NAME, SHORT_NAME, LNG, LAT, SORT, GMT_CREATE, GMT_MODIFIED, MEMO, DATA_STATE, TENANT_CODE from bs_province
+    </sql>
+	
+    <select id="selectBsProvinceList" parameterType="BsProvince" resultMap="BsProvinceResult">
+        <include refid="selectBsProvinceVo"/>
+        <where>  
+            <if test="provinceId != null "> and PROVINCE_ID = #{provinceId}</if>
+             <if test="provinceCode != null  and provinceCode != '' "> and PROVINCE_CODE = #{provinceCode}</if>
+             <if test="provinceName != null  and provinceName != '' "> and PROVINCE_NAME = #{provinceName}</if>
+             <if test="shortName != null  and shortName != '' "> and SHORT_NAME = #{shortName}</if>
+             <if test="dataState != null "> and DATA_STATE = #{dataState}</if>
+             <if test="tenantCode != null  and tenantCode != '' "> and TENANT_CODE = #{tenantCode}</if>
+         </where>
+    </select>
+    
+    <select id="selectBsProvinceLists" parameterType="BsProvince" resultMap="BsProvinceResult">
+        <include refid="selectBsProvinceVo"/>
+    </select>
+    
+    <select id="selectBsProvinceById" parameterType="Integer" resultMap="BsProvinceResult">
+        <include refid="selectBsProvinceVo"/>
+        where PROVINCE_ID = #{provinceId}
+    </select>
+        
+    <insert id="insertBsProvince" parameterType="BsProvince" useGeneratedKeys="true" keyProperty="provinceId">
+        insert into bs_province
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="provinceCode != null  and provinceCode != ''  ">PROVINCE_CODE,</if>
+			<if test="provinceName != null  and provinceName != ''  ">PROVINCE_NAME,</if>
+			<if test="shortName != null  and shortName != ''  ">SHORT_NAME,</if>
+			<if test="lng != null  and lng != ''  ">LNG,</if>
+			<if test="lat != null  and lat != ''  ">LAT,</if>
+			<if test="sort != null  ">SORT,</if>
+			<if test="gmtCreate != null  ">GMT_CREATE,</if>
+			<if test="gmtModified != null  ">GMT_MODIFIED,</if>
+			<if test="mEMO != null  and mEMO != ''  ">MEMO,</if>
+			<if test="dataState != null  ">DATA_STATE,</if>
+			<if test="tenantCode != null  and tenantCode != ''  ">TENANT_CODE,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="provinceCode != null  and provinceCode != ''  ">#{provinceCode},</if>
+			<if test="provinceName != null  and provinceName != ''  ">#{provinceName},</if>
+			<if test="shortName != null  and shortName != ''  ">#{shortName},</if>
+			<if test="lng != null  and lng != ''  ">#{lng},</if>
+			<if test="lat != null  and lat != ''  ">#{lat},</if>
+			<if test="sort != null  ">#{sort},</if>
+			<if test="gmtCreate != null  ">#{gmtCreate},</if>
+			<if test="gmtModified != null  ">#{gmtModified},</if>
+			<if test="memo != null  and memo != ''  ">#{memo},</if>
+			<if test="dataState != null  ">#{dataState},</if>
+			<if test="tenantCode != null  and tenantCode != ''  ">#{tenantCode},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateBsProvince" parameterType="BsProvince">
+        update bs_province
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="provinceCode != null  and provinceCode != ''  ">PROVINCE_CODE = #{provinceCode},</if>
+            <if test="provinceName != null  and provinceName != ''  ">PROVINCE_NAME = #{provinceName},</if>
+            <if test="shortName != null  and shortName != ''  ">SHORT_NAME = #{shortName},</if>
+            <if test="lng != null  and lng != ''  ">LNG = #{lng},</if>
+            <if test="lat != null  and lat != ''  ">LAT = #{lat},</if>
+            <if test="sotr != null  ">SORT = #{sort},</if>
+            <if test="gmtCreate != null  ">GMT_CREATE = #{gmtCreate},</if>
+            <if test="gmtModified != null  ">GMT_MODIFIED = #{gmtModified},</if>
+            <if test="mEMO != null  and mEMO != ''  ">MEMO = #{mEMO},</if>
+            <if test="dataState != null  ">DATA_STATE = #{dataState},</if>
+            <if test="tenantCode != null  and tenantCode != ''  ">TENANT_CODE = #{tenantCode},</if>
+        </trim>
+        where PROVINCE_ID = #{provinceId}
+    </update>
+
+	<delete id="deleteBsProvinceById" parameterType="Integer">
+        delete from bs_province where PROVINCE_ID = #{provinceId}
+    </delete>
+	
+    <delete id="deleteBsProvinceByIds" parameterType="String">
+        delete from bs_province where PROVINCE_ID in 
+        <foreach item="provinceId" collection="array" open="(" separator="," close=")">
+            #{provinceId}
+        </foreach>
+    </delete>
+    
+</mapper>

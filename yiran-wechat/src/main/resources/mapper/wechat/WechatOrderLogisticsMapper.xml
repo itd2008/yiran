@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.wechat.mapper.WechatOrderLogisticsMapper">
+    
+    <resultMap type="WechatOrderLogistics" id="WechatOrderLogisticsResult">
+        <result property="orderlogisticsId"    column="orderlogistics_id"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="expressNo"    column="express_no"    />
+        <result property="consigneeRealname"    column="consignee_realname"    />
+        <result property="consigneeTelphone"    column="consignee_telphone"    />
+        <result property="consigneeTelphone2"    column="consignee_telphone2"    />
+        <result property="consigneeAddress"    column="consignee_address"    />
+        <result property="consigneeZip"    column="consignee_zip"    />
+        <result property="logisticsType"    column="logistics_type"    />
+        <result property="logisticsId"    column="logistics_id"    />
+        <result property="logisticsFee"    column="logistics_fee"    />
+        <result property="agencyFee"    column="agency_fee"    />
+        <result property="deliveryAmount"    column="delivery_amount"    />
+        <result property="orderlogisticsStatus"    column="orderlogistics_status"    />
+        <result property="logisticsSettlementStatus"    column="logistics_settlement_status"    />
+        <result property="logisticsResultLast"    column="logistics_result_last"    />
+        <result property="logisticsResult"    column="logistics_result"    />
+        <result property="logisticsCreateTime"    column="logistics_create_time"    />
+        <result property="logisticsUpdateTime"    column="logistics_update_time"    />
+        <result property="logisticsSettlementTime"    column="logistics_settlement_time"    />
+        <result property="payChannel"    column="pay_channel"    />
+        <result property="escrowTradeNo"    column="escrow_trade_no"    />
+        <result property="reconciliationStatus"    column="reconciliation_status"    />
+        <result property="reconciliationTime"    column="reconciliation_time"    />
+    </resultMap>
+	
+	<sql id="selectWechatOrderLogisticsVo">
+        select orderlogistics_id, order_id, express_no, consignee_realname, consignee_telphone, consignee_telphone2, consignee_address, consignee_zip, logistics_type, logistics_id, logistics_fee, agency_fee, delivery_amount, orderlogistics_status, logistics_settlement_status, logistics_result_last, logistics_result, logistics_create_time, logistics_update_time, logistics_settlement_time, pay_channel, escrow_trade_no, reconciliation_status, reconciliation_time from wechat_order_logistics
+    </sql>
+	
+    <select id="selectWechatOrderLogisticsList" parameterType="WechatOrderLogistics" resultMap="WechatOrderLogisticsResult">
+        <include refid="selectWechatOrderLogisticsVo"/>
+        <where>  
+            <if test="orderlogisticsId != null "> and orderlogistics_id = #{orderlogisticsId}</if>
+             <if test="orderId != null "> and order_id = #{orderId}</if>
+             <if test="expressNo != null  and expressNo != '' "> and express_no = #{expressNo}</if>
+             <if test="consigneeRealname != null  and consigneeRealname != '' "> and consignee_realname = #{consigneeRealname}</if>
+             <if test="consigneeTelphone != null  and consigneeTelphone != '' "> and consignee_telphone = #{consigneeTelphone}</if>
+             <if test="consigneeTelphone2 != null  and consigneeTelphone2 != '' "> and consignee_telphone2 = #{consigneeTelphone2}</if>
+             <if test="consigneeAddress != null  and consigneeAddress != '' "> and consignee_address = #{consigneeAddress}</if>
+             <if test="consigneeZip != null  and consigneeZip != '' "> and consignee_zip = #{consigneeZip}</if>
+             <if test="logisticsType != null  and logisticsType != '' "> and logistics_type = #{logisticsType}</if>
+             <if test="logisticsId != null  and logisticsId != '' "> and logistics_id = #{logisticsId}</if>
+             <if test="logisticsFee != null  and logisticsFee != '' "> and logistics_fee = #{logisticsFee}</if>
+             <if test="agencyFee != null  and agencyFee != '' "> and agency_fee = #{agencyFee}</if>
+             <if test="deliveryAmount != null  and deliveryAmount != '' "> and delivery_amount = #{deliveryAmount}</if>
+             <if test="orderlogisticsStatus != null  and orderlogisticsStatus != '' "> and orderlogistics_status = #{orderlogisticsStatus}</if>
+             <if test="logisticsSettlementStatus != null  and logisticsSettlementStatus != '' "> and logistics_settlement_status = #{logisticsSettlementStatus}</if>
+             <if test="logisticsResultLast != null  and logisticsResultLast != '' "> and logistics_result_last = #{logisticsResultLast}</if>
+             <if test="logisticsResult != null  and logisticsResult != '' "> and logistics_result = #{logisticsResult}</if>
+             <if test="logisticsCreateTime != null "> and logistics_create_time = #{logisticsCreateTime}</if>
+             <if test="logisticsUpdateTime != null "> and logistics_update_time = #{logisticsUpdateTime}</if>
+             <if test="logisticsSettlementTime != null "> and logistics_settlement_time = #{logisticsSettlementTime}</if>
+             <if test="payChannel != null  and payChannel != '' "> and pay_channel = #{payChannel}</if>
+             <if test="escrowTradeNo != null  and escrowTradeNo != '' "> and escrow_trade_no = #{escrowTradeNo}</if>
+             <if test="reconciliationStatus != null  and reconciliationStatus != '' "> and reconciliation_status = #{reconciliationStatus}</if>
+             <if test="reconciliationTime != null "> and reconciliation_time = #{reconciliationTime}</if>
+         </where>
+    </select>
+    
+    <select id="selectWechatOrderLogisticsById" parameterType="Integer" resultMap="WechatOrderLogisticsResult">
+        <include refid="selectWechatOrderLogisticsVo"/>
+        where orderlogistics_id = #{orderlogisticsId}
+    </select>
+        
+    <insert id="insertWechatOrderLogistics" parameterType="WechatOrderLogistics" useGeneratedKeys="true" keyProperty="orderlogisticsId">
+        insert into wechat_order_logistics
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="orderId != null  ">order_id,</if>
+			<if test="expressNo != null  and expressNo != ''  ">express_no,</if>
+			<if test="consigneeRealname != null  and consigneeRealname != ''  ">consignee_realname,</if>
+			<if test="consigneeTelphone != null  and consigneeTelphone != ''  ">consignee_telphone,</if>
+			<if test="consigneeTelphone2 != null  and consigneeTelphone2 != ''  ">consignee_telphone2,</if>
+			<if test="consigneeAddress != null  and consigneeAddress != ''  ">consignee_address,</if>
+			<if test="consigneeZip != null  and consigneeZip != ''  ">consignee_zip,</if>
+			<if test="logisticsType != null  and logisticsType != ''  ">logistics_type,</if>
+			<if test="logisticsId != null  and logisticsId != ''  ">logistics_id,</if>
+			<if test="logisticsFee != null  and logisticsFee != ''  ">logistics_fee,</if>
+			<if test="agencyFee != null  and agencyFee != ''  ">agency_fee,</if>
+			<if test="deliveryAmount != null  and deliveryAmount != ''  ">delivery_amount,</if>
+			<if test="orderlogisticsStatus != null  and orderlogisticsStatus != ''  ">orderlogistics_status,</if>
+			<if test="logisticsSettlementStatus != null  and logisticsSettlementStatus != ''  ">logistics_settlement_status,</if>
+			<if test="logisticsResultLast != null  and logisticsResultLast != ''  ">logistics_result_last,</if>
+			<if test="logisticsResult != null  and logisticsResult != ''  ">logistics_result,</if>
+			<if test="logisticsCreateTime != null  ">logistics_create_time,</if>
+			<if test="logisticsUpdateTime != null  ">logistics_update_time,</if>
+			<if test="logisticsSettlementTime != null  ">logistics_settlement_time,</if>
+			<if test="payChannel != null  and payChannel != ''  ">pay_channel,</if>
+			<if test="escrowTradeNo != null  and escrowTradeNo != ''  ">escrow_trade_no,</if>
+			<if test="reconciliationStatus != null  and reconciliationStatus != ''  ">reconciliation_status,</if>
+			<if test="reconciliationTime != null  ">reconciliation_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="orderId != null  ">#{orderId},</if>
+			<if test="expressNo != null  and expressNo != ''  ">#{expressNo},</if>
+			<if test="consigneeRealname != null  and consigneeRealname != ''  ">#{consigneeRealname},</if>
+			<if test="consigneeTelphone != null  and consigneeTelphone != ''  ">#{consigneeTelphone},</if>
+			<if test="consigneeTelphone2 != null  and consigneeTelphone2 != ''  ">#{consigneeTelphone2},</if>
+			<if test="consigneeAddress != null  and consigneeAddress != ''  ">#{consigneeAddress},</if>
+			<if test="consigneeZip != null  and consigneeZip != ''  ">#{consigneeZip},</if>
+			<if test="logisticsType != null  and logisticsType != ''  ">#{logisticsType},</if>
+			<if test="logisticsId != null  and logisticsId != ''  ">#{logisticsId},</if>
+			<if test="logisticsFee != null  and logisticsFee != ''  ">#{logisticsFee},</if>
+			<if test="agencyFee != null  and agencyFee != ''  ">#{agencyFee},</if>
+			<if test="deliveryAmount != null  and deliveryAmount != ''  ">#{deliveryAmount},</if>
+			<if test="orderlogisticsStatus != null  and orderlogisticsStatus != ''  ">#{orderlogisticsStatus},</if>
+			<if test="logisticsSettlementStatus != null  and logisticsSettlementStatus != ''  ">#{logisticsSettlementStatus},</if>
+			<if test="logisticsResultLast != null  and logisticsResultLast != ''  ">#{logisticsResultLast},</if>
+			<if test="logisticsResult != null  and logisticsResult != ''  ">#{logisticsResult},</if>
+			<if test="logisticsCreateTime != null  ">#{logisticsCreateTime},</if>
+			<if test="logisticsUpdateTime != null  ">#{logisticsUpdateTime},</if>
+			<if test="logisticsSettlementTime != null  ">#{logisticsSettlementTime},</if>
+			<if test="payChannel != null  and payChannel != ''  ">#{payChannel},</if>
+			<if test="escrowTradeNo != null  and escrowTradeNo != ''  ">#{escrowTradeNo},</if>
+			<if test="reconciliationStatus != null  and reconciliationStatus != ''  ">#{reconciliationStatus},</if>
+			<if test="reconciliationTime != null  ">#{reconciliationTime},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateWechatOrderLogistics" parameterType="WechatOrderLogistics">
+        update wechat_order_logistics
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderId != null  ">order_id = #{orderId},</if>
+            <if test="expressNo != null  and expressNo != ''  ">express_no = #{expressNo},</if>
+            <if test="consigneeRealname != null  and consigneeRealname != ''  ">consignee_realname = #{consigneeRealname},</if>
+            <if test="consigneeTelphone != null  and consigneeTelphone != ''  ">consignee_telphone = #{consigneeTelphone},</if>
+            <if test="consigneeTelphone2 != null  and consigneeTelphone2 != ''  ">consignee_telphone2 = #{consigneeTelphone2},</if>
+            <if test="consigneeAddress != null  and consigneeAddress != ''  ">consignee_address = #{consigneeAddress},</if>
+            <if test="consigneeZip != null  and consigneeZip != ''  ">consignee_zip = #{consigneeZip},</if>
+            <if test="logisticsType != null  and logisticsType != ''  ">logistics_type = #{logisticsType},</if>
+            <if test="logisticsId != null  and logisticsId != ''  ">logistics_id = #{logisticsId},</if>
+            <if test="logisticsFee != null  and logisticsFee != ''  ">logistics_fee = #{logisticsFee},</if>
+            <if test="agencyFee != null  and agencyFee != ''  ">agency_fee = #{agencyFee},</if>
+            <if test="deliveryAmount != null  and deliveryAmount != ''  ">delivery_amount = #{deliveryAmount},</if>
+            <if test="orderlogisticsStatus != null  and orderlogisticsStatus != ''  ">orderlogistics_status = #{orderlogisticsStatus},</if>
+            <if test="logisticsSettlementStatus != null  and logisticsSettlementStatus != ''  ">logistics_settlement_status = #{logisticsSettlementStatus},</if>
+            <if test="logisticsResultLast != null  and logisticsResultLast != ''  ">logistics_result_last = #{logisticsResultLast},</if>
+            <if test="logisticsResult != null  and logisticsResult != ''  ">logistics_result = #{logisticsResult},</if>
+            <if test="logisticsCreateTime != null  ">logistics_create_time = #{logisticsCreateTime},</if>
+            <if test="logisticsUpdateTime != null  ">logistics_update_time = #{logisticsUpdateTime},</if>
+            <if test="logisticsSettlementTime != null  ">logistics_settlement_time = #{logisticsSettlementTime},</if>
+            <if test="payChannel != null  and payChannel != ''  ">pay_channel = #{payChannel},</if>
+            <if test="escrowTradeNo != null  and escrowTradeNo != ''  ">escrow_trade_no = #{escrowTradeNo},</if>
+            <if test="reconciliationStatus != null  and reconciliationStatus != ''  ">reconciliation_status = #{reconciliationStatus},</if>
+            <if test="reconciliationTime != null  ">reconciliation_time = #{reconciliationTime},</if>
+        </trim>
+        where orderlogistics_id = #{orderlogisticsId}
+    </update>
+
+	<delete id="deleteWechatOrderLogisticsById" parameterType="Integer">
+        delete from wechat_order_logistics where orderlogistics_id = #{orderlogisticsId}
+    </delete>
+	
+    <delete id="deleteWechatOrderLogisticsByIds" parameterType="String">
+        delete from wechat_order_logistics where orderlogistics_id in 
+        <foreach item="orderlogisticsId" collection="array" open="(" separator="," close=")">
+            #{orderlogisticsId}
+        </foreach>
+    </delete>
+    
+</mapper>

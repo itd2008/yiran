@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+        <title>我</title>
+        <link rel="stylesheet" href="fonts/iconfont.css"/>
+        <link rel="stylesheet" href="css/font.css"/>
+        <link rel="stylesheet" href="css/weui.min.css"/>
+        <link rel="stylesheet" href="css/jquery-weui.min.css"/>
+        <link rel="stylesheet" href="css/mui.css"/>
+        <link rel="stylesheet" href="css/animate.css"/>
+        <link rel="stylesheet" href="css/pages/self.css"/>
+        <script>(function (doc, win) {
+          var docEl = doc.documentElement,
+            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+            recalc = function () {
+              var clientWidth = docEl.clientWidth;
+              if (!clientWidth) return;
+              docEl.style.fontSize = 20 * (clientWidth / 320) + 'px';
+            };
+
+          if (!doc.addEventListener) return;
+          win.addEventListener(resizeEvt, recalc, false);
+          doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);</script>
+    </head>
+    <body>
+        <header>
+            <div class="head-box">
+               
+               <div class="head-icon-outer">
+                    <div class="head-icon" style="background: url(images/icon.jpg) center center no-repeat;"></div>
+               </div>
+               <h3>shop05843928</h3>
+               <div class="level">
+                    <p><span>会员等级：</span><span class="">普通</span></p>
+                    <p><span><a href="detail.html">积分明细</a></span></p>
+                    <p><span><a href="back.html">返现明细</a></span></p>
+               </div>
+               <ul class="header_box">
+                   <li class="header_list" onclick="window.location='direct.html'"><span>直推人数</span><span>0</span></li>
+                   <li class="header_list" onclick="window.location='member.html'"><span>下级总数</span><span>0</span></li>
+                   <li class="header_list"><span>云币余额</span><span>0.00</span></li>
+               </ul>
+            </div>
+            
+        </header>
+        <article>
+            <div class="weui_cells weui_cells_access">
+                <a class="weui_cell" href="javascript:;">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <p>商务基金</p>
+                    </div>
+                    <i class="iconfont">&#xe61e;</i>
+                </a>
+            </div>
+            <div class="weui_cells weui_cells_access">
+                <a class="weui_cell" href="javascript:;">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <p>商城基金</p>
+                    </div>
+                    <i class="iconfont">&#xe61e;</i>
+                </a>
+            </div>                                 
+            <div class="weui_cells weui_cells_access">
+                <a class="weui_cell" href="withdrawal.html">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <p>积分余额</p>
+                    </div>
+                    <i class="iconfont">&#xe61e;</i>
+                </a>
+            </div>
+            <div class="weui_cells weui_cells_access">
+                <a class="weui_cell" href="modify.html">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <p>密码修改</p>
+                    </div>
+                   <i class="iconfont">&#xe61e;</i>
+                </a>
+            </div>
+            <div class="weui_cells weui_cells_access">
+                <a class="weui_cell" href="apply.html">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <p>申请发贷</p>
+                    </div>
+                   <i class="iconfont">&#xe61e;</i>
+                </a>
+            </div>
+            <div class="button">
+                <div class="bd">
+                    <a href="login.html" class="weui_btn weui_btn_primary">退出</a>
+                </div>
+            </div>
+           
+        </article>
+       <!-- 尾部 start -->
+        <footer>
+            <ul class="menubar animated fadeInUp delay3">
+                <li class="tab" onclick="window.location='notice.html'">
+                    <i class="iconfont">&#xe614;</i>
+                    <label class="tab-label">公告</label>              
+                </li>
+                <li class="tab " onclick="window.location='index.html'">
+                    <i class="iconfont">&#xe6f0;</i>
+                    <label class="tab-label">应用</label>
+                    
+                </li>
+                <li class="tab active" onclick="window.location='self.html'">
+                    <i class="iconfont">&#xe60d;</i>
+                    <label class="tab-label">我的</label>
+                    <span class="point"></span>
+                </li>
+            </ul>
+        </footer>
+       <!-- 尾部 end -->
+    </body>
+</html>
+<script type="text/javascript">
+    function back(){
+
+    }
+</script>

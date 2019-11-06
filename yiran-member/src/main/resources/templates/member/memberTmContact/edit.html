@@ -1,0 +1,174 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-memberTmContact-edit" th:object="${memberTmContact}">
+            <input id="contactId" name="contactId" th:field="*{contactId}"  type="hidden">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">联系信息所属对象ID：</label>
+				<div class="col-sm-8">
+					<input id="objectId" name="objectId" th:field="*{objectId}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">联系人名称：</label>
+				<div class="col-sm-8">
+					<input id="contactName" name="contactName" th:field="*{contactName}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">联系人类型(0会员联系信息 1其他联系人)：</label>
+				<div class="col-sm-8">
+					<input id="contactType" name="contactType" th:field="*{contactType}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">国家,区划码：</label>
+				<div class="col-sm-8">
+					<input id="country" name="country" th:field="*{country}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">省份,区划码：</label>
+				<div class="col-sm-8">
+					<input id="province" name="province" th:field="*{province}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">城市,区划码：</label>
+				<div class="col-sm-8">
+					<input id="city" name="city" th:field="*{city}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">城镇/区/街：</label>
+				<div class="col-sm-8">
+					<input id="town" name="town" th:field="*{town}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">地址：</label>
+				<div class="col-sm-8">
+					<input id="address" name="address" th:field="*{address}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">邮政编码：</label>
+				<div class="col-sm-8">
+					<input id="postcode" name="postcode" th:field="*{postcode}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">网站：</label>
+				<div class="col-sm-8">
+					<input id="website" name="website" th:field="*{website}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">传真：</label>
+				<div class="col-sm-8">
+					<input id="fax" name="fax" th:field="*{fax}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">手机：</label>
+				<div class="col-sm-8">
+					<input id="mobile" name="mobile" th:field="*{mobile}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">电话：</label>
+				<div class="col-sm-8">
+					<input id="tel" name="tel" th:field="*{tel}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">邮箱：</label>
+				<div class="col-sm-8">
+					<input id="email" name="email" th:field="*{email}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">QQ：</label>
+				<div class="col-sm-8">
+					<input id="qq" name="qq" th:field="*{qq}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">微信：</label>
+				<div class="col-sm-8">
+					<input id="wechart" name="wechart" th:field="*{wechart}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">职位：</label>
+				<div class="col-sm-8">
+					<input id="position" name="position" th:field="*{position}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">部门：</label>
+				<div class="col-sm-8">
+					<input id="dept" name="dept" th:field="*{dept}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">建立时间：</label>
+				<div class="col-sm-8">
+					<input id="createTime" name="createTime" th:field="*{createTime}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">更新时间：</label>
+				<div class="col-sm-8">
+					<input id="updateTime" name="updateTime" th:field="*{updateTime}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">建立人：</label>
+				<div class="col-sm-8">
+					<input id="createUser" name="createUser" th:field="*{createUser}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">更新人：</label>
+				<div class="col-sm-8">
+					<input id="updateUser" name="updateUser" th:field="*{updateUser}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备注信息：</label>
+				<div class="col-sm-8">
+					<input id="memo" name="memo" th:field="*{memo}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">0 无效，1有效：</label>
+				<div class="col-sm-8">
+					<input id="status" name="status" th:field="*{status}" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+    </div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "member/memberTmContact";
+		$("#form-memberTmContact-edit").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/edit", $('#form-memberTmContact-edit').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

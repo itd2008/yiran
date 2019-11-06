@@ -1,0 +1,139 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+						<ul>
+							<li>
+								交换机名称：<input type="text" name="name"/>
+							</li>
+
+							<li>
+								类型：
+								<select name="type" th:with="type=${@dict.getType('rabbitmq_exchange_type')}">
+								  <option value="">所有</option>
+								  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+								  </option>
+								</select>
+							</li>
+
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+	        <div class="btn-group-sm hidden-xs" id="toolbar" role="group">
+				<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="amqp:mqExchanges:add">
+					<i class="fa fa-plus"></i> 添加
+				</a>
+				<!-- <a class="btn btn-primary btn-edit disabled" onclick="$.operate.edit()" shiro:hasPermission="amqp:mqExchanges:edit">
+					<i class="fa fa-edit"></i> 修改
+				</a> -->
+				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="amqp:mqExchanges:remove">
+					<i class="fa fa-remove"></i> 删除
+				</a>
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="amqp:mqExchanges:export">
+						<i class="fa fa-download"></i> 导出
+				 </a>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('amqp:mqExchanges:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('amqp:mqExchanges:remove')}]];
+        var prefix = ctx + "amqp/mqExchanges";
+
+        var exchangeTypeDatas = [[${@dict.getType('rabbitmq_exchange_type')}]];
+        var exchangeDurabilityDatas = [[${@dict.getType('rabbitmq_exchange_durability')}]];
+        var exchangeAutoDeleteDatas = [[${@dict.getType('rabbitmq_exchange_autoDelete')}]];
+        
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+                modalName: "RabbitMQ交换器",
+		        showExport: true,
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'exchangesId', 
+					title : '编号',
+					visible: false
+				},
+				{
+					field : 'name', 
+					title : '交换机名称',
+					sortable: true
+				},
+				{
+					field : 'type', 
+					title : '类型',
+					sortable: true,
+				 	formatter: function(value, row, index) {
+				      return $.table.selectDictLabel(exchangeTypeDatas, value);
+				  	}
+				},
+				{
+					field : 'durability', 
+					title : '是否持久化',
+					sortable: true,
+				 	formatter: function(value, row, index) {
+				      return $.table.selectDictLabel(exchangeDurabilityDatas, value);
+				  	}
+				},
+				{
+					field : 'autoDelete', 
+					title : '是否自动删除',
+					sortable: true,
+				 	formatter: function(value, row, index) {
+				      return $.table.selectDictLabel(exchangeAutoDeleteDatas, value);
+				  	}
+				},
+				{
+					field : 'arguments', 
+					title : '参数',
+					sortable: true
+				},
+				{
+					field : 'remark', 
+					title : '备注',
+					sortable: true
+				},
+		        {
+		            title: '操作',
+		            align: 'center',
+		            formatter: function(value, row, index) {
+		            	var actions = [];
+		            	actions.push('<a class="btn btn-success btn-xs" href="#" onclick="showQueues(\'' + row.exchangesId + '\')"><i class="fa fa-edit"></i>已绑定队列明细</a> ');
+						return actions.join('');
+		            }
+		        }]
+            };
+            $.table.init(options);
+        });
+        
+        function showQueues(exchangesId){
+        	var url = prefix+"/showQueues/"+exchangesId;
+    		$.modal.openNoBtn("交换器绑定队列明细",url)
+        }
+    </script>
+</body>
+</html>

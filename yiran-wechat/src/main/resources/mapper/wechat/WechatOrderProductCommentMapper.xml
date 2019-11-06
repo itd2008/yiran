@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.wechat.mapper.WechatOrderProductCommentMapper">
+    
+    <resultMap type="WechatOrderProductComment" id="WechatOrderProductCommentResult">
+        <result property="id"    column="id"    />
+        <result property="userNick"    column="user_nick"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="productId"    column="product_id"    />
+        <result property="isShow"    column="is_show"    />
+        <result property="comment"    column="comment"    />
+        <result property="appendComment"    column="append_comment"    />
+        <result property="commentaryScore"    column="commentary_score"    />
+        <result property="commentReply"    column="comment_reply"    />
+        <result property="imagePath"    column="image_path"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+	
+	<sql id="selectWechatOrderProductCommentVo">
+        select id, user_nick, order_id, product_id, is_show, comment, append_comment, commentary_score, comment_reply, image_path, create_by, create_time, update_by, update_time from wechat_order_product_comment
+    </sql>
+	
+    <select id="selectWechatOrderProductCommentList" parameterType="WechatOrderProductComment" resultMap="WechatOrderProductCommentResult">
+        <include refid="selectWechatOrderProductCommentVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+             <if test="userNick != null  and userNick != '' "> and user_nick = #{userNick}</if>
+             <if test="orderId != null  and orderId != '' "> and order_id = #{orderId}</if>
+             <if test="productId != null  and productId != '' "> and product_id = #{productId}</if>
+             <if test="isShow != null "> and is_show = #{isShow}</if>
+             <if test="comment != null  and comment != '' "> and comment = #{comment}</if>
+             <if test="appendComment != null  and appendComment != '' "> and append_comment = #{appendComment}</if>
+             <if test="commentaryScore != null  and commentaryScore != '' "> and commentary_score = #{commentaryScore}</if>
+             <if test="commentReply != null  and commentReply != '' "> and comment_reply = #{commentReply}</if>
+             <if test="imagePath != null  and imagePath != '' "> and image_path = #{imagePath}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+         </where>
+    </select>
+    
+    <select id="selectWechatOrderProductCommentById" parameterType="Integer" resultMap="WechatOrderProductCommentResult">
+        <include refid="selectWechatOrderProductCommentVo"/>
+        where id = #{id}
+    </select>
+    <select id="selectWechatOrderProductCommentByProductId" parameterType="String" resultMap="WechatOrderProductCommentResult">
+        <include refid="selectWechatOrderProductCommentVo"/>
+        where product_id = #{productId}
+        order by create_time desc
+    </select>
+        
+    <insert id="insertWechatOrderProductComment" parameterType="WechatOrderProductComment" useGeneratedKeys="true" keyProperty="id">
+        insert into wechat_order_product_comment
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userNick != null  and userNick != ''  ">user_nick,</if>
+			<if test="orderId != null  and orderId != ''  ">order_id,</if>
+			<if test="productId != null  and productId != ''  ">product_id,</if>
+			<if test="isShow != null  ">is_show,</if>
+			<if test="comment != null  and comment != ''  ">comment,</if>
+			<if test="appendComment != null  and appendComment != ''  ">append_comment,</if>
+			<if test="commentaryScore != null  and commentaryScore != ''  ">commentary_score,</if>
+			<if test="commentReply != null  and commentReply != ''  ">comment_reply,</if>
+			<if test="imagePath != null  and imagePath != ''  ">image_path,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			create_time,
+			update_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userNick != null  and userNick != ''  ">#{userNick},</if>
+			<if test="orderId != null  and orderId != ''  ">#{orderId},</if>
+			<if test="productId != null  and productId != ''  ">#{productId},</if>
+			<if test="isShow != null  ">#{isShow},</if>
+			<if test="comment != null  and comment != ''  ">#{comment},</if>
+			<if test="appendComment != null  and appendComment != ''  ">#{appendComment},</if>
+			<if test="commentaryScore != null  and commentaryScore != ''  ">#{commentaryScore},</if>
+			<if test="commentReply != null  and commentReply != ''  ">#{commentReply},</if>
+			<if test="imagePath != null  and imagePath != ''  ">#{imagePath},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			sysdate(),
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateWechatOrderProductComment" parameterType="WechatOrderProductComment">
+        update wechat_order_product_comment
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userNick != null  and userNick != ''  ">user_nick = #{userNick},</if>
+            <if test="orderId != null  and orderId != ''  ">order_id = #{orderId},</if>
+            <if test="productId != null  and productId != ''  ">product_id = #{productId},</if>
+            <if test="isShow != null  ">is_show = #{isShow},</if>
+            <if test="comment != null  and comment != ''  ">comment = #{comment},</if>
+            <if test="appendComment != null  and appendComment != ''  ">append_comment = #{appendComment},</if>
+            <if test="commentaryScore != null  and commentaryScore != ''  ">commentary_score = #{commentaryScore},</if>
+            <if test="commentReply != null  and commentReply != ''  ">comment_reply = #{commentReply},</if>
+            <if test="imagePath != null  and imagePath != ''  ">image_path = #{imagePath},</if>
+            <if test="createBy != null  and createBy != ''  ">create_by = #{createBy},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            update_time = sysdate()
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteWechatOrderProductCommentById" parameterType="Integer">
+        delete from wechat_order_product_comment where id = #{id}
+    </delete>
+	
+    <delete id="deleteWechatOrderProductCommentByIds" parameterType="String">
+        delete from wechat_order_product_comment where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

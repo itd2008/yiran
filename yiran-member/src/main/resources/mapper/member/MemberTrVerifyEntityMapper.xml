@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.member.mapper.MemberTrVerifyEntityMapper">
+    
+    <resultMap type="MemberTrVerifyEntity" id="MemberTrVerifyEntityResult">
+        <result property="verifyEntityId"    column="verify_entity_id"    />
+        <result property="verifyType"    column="verify_type"    />
+        <result property="verifyEntity"    column="verify_entity"    />
+        <result property="verifySubType"    column="verify_sub_type"    />
+        <result property="channel"    column="channel"    />
+        <result property="status"    column="status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="verifySummary"    column="verify_summary"    />
+        <result property="verifyMemo"    column="verify_memo"    />
+    </resultMap>
+	
+	<sql id="selectMemberTrVerifyEntityVo">
+        select verify_entity_id, verify_type, verify_entity, verify_sub_type, channel, status, create_time, update_time, verify_summary, verify_memo from member_tr_verify_entity
+    </sql>
+	
+    <select id="selectMemberTrVerifyEntityList" parameterType="MemberTrVerifyEntity" resultMap="MemberTrVerifyEntityResult">
+        <include refid="selectMemberTrVerifyEntityVo"/>
+        <where>  
+            <if test="verifyEntityId != null "> and verify_entity_id = #{verifyEntityId}</if>
+             <if test="verifyType != null "> and verify_type = #{verifyType}</if>
+             <if test="verifyEntity != null  and verifyEntity != '' "> and verify_entity = #{verifyEntity}</if>
+             <if test="verifySubType != null "> and verify_sub_type = #{verifySubType}</if>
+             <if test="channel != null "> and channel = #{channel}</if>
+             <if test="status != null "> and status = #{status}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="verifySummary != null  and verifySummary != '' "> and verify_summary = #{verifySummary}</if>
+             <if test="verifyMemo != null  and verifyMemo != '' "> and verify_memo = #{verifyMemo}</if>
+         </where>
+    </select>
+    
+    <select id="selectMemberTrVerifyEntityById" parameterType="Integer" resultMap="MemberTrVerifyEntityResult">
+        <include refid="selectMemberTrVerifyEntityVo"/>
+        where verify_entity_id = #{verifyEntityId}
+    </select>
+    
+    <select id="selectMemberTrVerifyEntityByVerifyEntity" parameterType="String" resultMap="MemberTrVerifyEntityResult">
+        <include refid="selectMemberTrVerifyEntityVo"/>
+        where verify_entity = #{verifyEntity}
+    </select>
+    
+    <select id="queryByMemberAndVerifyType"  resultMap="MemberTrVerifyEntityResult">
+        <include refid="selectMemberTrVerifyEntityVo"/>
+        <where>  
+            <if test="verifyEntityId != null "> and verify_entity_id = #{verifyEntityId}</if>
+            <if test="verifyType != null "> and verify_type = #{verifyType}</if>
+         </where>
+        
+    </select>
+        
+    <insert id="insertMemberTrVerifyEntity"  parameterType="MemberTrVerifyEntity" useGeneratedKeys="true" keyProperty="verifyEntityId">
+        insert into member_tr_verify_entity
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="verifyType != null  ">verify_type,</if>
+			<if test="verifyEntity != null  and verifyEntity != ''  ">verify_entity,</if>
+			<if test="verifySubType != null  ">verify_sub_type,</if>
+			<if test="channel != null  ">channel,</if>
+			<if test="status != null  ">status,</if>
+			<if test="verifySummary != null  and verifySummary != ''  ">verify_summary,</if>
+			<if test="verifyMemo != null  and verifyMemo != ''  ">verify_memo,</if>
+			create_time,
+			update_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="verifyType != null  ">#{verifyType},</if>
+			<if test="verifyEntity != null  and verifyEntity != ''  ">#{verifyEntity},</if>
+			<if test="verifySubType != null  ">#{verifySubType},</if>
+			<if test="channel != null  ">#{channel},</if>
+			<if test="status != null  ">#{status},</if>
+			<if test="verifySummary != null  and verifySummary != ''  ">#{verifySummary},</if>
+			<if test="verifyMemo != null  and verifyMemo != ''  ">#{verifyMemo},</if>
+			sysdate(),
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateMemberTrVerifyEntity" parameterType="MemberTrVerifyEntity">
+        update member_tr_verify_entity
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="verifyType != null  ">verify_type = #{verifyType},</if>
+            <if test="verifyEntity != null  and verifyEntity != ''  ">verify_entity = #{verifyEntity},</if>
+            <if test="verifySubType != null  ">verify_sub_type = #{verifySubType},</if>
+            <if test="channel != null  ">channel = #{channel},</if>
+            <if test="status != null  ">status = #{status},</if>
+            <if test="verifySummary != null  and verifySummary != ''  ">verify_summary = #{verifySummary},</if>
+            <if test="verifyMemo != null  and verifyMemo != ''  ">verify_memo = #{verifyMemo},</if>
+            update_time = sysdate()
+        </trim>
+        where verify_entity_id = #{verifyEntityId}
+    </update>
+
+	<delete id="deleteMemberTrVerifyEntityById" parameterType="Integer">
+        delete from member_tr_verify_entity where verify_entity_id = #{verifyEntityId}
+    </delete>
+	
+    <delete id="deleteMemberTrVerifyEntityByIds" parameterType="String">
+        delete from member_tr_verify_entity where verify_entity_id in 
+        <foreach item="verifyEntityId" collection="array" open="(" separator="," close=")">
+            #{verifyEntityId}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.member.mapper.MemberTdConfigMapper">
+    
+    <resultMap type="MemberTdConfig" id="MemberTdConfigResult">
+        <result property="id"    column="id"    />
+        <result property="type"    column="type"    />
+        <result property="subType"    column="sub_type"    />
+        <result property="value"    column="value"    />
+        <result property="status"    column="status"    />
+        <result property="typeDesc"    column="type_desc"    />
+        <result property="valueDesc"    column="value_desc"    />
+        <result property="orderNo"    column="order_no"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createUser"    column="create_user"    />
+        <result property="updateUser"    column="update_user"    />
+        <result property="memo"    column="memo"    />
+        <result property="ext1"    column="ext1"    />
+        <result property="ext2"    column="ext2"    />
+        <result property="ext3"    column="ext3"    />
+    </resultMap>
+	
+	<sql id="selectMemberTdConfigVo">
+        select id, type, sub_type, value, status, type_desc, value_desc, order_no, create_time, update_time, create_user, update_user, memo, ext1, ext2, ext3 from member_td_config
+    </sql>
+	
+    <select id="selectMemberTdConfigList" parameterType="MemberTdConfig" resultMap="MemberTdConfigResult">
+        <include refid="selectMemberTdConfigVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+             <if test="type != null  and type != '' "> and type = #{type}</if>
+             <if test="subType != null  and subType != '' "> and sub_type = #{subType}</if>
+             <if test="value != null  and value != '' "> and value = #{value}</if>
+             <if test="status != null "> and status = #{status}</if>
+             <if test="typeDesc != null  and typeDesc != '' "> and type_desc = #{typeDesc}</if>
+             <if test="valueDesc != null  and valueDesc != '' "> and value_desc = #{valueDesc}</if>
+             <if test="orderNo != null "> and order_no = #{orderNo}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="createUser != null  and createUser != '' "> and create_user = #{createUser}</if>
+             <if test="updateUser != null  and updateUser != '' "> and update_user = #{updateUser}</if>
+             <if test="memo != null  and memo != '' "> and memo = #{memo}</if>
+             <if test="ext1 != null  and ext1 != '' "> and ext1 = #{ext1}</if>
+             <if test="ext2 != null  and ext2 != '' "> and ext2 = #{ext2}</if>
+             <if test="ext3 != null  and ext3 != '' "> and ext3 = #{ext3}</if>
+         </where>
+    </select>
+    
+    <select id="selectMemberTdConfigById" parameterType="Integer" resultMap="MemberTdConfigResult">
+        <include refid="selectMemberTdConfigVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertMemberTdConfig" parameterType="MemberTdConfig" useGeneratedKeys="true" keyProperty="id">
+        insert into member_td_config
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="type != null  and type != ''  ">type,</if>
+			<if test="subType != null  and subType != ''  ">sub_type,</if>
+			<if test="value != null  and value != ''  ">value,</if>
+			<if test="status != null  ">status,</if>
+			<if test="typeDesc != null  and typeDesc != ''  ">type_desc,</if>
+			<if test="valueDesc != null  and valueDesc != ''  ">value_desc,</if>
+			<if test="orderNo != null  ">order_no,</if>
+			<if test="memo != null  and memo != ''  ">memo,</if>
+			<if test="ext1 != null  and ext1 != ''  ">ext1,</if>
+			<if test="ext2 != null  and ext2 != ''  ">ext2,</if>
+			<if test="ext3 != null  and ext3 != ''  ">ext3,</if>
+			create_time,
+			update_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="type != null  and type != ''  ">#{type},</if>
+			<if test="subType != null  and subType != ''  ">#{subType},</if>
+			<if test="value != null  and value != ''  ">#{value},</if>
+			<if test="status != null  ">#{status},</if>
+			<if test="typeDesc != null  and typeDesc != ''  ">#{typeDesc},</if>
+			<if test="valueDesc != null  and valueDesc != ''  ">#{valueDesc},</if>
+			<if test="orderNo != null  ">#{orderNo},</if>
+			<if test="memo != null  and memo != ''  ">#{memo},</if>
+			<if test="ext1 != null  and ext1 != ''  ">#{ext1},</if>
+			<if test="ext2 != null  and ext2 != ''  ">#{ext2},</if>
+			<if test="ext3 != null  and ext3 != ''  ">#{ext3},</if>
+			sysdate(),
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateMemberTdConfig" parameterType="MemberTdConfig">
+        update member_td_config
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="type != null  and type != ''  ">type = #{type},</if>
+            <if test="subType != null  and subType != ''  ">sub_type = #{subType},</if>
+            <if test="value != null  and value != ''  ">value = #{value},</if>
+            <if test="status != null  ">status = #{status},</if>
+            <if test="typeDesc != null  and typeDesc != ''  ">type_desc = #{typeDesc},</if>
+            <if test="valueDesc != null  and valueDesc != ''  ">value_desc = #{valueDesc},</if>
+            <if test="orderNo != null  ">order_no = #{orderNo},</if>
+            <if test="memo != null  and memo != ''  ">memo = #{memo},</if>
+            <if test="ext1 != null  and ext1 != ''  ">ext1 = #{ext1},</if>
+            <if test="ext2 != null  and ext2 != ''  ">ext2 = #{ext2},</if>
+            <if test="ext3 != null  and ext3 != ''  ">ext3 = #{ext3},</if>
+            update_time = sysdate()
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteMemberTdConfigById" parameterType="Integer">
+        delete from member_td_config where id = #{id}
+    </delete>
+	
+    <delete id="deleteMemberTdConfigByIds" parameterType="String">
+        delete from member_td_config where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

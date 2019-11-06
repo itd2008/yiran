@@ -1,0 +1,150 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-tmApiResultCode-edit" th:object="${tmApiResultCode}">
+            <input id="apiResultCodeId" name="apiResultCodeId" th:field="*{apiResultCodeId}"  type="hidden">
+			<div class="row">
+            	<div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">资金源编码：<span >*</span></label>
+                        <div class="col-sm-8">
+                            <input id="fundChannelCode" name="fundChannelCode" th:field="*{fundChannelCode}"  class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">接口类型：<span >*</span></label>
+                        <div class="col-sm-8">
+                            <select name="apiType" id="apiType" class="form-control " th:with="type=${@dict.getType('channel_api_api_type')}">
+							  <option value="">空</option>
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{apiType}">
+							  </option>
+							</select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+            	<div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">结果编码：<span >*</span></label>
+                        <div class="col-sm-8">
+                            <input id="resultCode" name="resultCode" th:field="*{resultCode}" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">结果子编码：<span >*</span></label>
+                        <div class="col-sm-8">
+                            <input id="resultSubCode" name="resultSubCode" th:field="*{resultSubCode}" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+            	<div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">统一结果编码：<span >*</span></label>
+                        <div class="col-sm-8">
+                            <input id="unityResultCode" name="unityResultCode" th:field="*{unityResultCode}" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">判断表达式：</label>
+                        <div class="col-sm-8">
+                            <input id="expression" name="expression" th:field="*{expression}" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+            	<div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">描述表达式：</label>
+                        <div class="col-sm-8">
+                            <input id="descriptionTemplate" name="descriptionTemplate" th:field="*{descriptionTemplate}" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">订单状态：</label>
+                        <div class="col-sm-8">
+                            <select name="orderStatus" id="orderStatus" class="form-control " th:with="type=${@dict.getType('channel_api_order_status')}">
+							  <option value="">空</option>
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{orderStatus}"></option>
+							</select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+            	<div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">是否启用映射：</label>
+                        <div class="col-sm-8">
+                            <select name="useMapping" id="useMapping" class="form-control " th:with="type=${@dict.getType('channel_api_use_mapping')}">
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{useMapping}"></option>
+						    </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">备注：<span >*</span></label>
+                        <div class="col-sm-8">
+							<textarea id="memo" name="memo" autocomplete="off" maxlength="500" class="form-control" rows="3">[[*{memo}]]</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+		</form>
+    </div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "paychannel/tmApiResultCode";
+		$("#form-tmApiResultCode-edit").validate({
+			rules:{
+				unityResultCode:{
+        			remote: {
+                        url: prefix + "/checkUnityResultCode",
+                        type: "post",
+                        dataType: "json",
+                        data: {
+                        	name : function() {
+                                return $.common.trim($("#unityResultCode").val());
+                            }
+                        },
+                        dataFilter: function(data, type) {
+                        	return $.validate.unique(data);
+                        }
+                    }
+        		},
+			},
+			messages: {
+                "unityResultCode": {
+                    remote: "统一结果编码不存在"
+                }
+            },
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/edit", $('#form-tmApiResultCode-edit').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

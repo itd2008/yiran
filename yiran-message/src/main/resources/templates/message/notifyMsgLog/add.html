@@ -1,0 +1,113 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-notifyMsgLog-add">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">信息发送流水号：</label>
+				<div class="col-sm-8">
+					<input id="msgOrderNo" name="msgOrderNo" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备注信息(信息返回BizId)：</label>
+				<div class="col-sm-8">
+					<input id="remarks" name="remarks" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">业务类型：</label>
+				<div class="col-sm-8">
+					<input id="businessType" name="businessType" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">联系电话：</label>
+				<div class="col-sm-8">
+					<input id="phone" name="phone" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">模板ID：</label>
+				<div class="col-sm-8">
+					<input id="templateId" name="templateId" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">模板类型：</label>
+				<div class="col-sm-8">
+					<input id="templateContent" name="templateContent" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">发送数据：</label>
+				<div class="col-sm-8">
+					<input id="senddata" name="senddata" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">发送状态：</label>
+				<div class="col-sm-8">
+					<input id="status" name="status" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">发送响应消息ID：</label>
+				<div class="col-sm-8">
+					<input id="smsid" name="smsid" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">返回码：</label>
+				<div class="col-sm-8">
+					<input id="code" name="code" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">返回消息：</label>
+				<div class="col-sm-8">
+					<input id="msg" name="msg" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">删除标记（0：正常；1：删除）：</label>
+				<div class="col-sm-8">
+					<input id="delFlag" name="delFlag" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">响应时间：</label>
+				<div class="col-sm-8">
+					<input id="responseDate" name="responseDate" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">短信验证码：</label>
+				<div class="col-sm-8">
+					<input id="verifyCode" name="verifyCode" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+	</div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "message/notifyMsgLog"
+		$("#form-notifyMsgLog-add").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/add", $('#form-notifyMsgLog-add').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

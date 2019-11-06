@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+		<form class="form-horizontal m" id="form-menu-edit" th:object="${wechatShopProductCategory}">
+			<input name="id"   type="hidden" th:field="*{id}"   />
+			<input id="treeId" name="pid" type="hidden" th:field="*{pid}" />
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">上级类目:</label>
+				<div class="col-sm-8">
+				    <div class="input-group">
+						<input class="form-control" type="text" onclick="selectMenuTree()" id="treeName" readonly="true" th:value="${wechatShopProductCategory.parentName == null ? '无' : wechatShopProductCategory.parentName}">
+					    <span class="input-group-addon"><i class="fa fa-search"></i></span>
+				    </div>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">类目名称：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" id="name" name="name" th:field="*{name}">
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">类目状态:</label>
+				<div class="col-sm-8">
+					<label class="checkbox-inline i-checks"> <input type="radio" name="status" value="0" th:field="*{status}"/> 启用</label> 
+					<label class="checkbox-inline i-checks"> <input type="radio" name="status" value="1" th:field="*{status}"/> 禁用</label> 
+				</div>
+			</div>
+			
+		</form>
+	</div>
+	<div th:include="include::footer"></div>
+	 <script>
+        var prefix = ctx + "wechat/wechatShopProductCategory";
+
+        $("#form-menu-edit").validate({
+        	rules:{
+        		name:{
+        			remote: {
+                        url: prefix + "/checkChannelNameUnique",
+                        type: "post",
+                        dataType: "json",
+                        data: {
+                        	
+                			"name": function() {
+                                return $.common.trim($("#name").val());
+                            }
+                        },
+                        dataFilter: function(data, type) {
+                        	return $.validate.unique(data);
+                        }
+                    }
+        		},
+        		orderNum:{
+        			digits:true
+        		},
+        	},
+        	messages: {
+                "menuName": {
+                    remote: "类目已经存在"
+                }
+            },
+            focusCleanup: true
+        });
+        
+        function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/edit", $('#form-menu-edit').serialize());
+	        }
+	    }
+
+        
+        function selectMenuTree() {
+        	var id = $("#treeId").val();
+        	if(id > 0) {
+        		var url = prefix + "/selectChannelTree/" + id;
+        		var options = {
+       				title: '类目选择',
+       				width: "380",
+       				url: url,
+       				callBack: doSubmit
+       			};
+       			$.modal.openOptions(options);
+        	} else {
+        		$.modal.alertError("主类目不能选择");
+        	}
+		}
+		
+		function doSubmit(index, layero){
+			var body = layer.getChildFrame('body', index);
+   			$("#treeId").val(body.find('#treeId').val());
+   			$("#treeName").val(body.find('#treeName').val());
+   			layer.close(index);
+		}
+    </script>
+</body>
+</html>

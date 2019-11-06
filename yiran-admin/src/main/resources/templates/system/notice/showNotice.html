@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link th:href="@{/ajax/libs/summernote/summernote.css}" rel="stylesheet"/>
+<link th:href="@{/ajax/libs/summernote/summernote-bs3.css}" rel="stylesheet"/>
+<body class="white-bg">
+    <div class="wrapper wrapper-content">
+        <div class="row">
+            
+            <div class="col-sm-12 animated fadeInRight">
+                <div class="mail-box-header">
+                  
+                    <div class="mail-tools tooltip-demo m-t-md">
+
+                    <h3>
+                        <span class="font-noraml">标题:<span th:text="${notice.noticeTitle}"></span> </span>
+                    </h3>
+                        <h5>
+                        <span class="pull-right font-noraml">发布时间:<span th:text="${#dates.format(notice.createTime,'yyyy-MM-dd HH:mm:ss')}"></span></span>
+                        <span class="font-noraml">发布人：<span th:text="${notice.createBy}"></span> </span>
+                    </h5>
+                    </div>
+                </div>
+                <div class="mail-box">
+                    <div class="mail-body" th:text="${notice.noticeContent}">
+                        
+                    </div>
+                    
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:include="include::footer"></div>
+    <script th:src="@{/ajax/libs/summernote/summernote.min.js}"></script>
+    <script th:src="@{/ajax/libs/summernote/summernote-zh-CN.js}"></script>
+    
+</body>
+</html>

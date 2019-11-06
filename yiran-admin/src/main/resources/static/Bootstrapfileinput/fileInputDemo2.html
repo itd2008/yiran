@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<!-- release v4.4.2, copyright 2014 - 2017 Kartik Visweswaran -->
+<!--suppress JSUnresolvedLibraryURL -->
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8" />
+		<title>File Input Demo2</title>
+		<link rel="stylesheet" href="css/bootstrap.min.css" />
+		<link rel="stylesheet" href="css/fileinput.min.css" />
+		<link rel="stylesheet" href="css/theme.min.css" />
+		<script type="text/javascript" src="js/jquery-3.2.1.js"></script>
+
+		<script type="text/javascript" src="js/sortable.js"></script>
+		<script type="text/javascript" src="js/fileinput.min.js"></script>
+		<script type="text/javascript" src="js/zh.js"></script>
+		<script type="text/javascript" src="js/theme.min.js"></script>
+		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	</head>
+
+	<body>
+		<div class="container kv-main">
+			<div class="page-header">
+				<h1>Bootstrap File Input Demo2
+           			<small><a href="https://github.com/kartik-v/bootstrap-fileinput-samples"><i
+                    	class="glyphicon glyphicon-download"></i> Download Sample Files</a></small>
+        		</h1>
+			</div>
+			
+			<form enctype="multipart/form-data">
+				<input id="kv-explorer" type="file" multiple> <br>
+				<input id="file-0a" class="file" type="file" multiple data-min-file-count="1"> <br>
+					
+				<button type="submit" class="btn btn-primary">提交</button>
+				<button type="reset" class="btn btn-default">重置</button>
+			</form>
+			
+			<hr>
+				
+			<form enctype="multipart/form-data">
+				<label for="file-0b">Test invalid input type</label>
+				<input id="file-0b" name="file-0b" class="file" type="text" multiple data-min-file-count="1">
+				
+				<script>
+					$(document).on('ready', function() {
+						$("#file-0b").fileinput();
+					});
+				</script>
+			</form>
+			
+			<hr>
+				
+			<form enctype="multipart/form-data">
+				<input id="file-0c" class="file" type="file" multiple data-min-file-count="3">
+				
+				<hr>
+				
+				<div class="form-group">
+					<input id="file-0d" class="file" type="file">
+				</div>
+				
+				<hr>
+					
+				<div class="form-group">
+					<input id="file-1" type="file" multiple class="file" data-overwrite-initial="false" data-min-file-count="2">
+				</div>
+				
+				<hr>
+					
+				<div class="form-group">
+					<input id="file-2" type="file" class="file" readonly data-show-upload="false">
+				</div>
+				
+				<hr>
+					
+				<div class="form-group">
+					<label>Preview File Icon</label>
+					<input id="file-3" type="file" multiple>
+				</div>
+				
+				<hr>
+					
+				<div class="form-group">
+					<input id="file-4" type="file" class="file" data-upload-url="#">
+				</div>
+				
+				<hr>
+					
+				<div class="form-group">
+					<button class="btn btn-warning" type="button">禁用</button>
+					<button class="btn btn-info" type="reset">刷新</button>
+					<button class="btn btn-primary">提交</button>
+					<button class="btn btn-default" type="reset">重置</button>
+				</div>
+				
+				<hr>
+					
+				<div class="form-group">
+					<input type="file" class="file" id="test-upload" multiple>
+					<div id="errorBlock" class="help-block"></div>
+				</div>
+				
+				<hr>
+					
+				<div class="form-group">
+					<input id="file-5" class="file" type="file" multiple data-preview-file-type="any" data-upload-url="#">
+				</div>
+			</form>
+
+			<hr>
+			<h4>多语言上传区</h4>
+			<form enctype="multipart/form-data">
+				<label>中文</label>
+				<input id="file-fr" name="file-fr[]" type="file" multiple>
+				<hr style="border: 2px dotted">
+				<label>英文</label>
+				<input id="file-es" name="file-es[]" type="file" multiple>
+			</form>
+			<hr>
+			<br>
+		</div>
+	</body>
+	<script>
+		$('#file-fr').fileinput({
+			language: 'zh',
+			uploadUrl: '#',
+			allowedFileExtensions: ['jpg', 'png', 'gif']
+		});
+		$('#file-es').fileinput({
+			language: 'es',
+			uploadUrl: '#',
+			allowedFileExtensions: ['jpg', 'png', 'gif']
+		});
+		$("#file-0").fileinput({
+			language: 'zh',
+			'allowedFileExtensions': ['jpg', 'png', 'gif']
+		});
+		$("#file-1").fileinput({
+			language: 'zh',
+			uploadUrl: '#', // you must set a valid URL here else you will get an error
+			allowedFileExtensions: ['jpg', 'png', 'gif'],
+			overwriteInitial: false,
+			maxFileSize: 1000,
+			maxFilesNum: 10,
+			//allowedFileTypes: ['image', 'video', 'flash'],
+			slugCallback: function(filename) {
+				return filename.replace('(', '_').replace(']', '_');
+			}
+		});
+		/*
+		 $(".file").on('fileselect', function(event, n, l) {
+		 alert('File Selected. Name: ' + l + ', Num: ' + n);
+		 });
+		 */
+		$("#file-3").fileinput({
+			language: 'zh',
+			showUpload: false,
+			showCaption: false,
+			browseClass: "btn btn-primary btn-lg",
+			fileType: "any",
+			previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+			overwriteInitial: false,
+			initialPreviewAsData: true,
+			initialPreview: [
+				"http://lorempixel.com/1920/1080/transport/1",
+				"http://lorempixel.com/1920/1080/transport/2",
+				"http://lorempixel.com/1920/1080/transport/3"
+			],
+			initialPreviewConfig: [{
+					caption: "transport-1.jpg",
+					size: 329892,
+					width: "120px",
+					url: "{$url}",
+					key: 1
+				},
+				{
+					caption: "transport-2.jpg",
+					size: 872378,
+					width: "120px",
+					url: "{$url}",
+					key: 2
+				},
+				{
+					caption: "transport-3.jpg",
+					size: 632762,
+					width: "120px",
+					url: "{$url}",
+					key: 3
+				}
+			]
+		});
+		$("#file-4").fileinput({
+			language: 'zh',
+			uploadExtraData: {
+				kvId: '10'
+			}
+		});
+		$(".btn-warning").on('click', function() {
+			var $el = $("#file-4");
+			if($el.attr('disabled')) {
+				$el.fileinput('enable');
+			} else {
+				$el.fileinput('disable');
+			}
+		});
+		$(".btn-info").on('click', function() {
+			$("#file-4").fileinput('refresh', {
+				previewClass: 'bg-info'
+			});
+		});
+		/*
+		 $('#file-4').on('fileselectnone', function() {
+		 alert('Huh! You selected no files.');
+		 });
+		 $('#file-4').on('filebrowse', function() {
+		 alert('File browse clicked for #file-4');
+		 });
+		 */
+		$(document).ready(function() {
+			$("#test-upload").fileinput({
+				language: 'zh',
+				'showPreview': false,
+				'allowedFileExtensions': ['jpg', 'png', 'gif'],
+				'elErrorContainer': '#errorBlock'
+			});
+			$("#kv-explorer").fileinput({
+				language: 'zh',
+				'theme': 'explorer',	//文件展示的主题风格
+				'uploadUrl': '#',
+				overwriteInitial: false,
+				initialPreviewAsData: true,
+				initialPreview: [
+					"img/关关1.jpg",		//文件来源
+					"img/刘德华1.jpg",
+					"img/刘亦菲1.jpg"
+				],
+				initialPreviewConfig: [{		//显示在缩略图旁边的文字说明
+						caption: "关关1.jpg",
+						size: 329892,
+						width: "120px",
+						url: "{$url}",
+						key: 1
+					},
+					{
+						caption: "刘德华1.jpg",
+						size: 872378,
+						width: "120px",
+						url: "{$url}",
+						key: 2
+					},
+					{
+						caption: "刘亦菲1.jpg",
+						size: 632762,
+						width: "120px",
+						url: "{$url}",
+						key: 3
+					}
+				]
+			});
+		});
+	</script>
+
+</html>

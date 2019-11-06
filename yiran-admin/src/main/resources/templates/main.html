@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--360浏览器优先以webkit内核解析-->
+    <title>依然快速开发平台简介</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link href="../static/css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>
+    <link href="../static/css/main/animate.min.css" th:href="@{/css/main/animate.min.css}" rel="stylesheet"/>
+    <link href="../static/css/main/style.min862f.css" th:href="@{/css/main/style.min862f.css}" rel="stylesheet"/>
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content">
+    	<div class="row">
+                <div class="col-sm-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5 style="color: #1C84C6">
+                            	<i class="fa fa-server" style="color: blue"></i>
+                            Java运行环境信息
+                            </h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table class="table table-hover margin bottom">
+                                        <tbody>
+                                            <tr>
+                                                <td>Java名称</td>
+                                                <td th:text="${jvm.name}">Java</td>
+                                                <td>Java版本</td>
+                                                <td th:text="${jvm.version}">1.8.0</td>
+                                            </tr>
+                                            <tr>
+                                                <td>启动时间</td>
+                                                <td th:text="${jvm.startTime}">2018-12-31 00:00:00</td>
+                                                <td>运行时长</td>
+                                                <td th:text="${jvm.runTime}">0天0时0分0秒</td>
+                                            </tr>
+                                           <tr>
+                                                <td>JVM内存</td>
+                                                <td th:text="${jvm.total+ 'M'}"></td>
+                                                <td>JVM已用内存</td>
+                                                <td th:text="${jvm.used+ 'M'}"></td>
+                                            </tr>
+                                             <tr>
+                                                <td>JVM剩余内存</td>
+                                                <td th:text="${jvm.free+ 'M'}"></td>
+                                                <td>使用率</td>
+                                                <td th:class="${jvm.usage gt 80} ? 'text-danger'">[[${jvm.usage}]]%</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+    	<div class="row">
+            <div class="col-sm-6">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5 style="color: #1C84C6">
+                           	<i class="fa fa-first-order" style="color: blue"></i>
+                          	产品销量排名
+                         </h5>
+                    </div>
+                    
+                    <div class="ibox-content no-padding">
+                        <div class="panel-body">
+                             <div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5 style="color: #1C84C6">
+                           	<i class="fa fa-user-circle" style="color: blue"></i>
+                          	用户量
+                         </h5>
+                    </div>
+                    
+                    <div class="ibox-content no-padding">
+                        <div class="panel-body">
+                             <div id="container2" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5 style="color: #1C84C6">
+                           	<i class="fa fa-bar-chart" style="color: blue"></i>
+                          	每日订单量
+                         </h5>
+                    </div>
+                    
+                    <div class="ibox-content no-padding">
+                        <div class="panel-body">
+                             <div id="container3" style="min-width: 310px; height: 400px;  margin: 0 auto"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <th:block th:include="include:: highcharts-js" />
+    
+    <script>
+    var source = "http://www.aaa.com";
+    //第一个图表
+    Highcharts.chart('container', {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: '本周销量排名'
+        },
+        subtitle: {
+            text: 'Source: '+source
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                }
+            }
+        },
+        series: [{
+            name: '产品',
+            colorByPoint: true,
+            data: [{
+                name: '华为手机',
+                y: 31,
+                sliced: false,
+                selected: true
+            }, {
+                name: '男士真皮皮带',
+                y: 21
+            }, {
+                name: '夏装男T恤',
+                y: 10
+            }, {
+                name: '车厘子',
+                y: 4
+            }, {
+                name: '防臭中筒袜',
+                y: 4
+            }, {
+                name: '数字铅笔描红本',
+                y: 12
+            }, {
+                name: '用不拦的防水手套',
+                y: 4
+            }, {
+                name: '越南红心火龙果',
+                y: 4
+            }, {
+                name: '海南三亚小台芒',
+                y: 2
+            }, {
+                name: '居家凉拖',
+                y: 8
+            }]
+        }]
+    });
+    
+    //第二个图标
+    Highcharts.chart('container2', {
+        title: {
+            text: '用户量'
+        },
+        subtitle: {
+            text: 'Source: '+source
+        },
+        xAxis: {
+        	tickInterval:2, //坐标轴刻度间隔
+            categories: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+            gridLineWidth:0
+        },
+        yAxis: {
+            title: {
+                text: '增 长 数 (人)'
+            }
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    // 开启数据标签
+                    enabled: false          
+                },
+             	// 关闭鼠标跟踪，对应的提示框、点击事件会失效
+                enableMouseTracking: false
+            }
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle'
+        },
+
+        series: [{
+            name: 'APP',
+            data: [439, 525, 571, 696, 971, 1199, 1371, 1541,1611,1789,1799,1897],
+            color:'#F7A35C'
+        }, {
+            name: 'WEB',
+            data: [1491, 1706, 1974, 2481, 2949, 3028, 3812, 4044,4798,4987,5201,5236]
+        }],
+
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 500
+                },
+                chartOptions: {
+                    legend: {
+                        layout: 'horizontal',
+                        align: 'center',
+                        verticalAlign: 'bottom'
+                    }
+                }
+            }]
+        }
+    });
+    
+    //第三个图表
+    Highcharts.chart('container3', {
+	    chart: {
+	        type: 'column'
+	    },
+	    title: {
+	        text: '每日订单量(未付款/付款)'
+	    },
+	    subtitle: {
+	        text: 'Source: '+source
+	    },
+	    xAxis: {
+	    	categories: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+	        crosshair: true,
+	        gridLineWidth:1
+	    },
+	    yAxis: {
+	        min: 0,
+	        title: {
+	            text: '订单量 (笔)'
+	        }
+	    },
+	    tooltip: {
+	        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+	        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+	            '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+	        footerFormat: '</table>',
+	        shared: true,
+	        useHTML: true
+	    },
+	    plotOptions: {
+	        column: {
+	            pointPadding: 0.2,
+	            borderWidth: 0,
+	            dataLabels: {
+	                // 开启数据标签
+	                enabled: true,
+	                color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || '#ccc'
+	            }
+	        }
+	    },
+	    series: [{
+	        name: '已付款',
+	        data: [31, 41, 10, 12, 14, 17, 13, 14, 21, 19, 29, 15]
+	
+	    }, {
+	        name: '未付款',
+	        data: [8, 8, 4, 9, 10, 8, 10, 10, 9, 8, 10, 9],
+	        color:'#91E8E1'
+	
+	    }]
+	});
+   
+    //JVM信息的隐藏和关闭
+    $(".modal").appendTo("body"), $("[data-toggle=popover]").popover(), $(".collapse-link").click(function() {
+        var div_ibox = $(this).closest("div.ibox"),
+        e = $(this).find("i"),
+        i = div_ibox.find("div.ibox-content");
+        i.slideToggle(200),
+        e.toggleClass("fa-chevron-up").toggleClass("fa-chevron-down"),
+        div_ibox.toggleClass("").toggleClass("border-bottom"),
+        setTimeout(function() {
+        	div_ibox.resize();
+        }, 50);
+    }), $(".close-link").click(function () {
+		var div_ibox = $(this).closest("div.ibox");
+		div_ibox.remove()
+	});
+</script>
+</body>
+</html>

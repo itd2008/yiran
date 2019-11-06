@@ -1,0 +1,43 @@
+@CHARSET "UTF-8";
+/* 
+ *  @Description: common css
+ *  @author: haibao
+ *  @Update: 2014-10-23
+ */
+body{font:.85em/1.4 "微软雅黑","Microsoft Yahei",'Arial','san-serif';color:#666;margin:0;padding:0}
+img{max-width:100%;height:auto;width:auto9;-ms-interpolation-mode:bicubic;vertical-align:middle}
+a,button,input{-webkit-tap-highlight-color:rgba(255,0,0,0)}
+input{border:0 none;margin: 0}
+a:focus,a:active,button::-moz-focus-inner,input[type="reset"]::-moz-focus-inner,input[type="button"]::-moz-focus-inner,input[type="submit"]::-moz-focus-inner,select::-moz-focus-inner,input[type="file"] > input[type="button"]::-moz-focus-inner {border: 0;outline : 0;}
+input[type=radio],input[type=checkbox]{margin-right:5px}
+ul,p{padding:0;margin:0}
+h1,h2,h3,h4,h5,h6{margin:0;font-weight:100}
+ul,li{list-style:none}
+a{color:#666}
+a,a:hover{text-decoration:none}
+a:focus{outline:none;color: #fff}
+/*------------------- 华丽分割线 -----------------------*/
+
+header{width:100%;margin:0 auto;background:-webkit-gradient(linear,left bottom,right top,color-stop(0%,#020031),color-stop(100%,#6d3353));background:linear-gradient(45deg, #020031 0px, #6d3353 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);box-shadow:0 3px 7px rgba(0, 0, 0, 0.2) inset, 0 -3px 7px rgba(0, 0, 0, 0.2) inset;-webkit-box-shadow:0 3px 7px rgba(0, 0, 0, 0.2) inset, 0 -3px 7px rgba(0, 0, 0, 0.2) inset;text-align:center;letter-spacing:2px;color:#fff;font-size:1.2em;text-shadow:0 0 2px #999;}
+header a{color: #ddd;}
+.demo{width:100%;margin:20px auto;text-align:left;}
+.demo a{margin:5px 15px;display:inline-block;background-color:#36acf4;border:1px solid #ccc;padding:4px 15px; font-size: 16px; border-radius: 5px;color:#fff; }
+.demo h3{margin:10px 0;color:#000;}
+pre{width:94%;margin:auto auto 10px;font-size:1.1em;}
+
+/*------------------- 华丽分割线 -----------------------*/
+.mr10{margin-right:10px;}
+.fl{float:left;}
+#HBox{width:300px;height:auto !important;margin:0 auto;box-shadow:1px 1px 5px #333;-webkit-box-shadow:1px 1px 5px #333;display:none;background-color:#ffffff;position:fixed;top:30% !important;left:50%;margin:-120px 0 0 -150px;z-index:100000; border-radius: 10px;}
+.list{padding:25px 0;}
+.list li{width:80%;margin:10px auto auto;overflow: hidden;}
+.list li strong{width:20%;float:left;display:inline-block;margin-right:10px;text-align: right;line-height: 40px;font-size: 16px;}
+.list .fl{width:72%;border-radius: 5px;}
+.list .fl input{border-radius: 3px;}
+.ipt{width:100%;text-indent:5px;border:1px solid #ccc;padding:5px 0;box-shadow:0 0 3px #ddd inset;-webkit-box-shadow:0 0 3px #ddd inset;}
+.ipt:focus{border-color:#66afe9;box-shadow:0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 6px rgba(102, 175, 233, 0.6);-webkit-box-shadow:0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 6px rgba(102, 175, 233, 0.6);}
+.submitBtn{width:100%;height:32px;line-height:30px;cursor:pointer;margin-top:10px;display:inline-block;text-align:center;background-color:#428bca;color:#fff;padding:0;}
+.submitBtn:hover,.submitBtn:disabled{opacity: .8;-webkit-opacity: .8;}
+.box .balance{width: 100%; line-height: 32px; float: left;padding-left: 15px;font-size: 16px;}
+.rules{font-size: 14px;color: #b63b4d}
+.rules_title span{display: block; font-size: 12px; color:#428bca;}

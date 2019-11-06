@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.paychannel.mapper.TmFundChannelApiMapper">
+    
+    <resultMap type="TmFundChannelApi" id="TmFundChannelApiResult">
+        <result property="apiCode"    column="api_code"    />
+        <result property="fundChannelCode"    column="fund_channel_code"    />
+        <result property="apiType"    column="api_type"    />
+        <result property="apiVersion"    column="api_version"    />
+        <result property="apiMethod"    column="api_method"    />
+        <result property="apiUri"    column="api_uri"    />
+        <result property="apiPriority"    column="api_priority"    />
+        <result property="secure"    column="secure"    />
+        <result property="maxItem"    column="max_item"    />
+        <result property="commTitleTemplate"    column="comm_title_template"    />
+        <result property="commContentTemplate"    column="comm_content_template"    />
+        <result property="checkParseScript"    column="check_parse_script"    />
+        <result property="resultParseScript"    column="result_parse_script"    />
+        <result property="needConfirm"    column="need_confirm"    />
+        <result property="enables"    column="enables"    />
+        <result property="gmtCreate"    column="gmt_create"    />
+        <result property="gmtModified"    column="gmt_modified"    />
+        <result property="memo"    column="memo"    />
+        <result property="apiNoModeId"    column="api_no_mode_id"    />
+        <result property="apiSecurityId"    column="api_security_id"    />
+        <result property="consumeTime"    column="consume_time"    />
+        <result property="fileType"    column="file_type"    />
+        <result property="filePath"    column="file_path"    />
+        <result property="apiName"    column="api_name"    />
+        <result property="needSyncGlide"    column="need_sync_glide"    />
+        <result property="extension"    column="extension"    />
+    </resultMap>
+	
+	<sql id="selectTmFundChannelApiVo">
+        select api_code, fund_channel_code, api_type, api_version, api_method, api_uri, api_priority, secure, max_item, comm_title_template, comm_content_template, check_parse_script, result_parse_script, need_confirm, enables, gmt_create, gmt_modified, memo, api_no_mode_id, api_security_id, consume_time, file_type, file_path, api_name, need_sync_glide, extension from tm_fund_channel_api
+    </sql>
+	
+    <select id="selectTmFundChannelApiList" parameterType="TmFundChannelApi" resultMap="TmFundChannelApiResult">
+        <include refid="selectTmFundChannelApiVo"/>
+        <where>  
+            <if test="apiCode != null  and apiCode != '' "> and api_code = #{apiCode}</if>
+             <if test="fundChannelCode != null  and fundChannelCode != '' "> and fund_channel_code = #{fundChannelCode}</if>
+             <if test="apiType != null  and apiType != '' "> and api_type = #{apiType}</if>
+             <if test="apiVersion != null  and apiVersion != '' "> and api_version = #{apiVersion}</if>
+             <if test="apiMethod != null  and apiMethod != '' "> and api_method = #{apiMethod}</if>
+             <if test="apiUri != null  and apiUri != '' "> and api_uri = #{apiUri}</if>
+             <if test="apiPriority != null "> and api_priority = #{apiPriority}</if>
+             <if test="secure != null  and secure != '' "> and secure = #{secure}</if>
+             <if test="maxItem != null "> and max_item = #{maxItem}</if>
+             <if test="commTitleTemplate != null  and commTitleTemplate != '' "> and comm_title_template = #{commTitleTemplate}</if>
+             <if test="commContentTemplate != null  and commContentTemplate != '' "> and comm_content_template = #{commContentTemplate}</if>
+             <if test="checkParseScript != null "> and check_parse_script = #{checkParseScript}</if>
+             <if test="resultParseScript != null "> and result_parse_script = #{resultParseScript}</if>
+             <if test="needConfirm != null  and needConfirm != '' "> and need_confirm = #{needConfirm}</if>
+             <if test="enables != null  and enables != '' "> and enables = #{enables}</if>
+             <if test="gmtCreate != null "> and gmt_create = #{gmtCreate}</if>
+             <if test="gmtModified != null "> and gmt_modified = #{gmtModified}</if>
+             <if test="memo != null  and memo != '' "> and memo = #{memo}</if>
+             <if test="apiNoModeId != null "> and api_no_mode_id = #{apiNoModeId}</if>
+             <if test="apiSecurityId != null "> and api_security_id = #{apiSecurityId}</if>
+             <if test="consumeTime != null "> and consume_time = #{consumeTime}</if>
+             <if test="fileType != null  and fileType != '' "> and file_type = #{fileType}</if>
+             <if test="filePath != null  and filePath != '' "> and file_path = #{filePath}</if>
+             <if test="apiName != null  and apiName != '' "> and api_name = #{apiName}</if>
+             <if test="needSyncGlide != null  and needSyncGlide != '' "> and need_sync_glide = #{needSyncGlide}</if>
+             <if test="extension != null  and extension != '' "> and extension = #{extension}</if>
+         </where>
+    </select>
+    
+    <select id="selectTmFundChannelApiById" parameterType="String" resultMap="TmFundChannelApiResult">
+        <include refid="selectTmFundChannelApiVo"/>
+        where api_code = #{apiCode}
+    </select>
+        
+    <insert id="insertTmFundChannelApi" parameterType="TmFundChannelApi">
+        insert into tm_fund_channel_api
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="apiCode != null  and apiCode != ''  ">api_code,</if>
+			<if test="fundChannelCode != null  and fundChannelCode != ''  ">fund_channel_code,</if>
+			<if test="apiType != null  and apiType != ''  ">api_type,</if>
+			<if test="apiVersion != null  and apiVersion != ''  ">api_version,</if>
+			<if test="apiMethod != null  and apiMethod != ''  ">api_method,</if>
+			<if test="apiUri != null  and apiUri != ''  ">api_uri,</if>
+			<if test="apiPriority != null  ">api_priority,</if>
+			<if test="secure != null  and secure != ''  ">secure,</if>
+			<if test="maxItem != null  ">max_item,</if>
+			<if test="commTitleTemplate != null  and commTitleTemplate != ''  ">comm_title_template,</if>
+			<if test="commContentTemplate != null  and commContentTemplate != ''  ">comm_content_template,</if>
+			<if test="checkParseScript != null  ">check_parse_script,</if>
+			<if test="resultParseScript != null  ">result_parse_script,</if>
+			<if test="needConfirm != null  and needConfirm != ''  ">need_confirm,</if>
+			<if test="enables != null  and enables != ''  ">enables,</if>
+			<if test="memo != null  and memo != ''  ">memo,</if>
+			<if test="apiNoModeId != null  ">api_no_mode_id,</if>
+			<if test="apiSecurityId != null  ">api_security_id,</if>
+			<if test="consumeTime != null  ">consume_time,</if>
+			<if test="fileType != null  and fileType != ''  ">file_type,</if>
+			<if test="filePath != null  and filePath != ''  ">file_path,</if>
+			<if test="apiName != null  and apiName != ''  ">api_name,</if>
+			<if test="needSyncGlide != null  and needSyncGlide != ''  ">need_sync_glide,</if>
+			<if test="extension != null  and extension != ''  ">extension,</if>
+			gmt_create,
+			gmt_modified
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="apiCode != null  and apiCode != ''  ">#{apiCode},</if>
+			<if test="fundChannelCode != null  and fundChannelCode != ''  ">#{fundChannelCode},</if>
+			<if test="apiType != null  and apiType != ''  ">#{apiType},</if>
+			<if test="apiVersion != null  and apiVersion != ''  ">#{apiVersion},</if>
+			<if test="apiMethod != null  and apiMethod != ''  ">#{apiMethod},</if>
+			<if test="apiUri != null  and apiUri != ''  ">#{apiUri},</if>
+			<if test="apiPriority != null  ">#{apiPriority},</if>
+			<if test="secure != null  and secure != ''  ">#{secure},</if>
+			<if test="maxItem != null  ">#{maxItem},</if>
+			<if test="commTitleTemplate != null  and commTitleTemplate != ''  ">#{commTitleTemplate},</if>
+			<if test="commContentTemplate != null  and commContentTemplate != ''  ">#{commContentTemplate},</if>
+			<if test="checkParseScript != null  ">#{checkParseScript},</if>
+			<if test="resultParseScript != null  ">#{resultParseScript},</if>
+			<if test="needConfirm != null  and needConfirm != ''  ">#{needConfirm},</if>
+			<if test="enables != null  and enables != ''  ">#{enables},</if>
+			<if test="memo != null  and memo != ''  ">#{memo},</if>
+			<if test="apiNoModeId != null  ">#{apiNoModeId},</if>
+			<if test="apiSecurityId != null  ">#{apiSecurityId},</if>
+			<if test="consumeTime != null  ">#{consumeTime},</if>
+			<if test="fileType != null  and fileType != ''  ">#{fileType},</if>
+			<if test="filePath != null  and filePath != ''  ">#{filePath},</if>
+			<if test="apiName != null  and apiName != ''  ">#{apiName},</if>
+			<if test="needSyncGlide != null  and needSyncGlide != ''  ">#{needSyncGlide},</if>
+			<if test="extension != null  and extension != ''  ">#{extension},</if>
+			sysdate(),
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateTmFundChannelApi" parameterType="TmFundChannelApi">
+        update tm_fund_channel_api
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="fundChannelCode != null  and fundChannelCode != ''  ">fund_channel_code = #{fundChannelCode},</if>
+            <if test="apiType != null  and apiType != ''  ">api_type = #{apiType},</if>
+            <if test="apiVersion != null  and apiVersion != ''  ">api_version = #{apiVersion},</if>
+            <if test="apiMethod != null  and apiMethod != ''  ">api_method = #{apiMethod},</if>
+            <if test="apiUri != null  and apiUri != ''  ">api_uri = #{apiUri},</if>
+            <if test="apiPriority != null  ">api_priority = #{apiPriority},</if>
+            <if test="secure != null  and secure != ''  ">secure = #{secure},</if>
+            <if test="maxItem != null  ">max_item = #{maxItem},</if>
+            <if test="commTitleTemplate != null  and commTitleTemplate != ''  ">comm_title_template = #{commTitleTemplate},</if>
+            <if test="commContentTemplate != null  and commContentTemplate != ''  ">comm_content_template = #{commContentTemplate},</if>
+            <if test="checkParseScript != null  ">check_parse_script = #{checkParseScript},</if>
+            <if test="resultParseScript != null  ">result_parse_script = #{resultParseScript},</if>
+            <if test="needConfirm != null  and needConfirm != ''  ">need_confirm = #{needConfirm},</if>
+            <if test="enables != null  and enables != ''  ">enables = #{enables},</if>
+            <if test="memo != null  and memo != ''  ">memo = #{memo},</if>
+            <if test="apiNoModeId != null  ">api_no_mode_id = #{apiNoModeId},</if>
+            <if test="apiSecurityId != null  ">api_security_id = #{apiSecurityId},</if>
+            <if test="consumeTime != null  ">consume_time = #{consumeTime},</if>
+            <if test="fileType != null  and fileType != ''  ">file_type = #{fileType},</if>
+            <if test="filePath != null  and filePath != ''  ">file_path = #{filePath},</if>
+            <if test="apiName != null  and apiName != ''  ">api_name = #{apiName},</if>
+            <if test="needSyncGlide != null  and needSyncGlide != ''  ">need_sync_glide = #{needSyncGlide},</if>
+            <if test="extension != null  and extension != ''  ">extension = #{extension},</if>
+            gmt_modified = sysdate()
+        </trim>
+        where api_code = #{apiCode}
+    </update>
+
+	<delete id="deleteTmFundChannelApiById" parameterType="String">
+        delete from tm_fund_channel_api where api_code = #{apiCode}
+    </delete>
+	
+    <delete id="deleteTmFundChannelApiByIds" parameterType="String">
+        delete from tm_fund_channel_api where api_code in 
+        <foreach item="apiCode" collection="array" open="(" separator="," close=")">
+            #{apiCode}
+        </foreach>
+    </delete>
+    
+</mapper>

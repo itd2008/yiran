@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>yiran</artifactId>
+        <groupId>com.yiran</groupId>
+        <version>1.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>yiran-framework</artifactId>
+	
+	<description>
+	    framework框架核心
+	</description>
+    
+    <dependencies>
+		<!--jwt-->
+		<dependency>
+			<groupId>com.auth0</groupId>
+			<artifactId>java-jwt</artifactId>
+			<version>${jwt.auth0.version}</version>
+		</dependency>
+		
+		
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-pool2</artifactId>
+		</dependency>
+        <!-- SpringBoot Web容器 -->
+	     <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- SpringBoot 拦截器 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
+
+		<!--阿里数据库连接池 -->
+		<dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+            <version>${druid.version}</version>
+        </dependency>
+		
+		<!--验证码 -->
+		<dependency>
+			<groupId>com.github.penggle</groupId>
+			<artifactId>kaptcha</artifactId>
+			<version>${kaptcha.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>javax.servlet-api</artifactId>
+					<groupId>javax.servlet</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+        <!-- SpringBoot集成thymeleaf模板 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+		<!--Shiro核心框架 -->
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-core</artifactId>
+			<version>${shiro.version}</version>
+		</dependency>
+
+		<!-- Shiro使用Srping框架 -->
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-spring</artifactId>
+			<version>${shiro.version}</version>
+		</dependency>
+
+		<!-- Shiro使用EhCache缓存框架 -->
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-ehcache</artifactId>
+			<version>${shiro.version}</version>
+		</dependency>
+		
+		<!-- thymeleaf模板引擎和shiro框架的整合 -->
+		<dependency>
+			<groupId>com.github.theborakompanioni</groupId>
+			<artifactId>thymeleaf-extras-shiro</artifactId>
+			<version>${thymeleaf.extras.shiro.version}</version>
+		</dependency>
+		<!-- swagger2-->
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>${swagger.version}</version>
+		</dependency>
+		
+		<!-- swagger2-UI-->
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>${swagger.version}</version>
+		</dependency>
+		<!-- 解析客户端操作系统、浏览器等 -->
+		<dependency>
+			<groupId>eu.bitwalker</groupId>
+			<artifactId>UserAgentUtils</artifactId>
+			<version>${bitwalker.version}</version>
+		</dependency>
+
+        <!-- 系统模块-->
+        <dependency>
+            <groupId>com.yiran</groupId>
+            <artifactId>yiran-system</artifactId>
+            <version>${yiran.version}</version>
+        </dependency>
+        <!-- 工作流模块 -->
+        <dependency>
+            <groupId>com.yiran</groupId>
+            <artifactId>yiran-activiti</artifactId>
+            <version>${yiran.version}</version>
+        </dependency>
+        <!-- 短息邮件模块 -->
+        <dependency>
+            <groupId>com.yiran</groupId>
+            <artifactId>yiran-message</artifactId>
+            <version>${yiran.version}</version>
+        </dependency>
+        <!-- 定时任务-->
+        <dependency>
+            <groupId>com.yiran</groupId>
+            <artifactId>yiran-quartz</artifactId>
+            <version>${yiran.version}</version>
+        </dependency>
+        <!-- license -->
+        <dependency>
+            <groupId>com.yiran</groupId>
+            <artifactId>yiran-license</artifactId>
+            <version>${yiran.version}</version>
+        </dependency>
+        <!-- 代码生成-->
+        <dependency>
+            <groupId>com.yiran</groupId>
+            <artifactId>yiran-generator</artifactId>
+            <version>${yiran.version}</version>
+        </dependency>
+        <!-- 微信模块 -->
+        <!-- <dependency>
+            <groupId>com.yiran</groupId>
+            <artifactId>yiran-weixin</artifactId>
+            <version>${yiran.version}</version>
+        </dependency> -->
+        <!-- 微信商城 -->
+        <dependency>
+            <groupId>com.yiran</groupId>
+            <artifactId>yiran-wechat</artifactId>
+            <version>${yiran.version}</version>
+        </dependency>
+        
+        <!-- 会员模块 -->
+        <dependency>
+            <groupId>com.yiran</groupId>
+            <artifactId>yiran-member</artifactId>
+            <version>${yiran.version}</version>
+        </dependency>
+        
+        <!-- 文件管理模块 -->
+        <dependency>
+            <groupId>com.yiran</groupId>
+            <artifactId>yiran-file</artifactId>
+            <version>${yiran.version}</version>
+        </dependency>
+        
+        <!-- 渠道支付模块 -->
+        <dependency>
+            <groupId>com.yiran</groupId>
+            <artifactId>yiran-payorder</artifactId>
+            <version>${yiran.version}</version>
+        </dependency>
+        <dependency>
+	        <groupId>com.yiran</groupId>
+	        <artifactId>yiran-pay-sdk</artifactId>
+	        <version>${yiran.version}</version>
+	    </dependency>
+        <!-- 对账模块-->
+        <dependency>
+            <groupId>com.yiran</groupId>
+            <artifactId>yiran-reconciliation</artifactId>
+            <version>${yiran.version}</version>
+        </dependency>
+        <!-- 封装MQ -->
+        <dependency>
+            <groupId>com.yiran</groupId>
+            <artifactId>yiran-amqp</artifactId>
+            <version>${yiran.version}</version>
+        </dependency>
+		<!-- pagehelper 分页插件 -->
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper-spring-boot-starter</artifactId>
+			<version>${pagehelper.boot.version}</version>
+		</dependency>
+		
+		<!-- 获取系统信息 -->
+		<dependency>
+			<groupId>com.github.oshi</groupId>
+			<artifactId>oshi-core</artifactId>
+			<version>${oshi.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>net.java.dev.jna</groupId>
+			<artifactId>jna</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>net.java.dev.jna</groupId>
+			<artifactId>jna-platform</artifactId>
+		</dependency>
+
+    </dependencies>
+    
+</project>

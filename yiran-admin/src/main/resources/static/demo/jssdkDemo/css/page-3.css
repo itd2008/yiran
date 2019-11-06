@@ -1,0 +1,124 @@
+.item-3 .container{
+    height: 100%;
+    display: none;
+    position: relative;
+}
+
+.item-3 .bg-img {
+    width: 541px;
+    position: absolute;
+    right: 0%;
+    bottom: 0;
+    opacity: .5;
+    -webkit-animation: bg-img .5s ease;
+    animation: bg-img .5s ease;
+}
+.item-3 .bg-img  img{
+    width: 100%;
+    display: block;
+}
+
+.item-3 .sm-img {
+    opacity: 0;
+    width: 309px;
+    position: absolute;
+    right: 1%;
+    bottom: 20%;
+    -webkit-animation: sm-img 1s ease forwards;
+    animation: sm-img 1s ease forwards;
+    -webkit-animation-delay:.5s;
+}
+.item-3 .sm-img  img{
+    width: 100%;
+    display: block;
+
+}
+
+.item-3 .img-3{
+    width: 10%;
+    min-width: 100px;
+    position: absolute;
+    left: 10%;
+}
+.item-3 .img-3 img{
+    width: 100%;
+    display: block;
+}
+
+.item-3 .img-3{
+    top: 70%;
+}
+
+
+.item-3 .img-3 {
+    -webkit-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: rotate3d(0, 0, 1, 60deg);
+    transform: rotate3d(0, 0, 1, 60deg);
+    -webkit-animation: hinge 2s ease infinite;
+    animation: hinge 2s ease infinite;
+}
+.item-3  .skills span {
+    position: absolute;
+    left: 50%;
+    top: 80%;
+    color: #000000;
+    transform: scale(.5);
+}
+.subject-1{font-size: 48px; margin-left: -400px; margin-top: -50px;}
+.subject-2{font-size: 18px; margin-left: -250px; margin-top: 40px;}
+.subject-3{font-size: 14px; margin-left: -270px; margin-top: 10px;}
+.subject-4{font-size: 20px; margin-left: -200px; margin-top: -30px;}
+.subject-5{font-size: 20px; margin-left: -120px; margin-top: 50px;}
+.subject-6{font-size: 30px; margin-left: 81px; margin-top: -35px;}
+.subject-7{font-size: 16px; margin-left: 0px; margin-top: -40px;}
+.subject-8{font-size: 20px; margin-left: 10px; margin-top: 10px;}
+.subject-9{font-size: 18px; margin-left: 2px; margin-top: 41px;}
+.subject-10{font-size: 18px; margin-left: -150px; margin-top: 10px;}
+
+.item-3  .skills span {
+    animation: bounceIn 2s linear forwards;
+    -webkit-animation: bounceIn 2s linear forwards;
+}
+
+.item-3 .skill-introduce {
+    text-align: left;
+    position: absolute;
+    top: 20%;
+    left: 5%;
+    color: #000000;
+}
+.item-3 .skill-introduce a{
+    display: block;
+    width: 40px;
+    height: 40px;
+}
+.item-3 .skill-introduce a img {
+    display: block;
+    width: 100%;
+}
+.skill-introduce .media-body p{
+    font-size: 14px;
+    color: #000;
+    font-family: microsoft yahei, sans-serif;
+}
+.skill-introduce .media {
+    margin-bottom: 20px;;
+}
+.skill-introduce .media:nth-child(1) {
+    opacity: 0;
+    animation: bounceInLeft 2s linear forwards;
+    -webkit-animation: bounceInLeft 2s linear forwards;
+}
+.skill-introduce .media:nth-child(2) {
+    opacity: 0;
+    animation: bounceInRight 2s linear forwards;
+    -webkit-animation: bounceInRight 2s linear forwards;
+    -webkit-animation-delay:1s ;
+}
+.skill-introduce .media:nth-child(3) {
+    opacity: 0;
+    animation: bounceInDown 2s linear forwards;
+    -webkit-animation: bounceInDown 2s linear forwards;
+    -webkit-animation-delay: 2s;
+}

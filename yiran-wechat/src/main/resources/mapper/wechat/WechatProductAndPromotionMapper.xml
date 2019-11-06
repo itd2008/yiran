@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.wechat.mapper.WechatProductAndPromotionMapper">
+    
+    <resultMap type="WechatProductAndPromotion" id="WechatProductAndPromotionResult">
+        <result property="productAndPromotionId"    column="product_and_promotion_id"    />
+        <result property="productId"    column="product_id"    />
+        <result property="windowId"    column="window_id"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="price"    column="price"    />
+        <result property="imageUrl"    column="image_url"    />
+        <result property="intro"    column="intro"    />
+        <result property="sort"    column="sort"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+	
+	<sql id="selectWechatProductAndPromotionVo">
+        select product_and_promotion_id, product_id, window_id, start_time, end_time, price, image_url, intro, sort, create_time from wechat_product_and_promotion
+    </sql>
+	
+    <select id="selectWechatProductAndPromotionList" parameterType="WechatProductAndPromotion" resultMap="WechatProductAndPromotionResult">
+        <include refid="selectWechatProductAndPromotionVo"/>
+        <where>  
+            <if test="productAndPromotionId != null "> and product_and_promotion_id = #{productAndPromotionId}</if>
+             <if test="productId != null "> and product_id = #{productId}</if>
+             <if test="windowId != null "> and window_id = #{windowId}</if>
+             <if test="startTime != null "> and start_time = #{startTime}</if>
+             <if test="endTime != null "> and end_time = #{endTime}</if>
+             <if test="price != null  and price != '' "> and price = #{price}</if>
+             <if test="imageUrl != null  and imageUrl != '' "> and image_url = #{imageUrl}</if>
+             <if test="intro != null  and intro != '' "> and intro = #{intro}</if>
+             <if test="sort != null  and sort != '' "> and sort = #{sort}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+         </where>
+    </select>
+    
+    <select id="selectWechatProductAndPromotionById" parameterType="Integer" resultMap="WechatProductAndPromotionResult">
+        <include refid="selectWechatProductAndPromotionVo"/>
+        where product_and_promotion_id = #{productAndPromotionId}
+    </select>
+        
+    <insert id="insertWechatProductAndPromotion" parameterType="WechatProductAndPromotion" useGeneratedKeys="true" keyProperty="productAndPromotionId">
+        insert into wechat_product_and_promotion
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="productId != null  ">product_id,</if>
+			<if test="windowId != null  ">window_id,</if>
+			<if test="startTime != null  ">start_time,</if>
+			<if test="endTime != null  ">end_time,</if>
+			<if test="price != null  and price != ''  ">price,</if>
+			<if test="imageUrl != null  and imageUrl != ''  ">image_url,</if>
+			<if test="intro != null  and intro != ''  ">intro,</if>
+			<if test="sort != null  and sort != ''  ">sort,</if>
+			<if test="createTime != null  ">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="productId != null  ">#{productId},</if>
+			<if test="windowId != null  ">#{windowId},</if>
+			<if test="startTime != null  ">#{startTime},</if>
+			<if test="endTime != null  ">#{endTime},</if>
+			<if test="price != null  and price != ''  ">#{price},</if>
+			<if test="imageUrl != null  and imageUrl != ''  ">#{imageUrl},</if>
+			<if test="intro != null  and intro != ''  ">#{intro},</if>
+			<if test="sort != null  and sort != ''  ">#{sort},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateWechatProductAndPromotion" parameterType="WechatProductAndPromotion">
+        update wechat_product_and_promotion
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="productId != null  ">product_id = #{productId},</if>
+            <if test="windowId != null  ">window_id = #{windowId},</if>
+            <if test="startTime != null  ">start_time = #{startTime},</if>
+            <if test="endTime != null  ">end_time = #{endTime},</if>
+            <if test="price != null  and price != ''  ">price = #{price},</if>
+            <if test="imageUrl != null  and imageUrl != ''  ">image_url = #{imageUrl},</if>
+            <if test="intro != null  and intro != ''  ">intro = #{intro},</if>
+            <if test="sort != null  and sort != ''  ">sort = #{sort},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+        </trim>
+        where product_and_promotion_id = #{productAndPromotionId}
+    </update>
+
+	<delete id="deleteWechatProductAndPromotionById" parameterType="Integer">
+        delete from wechat_product_and_promotion where product_and_promotion_id = #{productAndPromotionId}
+    </delete>
+	
+    <delete id="deleteWechatProductAndPromotionByIds" parameterType="String">
+        delete from wechat_product_and_promotion where product_and_promotion_id in 
+        <foreach item="productAndPromotionId" collection="array" open="(" separator="," close=")">
+            #{productAndPromotionId}
+        </foreach>
+    </delete>
+    
+</mapper>

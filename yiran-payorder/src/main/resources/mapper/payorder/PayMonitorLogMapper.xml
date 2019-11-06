@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.payorder.mapper.PayMonitorLogMapper">
+    
+    <resultMap type="PayMonitorLog" id="PayMonitorLogResult">
+        <result property="logId"    column="log_id"    />
+        <result property="ipAddress"    column="ip_address"    />
+        <result property="eventMessage"    column="event_message"    />
+        <result property="actionId"    column="action_id"    />
+        <result property="alertLevel"    column="alert_level"    />
+        <result property="logStatus"    column="log_status"    />
+        <result property="exceptionLog"    column="exception_log"    />
+        <result property="memo"    column="memo"    />
+        <result property="gmtCreate"    column="gmt_create"    />
+        <result property="gmtModified"    column="gmt_modified"    />
+    </resultMap>
+	
+	<sql id="selectPayMonitorLogVo">
+        select log_id, ip_address, event_message, action_id, alert_level, log_status, exception_log, memo, gmt_create, gmt_modified from pay_monitor_log
+    </sql>
+	
+    <select id="selectPayMonitorLogList" parameterType="PayMonitorLog" resultMap="PayMonitorLogResult">
+        <include refid="selectPayMonitorLogVo"/>
+        <where>  
+            <if test="logId != null "> and log_id = #{logId}</if>
+             <if test="ipAddress != null  and ipAddress != '' "> and ip_address = #{ipAddress}</if>
+             <if test="eventMessage != null  and eventMessage != '' "> and event_message = #{eventMessage}</if>
+             <if test="actionId != null  and actionId != '' "> and action_id = #{actionId}</if>
+             <if test="alertLevel != null  and alertLevel != '' "> and alert_level = #{alertLevel}</if>
+             <if test="logStatus != null  and logStatus != '' "> and log_status = #{logStatus}</if>
+         </where>
+         order by gmt_create desc
+    </select>
+    
+    <select id="selectPayMonitorLogById" parameterType="Integer" resultMap="PayMonitorLogResult">
+        <include refid="selectPayMonitorLogVo"/>
+        where log_id = #{logId}
+    </select>
+        
+    <insert id="insertPayMonitorLog" parameterType="PayMonitorLog">
+        insert into pay_monitor_log
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="logId != null  ">log_id,</if>
+			<if test="ipAddress != null  and ipAddress != ''  ">ip_address,</if>
+			<if test="eventMessage != null  and eventMessage != ''  ">event_message,</if>
+			<if test="actionId != null  and actionId != ''  ">action_id,</if>
+			<if test="alertLevel != null  and alertLevel != ''  ">alert_level,</if>
+			<if test="logStatus != null  and logStatus != ''  ">log_status,</if>
+			<if test="exceptionLog != null  and exceptionLog != ''  ">exception_log,</if>
+			<if test="memo != null  and memo != ''  ">memo,</if>
+			gmt_create,
+			gmt_modified
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="logId != null  ">#{logId},</if>
+			<if test="ipAddress != null  and ipAddress != ''  ">#{ipAddress},</if>
+			<if test="eventMessage != null  and eventMessage != ''  ">#{eventMessage},</if>
+			<if test="actionId != null  and actionId != ''  ">#{actionId},</if>
+			<if test="alertLevel != null  and alertLevel != ''  ">#{alertLevel},</if>
+			<if test="logStatus != null  and logStatus != ''  ">#{logStatus},</if>
+			<if test="exceptionLog != null  and exceptionLog != ''  ">#{exceptionLog},</if>
+			<if test="memo != null  and memo != ''  ">#{memo},</if>
+			sysdate(),
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updatePayMonitorLog" parameterType="PayMonitorLog">
+        update pay_monitor_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="ipAddress != null  and ipAddress != ''  ">ip_address = #{ipAddress},</if>
+            <if test="eventMessage != null  and eventMessage != ''  ">event_message = #{eventMessage},</if>
+            <if test="actionId != null  and actionId != ''  ">action_id = #{actionId},</if>
+            <if test="alertLevel != null  and alertLevel != ''  ">alert_level = #{alertLevel},</if>
+            <if test="logStatus != null  and logStatus != ''  ">log_status = #{logStatus},</if>
+            <if test="exceptionLog != null  and exceptionLog != ''  ">exception_log = #{exceptionLog},</if>
+            <if test="memo != null  and memo != ''  ">memo = #{memo},</if>
+            gmt_modified = sysdate()
+        </trim>
+        where log_id = #{logId}
+    </update>
+
+	<delete id="deletePayMonitorLogById" parameterType="Integer">
+        delete from pay_monitor_log where log_id = #{logId}
+    </delete>
+	
+    <delete id="deletePayMonitorLogByIds" parameterType="String">
+        delete from pay_monitor_log where log_id in 
+        <foreach item="logId" collection="array" open="(" separator="," close=")">
+            #{logId}
+        </foreach>
+    </delete>
+    
+</mapper>

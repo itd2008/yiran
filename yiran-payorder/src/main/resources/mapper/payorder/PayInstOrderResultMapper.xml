@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.payorder.mapper.PayInstOrderResultMapper">
+    
+    <resultMap type="PayInstOrderResultDO" id="PayInstOrderResultResult">
+        <result property="resultId"    column="result_id"    />
+        <result property="batchResultId"    column="batch_result_id"    />
+        <result property="instOrderId"    column="inst_order_id"    />
+        <result property="instSeqNo"    column="inst_seq_no"    />
+        <result property="orderType"    column="order_type"    />
+        <result property="realAmount"    column="real_amount"    />
+        <result property="realCurrency"    column="real_currency"    />
+        <result property="accountName"    column="account_name"    />
+        <result property="accountNo"    column="account_no"    />
+        <result property="cardType"    column="card_type"    />
+        <result property="orgiInstOrderNo"    column="orgi_inst_order_no"    />
+        <result property="compareStatus"    column="compare_status"    />
+        <result property="instStatus"    column="inst_status"    />
+        <result property="glideStatus"    column="glide_status"    />
+        <result property="instResultCode"    column="inst_result_code"    />
+        <result property="gmtModified"    column="gmt_modified"    />
+        <result property="gmtCreate"    column="gmt_create"    />
+        <result property="memo"    column="memo"    />
+        <result property="batchType"    column="batch_type"    />
+        <result property="fundChannelCode"    column="fund_channel_code"    />
+        <result property="instOrderNo"    column="inst_order_no"    />
+        <result property="operateStatus"    column="operate_status"    />
+        <result property="diffMsg"    column="diff_msg"    />
+        <result property="archiveBatchId"    column="archive_batch_id"    />
+        <result property="fundinOrgiInstOrderNo"    column="fundin_orgi_inst_order_no"    />
+        <result property="syncChannelStatus"    column="sync_channel_status"    />
+        <result property="notifyBankorderStatus"    column="notify_bankorder_status"    />
+        <result property="apiResultCode"    column="api_result_code"    />
+        <result property="apiResultSubCode"    column="api_result_sub_code"    />
+        <result property="apiType"    column="api_type"    />
+        <result property="riskFlag"    column="risk_flag"    />
+        <result property="extension"    column="extension"    />
+    </resultMap>
+	
+	<sql id="selectPayInstOrderResultVo">
+        select result_id, batch_result_id, inst_order_id, inst_seq_no, order_type, real_amount, real_currency, account_name, account_no, card_type, orgi_inst_order_no, compare_status, inst_status, glide_status, inst_result_code, gmt_modified, gmt_create, memo, batch_type, fund_channel_code, inst_order_no, operate_status, diff_msg, archive_batch_id, fundin_orgi_inst_order_no, sync_channel_status, notify_bankorder_status, api_result_code, api_result_sub_code, api_type, risk_flag, extension from pay_inst_order_result
+    </sql>
+	
+    <select id="selectPayInstOrderResultList" parameterType="PayInstOrderResultDO" resultMap="PayInstOrderResultResult">
+        <include refid="selectPayInstOrderResultVo"/>
+        <where>  
+            <if test="resultId != null "> and result_id = #{resultId}</if>
+             <if test="batchResultId != null "> and batch_result_id = #{batchResultId}</if>
+             <if test="instOrderId != null "> and inst_order_id = #{instOrderId}</if>
+             <if test="instSeqNo != null  and instSeqNo != '' "> and inst_seq_no = #{instSeqNo}</if>
+             <if test="orderType != null  and orderType != '' "> and order_type = #{orderType}</if>
+             <if test="realAmount != null "> and real_amount = #{realAmount}</if>
+             <if test="realCurrency != null  and realCurrency != '' "> and real_currency = #{realCurrency}</if>
+             <if test="accountName != null  and accountName != '' "> and account_name = #{accountName}</if>
+             <if test="accountNo != null  and accountNo != '' "> and account_no = #{accountNo}</if>
+             <if test="cardType != null  and cardType != '' "> and card_type = #{cardType}</if>
+             <if test="orgiInstOrderNo != null  and orgiInstOrderNo != '' "> and orgi_inst_order_no = #{orgiInstOrderNo}</if>
+             <if test="compareStatus != null  and compareStatus != '' "> and compare_status = #{compareStatus}</if>
+             <if test="instStatus != null  and instStatus != '' "> and inst_status = #{instStatus}</if>
+             <if test="glideStatus != null  and glideStatus != '' "> and glide_status = #{glideStatus}</if>
+             <if test="instResultCode != null  and instResultCode != '' "> and inst_result_code = #{instResultCode}</if>
+             <if test="gmtModified != null "> and gmt_modified = #{gmtModified}</if>
+             <if test="gmtCreate != null "> and gmt_create = #{gmtCreate}</if>
+             <if test="memo != null  and memo != '' "> and memo = #{memo}</if>
+             <if test="batchType != null  and batchType != '' "> and batch_type = #{batchType}</if>
+             <if test="fundChannelCode != null  and fundChannelCode != '' "> and fund_channel_code = #{fundChannelCode}</if>
+             <if test="instOrderNo != null  and instOrderNo != '' "> and inst_order_no = #{instOrderNo}</if>
+             <if test="operateStatus != null  and operateStatus != '' "> and operate_status = #{operateStatus}</if>
+             <if test="diffMsg != null  and diffMsg != '' "> and diff_msg = #{diffMsg}</if>
+             <if test="archiveBatchId != null "> and archive_batch_id = #{archiveBatchId}</if>
+             <if test="fundinOrgiInstOrderNo != null  and fundinOrgiInstOrderNo != '' "> and fundin_orgi_inst_order_no = #{fundinOrgiInstOrderNo}</if>
+             <if test="syncChannelStatus != null  and syncChannelStatus != '' "> and sync_channel_status = #{syncChannelStatus}</if>
+             <if test="notifyBankorderStatus != null  and notifyBankorderStatus != '' "> and notify_bankorder_status = #{notifyBankorderStatus}</if>
+             <if test="apiResultCode != null  and apiResultCode != '' "> and api_result_code = #{apiResultCode}</if>
+             <if test="apiResultSubCode != null  and apiResultSubCode != '' "> and api_result_sub_code = #{apiResultSubCode}</if>
+             <if test="apiType != null  and apiType != '' "> and api_type = #{apiType}</if>
+             <if test="riskFlag != null  and riskFlag != '' "> and risk_flag = #{riskFlag}</if>
+             <if test="extension != null  and extension != '' "> and extension = #{extension}</if>
+         </where>
+         order by gmt_create desc
+    </select>
+    
+    <select id="selectPayInstOrderResultById" parameterType="Integer" resultMap="PayInstOrderResultResult">
+        <include refid="selectPayInstOrderResultVo"/>
+        where result_id = #{resultId}
+    </select>
+    <select id="loadPayInstOrderResultByInstOrderId" parameterType="Integer" resultMap="PayInstOrderResultResult">
+        <include refid="selectPayInstOrderResultVo"/>
+        where inst_order_id = #{instOrderId}
+        and inst_status !='Q'
+        order by result_id DESC
+    </select>
+    
+    <select id="loadRealResultByInstSeqNo" parameterType="String" resultMap="PayInstOrderResultResult">
+        <include refid="selectPayInstOrderResultVo"/>
+        where inst_seq_no = #{instSeqNo}
+    </select>
+        
+    <insert id="insertPayInstOrderResult" parameterType="PayInstOrderResultDO" useGeneratedKeys="true" keyProperty="resultId">
+        insert into pay_inst_order_result
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="resultId != null  ">result_id,</if>
+			<if test="batchResultId != null  ">batch_result_id,</if>
+			<if test="instOrderId != null  ">inst_order_id,</if>
+			<if test="instSeqNo != null  and instSeqNo != ''  ">inst_seq_no,</if>
+			<if test="orderType != null  and orderType != ''  ">order_type,</if>
+			<if test="realAmount != null  ">real_amount,</if>
+			<if test="realCurrency != null  and realCurrency != ''  ">real_currency,</if>
+			<if test="accountName != null  and accountName != ''  ">account_name,</if>
+			<if test="accountNo != null  and accountNo != ''  ">account_no,</if>
+			<if test="cardType != null  and cardType != ''  ">card_type,</if>
+			<if test="orgiInstOrderNo != null  and orgiInstOrderNo != ''  ">orgi_inst_order_no,</if>
+			<if test="compareStatus != null  and compareStatus != ''  ">compare_status,</if>
+			<if test="instStatus != null  and instStatus != ''  ">inst_status,</if>
+			<if test="glideStatus != null  and glideStatus != ''  ">glide_status,</if>
+			<if test="instResultCode != null  and instResultCode != ''  ">inst_result_code,</if>
+			<if test="memo != null  and memo != ''  ">memo,</if>
+			<if test="batchType != null  and batchType != ''  ">batch_type,</if>
+			<if test="fundChannelCode != null  and fundChannelCode != ''  ">fund_channel_code,</if>
+			<if test="instOrderNo != null  and instOrderNo != ''  ">inst_order_no,</if>
+			<if test="operateStatus != null  and operateStatus != ''  ">operate_status,</if>
+			<if test="diffMsg != null  and diffMsg != ''  ">diff_msg,</if>
+			<if test="archiveBatchId != null  ">archive_batch_id,</if>
+			<if test="fundinOrgiInstOrderNo != null  and fundinOrgiInstOrderNo != ''  ">fundin_orgi_inst_order_no,</if>
+			<if test="syncChannelStatus != null  and syncChannelStatus != ''  ">sync_channel_status,</if>
+			<if test="notifyBankorderStatus != null  and notifyBankorderStatus != ''  ">notify_bankorder_status,</if>
+			<if test="apiResultCode != null  and apiResultCode != ''  ">api_result_code,</if>
+			<if test="apiResultSubCode != null  and apiResultSubCode != ''  ">api_result_sub_code,</if>
+			<if test="apiType != null  and apiType != ''  ">api_type,</if>
+			<if test="riskFlag != null  and riskFlag != ''  ">risk_flag,</if>
+			<if test="extension != null  and extension != ''  ">extension,</if>
+			gmt_modified,
+			gmt_create
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="resultId != null  ">#{resultId},</if>
+			<if test="batchResultId != null  ">#{batchResultId},</if>
+			<if test="instOrderId != null  ">#{instOrderId},</if>
+			<if test="instSeqNo != null  and instSeqNo != ''  ">#{instSeqNo},</if>
+			<if test="orderType != null  and orderType != ''  ">#{orderType},</if>
+			<if test="realAmount != null  ">#{realAmount},</if>
+			<if test="realCurrency != null  and realCurrency != ''  ">#{realCurrency},</if>
+			<if test="accountName != null  and accountName != ''  ">#{accountName},</if>
+			<if test="accountNo != null  and accountNo != ''  ">#{accountNo},</if>
+			<if test="cardType != null  and cardType != ''  ">#{cardType},</if>
+			<if test="orgiInstOrderNo != null  and orgiInstOrderNo != ''  ">#{orgiInstOrderNo},</if>
+			<if test="compareStatus != null  and compareStatus != ''  ">#{compareStatus},</if>
+			<if test="instStatus != null  and instStatus != ''  ">#{instStatus},</if>
+			<if test="glideStatus != null  and glideStatus != ''  ">#{glideStatus},</if>
+			<if test="instResultCode != null  and instResultCode != ''  ">#{instResultCode},</if>
+			<if test="memo != null  and memo != ''  ">#{memo},</if>
+			<if test="batchType != null  and batchType != ''  ">#{batchType},</if>
+			<if test="fundChannelCode != null  and fundChannelCode != ''  ">#{fundChannelCode},</if>
+			<if test="instOrderNo != null  and instOrderNo != ''  ">#{instOrderNo},</if>
+			<if test="operateStatus != null  and operateStatus != ''  ">#{operateStatus},</if>
+			<if test="diffMsg != null  and diffMsg != ''  ">#{diffMsg},</if>
+			<if test="archiveBatchId != null  ">#{archiveBatchId},</if>
+			<if test="fundinOrgiInstOrderNo != null  and fundinOrgiInstOrderNo != ''  ">#{fundinOrgiInstOrderNo},</if>
+			<if test="syncChannelStatus != null  and syncChannelStatus != ''  ">#{syncChannelStatus},</if>
+			<if test="notifyBankorderStatus != null  and notifyBankorderStatus != ''  ">#{notifyBankorderStatus},</if>
+			<if test="apiResultCode != null  and apiResultCode != ''  ">#{apiResultCode},</if>
+			<if test="apiResultSubCode != null  and apiResultSubCode != ''  ">#{apiResultSubCode},</if>
+			<if test="apiType != null  and apiType != ''  ">#{apiType},</if>
+			<if test="riskFlag != null  and riskFlag != ''  ">#{riskFlag},</if>
+			<if test="extension != null  and extension != ''  ">#{extension},</if>
+			sysdate(),
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updatePayInstOrderResult" parameterType="PayInstOrderResultDO">
+        update pay_inst_order_result
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="batchResultId != null  ">batch_result_id = #{batchResultId},</if>
+            <if test="instOrderId != null  ">inst_order_id = #{instOrderId},</if>
+            <if test="instSeqNo != null  and instSeqNo != ''  ">inst_seq_no = #{instSeqNo},</if>
+            <if test="orderType != null  and orderType != ''  ">order_type = #{orderType},</if>
+            <if test="realAmount != null  ">real_amount = #{realAmount},</if>
+            <if test="realCurrency != null  and realCurrency != ''  ">real_currency = #{realCurrency},</if>
+            <if test="accountName != null  and accountName != ''  ">account_name = #{accountName},</if>
+            <if test="accountNo != null  and accountNo != ''  ">account_no = #{accountNo},</if>
+            <if test="cardType != null  and cardType != ''  ">card_type = #{cardType},</if>
+            <if test="orgiInstOrderNo != null  and orgiInstOrderNo != ''  ">orgi_inst_order_no = #{orgiInstOrderNo},</if>
+            <if test="compareStatus != null  and compareStatus != ''  ">compare_status = #{compareStatus},</if>
+            <if test="instStatus != null  and instStatus != ''  ">inst_status = #{instStatus},</if>
+            <if test="glideStatus != null  and glideStatus != ''  ">glide_status = #{glideStatus},</if>
+            <if test="instResultCode != null  and instResultCode != ''  ">inst_result_code = #{instResultCode},</if>
+            <if test="memo != null  and memo != ''  ">memo = #{memo},</if>
+            <if test="batchType != null  and batchType != ''  ">batch_type = #{batchType},</if>
+            <if test="fundChannelCode != null  and fundChannelCode != ''  ">fund_channel_code = #{fundChannelCode},</if>
+            <if test="instOrderNo != null  and instOrderNo != ''  ">inst_order_no = #{instOrderNo},</if>
+            <if test="operateStatus != null  and operateStatus != ''  ">operate_status = #{operateStatus},</if>
+            <if test="diffMsg != null  and diffMsg != ''  ">diff_msg = #{diffMsg},</if>
+            <if test="archiveBatchId != null  ">archive_batch_id = #{archiveBatchId},</if>
+            <if test="fundinOrgiInstOrderNo != null  and fundinOrgiInstOrderNo != ''  ">fundin_orgi_inst_order_no = #{fundinOrgiInstOrderNo},</if>
+            <if test="syncChannelStatus != null  and syncChannelStatus != ''  ">sync_channel_status = #{syncChannelStatus},</if>
+            <if test="notifyBankorderStatus != null  and notifyBankorderStatus != ''  ">notify_bankorder_status = #{notifyBankorderStatus},</if>
+            <if test="apiResultCode != null  and apiResultCode != ''  ">api_result_code = #{apiResultCode},</if>
+            <if test="apiResultSubCode != null  and apiResultSubCode != ''  ">api_result_sub_code = #{apiResultSubCode},</if>
+            <if test="apiType != null  and apiType != ''  ">api_type = #{apiType},</if>
+            <if test="riskFlag != null  and riskFlag != ''  ">risk_flag = #{riskFlag},</if>
+            <if test="extension != null  and extension != ''  ">extension = #{extension},</if>
+            gmt_modified = sysdate()
+        </trim>
+        where result_id = #{resultId}
+    </update>
+
+	<delete id="deletePayInstOrderResultById" parameterType="Integer">
+        delete from pay_inst_order_result where result_id = #{resultId}
+    </delete>
+	
+    <delete id="deletePayInstOrderResultByIds" parameterType="String">
+        delete from pay_inst_order_result where result_id in 
+        <foreach item="resultId" collection="array" open="(" separator="," close=")">
+            #{resultId}
+        </foreach>
+    </delete>
+    
+    <update id="updateRiskFlagById" >
+        update pay_inst_order_result  set gmt_modified =sysdate(),risk_flag = #{riskFlag} where result_id = #{resultId}
+     </update>
+     
+    <update id="updateOperateStatusById" >
+        update pay_inst_order_result  set gmt_modified =sysdate(),operate_status = #{operateStatus} where result_id = #{resultId}
+     </update>
+</mapper>

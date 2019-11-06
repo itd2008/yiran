@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.wechat.mapper.WechatProductInventoryMapper">
+    
+    <resultMap type="WechatProductInventory" id="WechatProductInventoryResult">
+        <result property="productInventoryId"    column="product_inventory_id"    />
+        <result property="productId"    column="product_id"    />
+        <result property="quantity"    column="quantity"    />
+        <result property="price"    column="price"    />
+        <result property="subtotal"    column="subtotal"    />
+        <result property="stockOld"    column="stock_old"    />
+        <result property="stockNew"    column="stock_new"    />
+        <result property="direction"    column="direction"    />
+        <result property="operateType"    column="operate_type"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="providerId"    column="provider_id"    />
+        <result property="remark"    column="remark"    />
+        <result property="userId"    column="user_id"    />
+        <result property="auditorUid"    column="auditor_uid"    />
+        <result property="directionResult"    column="direction_result"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+	
+	<sql id="selectWechatProductInventoryVo">
+        select product_inventory_id, product_id, quantity, price, subtotal, stock_old, stock_new, direction, operate_type, order_id, provider_id, remark, user_id, auditor_uid, direction_result, create_time from wechat_product_inventory
+    </sql>
+	
+    <select id="selectWechatProductInventoryList" parameterType="WechatProductInventory" resultMap="WechatProductInventoryResult">
+        <include refid="selectWechatProductInventoryVo"/>
+        <where>  
+            <if test="productInventoryId != null "> and product_inventory_id = #{productInventoryId}</if>
+             <if test="productId != null "> and product_id = #{productId}</if>
+             <if test="quantity != null  and quantity != '' "> and quantity = #{quantity}</if>
+             <if test="price != null  and price != '' "> and price = #{price}</if>
+             <if test="subtotal != null  and subtotal != '' "> and subtotal = #{subtotal}</if>
+             <if test="stockOld != null  and stockOld != '' "> and stock_old = #{stockOld}</if>
+             <if test="stockNew != null  and stockNew != '' "> and stock_new = #{stockNew}</if>
+             <if test="direction != null  and direction != '' "> and direction = #{direction}</if>
+             <if test="operateType != null  and operateType != '' "> and operate_type = #{operateType}</if>
+             <if test="orderId != null  and orderId != '' "> and order_id = #{orderId}</if>
+             <if test="providerId != null  and providerId != '' "> and provider_id = #{providerId}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+             <if test="userId != null  and userId != '' "> and user_id = #{userId}</if>
+             <if test="auditorUid != null  and auditorUid != '' "> and auditor_uid = #{auditorUid}</if>
+             <if test="directionResult != null  and directionResult != '' "> and direction_result = #{directionResult}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+         </where>
+    </select>
+    
+    <select id="selectWechatProductInventoryById" parameterType="Integer" resultMap="WechatProductInventoryResult">
+        <include refid="selectWechatProductInventoryVo"/>
+        where product_inventory_id = #{productInventoryId}
+    </select>
+        
+    <insert id="insertWechatProductInventory" parameterType="WechatProductInventory" useGeneratedKeys="true" keyProperty="productInventoryId">
+        insert into wechat_product_inventory
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="productId != null  ">product_id,</if>
+			<if test="quantity != null  and quantity != ''  ">quantity,</if>
+			<if test="price != null  and price != ''  ">price,</if>
+			<if test="subtotal != null  and subtotal != ''  ">subtotal,</if>
+			<if test="stockOld != null  and stockOld != ''  ">stock_old,</if>
+			<if test="stockNew != null  and stockNew != ''  ">stock_new,</if>
+			<if test="direction != null  and direction != ''  ">direction,</if>
+			<if test="operateType != null  and operateType != ''  ">operate_type,</if>
+			<if test="orderId != null  and orderId != ''  ">order_id,</if>
+			<if test="providerId != null  and providerId != ''  ">provider_id,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="userId != null  and userId != ''  ">user_id,</if>
+			<if test="auditorUid != null  and auditorUid != ''  ">auditor_uid,</if>
+			<if test="directionResult != null  and directionResult != ''  ">direction_result,</if>
+			<if test="createTime != null  ">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="productId != null  ">#{productId},</if>
+			<if test="quantity != null  and quantity != ''  ">#{quantity},</if>
+			<if test="price != null  and price != ''  ">#{price},</if>
+			<if test="subtotal != null  and subtotal != ''  ">#{subtotal},</if>
+			<if test="stockOld != null  and stockOld != ''  ">#{stockOld},</if>
+			<if test="stockNew != null  and stockNew != ''  ">#{stockNew},</if>
+			<if test="direction != null  and direction != ''  ">#{direction},</if>
+			<if test="operateType != null  and operateType != ''  ">#{operateType},</if>
+			<if test="orderId != null  and orderId != ''  ">#{orderId},</if>
+			<if test="providerId != null  and providerId != ''  ">#{providerId},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="userId != null  and userId != ''  ">#{userId},</if>
+			<if test="auditorUid != null  and auditorUid != ''  ">#{auditorUid},</if>
+			<if test="directionResult != null  and directionResult != ''  ">#{directionResult},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateWechatProductInventory" parameterType="WechatProductInventory">
+        update wechat_product_inventory
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="productId != null  ">product_id = #{productId},</if>
+            <if test="quantity != null  and quantity != ''  ">quantity = #{quantity},</if>
+            <if test="price != null  and price != ''  ">price = #{price},</if>
+            <if test="subtotal != null  and subtotal != ''  ">subtotal = #{subtotal},</if>
+            <if test="stockOld != null  and stockOld != ''  ">stock_old = #{stockOld},</if>
+            <if test="stockNew != null  and stockNew != ''  ">stock_new = #{stockNew},</if>
+            <if test="direction != null  and direction != ''  ">direction = #{direction},</if>
+            <if test="operateType != null  and operateType != ''  ">operate_type = #{operateType},</if>
+            <if test="orderId != null  and orderId != ''  ">order_id = #{orderId},</if>
+            <if test="providerId != null  and providerId != ''  ">provider_id = #{providerId},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="userId != null  and userId != ''  ">user_id = #{userId},</if>
+            <if test="auditorUid != null  and auditorUid != ''  ">auditor_uid = #{auditorUid},</if>
+            <if test="directionResult != null  and directionResult != ''  ">direction_result = #{directionResult},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+        </trim>
+        where product_inventory_id = #{productInventoryId}
+    </update>
+
+	<delete id="deleteWechatProductInventoryById" parameterType="Integer">
+        delete from wechat_product_inventory where product_inventory_id = #{productInventoryId}
+    </delete>
+	
+    <delete id="deleteWechatProductInventoryByIds" parameterType="String">
+        delete from wechat_product_inventory where product_inventory_id in 
+        <foreach item="productInventoryId" collection="array" open="(" separator="," close=")">
+            #{productInventoryId}
+        </foreach>
+    </delete>
+    
+</mapper>

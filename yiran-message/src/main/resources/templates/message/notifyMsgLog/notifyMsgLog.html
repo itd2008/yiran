@@ -1,0 +1,134 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+						<ul>
+							<li>
+								业务类型：<input type="text" name="businessType"/>
+							</li>
+
+							<li>
+								联系电话：<input type="text" name="phone"/>
+							</li>
+
+							<li>
+								模板ID：<input type="text" name="templateId"/>
+							</li>
+
+							<li>
+								模板类型：<input type="text" name="templateContent"/>
+							</li>
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+	        <div class="btn-group-sm hidden-xs" id="toolbar" role="group">
+				<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="message:notifyMsgLog:add">
+					<i class="fa fa-plus"></i> 添加
+				</a>
+				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.edit()" shiro:hasPermission="message:notifyMsgLog:edit">
+					<i class="fa fa-edit"></i> 修改
+				</a>
+				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="message:notifyMsgLog:remove">
+					<i class="fa fa-remove"></i> 删除
+				</a>
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="message:notifyMsgLog:export">
+						<i class="fa fa-download"></i> 导出
+				 </a>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('message:notifyMsgLog:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('message:notifyMsgLog:remove')}]];
+        var prefix = ctx + "message/notifyMsgLog";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+                modalName: "消息通知日志",
+		        showExport: true,
+                columns: [{
+		            checkbox: true
+		        },
+		        {
+					field : 'businessType', 
+					title : '业务类型',
+					align: 'center',
+		            formatter: function(value, row, index) {
+		                if (value == '1') {
+		                	return '<span class="label label-warning">验证码模板</span>';
+		                } else if (value == '2') {
+		                    return '<span class="badge badge-warning">短信通知模板</span>';
+		                }else if (value == '3') {
+		                    return '<span class="badge badge-warning">其它类型</span>';
+		                }
+		            }
+				},
+				{
+					field : 'phone', 
+					title : '联系电话' 
+				},
+				{
+					field : 'verifyCode', 
+					title : '验证码' 
+				},
+				{
+					field : 'templateId', 
+					title : '模板ID' 
+				},
+				{
+					field : 'senddata', 
+					title : '发送数据' 
+				},
+				{
+					field : 'status', 
+					title : '发送状态' ,
+					align: 'center',
+		            formatter: function(value, row, index) {
+		                if (value == 'S') {
+		                	return '<span class="label label-primary">发送成功</span>';
+		                } else {
+		                    return '<span class="badge badge-warning">发送失败</span>';
+		                }
+		            }
+				},
+				{
+					field : 'responseDate', 
+					title : '响应时间' 
+				},
+		        {
+		            title: '操作',
+		            align: 'center',
+		            formatter: function(value, row, index) {
+		            	var actions = [];
+		            	actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>查看</a> ');
+						return actions.join('');
+		            }
+		        }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.payorder.mapper.PayBankCardInfoMapper">
+    
+    <resultMap type="PayBankCardInfoDO" id="PayBankCardInfoResult">
+        <result property="bankCardId"    column="bank_card_id"    />
+        <result property="cardNo"    column="card_no"    />
+        <result property="cardType"    column="card_type"    />
+        <result property="targetInstCode"    column="target_inst_code"    />
+        <result property="bankBranch"    column="bank_branch"    />
+        <result property="cardHolder"    column="card_holder"    />
+        <result property="mobileNo"    column="mobile_no"    />
+        <result property="certNo"    column="cert_no"    />
+        <result property="certType"    column="cert_type"    />
+        <result property="validDate"    column="valid_date"    />
+        <result property="cvv2"    column="cvv2"    />
+        <result property="status"    column="status"    />
+        <result property="gmtCreate"    column="gmt_create"    />
+        <result property="gmtModified"    column="gmt_modified"    />
+    </resultMap>
+	
+	<sql id="selectPayBankCardInfoVo">
+        select bank_card_id, card_no, card_type, target_inst_code, bank_branch, card_holder, mobile_no, cert_no, cert_type, valid_date, cvv2, status, gmt_create, gmt_modified from pay_bank_card_info
+    </sql>
+	
+    <select id="selectPayBankCardInfoList" parameterType="PayBankCardInfoDO" resultMap="PayBankCardInfoResult">
+        <include refid="selectPayBankCardInfoVo"/>
+        <where>  
+            <if test="bankCardId != null "> and bank_card_id = #{bankCardId}</if>
+             <if test="cardNo != null  and cardNo != '' "> and card_no = #{cardNo}</if>
+             <if test="cardType != null  and cardType != '' "> and card_type = #{cardType}</if>
+             <if test="targetInstCode != null  and targetInstCode != '' "> and target_inst_code = #{targetInstCode}</if>
+             <if test="bankBranch != null  and bankBranch != '' "> and bank_branch = #{bankBranch}</if>
+             <if test="cardHolder != null  and cardHolder != '' "> and card_holder = #{cardHolder}</if>
+             <if test="mobileNo != null  and mobileNo != '' "> and mobile_no = #{mobileNo}</if>
+             <if test="certNo != null  and certNo != '' "> and cert_no = #{certNo}</if>
+             <if test="certType != null  and certType != '' "> and cert_type = #{certType}</if>
+             <if test="validDate != null  and validDate != '' "> and valid_date = #{validDate}</if>
+             <if test="cvv2 != null  and cvv2 != '' "> and cvv2 = #{cvv2}</if>
+             <if test="status != null  and status != '' "> and status = #{status}</if>
+             <if test="gmtCreate != null "> and gmt_create = #{gmtCreate}</if>
+             <if test="gmtModified != null "> and gmt_modified = #{gmtModified}</if>
+         </where>
+         order by gmt_create desc
+    </select>
+    <!-- 根据银行卡号获取银行卡信息列表 -->
+    <select id="loadByCardNo" parameterType="String" resultMap="PayBankCardInfoResult">
+        <include refid="selectPayBankCardInfoVo"/>
+        <where>  
+             <if test="cardNo != null  and cardNo != '' "> and card_no = #{cardNo}</if>
+         </where>
+    </select>
+    
+    <select id="selectPayBankCardInfoById" parameterType="Integer" resultMap="PayBankCardInfoResult">
+        <include refid="selectPayBankCardInfoVo"/>
+        where bank_card_id = #{bankCardId}
+    </select>
+        
+    <insert id="insertPayBankCardInfo" parameterType="PayBankCardInfoDO">
+        insert into pay_bank_card_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="bankCardId != null  ">bank_card_id,</if>
+			<if test="cardNo != null  and cardNo != ''  ">card_no,</if>
+			<if test="cardType != null  and cardType != ''  ">card_type,</if>
+			<if test="targetInstCode != null  and targetInstCode != ''  ">target_inst_code,</if>
+			<if test="bankBranch != null  and bankBranch != ''  ">bank_branch,</if>
+			<if test="cardHolder != null  and cardHolder != ''  ">card_holder,</if>
+			<if test="mobileNo != null  and mobileNo != ''  ">mobile_no,</if>
+			<if test="certNo != null  and certNo != ''  ">cert_no,</if>
+			<if test="certType != null  and certType != ''  ">cert_type,</if>
+			<if test="validDate != null  and validDate != ''  ">valid_date,</if>
+			<if test="cvv2 != null  and cvv2 != ''  ">cvv2,</if>
+			<if test="status != null  and status != ''  ">status,</if>
+			gmt_create,
+			gmt_modified
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="bankCardId != null  ">#{bankCardId},</if>
+			<if test="cardNo != null  and cardNo != ''  ">#{cardNo},</if>
+			<if test="cardType != null  and cardType != ''  ">#{cardType},</if>
+			<if test="targetInstCode != null  and targetInstCode != ''  ">#{targetInstCode},</if>
+			<if test="bankBranch != null  and bankBranch != ''  ">#{bankBranch},</if>
+			<if test="cardHolder != null  and cardHolder != ''  ">#{cardHolder},</if>
+			<if test="mobileNo != null  and mobileNo != ''  ">#{mobileNo},</if>
+			<if test="certNo != null  and certNo != ''  ">#{certNo},</if>
+			<if test="certType != null  and certType != ''  ">#{certType},</if>
+			<if test="validDate != null  and validDate != ''  ">#{validDate},</if>
+			<if test="cvv2 != null  and cvv2 != ''  ">#{cvv2},</if>
+			<if test="status != null  and status != ''  ">#{status},</if>
+			sysdate(),
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updatePayBankCardInfo" parameterType="PayBankCardInfoDO">
+        update pay_bank_card_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="cardNo != null  and cardNo != ''  ">card_no = #{cardNo},</if>
+            <if test="cardType != null  and cardType != ''  ">card_type = #{cardType},</if>
+            <if test="targetInstCode != null  and targetInstCode != ''  ">target_inst_code = #{targetInstCode},</if>
+            <if test="bankBranch != null  and bankBranch != ''  ">bank_branch = #{bankBranch},</if>
+            <if test="cardHolder != null  and cardHolder != ''  ">card_holder = #{cardHolder},</if>
+            <if test="mobileNo != null  and mobileNo != ''  ">mobile_no = #{mobileNo},</if>
+            <if test="certNo != null  and certNo != ''  ">cert_no = #{certNo},</if>
+            <if test="certType != null  and certType != ''  ">cert_type = #{certType},</if>
+            <if test="validDate != null  and validDate != ''  ">valid_date = #{validDate},</if>
+            <if test="cvv2 != null  and cvv2 != ''  ">cvv2 = #{cvv2},</if>
+            <if test="status != null  and status != ''  ">status = #{status},</if>
+            gmt_modified = sysdate()
+        </trim>
+        where bank_card_id = #{bankCardId}
+    </update>
+
+	<delete id="deletePayBankCardInfoById" parameterType="Integer">
+        delete from pay_bank_card_info where bank_card_id = #{bankCardId}
+    </delete>
+	
+    <delete id="deletePayBankCardInfoByIds" parameterType="String">
+        delete from pay_bank_card_info where bank_card_id in 
+        <foreach item="bankCardId" collection="array" open="(" separator="," close=")">
+            #{bankCardId}
+        </foreach>
+    </delete>
+    
+</mapper>

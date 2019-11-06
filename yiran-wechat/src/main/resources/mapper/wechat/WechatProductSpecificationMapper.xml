@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.wechat.mapper.WechatProductSpecificationMapper">
+    
+    <resultMap type="WechatProductSpecification" id="WechatProductSpecificationResult">
+        <result property="productSpecification"    column="product_specification"    />
+        <result property="productCategoryId"    column="product_category_id"    />
+        <result property="productCategoryName"    column="product_category_name"    />
+        <result property="specificationType"    column="specification_type"    />
+        <result property="specificationCode"    column="specification_code"    />
+        <result property="specificationValue"    column="specification_value"    />
+    </resultMap>
+	
+	<sql id="selectWechatProductSpecificationVo">
+        select product_specification, product_category_id, product_category_name, specification_type,specification_code, specification_value from wechat_product_specification
+    </sql>
+	
+    <select id="selectWechatProductSpecificationList" parameterType="WechatProductSpecification" resultMap="WechatProductSpecificationResult">
+        <include refid="selectWechatProductSpecificationVo"/>
+        <where>  
+            <if test="productSpecification != null "> and product_specification = #{productSpecification}</if>
+             <if test="productCategoryId != null "> and product_category_id = #{productCategoryId}</if>
+             <if test="productCategoryName != null  and productCategoryName != '' "> and product_category_name = #{productCategoryName}</if>
+             <if test="specificationType != null  and specificationType != '' "> and specification_type = #{specificationType}</if>
+             <if test="specificationValue != null  and specificationValue != '' "> and specification_value = #{specificationValue}</if>
+         </where>
+    </select>
+    
+    <select id="selectWechatProductSpecificationListByCategoryIdAndSpecifications" parameterType="WechatProductSpecification" resultMap="WechatProductSpecificationResult">
+        <include refid="selectWechatProductSpecificationVo"/>
+        where product_category_id = #{categoryId}
+        and specification_value in
+        <foreach collection="specifications" item="specification"  open="(" separator="," close=")">  
+	        #{specification}  
+	     </foreach>
+	     order by product_specification asc
+    </select>
+    
+    <select id="selectWechatProductSpecificationById" parameterType="Integer" resultMap="WechatProductSpecificationResult">
+        <include refid="selectWechatProductSpecificationVo"/>
+        where product_specification = #{productSpecification}
+    </select>
+    
+    <select id="selectWechatProductSpecificationListByCategoryId" parameterType="Integer" resultMap="WechatProductSpecificationResult">
+        select t.specification_code,t.specification_type from wechat_product_specification t 
+			where t.product_category_id = #{productCategoryId} 
+			GROUP BY t.specification_code,t.specification_type
+    </select>
+        
+    <select id="selectSpecificationListByCategoryIdAndSpecificationType"  resultMap="WechatProductSpecificationResult">
+        <include refid="selectWechatProductSpecificationVo"/>
+        where product_category_id = #{productCategoryId} 
+        and specification_code = #{specificationCode}
+    </select>
+     
+    <insert id="insertWechatProductSpecification" parameterType="WechatProductSpecification" useGeneratedKeys="true" keyProperty="productSpecification">
+        insert into wechat_product_specification
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="productCategoryId != null  ">product_category_id,</if>
+			<if test="productCategoryName != null  and productCategoryName != ''  ">product_category_name,</if>
+			<if test="specificationType != null  and specificationType != ''  ">specification_type,</if>
+			<if test="specificationCode != null  and specificationCode != ''  ">specification_code,</if>
+			<if test="specificationValue != null  and specificationValue != ''  ">specification_value,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="productCategoryId != null  ">#{productCategoryId},</if>
+			<if test="productCategoryName != null  and productCategoryName != ''  ">#{productCategoryName},</if>
+			<if test="specificationType != null  and specificationType != ''  ">#{specificationType},</if>
+			<if test="specificationCode != null  and specificationCode != ''  ">#{specificationCode},</if>
+			<if test="specificationValue != null  and specificationValue != ''  ">#{specificationValue},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateWechatProductSpecification" parameterType="WechatProductSpecification">
+        update wechat_product_specification
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="productCategoryId != null  ">product_category_id = #{productCategoryId},</if>
+            <if test="productCategoryName != null  and productCategoryName != ''  ">product_category_name = #{productCategoryName},</if>
+            <if test="specificationType != null  and specificationType != ''  ">specification_type = #{specificationType},</if>
+            <if test="specificationCode != null  and specificationCode != ''  ">specification_code = #{specificationCode},</if>
+            <if test="specificationValue != null  and specificationValue != ''  ">specification_value = #{specificationValue},</if>
+        </trim>
+        where product_specification = #{productSpecification}
+    </update>
+
+	<delete id="deleteWechatProductSpecificationById" parameterType="Integer">
+        delete from wechat_product_specification where product_specification = #{productSpecification}
+    </delete>
+	
+    <delete id="deleteWechatProductSpecificationByIds" parameterType="String">
+        delete from wechat_product_specification where product_specification in 
+        <foreach item="productSpecification" collection="array" open="(" separator="," close=")">
+            #{productSpecification}
+        </foreach>
+    </delete>
+    
+</mapper>

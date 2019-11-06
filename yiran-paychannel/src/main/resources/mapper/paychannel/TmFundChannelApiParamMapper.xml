@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.paychannel.mapper.TmFundChannelApiParamMapper">
+    
+    <resultMap type="TmFundChannelApiParam" id="TmFundChannelApiParamResult">
+        <result property="paramId"    column="param_id"    />
+        <result property="apiCode"    column="api_code"    />
+        <result property="paramName"    column="param_name"    />
+        <result property="paramCodeKey"    column="param_code_key"    />
+        <result property="paramDesc"    column="param_desc"    />
+        <result property="nullAble"    column="null_able"    />
+        <result property="enable"    column="enable"    />
+        <result property="isSave"    column="is_save"    />
+        <result property="isOrgin"    column="is_orgin"    />
+        <result property="scene"    column="scene"    />
+        <result property="gmtCreate"    column="gmt_create"    />
+        <result property="gmtModified"    column="gmt_modified"    />
+        <result property="isChannelTrans"    column="is_channel_trans"    />
+        <result property="transCode"    column="trans_code"    />
+        <result property="extension"    column="extension"    />
+    </resultMap>
+	
+	<sql id="selectTmFundChannelApiParamVo">
+        select param_id, api_code, param_name, param_code_key, param_desc, null_able, enable, is_save, is_orgin, scene, gmt_create, gmt_modified, is_channel_trans, trans_code, extension from tm_fund_channel_api_param
+    </sql>
+	
+    <select id="selectTmFundChannelApiParamList" parameterType="TmFundChannelApiParam" resultMap="TmFundChannelApiParamResult">
+        <include refid="selectTmFundChannelApiParamVo"/>
+        <where>  
+            <if test="paramId != null "> and param_id = #{paramId}</if>
+             <if test="apiCode != null  and apiCode != '' "> and api_code = #{apiCode}</if>
+             <if test="paramName != null  and paramName != '' "> and param_name = #{paramName}</if>
+             <if test="paramCodeKey != null  and paramCodeKey != '' "> and param_code_key = #{paramCodeKey}</if>
+             <if test="paramDesc != null  and paramDesc != '' "> and param_desc = #{paramDesc}</if>
+             <if test="nullAble != null  and nullAble != '' "> and null_able = #{nullAble}</if>
+             <if test="enable != null  and enable != '' "> and enable = #{enable}</if>
+             <if test="isSave != null  and isSave != '' "> and is_save = #{isSave}</if>
+             <if test="isOrgin != null  and isOrgin != '' "> and is_orgin = #{isOrgin}</if>
+             <if test="scene != null  and scene != '' "> and scene = #{scene}</if>
+             <if test="gmtCreate != null "> and gmt_create = #{gmtCreate}</if>
+             <if test="gmtModified != null "> and gmt_modified = #{gmtModified}</if>
+             <if test="isChannelTrans != null  and isChannelTrans != '' "> and is_channel_trans = #{isChannelTrans}</if>
+             <if test="transCode != null  and transCode != '' "> and trans_code = #{transCode}</if>
+             <if test="extension != null  and extension != '' "> and extension = #{extension}</if>
+         </where>
+    </select>
+    
+    <select id="selectTmFundChannelApiParamById" parameterType="Integer" resultMap="TmFundChannelApiParamResult">
+        <include refid="selectTmFundChannelApiParamVo"/>
+        where param_id = #{paramId}
+    </select>
+        
+    <insert id="insertTmFundChannelApiParam" parameterType="TmFundChannelApiParam" useGeneratedKeys="true" keyProperty="paramId">
+        insert into tm_fund_channel_api_param
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="apiCode != null  and apiCode != ''  ">api_code,</if>
+			<if test="paramName != null  and paramName != ''  ">param_name,</if>
+			<if test="paramCodeKey != null  and paramCodeKey != ''  ">param_code_key,</if>
+			<if test="paramDesc != null  and paramDesc != ''  ">param_desc,</if>
+			<if test="nullAble != null  and nullAble != ''  ">null_able,</if>
+			<if test="enable != null  and enable != ''  ">enable,</if>
+			<if test="isSave != null  and isSave != ''  ">is_save,</if>
+			<if test="isOrgin != null  and isOrgin != ''  ">is_orgin,</if>
+			<if test="scene != null  and scene != ''  ">scene,</if>
+			<if test="isChannelTrans != null  and isChannelTrans != ''  ">is_channel_trans,</if>
+			<if test="transCode != null  and transCode != ''  ">trans_code,</if>
+			<if test="extension != null  and extension != ''  ">extension,</if>
+			gmt_create,
+			gmt_modified
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="apiCode != null  and apiCode != ''  ">#{apiCode},</if>
+			<if test="paramName != null  and paramName != ''  ">#{paramName},</if>
+			<if test="paramCodeKey != null  and paramCodeKey != ''  ">#{paramCodeKey},</if>
+			<if test="paramDesc != null  and paramDesc != ''  ">#{paramDesc},</if>
+			<if test="nullAble != null  and nullAble != ''  ">#{nullAble},</if>
+			<if test="enable != null  and enable != ''  ">#{enable},</if>
+			<if test="isSave != null  and isSave != ''  ">#{isSave},</if>
+			<if test="isOrgin != null  and isOrgin != ''  ">#{isOrgin},</if>
+			<if test="scene != null  and scene != ''  ">#{scene},</if>
+			<if test="isChannelTrans != null  and isChannelTrans != ''  ">#{isChannelTrans},</if>
+			<if test="transCode != null  and transCode != ''  ">#{transCode},</if>
+			<if test="extension != null  and extension != ''  ">#{extension},</if>
+			sysdate(),
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateTmFundChannelApiParam" parameterType="TmFundChannelApiParam">
+        update tm_fund_channel_api_param
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="apiCode != null  and apiCode != ''  ">api_code = #{apiCode},</if>
+            <if test="paramName != null  and paramName != ''  ">param_name = #{paramName},</if>
+            <if test="paramCodeKey != null  and paramCodeKey != ''  ">param_code_key = #{paramCodeKey},</if>
+            <if test="paramDesc != null  and paramDesc != ''  ">param_desc = #{paramDesc},</if>
+            <if test="nullAble != null  and nullAble != ''  ">null_able = #{nullAble},</if>
+            <if test="enable != null  and enable != ''  ">enable = #{enable},</if>
+            <if test="isSave != null  and isSave != ''  ">is_save = #{isSave},</if>
+            <if test="isOrgin != null  and isOrgin != ''  ">is_orgin = #{isOrgin},</if>
+            <if test="scene != null  and scene != ''  ">scene = #{scene},</if>
+            <if test="isChannelTrans != null  and isChannelTrans != ''  ">is_channel_trans = #{isChannelTrans},</if>
+            <if test="transCode != null  and transCode != ''  ">trans_code = #{transCode},</if>
+            <if test="extension != null  and extension != ''  ">extension = #{extension},</if>
+            gmt_modified = sysdate()
+        </trim>
+        where param_id = #{paramId}
+    </update>
+
+	<delete id="deleteTmFundChannelApiParamById" parameterType="Integer">
+        delete from tm_fund_channel_api_param where param_id = #{paramId}
+    </delete>
+	
+    <delete id="deleteTmFundChannelApiParamByIds" parameterType="String">
+        delete from tm_fund_channel_api_param where param_id in 
+        <foreach item="paramId" collection="array" open="(" separator="," close=")">
+            #{paramId}
+        </foreach>
+    </delete>
+    
+</mapper>

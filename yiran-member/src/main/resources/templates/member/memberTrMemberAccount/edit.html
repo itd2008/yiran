@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-memberTrMemberAccount-edit" th:object="${memberTrMemberAccount}">
+            <input id="id" name="id" th:field="*{id}"  type="hidden">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">会员编号：</label>
+				<div class="col-sm-8">
+					<input id="memberId" name="memberId" th:field="*{memberId}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">开户接口请求号(由seq_remote_request_no生成)：</label>
+				<div class="col-sm-8">
+					<input id="originalRequestNo" name="originalRequestNo" th:field="*{originalRequestNo}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">账户类型：</label>
+				<div class="col-sm-8">
+					<input id="accountType" name="accountType" th:field="*{accountType}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">账户编号：</label>
+				<div class="col-sm-8">
+					<input id="accountId" name="accountId" th:field="*{accountId}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">账户属性(1:对私 2:对公)：</label>
+				<div class="col-sm-8">
+					<input id="accountAttribute" name="accountAttribute" th:field="*{accountAttribute}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">状态状态(0:未激活 1:正常 2:锁定 3:止出 4:止入)：</label>
+				<div class="col-sm-8">
+					<input id="status" name="status" th:field="*{status}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">账户别名：</label>
+				<div class="col-sm-8">
+					<input id="alias" name="alias" th:field="*{alias}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">建立时间：</label>
+				<div class="col-sm-8">
+					<input id="createTime" name="createTime" th:field="*{createTime}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">更新时间：</label>
+				<div class="col-sm-8">
+					<input id="updateTime" name="updateTime" th:field="*{updateTime}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">建立人：</label>
+				<div class="col-sm-8">
+					<input id="createUser" name="createUser" th:field="*{createUser}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">更新人：</label>
+				<div class="col-sm-8">
+					<input id="updateUser" name="updateUser" th:field="*{updateUser}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<input id="memo" name="memo" th:field="*{memo}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">类别: DPM,CREDIT,默认为 DPM：</label>
+				<div class="col-sm-8">
+					<input id="category" name="category" th:field="*{category}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">类型id：</label>
+				<div class="col-sm-8">
+					<input id="typeId" name="typeId" th:field="*{typeId}" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+    </div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "member/memberTrMemberAccount";
+		$("#form-memberTrMemberAccount-edit").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/edit", $('#form-memberTrMemberAccount-edit').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

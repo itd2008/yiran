@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.paychannel.mapper.TmFundChannelExtMapper">
+    
+    <resultMap type="TmFundChannelExt" id="TmFundChannelExtResult">
+        <result property="extId"    column="ext_id"    />
+        <result property="fundChannelCode"    column="fund_channel_code"    />
+        <result property="attrKey"    column="attr_key"    />
+        <result property="attrValue"    column="attr_value"    />
+        <result property="attrType"    column="attr_type"    />
+        <result property="valueType"    column="value_type"    />
+        <result property="valueSplit"    column="value_split"    />
+        <result property="gmtCreate"    column="gmt_create"    />
+        <result property="gmtModified"    column="gmt_modified"    />
+        <result property="memo"    column="memo"    />
+        <result property="attrCodeKey"    column="attr_code_key"    />
+        <result property="apiCode"    column="api_code"    />
+        <result property="needMatch"    column="need_match"    />
+        <result property="matchType"    column="match_type"    />
+    </resultMap>
+	
+	<sql id="selectTmFundChannelExtVo">
+        select ext_id, fund_channel_code, attr_key, attr_value, attr_type, value_type, value_split, gmt_create, gmt_modified, memo, attr_code_key, api_code, need_match, match_type from tm_fund_channel_ext
+    </sql>
+	
+    <select id="selectTmFundChannelExtList" parameterType="TmFundChannelExt" resultMap="TmFundChannelExtResult">
+        <include refid="selectTmFundChannelExtVo"/>
+        <where>  
+            <if test="extId != null "> and ext_id = #{extId}</if>
+             <if test="fundChannelCode != null  and fundChannelCode != '' "> and fund_channel_code = #{fundChannelCode}</if>
+             <if test="attrKey != null  and attrKey != '' "> and attr_key = #{attrKey}</if>
+             <if test="attrValue != null  and attrValue != '' "> and attr_value = #{attrValue}</if>
+             <if test="attrType != null  and attrType != '' "> and attr_type = #{attrType}</if>
+             <if test="valueType != null  and valueType != '' "> and value_type = #{valueType}</if>
+             <if test="valueSplit != null  and valueSplit != '' "> and value_split = #{valueSplit}</if>
+             <if test="gmtCreate != null "> and gmt_create = #{gmtCreate}</if>
+             <if test="gmtModified != null "> and gmt_modified = #{gmtModified}</if>
+             <if test="memo != null  and memo != '' "> and memo = #{memo}</if>
+             <if test="attrCodeKey != null  and attrCodeKey != '' "> and attr_code_key = #{attrCodeKey}</if>
+             <if test="apiCode != null  and apiCode != '' "> and api_code = #{apiCode}</if>
+             <if test="needMatch != null  and needMatch != '' "> and need_match = #{needMatch}</if>
+             <if test="matchType != null  and matchType != '' "> and match_type = #{matchType}</if>
+         </where>
+    </select>
+    
+    <select id="selectTmFundChannelExtById" parameterType="Integer" resultMap="TmFundChannelExtResult">
+        <include refid="selectTmFundChannelExtVo"/>
+        where ext_id = #{extId}
+    </select>
+        
+    <insert id="insertTmFundChannelExt" parameterType="TmFundChannelExt" useGeneratedKeys="true" keyProperty="extId">
+        insert into tm_fund_channel_ext
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="fundChannelCode != null  and fundChannelCode != ''  ">fund_channel_code,</if>
+			<if test="attrKey != null  and attrKey != ''  ">attr_key,</if>
+			<if test="attrValue != null  and attrValue != ''  ">attr_value,</if>
+			<if test="attrType != null  and attrType != ''  ">attr_type,</if>
+			<if test="valueType != null  and valueType != ''  ">value_type,</if>
+			<if test="valueSplit != null  and valueSplit != ''  ">value_split,</if>
+			<if test="memo != null  and memo != ''  ">memo,</if>
+			<if test="attrCodeKey != null  and attrCodeKey != ''  ">attr_code_key,</if>
+			<if test="apiCode != null  and apiCode != ''  ">api_code,</if>
+			<if test="needMatch != null  and needMatch != ''  ">need_match,</if>
+			<if test="matchType != null  and matchType != ''  ">match_type,</if>
+			gmt_create,
+			gmt_modified
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="fundChannelCode != null  and fundChannelCode != ''  ">#{fundChannelCode},</if>
+			<if test="attrKey != null  and attrKey != ''  ">#{attrKey},</if>
+			<if test="attrValue != null  and attrValue != ''  ">#{attrValue},</if>
+			<if test="attrType != null  and attrType != ''  ">#{attrType},</if>
+			<if test="valueType != null  and valueType != ''  ">#{valueType},</if>
+			<if test="valueSplit != null  and valueSplit != ''  ">#{valueSplit},</if>
+			<if test="memo != null  and memo != ''  ">#{memo},</if>
+			<if test="attrCodeKey != null  and attrCodeKey != ''  ">#{attrCodeKey},</if>
+			<if test="apiCode != null  and apiCode != ''  ">#{apiCode},</if>
+			<if test="needMatch != null  and needMatch != ''  ">#{needMatch},</if>
+			<if test="matchType != null  and matchType != ''  ">#{matchType},</if>
+			sysdate(),
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateTmFundChannelExt" parameterType="TmFundChannelExt">
+        update tm_fund_channel_ext
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="fundChannelCode != null  and fundChannelCode != ''  ">fund_channel_code = #{fundChannelCode},</if>
+            <if test="attrKey != null  and attrKey != ''  ">attr_key = #{attrKey},</if>
+            <if test="attrValue != null  and attrValue != ''  ">attr_value = #{attrValue},</if>
+            <if test="attrType != null  and attrType != ''  ">attr_type = #{attrType},</if>
+            <if test="valueType != null  and valueType != ''  ">value_type = #{valueType},</if>
+            <if test="valueSplit != null  and valueSplit != ''  ">value_split = #{valueSplit},</if>
+            <if test="memo != null  and memo != ''  ">memo = #{memo},</if>
+            <if test="attrCodeKey != null  and attrCodeKey != ''  ">attr_code_key = #{attrCodeKey},</if>
+            <if test="apiCode != null  and apiCode != ''  ">api_code = #{apiCode},</if>
+            <if test="needMatch != null  and needMatch != ''  ">need_match = #{needMatch},</if>
+            <if test="matchType != null  and matchType != ''  ">match_type = #{matchType},</if>
+            gmt_modified = sysdate()
+        </trim>
+        where ext_id = #{extId}
+    </update>
+
+	<delete id="deleteTmFundChannelExtById" parameterType="Integer">
+        delete from tm_fund_channel_ext where ext_id = #{extId}
+    </delete>
+	
+    <delete id="deleteTmFundChannelExtByIds" parameterType="String">
+        delete from tm_fund_channel_ext where ext_id in 
+        <foreach item="extId" collection="array" open="(" separator="," close=")">
+            #{extId}
+        </foreach>
+    </delete>
+    
+</mapper>

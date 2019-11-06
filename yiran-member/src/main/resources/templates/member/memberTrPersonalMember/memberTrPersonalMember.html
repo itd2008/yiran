@@ -1,0 +1,177 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+						<ul>
+							<li>
+								默认登录名：<input type="text" name="defaultLoginName"/>
+							</li>
+
+							<li>
+								真实姓名：<input type="text" name="trueName"/>
+							</li>
+
+							<li>
+								证件类型：
+								<select name="certType" th:with="type=${@dict.getType('personal_member_certtype')}">
+								  <option value="">所有</option>
+								  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+								  </option>
+								</select>
+							</li>
+
+							<li>
+								证件号：<input type="text" name="idNo"/>
+							</li>
+
+							<li>
+								性别：
+								<select name="gender" th:with="type=${@dict.getType('personal_member_gender')}">
+								  <option value="">所有</option>
+								  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+								  </option>
+								</select>
+							</li>
+
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+	        <div class="btn-group-sm hidden-xs" id="toolbar" role="group">
+				<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="member:memberTrPersonalMember:add">
+					<i class="fa fa-plus"></i> 添加
+				</a>
+				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.edit()" shiro:hasPermission="member:memberTrPersonalMember:edit">
+					<i class="fa fa-edit"></i> 修改
+				</a>
+				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="member:memberTrPersonalMember:remove">
+					<i class="fa fa-remove"></i> 删除
+				</a>
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="member:memberTrPersonalMember:export">
+						<i class="fa fa-download"></i> 导出
+				 </a>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('member:memberTrPersonalMember:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('member:memberTrPersonalMember:remove')}]];
+        var prefix = ctx + "member/memberTrPersonalMember";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+                modalName: "个人会员",
+		        showExport: true,
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'memberId', 
+					title : '会员ID',
+					visible: false
+				},
+				{
+					field : 'defaultLoginName', 
+					title : '默认登录名',
+					sortable: true
+				},
+				{
+					field : 'trueName', 
+					title : '真实姓名',
+					sortable: true
+				},
+				{
+					field : 'certType', 
+					title : '证件类型',
+					sortable: true,
+					formatter: function(value, row, index) {
+		                if (value == 'IC') {
+		                	return '<span>身份证</span>';
+		                } else if (value == 'PP') {
+		                    return '<span>护照</span>';
+		                } else if (value == 'HMP') {
+		                    return '<span>港澳居民来往内地通行证</span>';
+		                }
+		            }
+				},
+				{
+					field : 'idNo', 
+					title : '证件号',
+					sortable: true
+				},
+				{
+					field : 'gender', 
+					title : '性别',
+					sortable: true,
+					formatter: function(value, row, index) {
+		                if (value == '0') {
+		                	return '<span>保密</span>';
+		                } else if (value == '1') {
+		                    return '<span>男</span>';
+		                } else if (value == '2') {
+		                    return '<span>女</span>';
+		                }
+		            }
+				},
+				{
+					field : 'postition', 
+					title : '职位',
+					sortable: true
+				},
+				{
+					field : 'career', 
+					title : '职业',
+					sortable: true
+				},
+				{
+					field : 'birthday', 
+					title : '生日',
+					sortable: true
+				},
+				{
+					field : 'createTime', 
+					title : '建立时间',
+					sortable: true
+				},
+				{
+					field : 'memo', 
+					title : '备注信息',
+					sortable: true
+				},
+		        {
+		            title: '操作',
+		            align: 'center',
+		            formatter: function(value, row, index) {
+		            	var actions = [];
+		            	actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.memberId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.memberId + '\')"><i class="fa fa-remove"></i>删除</a>');
+						return actions.join('');
+		            }
+		        }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

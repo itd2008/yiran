@@ -1,0 +1,97 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    <div class="container-div">
+		<div class="col-sm-12">
+           <!-- Example Events -->
+           <div class="example-wrap">
+               <div class="example">
+                   <div class="btn-group hidden-xs" id="exampleTableEventsToolbar" role="group">
+                       <button type="button" class="btn btn-success" onclick="addChannelExt()">
+                           <i class="fa fa-plus"></i> 新增资金源接口
+                       </button> 
+                   </div>
+                   <table id="exampleTableEvents" data-height="400" data-mobile-responsive="true">
+                       <thead>
+                           <tr>
+                           	   <th data-field="apiCode">接口编码</th>
+                               <th data-field="apiType">接口类型</th>
+                               <th data-field="apiVersion">接口版本</th>
+                               <th data-field="apiUri">接口URL</th>
+                               <th data-field="enables">是否可用</th>
+                               <th data-field="description">备注</th>
+                               <th >操作</th>
+                           </tr>
+                       </thead>
+                       <tbody>
+                       		<tr th:each="fa,iterStat : ${list}">
+                       			<td data-field="apiCode" th:text="${fa.apiCode}"></td>
+                           		<td data-field="apiType" th:if="${fa.apiType =='SP'}"><span>单笔支付</span></td>
+                           		<td data-field="apiType" th:if="${fa.apiType =='BP'}"><span>批量支付</span></td>
+                           		<td data-field="apiType" th:if="${fa.apiType =='SQ'}"><span>单笔查询</span></td>
+                           		<td data-field="apiType" th:if="${fa.apiType =='BQ'}"><span>批量查询</span></td>
+                           		<td data-field="apiType" th:if="${fa.apiType =='QB'}"><span>查询账户余额</span></td>
+                           		<td data-field="apiType" th:if="${fa.apiType =='SR'}"><span>单笔退款</span></td>
+                           		<td data-field="apiType" th:if="${fa.apiType =='BR'}"><span>批量退款</span></td>
+                           		<td data-field="apiType" th:if="${fa.apiType =='DB'}"><span>扣款</span></td>
+                           		<td data-field="apiType" th:if="${fa.apiType =='DBA'}"><span>扣款推进</span></td>
+                           		<td data-field="apiType" th:if="${fa.apiType =='DBAQ'}"><span>扣款推进查询</span></td>
+                           		<td data-field="apiType" th:if="${fa.apiType =='SRQ'}"><span>单退款查询</span></td>
+                           		<td data-field="apiType" th:if="${fa.apiType =='BRQ'}"><span>批量退款查询</span></td>
+                           		<td data-field="apiType" th:if="${fa.apiType =='AUTH'}"><span>鉴权</span></td>
+                           		<td data-field="apiType" th:if="${fa.apiType =='NT'}"><span>通知</span></td>
+                           		<td data-field="apiType" th:if="${fa.apiType =='RNT'}"><span>退款通知</span></td>
+                           		<td data-field="apiType" th:if="${fa.apiType =='TERM'}"><span>解约</span></td>
+                           		<td data-field="apiType" th:if="${fa.apiType =='AUTHA'}"><span>签约推进</span></td>
+                           		<td data-field="apiType" th:if="${fa.apiType =='FD'}"><span>下载对账文件</span></td>
+                           		<td data-field="apiVersion" th:text="${fa.apiVersion}"></td>
+                           		<td data-field="apiUri" th:text="${fa.apiUri}"></td>
+                           		<td data-field="enables" th:if="${fa.enables =='Y'}"><span>可用</span></td>
+                           		<td data-field="enables" th:if="${fa.enables =='N'}"><span>不可用</span></td>
+                           		<td data-field="memo" th:text="${fa.memo}"></td>
+                           		<td >
+                           			<a class="btn btn-primary btn-xs"  th:onclick="setChannelApiParam([[${fa.apiCode}]]);"><i class="fa fa-edit" ></i>接口参数</a> 
+	                           		<a class="btn btn-success btn-xs"  th:onclick="editChannelApi([[${fa.apiCode}]]);"><i class="fa fa-edit" ></i>编辑</a> 
+	                           		<a class="btn btn-danger btn-xs"  th:onclick="removeChannelApi([[${fa.apiCode}]]);"><i class="fa fa-remove" ></i>删除</a>
+                           		</td>
+                           </tr>
+                       </tbody>
+                   </table>
+               </div>
+           </div>
+           <!-- End Example Events -->
+       </div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+    	var prefix = ctx + "paychannel/tmFundChannelApi";
+    	var apiParamPrefix = ctx + "paychannel/tmFundChannelApiParam";
+    	
+    	function addChannelExt(){
+    		var fundChannelCode = [[${fundChannelCode}]];
+    		var url = prefix+"/add/"+fundChannelCode;
+    		$.modal.open("资金渠道基本配置-维护资金源-新增渠道维接口",url)
+    	}
+    	
+    	function editChannelApi(apiCode){
+    		var url = prefix+"/edit/"+apiCode;
+    		$.modal.open("资金渠道基本配置-维护资金源-修改渠道维接口",url)
+    	}
+    	
+    	function removeChannelApi(apiCode){
+    		$.modal.confirm("确定删除该条信息吗？", function() {
+            	var data = { "ids": apiCode };
+            	$.operate.submit(prefix + "/remove", "post", "json", data);
+            	window.location.href=prefix +"/setChannelApi/"+[[${fundChannelCode}]];
+        	});
+    	}
+    	
+    	function setChannelApiParam(apiCode){
+    		var url = apiParamPrefix +"/setChannelApiParam/"+apiCode;
+    		$.modal.openNoBtnFull("资金渠道基本配置-维护资金源-渠道维接口参数配置",url)
+    	}
+    </script>
+</body>
+</html>

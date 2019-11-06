@@ -1,0 +1,260 @@
+.item-4 .container {
+    display: none;
+}
+.item-4 .fp-tableCell {
+    vertical-align: top;
+    padding-top: 100px;;
+}
+.item-4 .title{
+    -webkit-animation: flipInY 2s linear ;
+    animation: flipInY 2s linear ;
+}
+
+.item-4 .sign{
+    margin-top: 20px;;
+    margin-bottom: 20px;
+    -webkit-animation: flip 1s linear ;
+    animation: flip 1s linear ;
+    color: rgba(16, 16, 16, 0.98);
+    text-shadow: 1px 1px 1px red;
+}
+.item-4 .experience {
+    height: 100px;
+}
+.item-4 .team-img {
+    width: 120px;
+    height: 120px;
+}
+#item-4 .thumbnail {
+    display: block;
+    background-color: transparent;
+    border:0;
+}
+
+#item-4 .thumbnail .caption {
+    color: #000000;
+    padding: 9px;
+    font-family: inherit;
+}
+#item-4 h3 {
+    font-size: 16px;
+    font-weight: 700;
+}
+#item-4 p {
+    font-size: 16px;
+    font-weight: 700;
+}
+#item-4 .thumbnail .team-img {
+    border: 4px solid transparent;
+    -webkit-animation: team-img 3s linear infinite;
+    animation: team-img 3s linear infinite;
+}
+#item-4 .thumbnail {
+    margin: 0;
+}
+@media(max-width:768px)  {
+    .item-4 .fp-tableCell {
+        padding-top: 50px;
+    }
+    .item-4 .title {
+        font-size: 35px;
+    }
+    #item-4 h3 {
+        font-size: 15px;
+        font-weight: 700;
+    }
+    #item-4 p {
+        font-size: 14px;
+        font-weight: 700;
+    }
+    #item-4 .thumbnail p{
+        font-size: 13px;
+    }
+    #item-4 .thumbnail .img-circle{
+        width: 70%;
+    }
+}
+
+.sky {
+    height: 480px;
+    background: #007fd5;
+    position: relative;
+    overflow: hidden;
+    -webkit-animation: sky_background 50s ease-out infinite;
+    -moz-animation: sky_background 50s ease-out infinite;
+    -o-animation: sky_background 50s ease-out infinite;
+    animation: sky_background 50s ease-out infinite;
+    -webkit-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0);
+    -o-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+
+.clouds_one {
+    background: url("../img/cloud_one.png");
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 300%;
+    -webkit-animation: cloud_one 50s linear infinite;
+    -moz-animation: cloud_one 50s linear infinite;
+    -o-animation: cloud_one 50s linear infinite;
+    animation: cloud_one 50s linear infinite;
+    -webkit-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0);
+    -o-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+
+.clouds_two {
+    background: url("../img/cloud_two.png");
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 300%;
+    -webkit-animation: cloud_two 75s linear infinite;
+    -moz-animation: cloud_two 75s linear infinite;
+    -o-animation: cloud_two 75s linear infinite;
+    animation: cloud_two 75s linear infinite;
+    -webkit-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0);
+    -o-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+
+.clouds_three {
+    background: url("../img/cloud_three.png");
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 300%;
+    -webkit-animation: cloud_three 100s linear infinite;
+    -moz-animation: cloud_three 100s linear infinite;
+    -o-animation: cloud_three 100s linear infinite;
+    animation: cloud_three 100s linear infinite;
+    -webkit-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0);
+    -o-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+
+@-webkit-keyframes sky_background {
+    0% {
+        background: #007fd5;
+        color: #007fd5
+    }
+    50% {
+        background: #000;
+        color: #a3d9ff
+    }
+    100% {
+        background: #007fd5;
+        color: #007fd5
+    }
+}
+@-moz-keyframes sky_background {
+    0% {
+        background: #007fd5;
+        color: #007fd5
+    }
+    50% {
+        background: #000;
+        color: #a3d9ff
+    }
+    100% {
+        background: #007fd5;
+        color: #007fd5
+    }
+}
+@keyframes sky_background {
+    0% {
+        background: #007fd5;
+        color: #007fd5
+    }
+    50% {
+        background: #000;
+        color: #a3d9ff
+    }
+    100% {
+        background: #007fd5;
+        color: #007fd5
+    }
+}
+
+@-webkit-keyframes cloud_one {
+    0% {
+        left: 0
+    }
+    100% {
+        left: -200%
+    }
+}
+@-moz-keyframes cloud_one {
+    0% {
+        left: 0
+    }
+    100% {
+        left: -200%
+    }
+}
+@keyframes cloud_one {
+    0% {
+        left: 0
+    }
+    100% {
+        left: -200%
+    }
+}
+
+@-webkit-keyframes cloud_two {
+    0% {
+        left: 0
+    }
+    100% {
+        left: -200%
+    }
+}
+@-moz-keyframes cloud_two {
+    0% {
+        left: 0
+    }
+    100% {
+        left: -200%
+    }
+}
+@keyframes cloud_two {
+    0% {
+        left: 0
+    }
+    100% {
+        left: -200%
+    }
+}
+
+@-webkit-keyframes cloud_three {
+    0% {
+        left: 0
+    }
+    100% {
+        left: -200%
+    }
+}
+@-moz-keyframes cloud_three {
+    0% {
+        left: 0
+    }
+    100% {
+        left: -200%
+    }
+}
+@keyframes cloud_three {
+    0% {
+        left: 0
+    }
+    100% {
+        left: -200%
+    }
+}

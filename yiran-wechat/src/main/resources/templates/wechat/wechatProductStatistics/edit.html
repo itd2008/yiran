@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-wechatProductStatistics-edit" th:object="${wechatProductStatistics}">
+            <input id="productId" name="productId" th:field="*{productId}"  type="hidden">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">浏览次数：</label>
+				<div class="col-sm-8">
+					<input id="visitCount" name="visitCount" th:field="*{visitCount}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">评论次数：</label>
+				<div class="col-sm-8">
+					<input id="replyCount" name="replyCount" th:field="*{replyCount}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">销售总量：</label>
+				<div class="col-sm-8">
+					<input id="saleQuantity" name="saleQuantity" th:field="*{saleQuantity}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">销售总额：</label>
+				<div class="col-sm-8">
+					<input id="saleAmount" name="saleAmount" th:field="*{saleAmount}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">进货总量：</label>
+				<div class="col-sm-8">
+					<input id="purchaseQuantity" name="purchaseQuantity" th:field="*{purchaseQuantity}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">进货总额：</label>
+				<div class="col-sm-8">
+					<input id="purchaseAmount" name="purchaseAmount" th:field="*{purchaseAmount}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">成本均价：</label>
+				<div class="col-sm-8">
+					<input id="costPrice" name="costPrice" th:field="*{costPrice}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">毛利润金额：</label>
+				<div class="col-sm-8">
+					<input id="grossProfit" name="grossProfit" th:field="*{grossProfit}" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+    </div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "wechat/wechatProductStatistics";
+		$("#form-wechatProductStatistics-edit").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/edit", $('#form-wechatProductStatistics-edit').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

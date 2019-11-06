@@ -1,0 +1,180 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-tmFundChannelApi-edit" th:object="${tmFundChannelApi}">
+            <input id="apiCode" name="apiCode" th:field="*{apiCode}"  type="hidden">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">资金源编码：</label>
+				<div class="col-sm-8">
+					<input id="fundChannelCode" name="fundChannelCode" th:field="*{fundChannelCode}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">接口类型：SP（单笔支付），BP（批量支付），SQ（单笔查询），BQ（批量查询），SR（单笔退款），BR（批量退款）：</label>
+				<div class="col-sm-8">
+					<input id="apiType" name="apiType" th:field="*{apiType}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">接口版本：</label>
+				<div class="col-sm-8">
+					<input id="apiVersion" name="apiVersion" th:field="*{apiVersion}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">接口方法：</label>
+				<div class="col-sm-8">
+					<input id="apiMethod" name="apiMethod" th:field="*{apiMethod}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">接口URI：</label>
+				<div class="col-sm-8">
+					<input id="apiUri" name="apiUri" th:field="*{apiUri}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">优先级：</label>
+				<div class="col-sm-8">
+					<input id="apiPriority" name="apiPriority" th:field="*{apiPriority}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">是否需要密钥证书：</label>
+				<div class="col-sm-8">
+					<input id="secure" name="secure" th:field="*{secure}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">最大笔数：</label>
+				<div class="col-sm-8">
+					<input id="maxItem" name="maxItem" th:field="*{maxItem}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">通信标题模板，可用作文件名模板：</label>
+				<div class="col-sm-8">
+					<input id="commTitleTemplate" name="commTitleTemplate" th:field="*{commTitleTemplate}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">通信内容模板：</label>
+				<div class="col-sm-8">
+					<input id="commContentTemplate" name="commContentTemplate" th:field="*{commContentTemplate}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">复核解析脚本：</label>
+				<div class="col-sm-8">
+					<input id="checkParseScript" name="checkParseScript" th:field="*{checkParseScript}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">结果解析脚本：</label>
+				<div class="col-sm-8">
+					<input id="resultParseScript" name="resultParseScript" th:field="*{resultParseScript}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">是否需要审核：Y（是）；N（否）：</label>
+				<div class="col-sm-8">
+					<input id="needConfirm" name="needConfirm" th:field="*{needConfirm}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">是否可用：Y（可用），N（不可用）：</label>
+				<div class="col-sm-8">
+					<input id="enables" name="enables" th:field="*{enables}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">创建时间：</label>
+				<div class="col-sm-8">
+					<input id="gmtCreate" name="gmtCreate" th:field="*{gmtCreate}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">最后修改时间：</label>
+				<div class="col-sm-8">
+					<input id="gmtModified" name="gmtModified" th:field="*{gmtModified}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<input id="memo" name="memo" th:field="*{memo}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">订单号生成模式：</label>
+				<div class="col-sm-8">
+					<input id="apiNoModeId" name="apiNoModeId" th:field="*{apiNoModeId}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">渠道接口签名，加密方式：</label>
+				<div class="col-sm-8">
+					<input id="apiSecurityId" name="apiSecurityId" th:field="*{apiSecurityId}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">渠道耗时，单位小时：</label>
+				<div class="col-sm-8">
+					<input id="consumeTime" name="consumeTime" th:field="*{consumeTime}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">文件类型txt，excel：</label>
+				<div class="col-sm-8">
+					<input id="fileType" name="fileType" th:field="*{fileType}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">excel文件模板路径：</label>
+				<div class="col-sm-8">
+					<input id="filePath" name="filePath" th:field="*{filePath}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">API名称：</label>
+				<div class="col-sm-8">
+					<input id="apiName" name="apiName" th:field="*{apiName}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">Y需要同步流水, N不需要同步流水：</label>
+				<div class="col-sm-8">
+					<input id="needSyncGlide" name="needSyncGlide" th:field="*{needSyncGlide}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">扩展信息：</label>
+				<div class="col-sm-8">
+					<input id="extension" name="extension" th:field="*{extension}" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+    </div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "paychannel/tmFundChannelApi";
+		$("#form-tmFundChannelApi-edit").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/edit", $('#form-tmFundChannelApi-edit').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

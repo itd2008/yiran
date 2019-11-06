@@ -1,0 +1,119 @@
+.item-1 .word {
+    margin-top: -10%;
+}
+.item-1 .word>span:first-child {
+    text-align: center;
+    font-size: 50px;
+    font-weight: 700;
+    color: #0A9676;
+    text-shadow: 5px -2px 8px #151414;
+}
+.item-1 .word>span.hidden-xs,
+.item-1 .word>span.col-xs-12{
+    color: #B6BF31;
+    text-shadow: 9px -2px 15px #000;
+}
+
+.item-1 .motto {
+    font-size: 25px;
+}
+.item-1 .next-page {
+    position: absolute;
+    margin-left: -35px;
+    left: 50%;
+    bottom: 10%;
+    border: 2px solid rgba(255,255,255,.2);
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+}
+.item-1 .next-page,
+.item-1 .next-page:hover ,
+.item-1 .next-page:focus{
+    color: yellowgreen;
+}
+
+.item-1 .next-page{
+    line-height: 80px;
+    overflow: hidden;
+    background: rgba(0,0,0,.2);
+    transition: 1s all ease;
+    -webkit-transition: 1s all ease;
+}
+.item-1 .next-page:hover{
+    background: rgba(51,51,51,1);
+}
+
+.item-1 .next-page span {
+    font-size: 30px;
+    animation: nextPage 2s linear infinite;
+    -webkit-animation: nextPage 2s linear infinite;
+}
+.item-1 .next-page {
+    animation: fadeInUp 2s ease ;
+    -webkit-animation: fadeInUp 2s ease ;
+}
+.item-1 .inner {
+    width: 100%;
+    height: 100%;
+    display: none;
+    position: absolute;
+}
+
+.item-1  .corner1,
+.item-1  .corner2,
+.item-1  .corner3,
+.item-1  .corner4{
+    max-width: 72px;
+    min-width: 50px;
+    width: 5%;
+    position: absolute;
+
+}
+.item-1  [class^='corner'] img {
+    width: 100%;
+}
+
+.item-1  .corner1{
+    left: 10%;
+    top: 10%;
+    animation: corner1 1s ease;
+    -webkit-animation: corner1 1s ease;
+    transform-origin: 0;
+    -webkit-transform-origin: 0;
+}
+
+.item-1 .corner2{
+    left: 10%;
+    bottom: 10%;
+    animation: corner2 1s ease;
+    -webkit-animation: corner2 1s ease;
+    transform-origin: 0;
+    -webkit-transform-origin: 0;
+}
+.item-1 .corner3{
+    right: 10%;
+    top: 10%;
+    animation: corner3 1s ease;
+    -webkit-animation: corner3 1s ease;
+}
+
+.item-1 .corner4{
+    right: 10%;
+    bottom: 10%;
+    animation: corner4 1s ease;
+    -webkit-animation: corner4 1s ease;
+
+}
+
+.word>span:nth-child(1),
+.word>span:nth-child(2){
+    display: inline-block;
+    -webkit-animation: fadeInDownBig 2s ease;
+    animation: fadeInDownBig 2s ease;
+}
+
+.word p{
+    -webkit-animation: p-fly 2s ease;
+    animation: p-fly 2s ease;
+}

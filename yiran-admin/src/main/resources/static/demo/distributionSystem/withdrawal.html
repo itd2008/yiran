@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="fonts/iconfont.css"/>
+<link rel="stylesheet" href="css/font.css"/>
+<link rel="stylesheet" href="css/weui.min.css"/>
+<link rel="stylesheet" href="css/jquery-weui.min.css"/>
+<link rel="stylesheet" href="css/mui.css"/>
+<link rel="stylesheet" href="css/animate.css"/>
+<link rel="stylesheet" href="css/pages/app.css"/>
+<link rel="stylesheet" href="css/common.css">
+<link rel="stylesheet" href="css/bootstrap4alpha.css"/>
+<link rel="stylesheet" href="css/dataTables.bootstrap4.css">
+<link rel="stylesheet" type="text/css" href="css/demo.css">
+<style>
+label{font-size: 14px;}
+#light{
+    float: left;
+    }
+#Blight{
+    background-color: #c8e5bc;
+    float: right;
+    }
+#example > thead > tr > th {
+    text-align: center;
+    font-size: 12px;
+    }
+.date{font-size: 14px;}    
+.container{width: 98%; margin: 0 auto; overflow: hidden;}
+.container section{position: relative;} 
+.table th, .table td{padding: .4rem;} 
+.pagination > li > a, .pagination > li > span{padding: .2rem .4rem;font-size: 14px;}
+#example_info{font-size: 14px !important;}
+.iconfont{line-height: 20px;color: #fff;font-size: 24px;}	
+form{background-color: #fff; border: 1px solid #ccc;border-radius: 10px;}
+.fl{font-size: 16px;}	
+</style>
+	<title>积分提现</title>
+</head>
+<body>
+<header>
+       <div class="titlebar reverse"> 
+       <a href="javascript:back()">
+         <i class="iconfont">&#xe7d4;</i>
+       </a>                
+                <h1>积分提现</h1>
+       </div>
+</header>
+<div class="height_fixed"></div>
+<div id="wrapper">
+	<div class="box">
+		<div class="balance">
+			<span>积分余额：</span><span>0.00</span>
+		</div>
+		<div class="demo">
+			<a href="javascript:;" class="bounceInDown dialog">我要提现</a>			
+		</div>
+		<div id="HBox">
+			<form action="" method="post" onsubmit="return false;">
+				<ul class="list">
+					<li><div class="fl rules">请填写提现申请</div></li>
+					<li class="rules_title">
+						<span>1.提现使用四大银行的卡号。</span>
+						<span>2.请认真核对账户信息，保持手机开机状态，以免影响您的收款。</span>
+					</li>
+					<li>
+						<strong>银行:</strong>
+						<div class="fl"><input type="text" name="bankname" value="" class="ipt bankname" /></div>
+					</li>
+					<li>
+						<strong>卡号:</strong>
+						<div class="fl"><input type="text" name="bankNumber" value="" class="ipt bankNumber" /></div>
+					</li>										
+					<li>
+						<strong>户主:</strong>
+						<div class="fl"><input type="text" name="nickname" value="" class="ipt nickname" /></div>
+					</li>
+					<li>
+						<strong>电话:</strong>
+						<div class="fl"><input type="text" name="phone" value="" class="ipt phone" /></div>
+					</li>
+					<li>
+						<strong>金额:</strong>
+						<div class="fl"><input type="text" name="money" value="" class="ipt money" /></div>
+					</li>
+					<li><input type="submit" value="确认提交" class="submitBtn" /></li>
+				</ul>
+			</form>
+		</div><!-- HBox end -->	
+	</div><!-- box end -->
+</div><!-- wrapper end -->
+<!-- 列表 -->
+<div class="container">
+    <section>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <table id="example" class="table table-bordered table-striped table-hover">
+                    <thead>
+                    <tr id="table_tr"></tr>
+                    </thead>
+                    <tbody>
+                </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</div>
+<!-- 列表 end -->
+
+
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.hDialog.js"></script>
+<script type="text/javascript" language="javascript" src="js/jquery.dataTables.js"></script>
+<script type="text/javascript" language="javascript" src="js/dataTables.bootstrap4.js"></script>
+<script type="text/javascript" language="javascript" src="js/dataTables.buttons.js"></script>
+<script type="text/javascript" language="javascript" src="js/buttons.bootstrap4.js"></script>
+<script type="text/javascript" src="js/jszip.js"></script>
+<script type="text/javascript" language="javascript" src="js/buttons.html5.js"></script>
+<script src="js/lists.js"></script>
+ <script type="text/javascript" language="javascript" class="init">
+        var dataTable;
+        $(document).ready(function() {
+        $.ajax({
+                   type: "get",
+                   url: "json/memberBody.json",
+                   success: function(data){
+                        dataTable =data;
+                    },
+            });
+            $.ajax({
+              type: "get",
+              url: "json/memberHead.json",
+              success: function(columName){
+                       lists(columName)
+
+                },
+            }); 
+        } );
+</script>
+<script>
+$(function(){
+	var $el = $('.dialog');
+	$el.hDialog();
+	//提交并验证表单
+	$('.submitBtn').click(function() {
+		var moneyReg = /^[1-9]{1}\d{2,}$/; //提取现金正则
+		var PhoneReg = /^0{0,1}(13[0-9]|15[0-9]|153|156|18[7-9])[0-9]{8}$/ ; //手机正则
+		var bankNumber=/^\d{19}$/g; //银行卡号正则
+		var $bankname=$('.bankname');
+		var $bankNumber=$('.bankNumber');
+		var $nickname = $('.nickname');
+		var $money = $('.money'); 
+		var $phone = $('.phone');
+		if($bankname.val() == '') {
+			$.tooltip('开户银行还没填写呢...'); $bankname.focus();
+		}else if($bankNumber.val() == ''){
+			$.tooltip('卡号还没填写呢...'); $bankNumber.focus();
+		}else if(!bankNumber.test($bankNumber.val())){
+			$.tooltip('卡号格式错了...'); $bankNumber.focus();
+		}else if($nickname.val() == ''){
+			$.tooltip('户主还没填呢...'); $nickname.focus();
+		}else if($phone.val() == ''){
+			$.tooltip('手机还没填呢...'); $phone.focus();
+		}else if(!PhoneReg.test($phone.val())){
+			$.tooltip('手机格式错咯...'); $phone.focus();
+		}else if($money.val() == ''){
+			$.tooltip('现金还没填写呢...'); $money.focus();
+		}else if(!moneyReg.test($money.val())){
+			$.tooltip('现金要超过一百的整数哦...'); $money.focus();
+		}else{
+			$.tooltip('提交成功，2秒后自动关闭',2000,true);
+			setTimeout(function(){ 
+				//$el.hDialog('close',{box:'#HBox'},'http://smwell.sinaapp.com/');  //也可以加跳转链接哦~
+				$el.hDialog('close',{box:'#HBox'}); 
+			},2000);
+		}
+	});
+});
+</script>
+<script>
+  function back(){
+      window.history.back(); 
+  }
+</script> 
+</body>
+</html> 

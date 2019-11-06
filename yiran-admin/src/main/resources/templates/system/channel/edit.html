@@ -1,0 +1,166 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-channel-edit" th:object="${channel}">
+            <input id="id" name="id" th:field="*{id}"  type="hidden">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">通道名称：</label>
+				<div class="col-sm-8">
+					<input id="name" name="name" th:field="*{name}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">通道编码：</label>
+				<div class="col-sm-8">
+					<input id="showFile" name="showFile" th:field="*{channelCode}" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+    </div>
+
+	<div class="btn-group-sm hidden-xs" id="toolbar" role="group">
+		<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:channel:add">
+			<i class="fa fa-plus"></i> 添加
+		</a>
+		<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()"
+		   shiro:hasPermission="system:channel:remove">
+			<i class="fa fa-remove"></i> 删除
+		</a>
+		<a class="btn btn-warning" onclick="saveLimit()" >
+			<i class="fa fa-download"></i> 保存
+		</a>
+	</div>
+	<div class="col-sm-12 select-table table-striped">
+		<table id="bootstrap-table"  data-reorderable-rows="true" data-use-row-attr-func="true"></table>
+	</div>
+
+    <!--<div th:include="include::footer"></div>  table 代替了 footer-->
+	<div th:include="include::table"></div>
+	<script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:orderShow:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:orderShow:remove')}]];
+        var types = [[${@dict.getType('sys_file_type')}]];
+        var fileCtx = ctx + "file";
+
+        $(function() {
+            var options = {
+                url: fileCtx + "/listOrder?channelId="+'[[${channel.id}]]',
+                createUrl: prefix + "/addfile?channelId="+'[[${channel.id}]]',
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/removeFile",
+                modalName: "播放顺序",
+                search: false,
+                showExport: true,
+                columns: [{
+                    checkbox: true
+                },
+                    {
+                        field : 'id',
+                        title : '',
+                        visible: false
+                    },
+                    {
+                        field : 'fileName',
+                        title : '名称',
+                        sortable: true
+                    },
+                    {
+                        field : 'types',
+                        title : '类型',
+                        align: 'center',
+                        formatter: function (value, row, index) {
+                            return $.table.selectDictLabel(types, value);
+                        }
+                    },
+                    {
+                        field : 'ur',
+                        title : '文件',
+                        sortable: true,
+                        width:"200px",
+                        height:"100px",
+                        align: 'center',
+                        formatter:function(value,row,index) {
+                            var s;
+                            if (row.ur != null) {
+                                var url ="/profile/" +  row.fileName+"."+row.suffix;
+                                if(row.types == "1") {//视频
+                                    s = '<video controls="controls" height="100px" width="200px" name="vi"> <source  type="video/mp4" src="'+url+'"/>Your browser does not support the video tag.</video>';
+                                }else if(row.types == "0"){
+                                    s = '<a class = "view"  href="javascript:void(0)"><img style="width:200px;height:100px;" src="' + url + '" /></a>';
+                                }else{
+                                    s='<a  style="width:200px;height:100px; text-align: center"> '+row.fileName+'</a>'
+                                }
+                            }
+                            return s;
+                        }
+                    },
+                    {
+                        field : 'orderBy',
+                        title : '播放顺序',
+                        sortable: true
+                    },
+                    {
+                        title: '操作',
+                        align: 'center',
+                        formatter: function(value, row, index) {
+                            var actions = [];
+                            // actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                            actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                            return actions.join('');
+                        }
+                    }]
+            };
+            $.table.init(options);
+        });
+	</script>
+    <script type="text/javascript">
+		var prefix = ctx + "system/channel"
+		$("#form-channel-edit").validate({
+			rules:{
+                fileName:{
+					required:true,
+				},
+			}
+		});
+
+		function saveLimit() {
+			//取得所有的ID save 保存当前拖动的顺序
+			var table =$("#bootstrap-table").bootstrapTable('getData');
+			var ids = "";
+			for (var i =0 ; i < table.length ; i++){
+			    var row = table[i]
+				if (row){
+				    ids += row.id+","
+				}
+			}
+			if(ids.length < 1) {
+                $.modal.alertError("请选择展示内容后再单击保存！");
+                return;
+			}
+			ids=ids.substr(0,ids.length-1);
+            $.ajax({
+                url: prefix + "/saveLimit?ids="+ids,
+                // data: {"ids":JSON.stringify(ids)},
+                type: "POST",
+                dataType: "json",
+                processData: false,
+                contentType: false,
+                success: function (result) {
+                    $.operate.saveSuccess(result);
+                }
+            });
+
+        }
+
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/edit", $('#form-channel-edit').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.amqp.mapper.MqQueueMapper">
+    
+    <resultMap type="MqQueue" id="MqQueueResult">
+        <result property="queueId"    column="queue_id"    />
+        <result property="queueName"    column="queue_name"    />
+        <result property="durability"    column="durability"    />
+        <result property="autoDelete"    column="auto_delete"    />
+        <result property="arguments"    column="arguments"    />
+        <result property="routingKey"    column="routing_key"    />
+        <result property="appName"    column="app_name"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+	
+	<sql id="selectMqQueueVo">
+        select queue_id, queue_name, durability, auto_delete, arguments, routing_key,app_name, create_by, create_time, update_by, update_time, remark from sys_mq_queue
+    </sql>
+	
+    <select id="selectMqQueueList" parameterType="MqQueue" resultMap="MqQueueResult">
+        <include refid="selectMqQueueVo"/>
+        <where>  
+            <if test="queueId != null "> and queue_id = #{queueId}</if>
+             <if test="queueName != null  and queueName != '' "> and queue_name = #{queueName}</if>
+             <if test="durability != null  and durability != '' "> and durability = #{durability}</if>
+             <if test="autoDelete != null  and autoDelete != '' "> and auto_delete = #{autoDelete}</if>
+             <if test="arguments != null  and arguments != '' "> and arguments = #{arguments}</if>
+             <if test="appName != null  and appName != '' "> and app_name = #{appName}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+         </where>
+    </select>
+    
+    <select id="selectMqQueueById" parameterType="Integer" resultMap="MqQueueResult">
+        <include refid="selectMqQueueVo"/>
+        where queue_id = #{queueId}
+    </select>
+        
+    <insert id="insertMqQueue" parameterType="MqQueue" useGeneratedKeys="true" keyProperty="queueId">
+        insert into sys_mq_queue
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="queueName != null  and queueName != ''  ">queue_name,</if>
+			<if test="durability != null  and durability != ''  ">durability,</if>
+			<if test="autoDelete != null  and autoDelete != ''  ">auto_delete,</if>
+			<if test="arguments != null  and arguments != ''  ">arguments,</if>
+			<if test="routingKey != null  and routingKey != ''  ">routing_key,</if>
+			<if test="appName != null  and appName != ''  ">app_name,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			create_time,
+			update_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="queueName != null  and queueName != ''  ">#{queueName},</if>
+			<if test="durability != null  and durability != ''  ">#{durability},</if>
+			<if test="autoDelete != null  and autoDelete != ''  ">#{autoDelete},</if>
+			<if test="arguments != null  and arguments != ''  ">#{arguments},</if>
+			<if test="routingKey != null  and routingKey != ''  ">#{routingKey},</if>
+			<if test="appName != null  and appName != ''  ">#{appName},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			sysdate(),
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateMqQueue" parameterType="MqQueue">
+        update sys_mq_queue
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="queueName != null  and queueName != ''  ">queue_name = #{queueName},</if>
+            <if test="durability != null  and durability != ''  ">durability = #{durability},</if>
+            <if test="autoDelete != null  and autoDelete != ''  ">auto_delete = #{autoDelete},</if>
+            <if test="arguments != null  and arguments != ''  ">arguments = #{arguments},</if>
+            <if test="routingKey != null  and routingKey != ''  ">routing_key = #{routingKey},</if>
+            <if test="appName != null  and appName != ''  ">app_name = #{appName},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            update_time = sysdate()
+        </trim>
+        where queue_id = #{queueId}
+    </update>
+
+	<delete id="deleteMqQueueById" parameterType="Integer">
+        delete from sys_mq_queue where queue_id = #{queueId}
+    </delete>
+	
+    <delete id="deleteMqQueueByIds" parameterType="String">
+        delete from sys_mq_queue where queue_id in 
+        <foreach item="queueId" collection="array" open="(" separator="," close=")">
+            #{queueId}
+        </foreach>
+    </delete>
+    
+</mapper>

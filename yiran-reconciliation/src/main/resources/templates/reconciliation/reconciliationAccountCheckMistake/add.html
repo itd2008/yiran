@@ -1,0 +1,227 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-reconciliationAccountCheckMistake-add">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">版本：</label>
+				<div class="col-sm-8">
+					<input id="version" name="version" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">创建时间：</label>
+				<div class="col-sm-8">
+					<input id="createTime" name="createTime" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">修改者：</label>
+				<div class="col-sm-8">
+					<input id="editor" name="editor" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">创建者：</label>
+				<div class="col-sm-8">
+					<input id="creater" name="creater" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">最后修改时间：</label>
+				<div class="col-sm-8">
+					<input id="editTime" name="editTime" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">状态：</label>
+				<div class="col-sm-8">
+					<input id="status" name="status" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<input id="remark" name="remark" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">对账批次号：</label>
+				<div class="col-sm-8">
+					<input id="accountCheckBatchNo" name="accountCheckBatchNo" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">账单日期：</label>
+				<div class="col-sm-8">
+					<input id="billDate" name="billDate" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">银行类型：</label>
+				<div class="col-sm-8">
+					<input id="bankType" name="bankType" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">下单时间 ：</label>
+				<div class="col-sm-8">
+					<input id="orderTime" name="orderTime" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">merchantName：</label>
+				<div class="col-sm-8">
+					<input id="merchantName" name="merchantName" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">商家编号：</label>
+				<div class="col-sm-8">
+					<input id="merchantNo" name="merchantNo" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">商家订单号：</label>
+				<div class="col-sm-8">
+					<input id="orderNo" name="orderNo" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">平台交易时间 ：</label>
+				<div class="col-sm-8">
+					<input id="tradeTime" name="tradeTime" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">平台流水号：</label>
+				<div class="col-sm-8">
+					<input id="trxNo" name="trxNo" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">平台交易金额：</label>
+				<div class="col-sm-8">
+					<input id="orderAmount" name="orderAmount" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">平台退款金额 ：</label>
+				<div class="col-sm-8">
+					<input id="refundAmount" name="refundAmount" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">平台交易状态：</label>
+				<div class="col-sm-8">
+					<input id="tradeStatus" name="tradeStatus" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">平台手续费：</label>
+				<div class="col-sm-8">
+					<input id="fee" name="fee" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">银行交易时间：</label>
+				<div class="col-sm-8">
+					<input id="bankTradeTime" name="bankTradeTime" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">银行订单号：</label>
+				<div class="col-sm-8">
+					<input id="bankOrderNo" name="bankOrderNo" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">银行流水号：</label>
+				<div class="col-sm-8">
+					<input id="bankTrxNo" name="bankTrxNo" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">银行交易状态：</label>
+				<div class="col-sm-8">
+					<input id="bankTradeStatus" name="bankTradeStatus" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">银行交易金额：</label>
+				<div class="col-sm-8">
+					<input id="bankAmount" name="bankAmount" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">银行退款金额：</label>
+				<div class="col-sm-8">
+					<input id="bankRefundAmount" name="bankRefundAmount" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">银行手续费：</label>
+				<div class="col-sm-8">
+					<input id="bankFee" name="bankFee" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">差错类型：</label>
+				<div class="col-sm-8">
+					<input id="errType" name="errType" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">handleStatus：</label>
+				<div class="col-sm-8">
+					<input id="handleStatus" name="handleStatus" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">处理结果：</label>
+				<div class="col-sm-8">
+					<input id="handleValue" name="handleValue" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">处理备注：</label>
+				<div class="col-sm-8">
+					<input id="handleRemark" name="handleRemark" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">操作人：</label>
+				<div class="col-sm-8">
+					<input id="operatorName" name="operatorName" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">操作账户：</label>
+				<div class="col-sm-8">
+					<input id="operatorAccountNo" name="operatorAccountNo" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+	</div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "reconciliation/reconciliationAccountCheckMistake"
+		$("#form-reconciliationAccountCheckMistake-add").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/add", $('#form-reconciliationAccountCheckMistake-add').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.paychannel.mapper.TmFundChannelTargetInitMapper">
+    
+    <resultMap type="TmFundChannelTargetInit" id="TmFundChannelTargetInitResult">
+        <result property="targetInstCode"    column="target_inst_code"    />
+        <result property="shortName"    column="short_name"    />
+        <result property="targetInstName"    column="target_inst_name"    />
+        <result property="targetInstDesc"    column="target_inst_desc"    />
+        <result property="iconUrl"    column="icon_url"    />
+        <result property="amountLimitDesc"    column="amount_limit_desc"    />
+        <result property="gmtCreate"    column="gmt_create"    />
+        <result property="gmtModified"    column="gmt_modified"    />
+    </resultMap>
+	
+	<sql id="selectTmFundChannelTargetInitVo">
+        select target_inst_code, short_name, target_inst_name, target_inst_desc, icon_url, amount_limit_desc, gmt_create, gmt_modified from tm_fund_channel_target_init
+    </sql>
+	
+    <select id="selectTmFundChannelTargetInitList" parameterType="TmFundChannelTargetInit" resultMap="TmFundChannelTargetInitResult">
+        <include refid="selectTmFundChannelTargetInitVo"/>
+        <where>  
+            <if test="targetInstCode != null  and targetInstCode != '' "> and target_inst_code = #{targetInstCode}</if>
+             <if test="shortName != null  and shortName != '' "> and short_name = #{shortName}</if>
+             <if test="targetInstName != null  and targetInstName != '' "> and target_inst_name = #{targetInstName}</if>
+             <if test="targetInstDesc != null  and targetInstDesc != '' "> and target_inst_desc = #{targetInstDesc}</if>
+             <if test="iconUrl != null  and iconUrl != '' "> and icon_url = #{iconUrl}</if>
+             <if test="amountLimitDesc != null  and amountLimitDesc != '' "> and amount_limit_desc = #{amountLimitDesc}</if>
+             <if test="gmtCreate != null "> and gmt_create = #{gmtCreate}</if>
+             <if test="gmtModified != null "> and gmt_modified = #{gmtModified}</if>
+         </where>
+    </select>
+    
+    <select id="selectTmFundChannelTargetInitById" parameterType="String" resultMap="TmFundChannelTargetInitResult">
+        <include refid="selectTmFundChannelTargetInitVo"/>
+        where target_inst_code = #{targetInstCode}
+    </select>
+        
+    <insert id="insertTmFundChannelTargetInit" parameterType="TmFundChannelTargetInit">
+        insert into tm_fund_channel_target_init
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="targetInstCode != null  and targetInstCode != ''  ">target_inst_code,</if>
+			<if test="shortName != null  and shortName != ''  ">short_name,</if>
+			<if test="targetInstName != null  and targetInstName != ''  ">target_inst_name,</if>
+			<if test="targetInstDesc != null  and targetInstDesc != ''  ">target_inst_desc,</if>
+			<if test="iconUrl != null  and iconUrl != ''  ">icon_url,</if>
+			<if test="amountLimitDesc != null  and amountLimitDesc != ''  ">amount_limit_desc,</if>
+			gmt_create,
+			gmt_modified
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="targetInstCode != null  and targetInstCode != ''  ">#{targetInstCode},</if>
+			<if test="shortName != null  and shortName != ''  ">#{shortName},</if>
+			<if test="targetInstName != null  and targetInstName != ''  ">#{targetInstName},</if>
+			<if test="targetInstDesc != null  and targetInstDesc != ''  ">#{targetInstDesc},</if>
+			<if test="iconUrl != null  and iconUrl != ''  ">#{iconUrl},</if>
+			<if test="amountLimitDesc != null  and amountLimitDesc != ''  ">#{amountLimitDesc},</if>
+			sysdate(),
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateTmFundChannelTargetInit" parameterType="TmFundChannelTargetInit">
+        update tm_fund_channel_target_init
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="shortName != null  and shortName != ''  ">short_name = #{shortName},</if>
+            <if test="targetInstName != null  and targetInstName != ''  ">target_inst_name = #{targetInstName},</if>
+            <if test="targetInstDesc != null  and targetInstDesc != ''  ">target_inst_desc = #{targetInstDesc},</if>
+            <if test="iconUrl != null  and iconUrl != ''  ">icon_url = #{iconUrl},</if>
+            <if test="amountLimitDesc != null  and amountLimitDesc != ''  ">amount_limit_desc = #{amountLimitDesc},</if>
+			gmt_modified = sysdate()
+        </trim>
+        where target_inst_code = #{targetInstCode}
+    </update>
+
+	<delete id="deleteTmFundChannelTargetInitById" parameterType="String">
+        delete from tm_fund_channel_target_init where target_inst_code = #{targetInstCode}
+    </delete>
+	
+    <delete id="deleteTmFundChannelTargetInitByIds" parameterType="String">
+        delete from tm_fund_channel_target_init where target_inst_code in 
+        <foreach item="targetInstCode" collection="array" open="(" separator="," close=")">
+            #{targetInstCode}
+        </foreach>
+    </delete>
+    
+</mapper>

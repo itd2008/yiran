@@ -1,0 +1,160 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link rel="stylesheet" th:href="@{/Bootstrapfileinput/css/theme.min.css}" />
+<link rel="stylesheet" th:href="@{/Bootstrapfileinput/css/fileinput.min.css}" />
+<link th:href="@{/ajax/libs/jquery-layout/jquery.layout-latest.css}" rel="stylesheet"/>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-wechatProductBrand-edit" th:object="${wechatProductBrand}">
+        	<input id="productBrandId" name="productBrandId" th:field="*{productBrandId}"  type="hidden">
+        	<input name="productCategoryId" type="hidden" id="treeId" th:field="*{productCategoryId}"/>
+            <input name="parentId"  type="hidden" id="parentId"/>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">商品类别：</label>
+				<div class="col-sm-8">
+					<div class="input-group">
+                    	<input name="productCategoryName" onclick="selectProductCategoryTree()" id="treeName" type="text" placeholder="请选择类目" class="form-control" th:field="*{productCategoryName}"  required>
+                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                    </div>
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">品牌名称 ：</label>
+				<div class="col-sm-8">
+					<input id="name" name="name" class="form-control" type="text" th:field="*{name}">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">品牌图标：</label>
+				<div class="col-sm-8">
+					<input id="imageUrl" name="imageUrl" class="form-control" type="hidden" th:field="*{imageUrl}">
+					<input id="kv-explorer"  type="file" data-overwrite-initial="false"> <br>
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">排列次序：</label>
+				<div class="col-sm-8">
+					<input id="orders" name="orders" class="form-control" type="text" th:field="*{orders}">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">状态：</label>
+				<div class="col-sm-8">
+					<select id="status" name="status"  class="form-control" th:with="type=${@dict.getType('wechat_product_brand_status')}">
+					  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{status}">
+					  </option>
+					</select>
+				</div>
+			</div>
+		</form>
+	</div>
+    <script type="text/javascript" th:src="@{/Bootstrapfileinput/js/jquery-3.2.1.js}"></script>
+	<script type="text/javascript" th:src="@{/Bootstrapfileinput/js/bootstrap.min.js}"></script>
+	<script type="text/javascript" th:src="@{/Bootstrapfileinput/js/sortable.js}"></script>
+	<script type="text/javascript" th:src="@{/Bootstrapfileinput/js/fileinput.min.js}"></script>
+	<script type="text/javascript" th:src="@{/Bootstrapfileinput/js/theme.min.js}"></script>
+	<script type="text/javascript" th:src="@{/Bootstrapfileinput/js/zh.js}"></script>
+	<script th:src="@{/yiran/js/ry-ui.js}"></script>
+	<script th:src="@{/ajax/libs/layer/layer.min.js}"></script>
+	<script th:src="@{/ajax/libs/layui/layui.js}"></script>
+	<script th:src="@{/ajax/libs/blockUI/jquery.blockUI.js}"></script>
+	<script th:src="@{/ajax/libs/validate/jquery.validate.min.js}"></script>
+	<script th:src="@{/yiran/js/common.js}"></script>
+	<script th:inline="javascript"> var ctx = [[@{/}]]; </script>
+	<script th:src="@{/ajax/libs/select/select2.js}"></script>
+    <script type="text/javascript">
+		var prefix = ctx + "wechat/wechatProductBrand"
+		$(function () {
+			var imageUrl_ = $("#imageUrl").val();
+			 var initialPreview_ = imageUrl_;
+			 $("#kv-explorer").fileinput({
+				language: 'zh',
+				//'theme': 'explorer',	//文件展示的主题风格
+				'uploadUrl': ctx + "file/fileInfo/uploadImage",
+				showRemove:false,
+				showUpload: true, //是否显示上传按钮
+				initialPreviewAsData: true,
+				showCaption : false,//是否显示标题,就是那个文本框
+				previewFileType:['image'],
+				allowedFileExtensions:  ['jpg','png'],
+				enctype:'multipart/form-data',
+				showCancel:false,
+				overwriteInitial:true, //不覆盖已存在的图片
+				previewFileIcon: "<iclass='glyphicon glyphicon-king'></i>",
+				msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+				dropZoneEnabled : true,//是否显示拖拽区域，默认不写为true，但是会占用很大区域
+			    maxFileCount : 1, //表示允许同时上传的最大文件个数
+			    validateInitialCount:true,
+				layoutTemplates:{
+					actionUpload:'',//除去上传按预览缩略图中上传图标
+				},
+			 	uploadExtraData:function(){//向后台传递参数
+	             	return { };
+			 	},
+			 	initialPreview: [initialPreview_],
+			 	initialPreviewConfig: [{
+	                url: ctx + "file/fileInfo/deleteImage", // server delete action 
+	                key: $("#id").val(), 
+	                extra: {id: $("#imageUrl").val()}
+	            }]
+			});
+
+			//这是提交完成后的回调函数  
+			 $("#kv-explorer").on("fileuploaded", function (event, data, previewId, index) {
+				console.log('文件上传结果:'+data.response.result);
+				console.log('文件上传信息:'+data.response.msg);
+				console.log('文件上传路径:'+data.response.obj);
+				if(data.response.result == 1){//成功
+					$("#imageUrl").val(data.response.obj);
+					//重新刷新页面
+					//$.modal.msgReload("文件上传成功！","success");
+				}else if(data.response.result == 0){
+					
+					$(event.target)
+		              .fileinput('clear')
+		              .fileinput('unlock');
+		            $(event.target)
+		              .parent()
+		              .siblings('.fileinput-remove')
+		              .hide();
+		              $.modal.alertError("文件上传失败！");
+				}
+			 });
+			
+		 });
+		/*类目选择*/
+        function selectProductCategoryTree() {
+        	var treeId = $("#treeId").val();
+        	var productCategoryId = $.common.isEmpty(treeId) ? "1" : $("#treeId").val();
+			var options = {
+				title: '选择类目',
+				width: "380",
+				url: ctx + "wechat/wechatShopProductCategory/selectChannelTree/" + productCategoryId,
+				callBack: doSubmit
+			};
+			$.modal.openOptions(options);
+		}
+		
+        function doSubmit(index, layero){
+			var tree = layero.find("iframe")[0].contentWindow.$._tree;
+			if ($.tree.notAllowParents(tree)) {
+				var body = layer.getChildFrame('body', index);
+    			$("#treeId").val(body.find('#treeId').val());
+    			$("#treeName").val(body.find('#treeName').val());
+    			$("#productCategoryName").val(body.find('#treeName').val());
+    			layer.close(index);
+			}
+		}
+		function submitHandler() {
+			var iconPath = $("#imageUrl").val();
+			if(iconPath === ""){
+				 $.modal.alertError("请先上传图片");
+				return false;
+			}
+	       $.operate.save(prefix + "/edit", $('#form-wechatProductBrand-edit').serialize());
+	    }
+	</script>
+</body>
+</html>

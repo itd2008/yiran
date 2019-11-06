@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.paychannel.mapper.TmFundChannelSettleMapper">
+    
+    <resultMap type="TmFundChannelSettle" id="TmFundChannelSettleResult">
+        <result property="settleId"    column="settle_id"    />
+        <result property="fundChannelCode"    column="fund_channel_code"    />
+        <result property="contractNo"    column="contract_no"    />
+        <result property="merchantNo"    column="merchant_no"    />
+        <result property="accountNo"    column="account_no"    />
+        <result property="accountName"    column="account_name"    />
+        <result property="settleMode"    column="settle_mode"    />
+        <result property="settleCycle"    column="settle_cycle"    />
+        <result property="clearingFileMode"    column="clearing_file_mode"    />
+        <result property="enable"    column="enable"    />
+        <result property="gmtCreate"    column="gmt_create"    />
+        <result property="gmtModified"    column="gmt_modified"    />
+        <result property="memo"    column="memo"    />
+        <result property="extension"    column="extension"    />
+    </resultMap>
+	
+	<sql id="selectTmFundChannelSettleVo">
+        select settle_id, fund_channel_code, contract_no, merchant_no, account_no, account_name, settle_mode, settle_cycle, clearing_file_mode, enable, gmt_create, gmt_modified, memo, extension from tm_fund_channel_settle
+    </sql>
+	
+    <select id="selectTmFundChannelSettleList" parameterType="TmFundChannelSettle" resultMap="TmFundChannelSettleResult">
+        <include refid="selectTmFundChannelSettleVo"/>
+        <where>  
+            <if test="settleId != null "> and settle_id = #{settleId}</if>
+             <if test="fundChannelCode != null  and fundChannelCode != '' "> and fund_channel_code = #{fundChannelCode}</if>
+             <if test="contractNo != null  and contractNo != '' "> and contract_no = #{contractNo}</if>
+             <if test="merchantNo != null  and merchantNo != '' "> and merchant_no = #{merchantNo}</if>
+             <if test="accountNo != null  and accountNo != '' "> and account_no = #{accountNo}</if>
+             <if test="accountName != null  and accountName != '' "> and account_name = #{accountName}</if>
+             <if test="settleMode != null  and settleMode != '' "> and settle_mode = #{settleMode}</if>
+             <if test="settleCycle != null "> and settle_cycle = #{settleCycle}</if>
+             <if test="clearingFileMode != null  and clearingFileMode != '' "> and clearing_file_mode = #{clearingFileMode}</if>
+             <if test="enable != null  and enable != '' "> and enable = #{enable}</if>
+             <if test="gmtCreate != null "> and gmt_create = #{gmtCreate}</if>
+             <if test="gmtModified != null "> and gmt_modified = #{gmtModified}</if>
+             <if test="memo != null  and memo != '' "> and memo = #{memo}</if>
+             <if test="extension != null  and extension != '' "> and extension = #{extension}</if>
+         </where>
+    </select>
+    
+    <select id="selectTmFundChannelSettleById" parameterType="Integer" resultMap="TmFundChannelSettleResult">
+        <include refid="selectTmFundChannelSettleVo"/>
+        where settle_id = #{settleId}
+    </select>
+        
+    <insert id="insertTmFundChannelSettle" parameterType="TmFundChannelSettle" useGeneratedKeys="true" keyProperty="settleId">
+        insert into tm_fund_channel_settle
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="fundChannelCode != null  and fundChannelCode != ''  ">fund_channel_code,</if>
+			<if test="contractNo != null  and contractNo != ''  ">contract_no,</if>
+			<if test="merchantNo != null  and merchantNo != ''  ">merchant_no,</if>
+			<if test="accountNo != null  and accountNo != ''  ">account_no,</if>
+			<if test="accountName != null  and accountName != ''  ">account_name,</if>
+			<if test="settleMode != null  and settleMode != ''  ">settle_mode,</if>
+			<if test="settleCycle != null  ">settle_cycle,</if>
+			<if test="clearingFileMode != null  and clearingFileMode != ''  ">clearing_file_mode,</if>
+			<if test="enable != null  and enable != ''  ">enable,</if>
+			<if test="gmtCreate != null  ">gmt_create,</if>
+			<if test="gmtModified != null  ">gmt_modified,</if>
+			<if test="memo != null  and memo != ''  ">memo,</if>
+			<if test="extension != null  and extension != ''  ">extension,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="fundChannelCode != null  and fundChannelCode != ''  ">#{fundChannelCode},</if>
+			<if test="contractNo != null  and contractNo != ''  ">#{contractNo},</if>
+			<if test="merchantNo != null  and merchantNo != ''  ">#{merchantNo},</if>
+			<if test="accountNo != null  and accountNo != ''  ">#{accountNo},</if>
+			<if test="accountName != null  and accountName != ''  ">#{accountName},</if>
+			<if test="settleMode != null  and settleMode != ''  ">#{settleMode},</if>
+			<if test="settleCycle != null  ">#{settleCycle},</if>
+			<if test="clearingFileMode != null  and clearingFileMode != ''  ">#{clearingFileMode},</if>
+			<if test="enable != null  and enable != ''  ">#{enable},</if>
+			<if test="gmtCreate != null  ">#{gmtCreate},</if>
+			<if test="gmtModified != null  ">#{gmtModified},</if>
+			<if test="memo != null  and memo != ''  ">#{memo},</if>
+			<if test="extension != null  and extension != ''  ">#{extension},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateTmFundChannelSettle" parameterType="TmFundChannelSettle">
+        update tm_fund_channel_settle
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="fundChannelCode != null  and fundChannelCode != ''  ">fund_channel_code = #{fundChannelCode},</if>
+            <if test="contractNo != null  and contractNo != ''  ">contract_no = #{contractNo},</if>
+            <if test="merchantNo != null  and merchantNo != ''  ">merchant_no = #{merchantNo},</if>
+            <if test="accountNo != null  and accountNo != ''  ">account_no = #{accountNo},</if>
+            <if test="accountName != null  and accountName != ''  ">account_name = #{accountName},</if>
+            <if test="settleMode != null  and settleMode != ''  ">settle_mode = #{settleMode},</if>
+            <if test="settleCycle != null  ">settle_cycle = #{settleCycle},</if>
+            <if test="clearingFileMode != null  and clearingFileMode != ''  ">clearing_file_mode = #{clearingFileMode},</if>
+            <if test="enable != null  and enable != ''  ">enable = #{enable},</if>
+            <if test="gmtCreate != null  ">gmt_create = #{gmtCreate},</if>
+            <if test="gmtModified != null  ">gmt_modified = #{gmtModified},</if>
+            <if test="memo != null  and memo != ''  ">memo = #{memo},</if>
+            <if test="extension != null  and extension != ''  ">extension = #{extension},</if>
+        </trim>
+        where settle_id = #{settleId}
+    </update>
+
+	<delete id="deleteTmFundChannelSettleById" parameterType="Integer">
+        delete from tm_fund_channel_settle where settle_id = #{settleId}
+    </delete>
+	
+    <delete id="deleteTmFundChannelSettleByIds" parameterType="String">
+        delete from tm_fund_channel_settle where settle_id in 
+        <foreach item="settleId" collection="array" open="(" separator="," close=")">
+            #{settleId}
+        </foreach>
+    </delete>
+    
+</mapper>

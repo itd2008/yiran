@@ -1,0 +1,81 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			
+	        <div class="btn-group-sm hidden-xs" id="toolbar" role="group">
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="wechat:wechatShoppingCart:export">
+						<i class="fa fa-download"></i> 导出
+				 </a>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('wechat:wechatShoppingCart:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('wechat:wechatShoppingCart:remove')}]];
+        var prefix = ctx + "wechat/wechatShoppingCart";
+        var wechat_shopping_cart = [[${@dict.getType('wechat_shopping_cart')}]];
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+                modalName: "购物车",
+		        showExport: true,
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'id', 
+					title : '自动编号',
+					visible: false
+				},
+				{
+					field : 'nickName', 
+					title : '用户昵称',
+					sortable: true
+				},
+				{
+					field : 'productTitle', 
+					title : '商品标题',
+					sortable: true
+				},
+				{
+					field : 'attr', 
+					title : '属性',
+					sortable: true
+				},
+				{
+					field : 'number', 
+					title : '购买数量',
+					sortable: true
+				},
+				{
+					field : 'isProductExists', 
+					title : '是否有效',
+					sortable: true,
+		            formatter: function(value, row, index) {
+		            	return $.table.selectDictLabel(wechat_shopping_cart, row.isProductExists);
+		            }
+				},
+				{
+					field : 'createTime', 
+					title : '创建时间',
+					sortable: true
+				}]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

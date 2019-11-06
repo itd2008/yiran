@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.activiti.mapper.ApprovalLeaveMapper">
+    
+    <resultMap type="ApprovalLeave" id="ApprovalLeaveResult">
+        <result property="auditId"    column="auditId"    />
+        <result property="processInstanceId"    column="processInstanceId"    />
+        <result property="taskId"    column="taskId"    />
+        <result property="userId"    column="userId"    />
+        <result property="auditResult"    column="auditResult"    />
+        <result property="comment"    column="comment"    />
+        <result property="auditTime"    column="auditTime"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="userName"    column="userName"    />
+        <result property="deptName"    column="deptName"    />
+    </resultMap>
+	
+	<sql id="selectApprovalLeaveVo">
+        select 
+        	t.auditId, 
+        	t.processInstanceId, 
+        	t.taskId, 
+        	t.userId, 
+        	t.auditResult, 
+        	t.comment, 
+        	t.auditTime, 
+        	t.create_by, 
+        	t.create_time, 
+        	t.update_by, 
+        	t.update_time, 
+        	t.remark,
+        	u.user_name as userName,
+        	d.dept_name as deptName
+        from biz_approval_leave t
+        left join sys_user u on t.userId = u.user_id
+        left join sys_dept d on u.dept_id = d.dept_id
+    </sql>
+	
+    <select id="selectApprovalLeaveList" parameterType="ApprovalLeave" resultMap="ApprovalLeaveResult">
+        <include refid="selectApprovalLeaveVo"/>
+        <where>  
+            <if test="auditId != null  and auditId != '' "> and auditId = #{auditId}</if>
+             <if test="processInstanceId != null  and processInstanceId != '' "> and processInstanceId = #{processInstanceId}</if>
+             <if test="taskId != null  and taskId != '' "> and taskId = #{taskId}</if>
+             <if test="userId != null "> and userId = #{userId}</if>
+             <if test="auditResult != null "> and auditResult = #{auditResult}</if>
+             <if test="comment != null  and comment != '' "> and comment = #{comment}</if>
+             <if test="auditTime != null "> and auditTime = #{auditTime}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+         </where>
+    </select>
+    
+    
+    <select id="selectApprovalLeavesByProcessInstanceId" parameterType="String" resultMap="ApprovalLeaveResult">
+        <include refid="selectApprovalLeaveVo"/>
+        where processInstanceId = #{processInstanceId}
+        order by auditTime desc
+    </select>
+    <select id="selectApprovalLeaveById" parameterType="String" resultMap="ApprovalLeaveResult">
+        <include refid="selectApprovalLeaveVo"/>
+        where auditId = #{auditId}
+    </select>
+        
+    <insert id="insertApprovalLeave" parameterType="ApprovalLeave">
+        insert into biz_approval_leave
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="auditId != null  and auditId != ''  ">auditId,</if>
+			<if test="processInstanceId != null  and processInstanceId != ''  ">processInstanceId,</if>
+			<if test="taskId != null  and taskId != ''  ">taskId,</if>
+			<if test="userId != null  ">userId,</if>
+			<if test="auditResult != null  ">auditResult,</if>
+			<if test="comment != null  and comment != ''  ">comment,</if>
+			<if test="auditTime != null  ">auditTime,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			create_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="auditId != null  and auditId != ''  ">#{auditId},</if>
+			<if test="processInstanceId != null  and processInstanceId != ''  ">#{processInstanceId},</if>
+			<if test="taskId != null  and taskId != ''  ">#{taskId},</if>
+			<if test="userId != null  ">#{userId},</if>
+			<if test="auditResult != null  ">#{auditResult},</if>
+			<if test="comment != null  and comment != ''  ">#{comment},</if>
+			<if test="auditTime != null  ">#{auditTime},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			sysdate()
+         </trim>
+    </insert>
+	 
+
+	<delete id="deleteApprovalLeaveById" parameterType="String">
+        delete from biz_approval_leave where auditId = #{auditId}
+    </delete>
+	
+    <delete id="deleteApprovalLeaveByIds" parameterType="String">
+        delete from biz_approval_leave where auditId in 
+        <foreach item="auditId" collection="array" open="(" separator="," close=")">
+            #{auditId}
+        </foreach>
+    </delete>
+    
+</mapper>

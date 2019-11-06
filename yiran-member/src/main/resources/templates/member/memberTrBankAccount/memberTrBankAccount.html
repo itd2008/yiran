@@ -1,0 +1,386 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+						<ul>
+							<li>
+								会员ID：<input type="text" name="memberId"/>
+							</li>
+
+							<li>
+								银行编号：<input type="text" name="bankId"/>
+							</li>
+
+							<li>
+								银行名称：<input type="text" name="bankName"/>
+							</li>
+
+							<li>
+								银行卡号：<input type="text" name="bankAccountNo"/>
+							</li>
+
+							<li>
+								户名：<input type="text" name="bankAccountName"/>
+							</li>
+
+							<li>
+								卡属性：
+								<select name="cardAttribute" th:with="type=${@dict.getType('member_bank_account_attr')}">
+								  <option value="">所有</option>
+								  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+								  </option>
+								</select>
+							</li>
+
+							<li>
+								卡类型：
+								<select name="cardType" th:with="type=${@dict.getType('member_bank_card_type')}">
+								  <option value="">所有</option>
+								  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+								  </option>
+								</select>
+							</li>
+
+							<li>
+								认证状态：
+								<select name="isVerified" th:with="type=${@dict.getType('member_bank_card_isVerified')}">
+								  <option value="">所有</option>
+								  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+								  </option>
+								</select>
+							</li>
+
+							<li>
+								是否签约：
+								<select name="isSigning" th:with="type=${@dict.getType('member_bank_card_isSigning')}">
+								  <option value="">所有</option>
+								  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+								  </option>
+								</select>
+							</li>
+
+							<li>
+								状态：
+								<select name="status" th:with="type=${@dict.getType('member_bank_card_status')}">
+								  <option value="">所有</option>
+								  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+								  </option>
+								</select>
+							</li>
+
+							<li>
+								证件号：<input type="text" name="certNo"/>
+							</li>
+							
+							<li>
+								手机号：<input type="text" name="mobileNo"/>
+							</li>
+
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+	        <div class="btn-group-sm hidden-xs" id="toolbar" role="group">
+				<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="member:memberTrBankAccount:add">
+					<i class="fa fa-plus"></i> 添加
+				</a>
+				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.edit()" shiro:hasPermission="member:memberTrBankAccount:edit">
+					<i class="fa fa-edit"></i> 修改
+				</a>
+				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="member:memberTrBankAccount:remove">
+					<i class="fa fa-remove"></i> 删除
+				</a>
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="member:memberTrBankAccount:export">
+						<i class="fa fa-download"></i> 导出
+				 </a>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('member:memberTrBankAccount:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('member:memberTrBankAccount:remove')}]];
+        var prefix = ctx + "member/memberTrBankAccount";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+                modalName: "个人银行卡",
+		        showExport: true,
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'id', 
+					title : '主键',
+					visible: false
+				},
+				{
+					field : 'memberId', 
+					title : '会员ID',
+					sortable: true
+				},
+				{
+					field : 'bankId', 
+					title : '银行编号',
+					sortable: true
+				},
+				{
+					field : 'bankName', 
+					title : '银行名称',
+					sortable: true
+				},
+				{
+					field : 'bankBranch', 
+					title : '支行名称',
+					sortable: true
+				},
+				{
+					field : 'bankAccountNo', 
+					title : '银行卡号',
+					sortable: true
+				},
+				{
+					field : 'bankAccountName', 
+					title : '户名',
+					sortable: true
+				},
+				{
+					field : 'cardAttribute', 
+					title : '卡属性',
+					sortable: true,
+					formatter: function(value, row, index) {
+		                if (value == '0') {
+		                	return '<span>对公</span>';
+		                } else if (value == '1') {
+		                    return '<span>对私</span>';
+		                } 
+		            }
+				},
+				{
+					field : 'cardType', 
+					title : '卡类型',
+					sortable: true,
+					formatter: function(value, row, index) {
+		                if (value == '1') {
+		                	return '<span>借记卡</span>';
+		                } else if (value == '2') {
+		                    return '<span>信用卡</span>';
+		                } else if (value == '3') {
+		                    return '<span>存折</span>';
+		                } else if (value == '4') {
+		                    return '<span>其它</span>';
+		                }
+		            }
+				},
+				{
+					field : 'agreementNo', 
+					title : '协议号',
+					sortable: true
+				},
+				{
+					field : 'alias', 
+					title : '别名',
+					sortable: true
+				},
+				{
+					field : 'cardSkin', 
+					title : '银行卡皮肤',
+					sortable: true
+				},
+				{
+					field : 'accountNoSummary', 
+					title : '账户摘要',
+					sortable: true
+				},
+				{
+					field : 'province', 
+					title : '省份',
+					sortable: true
+				},
+				{
+					field : 'city', 
+					title : '城市',
+					sortable: true
+				},
+				{
+					field : 'isVerified', 
+					title : '认证状态',
+					sortable: true,
+					formatter: function(value, row, index) {
+		                if (value == '0') {
+		                	return '<span>未认证</span>';
+		                } else if (value == '1') {
+		                    return '<span>已认证</span>';
+		                } 
+		            }
+				},
+				{
+					field : 'isSigning', 
+					title : '是否签约',
+					sortable: true
+					,
+					formatter: function(value, row, index) {
+		                if (value == 'Y') {
+		                	return '<span>是</span>';
+		                } else if (value == 'N') {
+		                    return '<span>否</span>';
+		                } 
+		            }
+				},
+				{
+					field : 'status', 
+					title : '状态',
+					sortable: true,
+					formatter: function(value, row, index) {
+		                if (value == '0') {
+		                	return '<span>失效</span>';
+		                } else if (value == '1') {
+		                    return '<span>正常</span>';
+		                } else if (value == '2') {
+		                    return '<span>锁定</span>';
+		                } 
+		            }
+				},
+				{
+					field : 'createTime', 
+					title : '建立时间',
+					sortable: true
+				},
+				{
+					field : 'updateTime', 
+					title : '更新时间',
+					sortable: true
+				},
+				{
+					field : 'createUser', 
+					title : '建立人',
+					sortable: true
+				},
+				{
+					field : 'updateUser', 
+					title : '更新人',
+					sortable: true
+				},
+				{
+					field : 'memo', 
+					title : '备注信息',
+					sortable: true
+				},
+				{
+					field : 'extendable', 
+					title : '扩展信息',
+					sortable: true
+				},
+				{
+					field : 'signNo', 
+					title : '协议号',
+					sortable: true
+				},
+				{
+					field : 'signId', 
+					title : '内部协议号',
+					sortable: true
+				},
+				{
+					field : 'certType', 
+					title : '证件类型',
+					sortable: true
+				},
+				{
+					field : 'certNo', 
+					title : '证件号',
+					sortable: true
+				},
+				{
+					field : 'cvNo', 
+					title : 'cvv2',
+					sortable: true
+				},
+				{
+					field : 'cardValidDate', 
+					title : '卡片有效期',
+					sortable: true
+				},
+				{
+					field : 'agreementValidDate', 
+					title : '协议有效期',
+					sortable: true
+				},
+				{
+					field : 'mobileNo', 
+					title : '手机号',
+					sortable: true
+				},
+				{
+					field : 'payAttribute', 
+					title : '支付属性',
+					sortable: true
+				},
+				{
+					field : 'isFillCertNo', 
+					title : '是否填充证件号',
+					sortable: true
+				},
+				{
+					field : 'channelCode', 
+					title : '渠道编号',
+					sortable: true
+				},
+				{
+					field : 'activateDate', 
+					title : '激活时间',
+					sortable: true
+				},
+				{
+					field : 'branchNo', 
+					title : '联行号',
+					sortable: true
+				},
+				{
+					field : 'financialCard', 
+					title : '理财标识',
+					sortable: true,
+					formatter: function(value, row, index) {
+		                if (value == 'Y') {
+		                	return '<span>是</span>';
+		                } else if (value == 'N') {
+		                    return '<span>是</span>';
+		                } 
+		            }
+				},
+		        {
+		            title: '操作',
+		            align: 'center',
+		            formatter: function(value, row, index) {
+		            	var actions = [];
+		            	actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+						return actions.join('');
+		            }
+		        }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

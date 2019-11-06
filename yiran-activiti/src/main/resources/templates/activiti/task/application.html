@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--360浏览器优先以webkit内核解析-->
+    <title>流程申请</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link href="../static/css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>
+    <link href="../static/css/main/animate.min.css" th:href="@{/css/main/animate.min.css}" rel="stylesheet"/>
+    <link href="../static/css/main/style.min862f.css" th:href="@{/css/main/style.min862f.css}" rel="stylesheet"/>
+	<style type="text/css">
+		.btn-large-dim {
+			width: 100%;
+    		height: 90px;
+    		font-size: 42px;
+		}
+	</style>
+</head>
+
+<body class="gray-bg">
+    <div class="row  border-bottom white-bg dashboard-header">
+        <button onclick="applicationFunction();" class="btn btn-primary dim btn-large-dim" type="button">请假申请</button>
+    </div>
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('activiti:applicationLeave:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('activiti:applicationLeave:remove')}]];
+        var prefix = ctx + "activiti/applicationLeave";
+        function applicationFunction(){
+        	var url = prefix+"/add";
+        	//$.modal.open("审批流程申请", url,800,500);
+        	createMenuItem(url, "请假申请");
+        }
+    </script>
+</body>
+</html>

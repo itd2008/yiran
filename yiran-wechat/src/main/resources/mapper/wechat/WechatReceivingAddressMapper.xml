@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.wechat.mapper.WechatReceivingAddressMapper">
+    
+    <resultMap type="WechatReceivingAddress" id="WechatReceivingAddressResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="realname"    column="realname"    />
+        <result property="telephone"    column="telephone"    />
+        <result property="telphone2"    column="telphone2"    />
+        <result property="isDefaultAddress"    column="is_default_address"    />
+        <result property="province"    column="province"    />
+        <result property="city"    column="city"    />
+        <result property="area"    column="area"    />
+        <result property="provinceCode"    column="province_code"    />
+        <result property="cityCode"    column="city_code"    />
+        <result property="areaCode"    column="area_code"    />
+        <result property="detailedAddress"    column="detailed_address"    />
+        <result property="zip"    column="zip"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+	
+	<sql id="selectWechatReceivingAddressVo">
+        select id, user_id, realname, telephone, telphone2, is_default_address, province,province_code, city, city_code,area,area_code, detailed_address, zip, create_by, create_time, update_by, update_time from wechat_receiving_address
+    </sql>
+	
+    <select id="selectWechatReceivingAddressList" parameterType="WechatReceivingAddress" resultMap="WechatReceivingAddressResult">
+        <include refid="selectWechatReceivingAddressVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+             <if test="userId != null  and userId != '' "> and user_id = #{userId}</if>
+             <if test="realname != null  and realname != '' "> and realname = #{realname}</if>
+             <if test="telephone != null  and telephone != '' "> and telephone = #{telephone}</if>
+             <if test="telphone2 != null  and telphone2 != '' "> and telphone2 = #{telphone2}</if>
+             <if test="isDefaultAddress != null "> and is_default_address = #{isDefaultAddress}</if>
+             <if test="province != null  and province != '' "> and province = #{province}</if>
+             <if test="city != null  and city != '' "> and city = #{city}</if>
+             <if test="area != null  and area != '' "> and area = #{area}</if>
+             <if test="detailedAddress != null  and detailedAddress != '' "> and detailed_address = #{detailedAddress}</if>
+             <if test="zip != null  and zip != '' "> and zip = #{zip}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+         </where>
+    </select>
+    
+    <select id="selectWechatReceivingAddressById" parameterType="Integer" resultMap="WechatReceivingAddressResult">
+        <include refid="selectWechatReceivingAddressVo"/>
+        where id = #{id}
+    </select>
+    
+    <select id="queryDefaultAddress" parameterType="String" resultMap="WechatReceivingAddressResult">
+        <include refid="selectWechatReceivingAddressVo"/>
+        where is_default_address = 1
+        	and user_id = #{openId}
+    </select>
+        
+    <insert id="insertWechatReceivingAddress" parameterType="WechatReceivingAddress" useGeneratedKeys="true" keyProperty="id">
+        insert into wechat_receiving_address
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userId != null  and userId != ''  ">user_id,</if>
+			<if test="realname != null  and realname != ''  ">realname,</if>
+			<if test="telephone != null  and telephone != ''  ">telephone,</if>
+			<if test="telphone2 != null  and telphone2 != ''  ">telphone2,</if>
+			<if test="isDefaultAddress != null  ">is_default_address,</if>
+			<if test="province != null  and province != ''  ">province,</if>
+			<if test="city != null  and city != ''  ">city,</if>
+			<if test="area != null  and area != ''  ">area,</if>
+			<if test="provinceCode != null  and provinceCode != ''  ">province_code,</if>
+			<if test="cityCode != null  and cityCode != ''  ">city_code,</if>
+			<if test="areaCode != null  and areaCode != ''  ">area_code,</if>
+			<if test="detailedAddress != null  and detailedAddress != ''  ">detailed_address,</if>
+			<if test="zip != null  and zip != ''  ">zip,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			create_time,
+			update_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userId != null  and userId != ''  ">#{userId},</if>
+			<if test="realname != null  and realname != ''  ">#{realname},</if>
+			<if test="telephone != null  and telephone != ''  ">#{telephone},</if>
+			<if test="telphone2 != null  and telphone2 != ''  ">#{telphone2},</if>
+			<if test="isDefaultAddress != null  ">#{isDefaultAddress},</if>
+			<if test="province != null  and province != ''  ">#{province},</if>
+			<if test="city != null  and city != ''  ">#{city},</if>
+			<if test="area != null  and area != ''  ">#{area},</if>
+			<if test="provinceCode != null  and provinceCode != ''  ">#{provinceCode},</if>
+			<if test="cityCode != null  and cityCode != ''  ">#{cityCode},</if>
+			<if test="areaCode != null  and areaCode != ''  ">#{areaCode},</if>
+			<if test="detailedAddress != null  and detailedAddress != ''  ">#{detailedAddress},</if>
+			<if test="zip != null  and zip != ''  ">#{zip},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			sysdate(),
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateWechatReceivingAddress" parameterType="WechatReceivingAddress">
+        update wechat_receiving_address
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null  and userId != ''  ">user_id = #{userId},</if>
+            <if test="realname != null  and realname != ''  ">realname = #{realname},</if>
+            <if test="telephone != null  and telephone != ''  ">telephone = #{telephone},</if>
+            <if test="telphone2 != null  and telphone2 != ''  ">telphone2 = #{telphone2},</if>
+            <if test="isDefaultAddress != null  ">is_default_address = #{isDefaultAddress},</if>
+            <if test="province != null  and province != ''  ">province = #{province},</if>
+            <if test="city != null  and city != ''  ">city = #{city},</if>
+            <if test="area != null  and area != ''  ">area = #{area},</if>
+            <if test="provinceCode != null  and provinceCode != ''  ">province_code = #{provinceCode},</if>
+			<if test="cityCode != null  and cityCode != ''  ">city_code = #{cityCode},</if>
+			<if test="areaCode != null  and areaCode != ''  ">area_code = #{areaCode},</if>
+            <if test="detailedAddress != null  and detailedAddress != ''  ">detailed_address = #{detailedAddress},</if>
+            <if test="zip != null  and zip != ''  ">zip = #{zip},</if>
+            update_time = sysdate()
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteWechatReceivingAddressById" parameterType="Integer">
+        delete from wechat_receiving_address where id = #{id}
+    </delete>
+	
+    <delete id="deleteWechatReceivingAddressByIds" parameterType="String">
+        delete from wechat_receiving_address where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+    <update id="updateIsDefaultAddress" parameterType="Integer">
+        update wechat_receiving_address
+        	set	is_default_address = 0
+        where id = #{id}
+    </update>
+    
+</mapper>

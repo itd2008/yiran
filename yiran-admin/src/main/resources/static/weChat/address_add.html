@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>添加地址</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+<link rel="stylesheet" href="lib/weui.min.css">
+<link rel="stylesheet" href="css/jquery-weui.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body ontouchstart>
+<!--主体-->
+<header class="wy-header">
+  <div class="wy-header-icon-back" onclick="javascript:history.go(-1);"><span></span></div>
+  <div class="wy-header-title">添加地址</div>
+</header>
+<div class="weui-content">
+  <div class="weui-cells weui-cells_form wy-address-edit">
+    <div class="weui-cell">
+      <div class="weui-cell__hd"><label class="weui-label wy-lab">收货人</label></div>
+      <div class="weui-cell__bd"><input class="weui-input" type="text" id="realname" placeholder="请输入收货人"></div>
+    </div>
+    <div class="weui-cell">
+      <div class="weui-cell__hd"><label class="weui-label wy-lab">手机号</label></div>
+      <div class="weui-cell__bd"><input class="weui-input" type="number" id="phone" pattern="[0-9]*" placeholder="请输入手机号"></div>
+    </div>
+    <div class="weui-cell">
+      <div class="weui-cell__hd"><label for="name" class="weui-label wy-lab">所在地区</label></div>
+      <div class="weui-cell__bd"><input class="weui-input" id="address" type="text" value="湖北省 荆门市 京山县" readonly="" data-code="420821" data-codes="420000,420800,420821"></div>
+    </div>
+    <div class="weui-cell">
+      <div class="weui-cell__hd"><label class="weui-label wy-lab">详细地址</label></div>
+      <div class="weui-cell__bd">
+        <textarea class="weui-textarea" placeholder="请填写详细地址..." id="detailed_address"></textarea>
+      </div>
+    </div>
+    <div class="weui-cell weui-cell_switch">
+      <div class="weui-cell__bd">设为默认地址</div>
+      <div class="weui-cell__ft"><input class="weui-switch" type="checkbox" id="is_default_address"></div>
+    </div>
+  </div> 
+  <div class="weui-btn-area">
+    <a class="weui-btn weui-btn_primary" href="javascript:saveAddress()" id="showTooltips">保存此地址</a>
+  </div>
+	<input type="hidden" id="province" value="湖北省"/>
+	<input type="hidden" id="city" value="荆门市"/>
+	<input type="hidden" id="area" value="京山县"/>
+	
+	<input type="hidden" id="provinceCode" value="420000"/>
+	<input type="hidden" id="cityCode" value="420800"/>
+	<input type="hidden" id="areaCode" value="420821"/>
+	
+</div>
+
+<script src="lib/jquery-2.1.4.js"></script> 
+<script src="lib/fastclick.js"></script> 
+<script type="text/javascript" src="js/jquery.Spinner.js"></script>
+<script type="text/javascript" src="js/config.js"></script>
+<script>
+  $(function() {
+    FastClick.attach(document.body);
+  });
+</script>
+
+<script src="js/jquery-weui.js"></script>
+<script src="js/city-picker.js"></script>
+<script>
+		var ReceivingAddress = function ReceivingAddress(realname,telephone,isDefaultAddress,province,provinceCode,city,cityCode,area,areaCode,detailedAddress,userId) {
+			this.realname = realname;
+			this.telephone = telephone;
+			this.isDefaultAddress = isDefaultAddress;
+			this.province = province;
+			this.provinceCode = provinceCode;
+			this.city = city;
+			this.cityCode = cityCode;
+			this.area = area;
+			this.areaCode = areaCode;
+			this.detailedAddress = detailedAddress;
+			this.userId = userId;
+		}
+	
+      $("#address").cityPicker({
+        title: "选择出发地",
+        onChange: function (picker, values, displayValues) {
+          console.log(values, displayValues);
+					$("#province").val(displayValues[0]);
+					$("#city").val(displayValues[1]);
+					$("#area").val(displayValues[2]);
+					
+					$("#provinceCode").val(values[0]);
+					$("#cityCode").val(values[1]);
+					$("#areaCode").val(values[2]);
+        }
+      });
+			
+			var isEmpty = function (value) {
+					if (value == null || value == "") {
+							return true;
+					}
+					return false;
+       }
+			
+			var saveAddress = function(){
+				var realname = $("#realname").val();
+				if(isEmpty(realname)){
+					$.alert("收件人不能为空!");
+					return false;
+				}
+				var phone = $("#phone").val();
+				if(isEmpty(phone)){
+					$.alert("手机号不能为空!");
+					return false;
+				}
+				var province = $("#province").val();
+				var city = $("#city").val();
+				var area = $("#area").val();
+				if(isEmpty(phone) || isEmpty(city) || isEmpty(area)){
+					$.alert("省市区不能为空!");
+					return false;
+				}
+				var provinceCode = $("#provinceCode").val();
+				var cityCode = $("#cityCode").val();
+				var areaCode = $("#areaCode").val();
+				var detailedAddress = $("#detailed_address").val();
+				if(isEmpty(detailed_address)){
+					$.alert("详细地址不能为空!");
+					return false;
+				}
+				var is_default_address = 0;//0不是默认地址
+				if($('#is_default_address').is(':checked')){
+					is_default_address = 1;
+				}
+				var receivingAddress = new ReceivingAddress(
+					realname,phone,is_default_address,province,provinceCode,city,cityCode,area,areaCode,detailedAddress,sessionStorage.openId
+				);
+				console.info(JSON.stringify(receivingAddress));
+				var jsondata = JSON.stringify(receivingAddress);
+				
+				$.ajax({
+					type: "post",
+					url: base_url+"/api/yiran/weChatMall/address/saveRealnameAddress",
+					data: jsondata,
+					//参数格式为json
+          contentType: "application/json; charset=utf-8",
+					async: false, //同步
+					success: function (data) {
+						window.location.href="address_list.html";
+					},
+					//调用出错执行的函数
+					error: function(){
+						console.info("请求服务器api失败，无法获取数据");
+					}
+				});
+			}
+    </script>
+</body>
+</html>

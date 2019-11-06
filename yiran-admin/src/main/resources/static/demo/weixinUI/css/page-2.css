@@ -1,0 +1,60 @@
+/**********************基本信息页面**********************************/
+
+.item-2 .row{
+    margin-top: 30px;
+}
+.item-2 .container  {
+    display: none;
+}
+.item-2 .container .icon-infomation {
+    height: 211px;
+    position: relative;
+}
+.item-2 .container .icon-infomation img {
+    /*height: 100%;*/
+}
+
+.item-2 .icon-infomation p{
+    font-size: 12px;
+    text-align: center;
+}
+.item-2  .icon-infomation:nth-child(1){
+    -webkit-animation: bounceIn 2s ease;
+    animation: bounceIn 2s ease;
+}
+
+.item-2  .icon-infomation:nth-child(2){
+    opacity: 0;
+    -webkit-animation: lightSpeedIn 2s ease forwards;
+    animation: lightSpeedIn 2s ease forwards;
+    -webkit-animation-delay:1s;
+}
+.item-2  .icon-infomation:nth-child(3){
+    opacity: 0;
+    -webkit-animation: rubberBand 2s ease forwards;
+    animation: rubberBand 2s ease forwards;
+    -webkit-animation-delay:1.5s;
+}
+
+.item-2  .icon-infomation:nth-child(4){
+    opacity: 0;
+    -webkit-animation: bounceInUp 2s ease forwards;
+    animation: bounceInUp 2s ease forwards;
+    -webkit-animation-delay:2s;
+}
+/*.item-2 .page2-title.rotateOutUpLeft {*/
+/*-webkit-animation: rotateOutUpLeft .5s ease ;*/
+/*animation: rotateOutUpLeft .5s ease ;*/
+/*}*/
+.item-2  .page2-title {
+    display: inline-block;
+    -webkit-animation: zoomInDown 2s ease forwards;
+    animation: zoomInDown 2s ease forwards;
+}
+
+.item-2 .icon-infomation.zoomOutUp {
+    opacity: 1;
+    -webkit-animation: slideOutUp .5s linear ;
+    animation: slideOutUp .5s linear ;
+}
+/**********************基本信息页面end********************************/

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.activiti.mapper.ApplicationLeaveMapper">
+    
+    <resultMap type="ApplicationLeave" id="ApplicationLeaveResult">
+        <result property="formId"    column="formId"    />
+        <result property="processInstanceId"    column="processInstanceId"    />
+        <result property="userId"    column="userId"    />
+        <result property="title"    column="title"    />
+        <result property="days"    column="days"    />
+        <result property="beginDate"    column="beginDate"    />
+        <result property="endDate"    column="endDate"    />
+        <result property="vacationType"    column="vacationType"    />
+        <result property="reason"    column="reason"    />
+        <result property="processStatus"    column="processStatus"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+	
+	<sql id="selectApplicationLeaveVo">
+        select formId, processInstanceId, userId,title, days, beginDate, endDate, vacationType, reason, processStatus, create_by, create_time, update_by, update_time, remark from biz_application_leave
+    </sql>
+	
+    <select id="selectApplicationLeaveList" parameterType="ApplicationLeave" resultMap="ApplicationLeaveResult">
+        <include refid="selectApplicationLeaveVo"/>
+        <where>  
+            <if test="formId != null  and formId != '' "> and formId = #{formId}</if>
+             <if test="processInstanceId != null  and processInstanceId != '' "> and processInstanceId = #{processInstanceId}</if>
+             <if test="userId != null "> and userId = #{userId}</if>
+             <if test="days != null "> and days = #{days}</if>
+             <if test="beginDate != null "> and beginDate = #{beginDate}</if>
+             <if test="endDate != null "> and endDate = #{endDate}</if>
+             <if test="vacationType != null "> and vacationType = #{vacationType}</if>
+             <if test="reason != null  and reason != '' "> and reason = #{reason}</if>
+             <if test="processStatus != null "> and processStatus = #{processStatus}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+         </where>
+    </select>
+    
+     <select id="selectProcessApplicationLeaveList" parameterType="ApplicationLeave" resultMap="ApplicationLeaveResult">
+        <include refid="selectApplicationLeaveVo"/>
+        <where>  
+             <if test="userId != null "> and userId = #{userId}</if>
+             <if test="processStatus != null "> and processStatus != #{processStatus}</if>
+         </where>
+
+     </select>
+    
+    <select id="selectApplicationLeaveById" parameterType="String" resultMap="ApplicationLeaveResult">
+        <include refid="selectApplicationLeaveVo"/>
+        where formId = #{formId}
+    </select>
+        
+    <insert id="insertApplicationLeave" parameterType="ApplicationLeave">
+        insert into biz_application_leave
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="formId != null  and formId != ''  ">formId,</if>
+			<if test="processInstanceId != null  and processInstanceId != ''  ">processInstanceId,</if>
+			<if test="userId != null  ">userId,</if>
+			<if test="title != null  ">title,</if>
+			<if test="days != null  ">days,</if>
+			<if test="beginDate != null  ">beginDate,</if>
+			<if test="endDate != null  ">endDate,</if>
+			<if test="vacationType != null  ">vacationType,</if>
+			<if test="reason != null  and reason != ''  ">reason,</if>
+			<if test="processStatus != null  ">processStatus,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			create_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="formId != null  and formId != ''  ">#{formId},</if>
+			<if test="processInstanceId != null  and processInstanceId != ''  ">#{processInstanceId},</if>
+			<if test="userId != null  ">#{userId},</if>
+			<if test="title != null  ">#{title},</if>
+			<if test="days != null  ">#{days},</if>
+			<if test="beginDate != null  ">#{beginDate},</if>
+			<if test="endDate != null  ">#{endDate},</if>
+			<if test="vacationType != null  ">#{vacationType},</if>
+			<if test="reason != null  and reason != ''  ">#{reason},</if>
+			<if test="processStatus != null  ">#{processStatus},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateApplicationLeave" parameterType="ApplicationLeave">
+        update biz_application_leave
+        <trim prefix="SET" suffixOverrides=",">
+        	<if test="days != null  ">days =#{days},</if>
+			<if test="beginDate != null  ">beginDate = #{beginDate},</if>
+			<if test="endDate != null  ">endDate = #{endDate},</if>
+            <if test="processStatus != null  ">processStatus = #{processStatus},</if>
+            <if test="reason != null  and reason != ''  ">reason = #{reason},</if>
+            update_time = sysdate()
+        </trim>
+        where formId = #{formId}
+    </update>
+
+	<delete id="deleteApplicationLeaveById" parameterType="String">
+        delete from biz_application_leave where formId = #{formId}
+    </delete>
+	
+    <delete id="deleteApplicationLeaveByIds" parameterType="String">
+        delete from biz_application_leave where formId in 
+        <foreach item="formId" collection="array" open="(" separator="," close=")">
+            #{formId}
+        </foreach>
+    </delete>
+    
+</mapper>

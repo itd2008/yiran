@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.paychannel.mapper.TmApiNoModeMapper">
+    
+    <resultMap type="TmApiNoMode" id="TmApiNoModeResult">
+        <result property="apiNoModeId"    column="api_no_mode_id"    />
+        <result property="genPattern"    column="gen_pattern"    />
+        <result property="seqName"    column="seq_name"    />
+        <result property="gmtCreate"    column="gmt_create"    />
+        <result property="gmtModified"    column="gmt_modified"    />
+        <result property="memo"    column="memo"    />
+    </resultMap>
+	
+	<sql id="selectTmApiNoModeVo">
+        select api_no_mode_id, gen_pattern, seq_name, gmt_create, gmt_modified, memo from tm_api_no_mode
+    </sql>
+	
+    <select id="selectTmApiNoModeList" parameterType="TmApiNoMode" resultMap="TmApiNoModeResult">
+        <include refid="selectTmApiNoModeVo"/>
+        <where>  
+            <if test="apiNoModeId != null "> and api_no_mode_id = #{apiNoModeId}</if>
+             <if test="genPattern != null  and genPattern != '' "> and gen_pattern = #{genPattern}</if>
+             <if test="seqName != null  and seqName != '' "> and seq_name = #{seqName}</if>
+             <if test="gmtCreate != null "> and gmt_create = #{gmtCreate}</if>
+             <if test="gmtModified != null "> and gmt_modified = #{gmtModified}</if>
+             <if test="memo != null  and memo != '' "> and memo = #{memo}</if>
+         </where>
+    </select>
+    
+    <select id="selectTmApiNoModeById" parameterType="Integer" resultMap="TmApiNoModeResult">
+        <include refid="selectTmApiNoModeVo"/>
+        where api_no_mode_id = #{apiNoModeId}
+    </select>
+        
+    <insert id="insertTmApiNoMode" parameterType="TmApiNoMode" useGeneratedKeys="true" keyProperty="apiNoModeId">
+        insert into tm_api_no_mode
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="genPattern != null  and genPattern != ''  ">gen_pattern,</if>
+			<if test="seqName != null  and seqName != ''  ">seq_name,</if>
+			<if test="gmtCreate != null  ">gmt_create,</if>
+			<if test="memo != null  and memo != ''  ">memo,</if>
+			gmt_create
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="genPattern != null  and genPattern != ''  ">#{genPattern},</if>
+			<if test="seqName != null  and seqName != ''  ">#{seqName},</if>
+			<if test="memo != null  and memo != ''  ">#{memo},</if>
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateTmApiNoMode" parameterType="TmApiNoMode">
+        update tm_api_no_mode
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="genPattern != null  and genPattern != ''  ">gen_pattern = #{genPattern},</if>
+            <if test="seqName != null  and seqName != ''  ">seq_name = #{seqName},</if>
+            <if test="memo != null  and memo != ''  ">memo = #{memo},</if>
+            gmt_modified = sysdate()
+        </trim>
+        where api_no_mode_id = #{apiNoModeId}
+    </update>
+
+	<delete id="deleteTmApiNoModeById" parameterType="Integer">
+        delete from tm_api_no_mode where api_no_mode_id = #{apiNoModeId}
+    </delete>
+	
+    <delete id="deleteTmApiNoModeByIds" parameterType="String">
+        delete from tm_api_no_mode where api_no_mode_id in 
+        <foreach item="apiNoModeId" collection="array" open="(" separator="," close=")">
+            #{apiNoModeId}
+        </foreach>
+    </delete>
+    
+</mapper>

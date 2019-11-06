@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-trFcTargetInstRelation-edit" th:object="${trFcTargetInstRelation}">
+            <input id="id" name="id" th:field="*{id}"  type="hidden">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">渠道编码：</label>
+				<div class="col-sm-8">
+					<input id="fundChannelCode" name="fundChannelCode" th:field="*{fundChannelCode}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">目标机构编码：</label>
+				<div class="col-sm-8">
+					<input id="targetInstCode" name="targetInstCode" th:field="*{targetInstCode}" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+    </div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "paychannel/trFcTargetInstRelation";
+		$("#form-trFcTargetInstRelation-edit").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/edit", $('#form-trFcTargetInstRelation-edit').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

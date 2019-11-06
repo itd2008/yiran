@@ -1,0 +1,185 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+						<ul>
+							<li>
+								机构流水号：<input type="text" name="instSeqNo"/>
+							</li>
+
+							<li>
+								订单类型：
+								<select name="orderType" th:with="type=${@dict.getType('channel_pay_order_Type')}">
+								  <option value="">所有</option>
+								  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+								  </option>
+								</select>
+							</li>
+
+							<li>
+								原机构订单号：<input type="text" name="orgiInstOrderNo"/>
+							</li>
+
+							<li>
+								状态：
+								<select name="instStatus" th:with="type=${@dict.getType('inst_order_return_status')}">
+								  <option value="">所有</option>
+								  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+								  </option>
+								</select>
+							</li>
+
+							<li>
+								渠道编号：<input type="text" name="fundChannelCode"/>
+							</li>
+
+							<li>
+								机构订单号：<input type="text" name="instOrderNo"/>
+							</li>
+
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+	        <div class="btn-group-sm hidden-xs" id="toolbar" role="group">
+				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="payorder:payInstOrderResult:remove">
+					<i class="fa fa-remove"></i> 删除
+				</a>
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="payorder:payInstOrderResult:export">
+						<i class="fa fa-download"></i> 导出
+				 </a>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('payorder:payInstOrderResult:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('payorder:payInstOrderResult:remove')}]];
+        var prefix = ctx + "payorder/payInstOrderResult";
+        var channel_pay_order_Type = [[${@dict.getType('channel_pay_order_Type')}]];
+        var inst_order_return_status = [[${@dict.getType('inst_order_return_status')}]];
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+				detailUrl: prefix + "/edit/{id}",
+                modalName: "机构订单结果",
+		        showExport: true,
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'resultId', 
+					title : '订单结果ID',
+					visible: false
+				},
+				{
+					field : 'instOrderNo', 
+					title : '机构订单号',
+					sortable: true
+				},
+				{
+					field : 'fundChannelCode', 
+					title : '渠道编号',
+					sortable: true
+				},
+				{
+					field : 'apiType', 
+					title : '接口类型',
+					sortable: true
+				},
+				{
+					field : 'orderType', 
+					title : '订单类型',
+					sortable: true,
+				 	formatter: function(value, row, index) {
+				      return $.table.selectDictLabel(channel_pay_order_Type, value);
+				  	}
+				},
+				{
+					field : 'realAmount', 
+					title : '实际金额',
+					sortable: true
+				},
+				{
+					field : 'realCurrency', 
+					title : '实际币种',
+					sortable: true
+				},
+				{
+					field : 'orgiInstOrderNo', 
+					title : '原机构订单号',
+					sortable: true
+				},
+				{
+					field : 'instStatus', 
+					title : '状态',
+					sortable: true,
+				 	formatter: function(value, row, index) {
+				      return $.table.selectDictLabel(inst_order_return_status, value);
+				  	}
+				},
+				{
+					field : 'instResultCode', 
+					title : '统一结果编码',
+					sortable: true
+				},
+				{
+					field : 'apiResultCode', 
+					title : '渠道API结果码',
+					sortable: true
+				},
+				{
+					field : 'apiResultSubCode', 
+					title : '渠道API结果子码',
+					sortable: true
+				},
+				{
+					field : 'gmtCreate', 
+					title : '创建时间',
+					sortable: true
+				},
+				{
+					field : 'gmtModified', 
+					title : '修改时间',
+					sortable: true
+				},
+				
+				{
+					field : 'memo', 
+					title : '备注',
+					sortable: true
+				},
+		        {
+		            title: '操作',
+		            align: 'center',
+		            formatter: function(value, row, index) {
+		            	var actions = [];
+		            	actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.detail(\'' + row.resultId + '\')"><i class="fa fa-edit"></i>详情</a> ');
+						return actions.join('');
+		            }
+		        }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link th:href="@{/ajax/libs/iCheck/custom.css}" rel="stylesheet"/>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content">
+		<div class="row">
+			<div class="col-sm-3">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content mailbox-content">
+						<div class="file-manager">
+							<h5>文件夹</h5>
+                            <ul class="folder-list m-b-md" style="padding: 0" th:with="type=${@dict.getType('email_folder')}">
+                                <li th:each="dicts:${type}">
+                                	<a th:href="${dicts['dictLink']}" th:id="${dicts['dictCode']}" th:value="${dicts['dictValue']}">
+                                		<i th:class="${dicts['cssClass']}"></i>
+                                		<span th:for="${dicts['dictCode']}" th:text="${dicts['dictLabel']}"></span> 
+                                	</a>
+                                </li>
+                            </ul>
+                            <h5>分类</h5>
+                            <ul class="category-list" style="padding: 0" th:with="type=${@dict.getType('email_type')}">
+                                <li th:each="dicts:${type}">
+<!--                                 th:onclick="'javascript:queryEmailList(\''+${dict['dictValue']}+'\')'" -->
+                                	<a th:href="${emailLink}+${dicts['dictLink']}" th:id="${dicts['dictCode']}" th:value="${dicts['dictValue']}">
+                                		<i th:class="${dicts['cssClass']}"></i>
+                                		<span th:for="${dicts['dictCode']}" th:text="${dicts['dictLabel']}"></span> 
+                                	</a>
+                                </li>
+                            </ul>
+                            <h5 class="tag-title">标签</h5>
+                            <ul class="tag-list" style="padding: 0" th:with="type=${@dict.getType('email_label')}">
+                                <li th:each="dicts:${type}">
+                                	<a th:href="${emailLink}+${dicts['dictLink']}" th:id="${dicts['dictCode']}" th:value="${dicts['dictValue']}">
+                                		<i class="fa fa-tag"></i> 
+                                		<span th:for="${dicts['dictCode']}" th:text="${dicts['dictLabel']}"></span> 
+                                	</a>
+                                </li>
+                            </ul>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-9 animated fadeInRight">
+				<div class="mail-box-header">
+					<form id="email-form" class="pull-right mail-search">
+						<div class="input-group">
+							<input type="text" class="form-control input-sm" name="emailSubject" placeholder="输入邮件标题">
+							<div class="input-group-btn">
+								<a class="btn btn-sm btn-primary" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+							</div>
+						</div>
+					</form>
+					<h2 th:text="${@dict.getLabel('email_folder',emailLink)}"> </h2>
+				</div>
+				<div class="mail-box">
+					<div class="btn-group hidden-xs" id="toolbar" role="group">
+			        	<a class="btn btn-outline btn-success btn-rounded" onclick="$.operate.href('message/email/write')" >
+			                <i class="fa fa-plus"></i>&nbsp;写邮件
+			            </a>
+			            <a class="btn btn-outline btn-danger btn-rounded" onclick="$.operate.batRemove()">
+			                <i class="fa fa-trash-o"></i>&nbsp;删除
+			            </a>
+			        </div>
+					<div class="col-sm-12 select-table table-striped">
+					    <table id="bootstrap-table" data-mobile-responsive="true"></table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script th:src="@{/ajax/libs/select/select2.js}"></script>
+    <script th:src="@{/ajax/libs/iCheck/icheck.min.js}"></script>
+	<script th:inline="javascript">
+	
+ 		var eamilLink = [[${emailLink}]];
+ 		var emailType = [[${emailType}]];
+ 		var emailLabel = [[${emailLabel}]];
+		var prefix = ctx + "message/email";
+		var sendStatus = [[${@dict.getType('send_status')}]];
+		var emailSite = [[${@dict.getType('email_site')}]];
+		var url = prefix + "/list/"+eamilLink;
+		
+		$(document).ready(function(){
+			//2者拼其1
+			if(emailType){
+				url = url + "?type="+emailType;
+			}else if(emailLabel){
+				url = url + "?label="+emailLabel;
+			}else{
+				url = url;
+			}
+			queryEmailList(url);
+		});
+		
+		function queryEmailList(url) {
+		    var options = {
+		        url: url,
+		        removeUrl: prefix + "/physicsRemove",
+		        sortName: "createTime",
+		        sortOrder: "desc",
+		        modalName: "邮件",
+		        search: false,
+		        showExport: false,
+		        columns: [{
+		            checkbox: true
+		        },
+		        {
+		            field: 'emailId',
+		            title: '邮件编号',
+		            align: "center",
+		            sortable: true
+		        },
+		        {
+		            field: 'emailSite',
+		            title: '发送渠道',
+		            align: "center",
+		            sortable: true,
+		            formatter: function(value, row, index) {
+		            	return $.table.selectDictLabel(emailSite, value);
+		            }
+		        },
+		        {
+		            field: 'userName',
+		            align: "center",
+		            title: '发信人'
+		        },
+		        {
+		            field: 'emailSubject',
+		            align: "center",
+		            title: '邮件主题'
+		        },
+		        {
+		            field: 'sendStatus',
+		            title: '发送状态',
+		            align: 'center',
+		            formatter: function(value, row, index) {
+		            	return $.table.selectDictLabel(sendStatus, value);
+		            }
+		        },
+		        {
+		            field: 'createTime',
+		            title: '创建时间',
+		            align: "center",
+		            sortable: true
+		        },
+		        {
+		            title: '操作',
+		            align: 'center',
+		            formatter: function(value, row, index) {
+		                var actions = [];
+		                actions.push('<a class="btn btn-success btn-xs" title="查看邮件" href="#" onclick="$.operate.href(\'message/email/read?emailId='+row.emailId+'\')"> <i class="fa fa-eye"></i>&nbsp;查看邮件</a> ');
+		                actions.push('<a class="btn btn-success btn-xs" title="移入回收站" href="#" onclick="$.operate.post(\'moveToRecoveryBin\',{\'emailId\':\'' + row.emailId + '\'})"> <i class="fa fa-trash-o"></i>&nbsp;移入回收站</a> ');
+		                actions.push('<a class="btn btn-danger btn-xs" title="删除邮件" href="#" onclick="$.operate.remove(\'' + row.emailId + '\')"> <i class="fa fa-remove"></i>&nbsp;删除</a> ');
+		                return actions.join('');
+		            }
+		        }]
+		    };
+		    $.table.init(options);
+		}
+	</script>
+</body>
+</html>

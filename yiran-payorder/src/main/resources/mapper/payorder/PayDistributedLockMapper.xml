@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.payorder.mapper.PayDistributedLockMapper">
+    
+    <resultMap type="PayDistributedLock" id="PayDistributedLockResult">
+        <result property="lockTicket"    column="lock_ticket"    />
+        <result property="lockName"    column="lock_name"    />
+        <result property="lockType"    column="lock_type"    />
+        <result property="lockDesc"    column="lock_desc"    />
+        <result property="lockStatus"    column="lock_status"    />
+        <result property="gmtLock"    column="gmt_lock"    />
+        <result property="machineIp"    column="machine_ip"    />
+        <result property="machineHost"    column="machine_host"    />
+        <result property="gmtModified"    column="gmt_modified"    />
+    </resultMap>
+	
+	<sql id="selectPayDistributedLockVo">
+        select lock_ticket, lock_name, lock_type, lock_desc, lock_status, gmt_lock, machine_ip, machine_host, gmt_modified from pay_distributed_lock
+    </sql>
+	
+    <select id="selectPayDistributedLockList" parameterType="PayDistributedLock" resultMap="PayDistributedLockResult">
+        <include refid="selectPayDistributedLockVo"/>
+        <where>  
+            <if test="lockTicket != null  and lockTicket != '' "> and lock_ticket = #{lockTicket}</if>
+             <if test="lockName != null  and lockName != '' "> and lock_name = #{lockName}</if>
+             <if test="lockType != null  and lockType != '' "> and lock_type = #{lockType}</if>
+             <if test="lockDesc != null  and lockDesc != '' "> and lock_desc = #{lockDesc}</if>
+             <if test="lockStatus != null  and lockStatus != '' "> and lock_status = #{lockStatus}</if>
+             <if test="gmtLock != null "> and gmt_lock = #{gmtLock}</if>
+             <if test="machineIp != null  and machineIp != '' "> and machine_ip = #{machineIp}</if>
+             <if test="machineHost != null  and machineHost != '' "> and machine_host = #{machineHost}</if>
+             <if test="gmtModified != null "> and gmt_modified = #{gmtModified}</if>
+         </where>
+    </select>
+    
+    <select id="selectPayDistributedLockById" parameterType="String" resultMap="PayDistributedLockResult">
+        <include refid="selectPayDistributedLockVo"/>
+        where lock_ticket = #{lockTicket}
+    </select>
+    
+    <select id="lock"  resultMap="PayDistributedLockResult">
+        <include refid="selectPayDistributedLockVo"/>
+        where lock_ticket in
+        <foreach collection="lockTicketList" item="ticket"  open="(" separator="," close=")">  
+	        #{ticket}  
+	     </foreach>  
+        <!-- for update -->
+    </select>
+    
+    <select id="lockNoWait"  resultMap="PayDistributedLockResult">
+        <include refid="selectPayDistributedLockVo"/>
+        where lock_ticket in
+        <foreach collection="lockTicketList" item="ticket"  open="(" separator="," close=")">  
+	        #{ticket}  
+	     </foreach>  
+        and lock_status = 'E'
+    </select>
+        
+    <insert id="insertPayDistributedLock" parameterType="PayDistributedLock">
+        insert into pay_distributed_lock
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="lockTicket != null  and lockTicket != ''  ">lock_ticket,</if>
+			<if test="lockName != null  and lockName != ''  ">lock_name,</if>
+			<if test="lockType != null  and lockType != ''  ">lock_type,</if>
+			<if test="lockDesc != null  and lockDesc != ''  ">lock_desc,</if>
+			<if test="lockStatus != null  and lockStatus != ''  ">lock_status,</if>
+			<if test="machineIp != null  and machineIp != ''  ">machine_ip,</if>
+			<if test="machineHost != null  and machineHost != ''  ">machine_host,</if>
+			gmt_lock,
+			gmt_modified
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="lockTicket != null  and lockTicket != ''  ">#{lockTicket},</if>
+			<if test="lockName != null  and lockName != ''  ">#{lockName},</if>
+			<if test="lockType != null  and lockType != ''  ">#{lockType},</if>
+			<if test="lockDesc != null  and lockDesc != ''  ">#{lockDesc},</if>
+			<if test="lockStatus != null  and lockStatus != ''  ">#{lockStatus},</if>
+			<if test="machineIp != null  and machineIp != ''  ">#{machineIp},</if>
+			<if test="machineHost != null  and machineHost != ''  ">#{machineHost},</if>
+			sysdate(),
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updatePayDistributedLock" parameterType="PayDistributedLock">
+        update pay_distributed_lock
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="lockName != null  and lockName != ''  ">lock_name = #{lockName},</if>
+            <if test="lockType != null  and lockType != ''  ">lock_type = #{lockType},</if>
+            <if test="lockDesc != null  and lockDesc != ''  ">lock_desc = #{lockDesc},</if>
+            <if test="lockStatus != null  and lockStatus != ''  ">lock_status = #{lockStatus},</if>
+            <if test="machineIp != null  and machineIp != ''  ">machine_ip = #{machineIp},</if>
+            <if test="machineHost != null  and machineHost != ''  ">machine_host = #{machineHost},</if>
+            gmt_modified = sysdate()
+        </trim>
+        where lock_ticket = #{lockTicket}
+    </update>
+
+	<delete id="deletePayDistributedLockById" parameterType="String">
+        delete from pay_distributed_lock where lock_ticket = #{lockTicket}
+    </delete>
+	
+    <delete id="deletePayDistributedLockByIds" parameterType="String">
+        delete from pay_distributed_lock where lock_ticket in 
+        <foreach item="lockTicket" collection="list" open="(" separator="," close=")">
+            #{lockTicket}
+        </foreach>
+    </delete>
+    
+    <update id="updateByKey" >
+        update pay_distributed_lock
+        <trim prefix="SET" suffixOverrides=",">
+        	gmt_modified = sysdate(),
+        	lock_status = #{lockStatus},
+        	machine_ip = #{machineIp},
+        	<if test="isLock != null and isLock == true">gmt_lock = sysdate(),</if>
+        	machine_host = #{machineHostName}
+        </trim>
+        where lock_status =#{oldLockStatus} and 
+        lock_ticket in
+        <foreach item="ticket" collection="lockTicketList" open="(" separator="," close=")">
+            #{ticket}
+        </foreach>
+    </update>
+    
+</mapper>

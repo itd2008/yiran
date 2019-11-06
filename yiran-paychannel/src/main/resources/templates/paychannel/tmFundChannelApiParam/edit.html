@@ -1,0 +1,156 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-tmFundChannelApiParam-edit" th:object="${tmFundChannelApiParam}">
+            <input id="paramId" name="paramId" th:field="*{paramId}"  type="hidden">
+			<div class="row">
+            	<div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">API接口编码：</label>
+                        <div class="col-sm-8">
+                            <input id="apiCode" name="apiCode" th:field="*{apiCode}" class="form-control" readonly="readonly"  type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">参数名称：<span >*</span></label>
+                        <div class="col-sm-8">
+                            <input id="paramName" name="paramName" th:field="*{paramName}"  class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+            	<div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">参数字典标识：</label>
+                        <div class="col-sm-8">
+                            <select name="paramCodeKey" id="paramCodeKey" class="form-control " th:with="type=${@dict.getType('channel_api_param_codeKey')}">
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{paramCodeKey}">
+							  </option>
+							</select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">参数描述：<span >*</span></label>
+                        <div class="col-sm-8">
+                            <input id="paramDesc" name="paramDesc" th:field="*{paramDesc}" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+            	<div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">是否可空：</label>
+                        <div class="col-sm-8">
+                            <select name="nullAble" id="nullAble" class="form-control " th:with="type=${@dict.getType('channel_api_param_nullAble')}">
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{nullAble}">
+							  </option>
+							</select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">是否使用：</label>
+                        <div class="col-sm-8">
+                            <select name="enable" id="enable" class="form-control " th:with="type=${@dict.getType('channel_api_param_enable')}">
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{enable}">
+							  </option>
+							</select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="row">
+            	<div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">是否需要保存数据：</label>
+                        <div class="col-sm-8">
+                            <select name="isSave" id="isSave" class="form-control " th:with="type=${@dict.getType('channel_api_param_isSave')}">
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{isSave}">
+							  </option>
+							</select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">使用场景：</label>
+                        <div class="col-sm-8">
+                            <select name="isOrgin" id="isOrgin" class="form-control " th:with="type=${@dict.getType('channel_api_param_isOrgin')}">
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{isOrgin}">
+							  </option>
+							</select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+            	<div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">是否从渠道获取：</label>
+                        <div class="col-sm-8">
+                            <select name="isChannelTrans" id="isChannelTrans" class="form-control " th:with="type=${@dict.getType('channel_api_param_isChannelTrans')}">
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{isChannelTrans}">
+							  </option>
+							</select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">交互编码：</label>
+                        <div class="col-sm-8">
+                            <input id="transCode" name="transCode" th:field="*{transCode}" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+			<div class="row">
+            	<div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">扩展信息：</label>
+						<div class="col-sm-8">
+							<textarea id="extension" name="extension" autocomplete="off" maxlength="500" class="form-control" rows="3">[[*{extension}]]</textarea>
+						</div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    
+                </div>
+            </div>
+		</form>
+    </div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "paychannel/tmFundChannelApiParam";
+		$("#form-tmFundChannelApiParam-edit").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/edit", $('#form-tmFundChannelApiParam-edit').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

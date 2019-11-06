@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-tmFundChannelInst-add">
+        	<div class="form-group">	
+				<label class="col-sm-3 control-label">机构代码：</label>
+				<div class="col-sm-8">
+					<input id="instCode" name="instCode" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">机构类型：BANK（银行），EPAY（电子支付公司）：</label>
+				<div class="col-sm-8">
+					<input id="instType" name="instType" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">机构名称：</label>
+				<div class="col-sm-8">
+					<input id="instName" name="instName" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">机构分支名称：</label>
+				<div class="col-sm-8">
+					<input id="instBranchName" name="instBranchName" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">联行号：</label>
+				<div class="col-sm-8">
+					<input id="bankLineNo" name="bankLineNo" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">地区：</label>
+				<div class="col-sm-8">
+					<input id="areaCode" name="areaCode" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<input id="memo" name="memo" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">扩展信息：</label>
+				<div class="col-sm-8">
+					<input id="extension" name="extension" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+	</div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "paychannel/tmFundChannelInst"
+		$("#form-tmFundChannelInst-add").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/add", $('#form-tmFundChannelInst-add').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

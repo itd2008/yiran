@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-bsProvince-edit" th:object="${bsProvince}">
+            <input id="provinceId" name="provinceId" th:field="*{provinceId}"  type="hidden">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">省份代码：</label>
+				<div class="col-sm-8">
+					<input id="provinceCode" name="provinceCode" th:field="*{provinceCode}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">省份名称：</label>
+				<div class="col-sm-8">
+					<input id="provinceName" name="provinceName" th:field="*{provinceName}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">简称：</label>
+				<div class="col-sm-8">
+					<input id="shortName" name="shortName" th:field="*{shortName}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">经度：</label>
+				<div class="col-sm-8">
+					<input id="lNG" name="lNG" th:field="*{lNG}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">纬度：</label>
+				<div class="col-sm-8">
+					<input id="lAT" name="lAT" th:field="*{lAT}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">排序：</label>
+				<div class="col-sm-8">
+					<input id="sORT" name="sORT" th:field="*{sORT}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">创建时间：</label>
+				<div class="col-sm-8">
+					<input id="gmtCreate" name="gmtCreate" th:field="*{gmtCreate}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">修改时间：</label>
+				<div class="col-sm-8">
+					<input id="gmtModified" name="gmtModified" th:field="*{gmtModified}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<input id="mEMO" name="mEMO" th:field="*{mEMO}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">状态：</label>
+				<div class="col-sm-8">
+					<input id="dataState" name="dataState" th:field="*{dataState}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">租户ID：</label>
+				<div class="col-sm-8">
+					<input id="tenantCode" name="tenantCode" th:field="*{tenantCode}" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+    </div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "wechat/bsProvince";
+		$("#form-bsProvince-edit").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/edit", $('#form-bsProvince-edit').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

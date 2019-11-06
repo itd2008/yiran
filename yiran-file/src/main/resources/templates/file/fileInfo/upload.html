@@ -1,0 +1,111 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link rel="stylesheet" th:href="@{/Bootstrapfileinput/css/theme.min.css}" />
+<link rel="stylesheet" th:href="@{/Bootstrapfileinput/css/fileinput.min.css}" />
+<link th:href="@{/ajax/libs/jquery-layout/jquery.layout-latest.css}" rel="stylesheet"/>
+
+<body class="white-bg">
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+		<form class="form-horizontal m"  enctype="multipart/form-data">
+			<div class="form-group">	
+                <label class="col-sm-3 control-label">新名字：</label>
+                <div class="col-sm-8">
+                    <input id="newName" name="newName"  class="form-control" type="text">
+                </div>
+            </div>
+        	<div class="form-group">	
+				<label class="col-sm-3 control-label">文件：</label>
+				<div class="col-sm-8">
+					<!-- <input id="file-3"  type="file" multiple > -->
+					<input id="kv-explorer"  type="file" data-overwrite-initial="false"> <br>
+				</div>
+			</div>
+		</form>
+	</div>
+	<script type="text/javascript"
+		th:src="@{/Bootstrapfileinput/js/jquery-3.2.1.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/Bootstrapfileinput/js/bootstrap.min.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/Bootstrapfileinput/js/sortable.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/Bootstrapfileinput/js/fileinput.min.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/Bootstrapfileinput/js/theme.min.js}"></script>
+	<script type="text/javascript" th:src="@{/Bootstrapfileinput/js/zh.js}"></script>
+	<script th:src="@{/yiran/js/ry-ui.js}"></script>
+	<script th:src="@{/ajax/libs/layer/layer.min.js}"></script>
+	<script th:src="@{/ajax/libs/layui/layui.js}"></script>
+	<script th:src="@{/yiran/js/common.js}"></script>
+	<script th:inline="javascript"> var ctx = [[@{/}]]; </script>
+	<script type="text/javascript">
+		var prefix = ctx + "file/fileInfo"
+		 $(function () {
+			 $("#kv-explorer").fileinput({
+				language: 'zh',
+				//'theme': 'explorer',	//文件展示的主题风格
+				'uploadUrl': prefix + '/uploadFile',
+				showRemove:false,
+				initialPreviewAsData: true,
+				previewFileType:['image','html','text', 'video', 'audio', 'flash', 'object','doc','docx','xls','xlsx'],//预览文件类型,内置['image', 'html', 'text', 'video', 'audio', 'flash', 'object',‘other‘]等格式
+				allowedFileExtensions:  [
+					'jpg','doc','xls','ppt',
+					'pdf','zip','htm','txt','mp3',
+					'mp4','avi','3gp',
+					'wmv','webm','wav','pptx',
+					'xlsx','docx','rar','tar',
+					'html','mpg','sql','exe'],
+				enctype:'multipart/form-data',
+				showCancel:false,
+				overwriteInitial:false, //不覆盖已存在的图片
+				previewFileIcon: "<iclass='glyphicon glyphicon-king'></i>",
+				msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+				layoutTemplates:{
+					actionDelete:'',//除去上传按预览缩略图中删除图标
+					actionUpload:'',//除去上传按预览缩略图中上传图标
+					//actionZoom:'' //除去上传按预览缩略图中查看详情预览的缩略标
+				},
+			 	uploadExtraData:function(){//向后台传递参数
+	             	var data={
+	                 	newName:$("#newName").val(),
+	                 };
+	                 return data; 
+			 	}
+			});
+
+			//这是提交完成后的回调函数  
+			 $("#kv-explorer").on("fileuploaded", function (event, data, previewId, index) {
+				if(data.response.result == 1){//成功
+					//重新刷新页面
+					$.modal.msgReload("文件上传成功！","success");
+				}else if(data.response.result == 0){
+					
+					$(event.target)
+		              .fileinput('clear')
+		              .fileinput('unlock');
+		            $(event.target)
+		              .parent()
+		              .siblings('.fileinput-remove')
+		              .hide();
+		              $.modal.alertError("文件上传失败！");
+				}
+			 });
+		 });
+		
+		 
+		/* $("#form-info-add").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			submitHandler: function(form) {
+				$.operate.save(prefix + "/save", $('#form-info-add').serialize());
+			}
+		}); */
+		
+	</script>
+</body>
+</html>

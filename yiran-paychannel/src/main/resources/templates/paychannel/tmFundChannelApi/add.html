@@ -1,0 +1,259 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-tmFundChannelApi-add">
+			<div class="row">
+            	<div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">API编码：<span >*</span></label>
+                        <div class="col-sm-8">
+                            <input id="apiCode" name="apiCode" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">渠道编码：<span >*</span></label>
+                        <div class="col-sm-8">
+                            <input id="fundChannelCode" name="fundChannelCode" th:value="${fundChannelCode}" class="form-control" readonly="readonly" type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+			
+			<div class="row">
+            	<div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">接口类型：</label>
+                        <div class="col-sm-8">
+                            <select name="apiType" id="apiType" class="form-control " th:with="type=${@dict.getType('channel_api_api_type')}">
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+							  </option>
+							</select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">接口版本：</label>
+                        <div class="col-sm-8">
+                            <input id="apiVersion" name="apiVersion"  class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+			
+			<div class="row">
+            	<div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">接口方法：</label>
+                        <div class="col-sm-8">
+                            <input id="apiMethod" name="apiMethod" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">接口URI：<span >*</span></label>
+                        <div class="col-sm-8">
+                            <input id="apiUri" name="apiUri" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+			
+			<div class="row">
+            	<div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">优先级：</label>
+                        <div class="col-sm-8">
+                            <input id="apiPriority" name="apiPriority" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">是否需要密钥证书：</label>
+                        <div class="col-sm-8">
+                            <select name="secure" id="secure" class="form-control " th:with="type=${@dict.getType('channel_api_secure_type')}">
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+							  </option>
+							</select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+			
+			<div class="row">
+            	<div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">最大笔数：</label>
+                        <div class="col-sm-8">
+                            <input id="maxItem" name="maxItem" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">渠道接口签名，加密方式：</label>
+                        <div class="col-sm-8">
+                            <input id="apiSecurityId" name="apiSecurityId" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+            	<div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">API名称：</label>
+                        <div class="col-sm-8">
+                            <input id="apiName" name="apiName" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">订单号生成模式：</label>
+                        <div class="col-sm-8">
+                        	<select id="apiNoModeId" name="apiNoModeId" class="form-control " >
+                        		<option value="">--请选择--</option>
+								<option th:each="anml:${apiNoModeList}" th:value="${anml.apiNoModeId}" th:text="${anml.genPattern}"></option>
+							</select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="row">
+            	<div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">渠道耗时：</label>
+                        <div class="col-sm-8">
+                            <input id="consumeTime" name="consumeTime" class="form-control" type="text" placeholder="单位小时">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">通信标题模板：</label>
+                        <div class="col-sm-8">
+                            <input id="commTitleTemplate" name="commTitleTemplate" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+			<div class="row">
+            	<div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">是否需要审核：</label>
+                        <div class="col-sm-8">
+                           <select name="needConfirm" id="needConfirm" class="form-control " th:with="type=${@dict.getType('channel_api_need_confirm')}">
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+							  </option>
+							</select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">是否可用：</label>
+                        <div class="col-sm-8">
+                            <select name="enables" id="enables" class="form-control " th:with="type=${@dict.getType('channel_api_enables')}">
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+							  </option>
+							</select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+            	<div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">是否同步流水：</label>
+                        <div class="col-sm-8">
+                           <select name="needSyncGlide" id="needSyncGlide" class="form-control " th:with="type=${@dict.getType('channel_api_need_syncglide')}">
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+							  </option>
+							</select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">文件类型：</label>
+                        <div class="col-sm-8">
+                            <select name="fileType" id="fileType" class="form-control " th:with="type=${@dict.getType('channel_api_file_type')}">
+							  <option value="">--请选择--</option>
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+							</select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+			
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">excel文件模板路径：</label>
+				<div class="col-sm-8">
+					<input id="filePath" name="filePath" class="form-control" type="text">
+				</div>
+			</div>
+			
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">通信内容模板：</label>
+				<div class="col-sm-8">
+					<textarea id="commContentTemplate" name="commContentTemplate" autocomplete="off" maxlength="500" class="form-control" rows="3"></textarea>
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">复核解析脚本：</label>
+				<div class="col-sm-8">
+					<textarea id="checkParseScript" name="checkParseScript" autocomplete="off" maxlength="500" class="form-control" rows="3"></textarea>
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">结果解析脚本：</label>
+				<div class="col-sm-8">
+					<textarea id="resultParseScript" name="resultParseScript" autocomplete="off" maxlength="500" class="form-control" rows="3"></textarea>
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<textarea id="memo" name="memo" autocomplete="off" maxlength="500" class="form-control" rows="3"></textarea>
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">扩展信息：</label>
+				<div class="col-sm-8">
+					<textarea id="extension" name="extension" autocomplete="off" maxlength="500" class="form-control" rows="3"></textarea>
+				</div>
+			</div>
+		</form>
+	</div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "paychannel/tmFundChannelApi"
+		$("#form-tmFundChannelApi-add").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/add", $('#form-tmFundChannelApi-add').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

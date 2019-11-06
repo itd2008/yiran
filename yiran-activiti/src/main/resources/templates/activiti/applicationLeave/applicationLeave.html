@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			
+			
+	        <div class="btn-group-sm hidden-xs" id="toolbar" role="group">
+				
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('activiti:applicationLeave:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('activiti:applicationLeave:remove')}]];
+        var prefix = ctx + "activiti/applicationLeave";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+                modalName: "请假申请",
+		        showExport: true,
+		        columns: [{
+					field : 'title', 
+					title : '标题',
+					formatter: function (value, row, index) {
+                        return "<a href='#' onclick='viewform(\""+row.formId+"\")'>"+row.title+"</a>";
+                    }
+				},
+				{
+					field : 'days', 
+					title : '请假天数',
+					sortable: true
+				},
+				{
+					field : 'beginDate', 
+					title : '开始日期',
+					sortable: true
+				},
+				{
+					field : 'endDate', 
+					title : '结束日期',
+					sortable: true
+				},
+				{
+					field : 'vacationType', 
+					title : '请假类型',
+					sortable: true
+				},
+				{
+					field : 'reason', 
+					title : '请假事由',
+					sortable: true
+				},
+				{
+					field : 'processStatus', 
+					title : '流程状态',
+					sortable: true,
+					formatter: function(value, row, index) {
+						if (value == "0") {
+		                    return '<span class="badge badge-primary">申请</span>';
+		                } else if (value == "1") {
+		                    return '<span class="badge badge-danger">审批中</span>';
+		                }else if(value == "2"){
+		                	 return '<span class="badge badge-primary">已完成</span>';
+		                }
+		            }
+				},
+				{
+                    field: 'processInstanceId',
+                    title: '流程图',
+                    formatter: function (value, row, index) {
+                        return '<a onclick="createMenuItem(\'/activiti/task/trace/photo/' + row.processInstanceId + '/' + row.processInstanceId + '\',\''+row.processInstanceId+'\')">流程图</a>';
+                    }
+                },
+				{
+					field : 'createTime', 
+					title : '创建时间',
+					sortable: true
+				}]
+            };
+            $.table.init(options);
+        });
+        
+        function viewform(businessId) {
+            createMenuItem(ctx + 'activiti/applicationLeave/viewApproval/' + businessId , "查看详情");
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+# rabiitmq配置
+spring:
+    rabbitmq:
+       host: 192.168.79.128
+       port: 5672
+       username: yiranadmin
+       password: yiran123456
+       publisher-confirms: true
+       publisher-returns: true

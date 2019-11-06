@@ -1,0 +1,124 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+						<ul>
+							<li>
+								通知ID：<input type="text" name="notifyId"/>
+							</li>
+
+							<li>
+								通知返回数据：<input type="text" name="notifyReturnData"/>
+							</li>
+
+							<li>
+								服务器IP：<input type="text" name="serverIdentity"/>
+							</li>
+
+							<li>
+								创建时间：<input type="text" name="gmtNotify"/>
+							</li>
+
+							<li>
+								修改时间：<input type="text" name="gmtReturn"/>
+							</li>
+
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+	        <div class="btn-group-sm hidden-xs" id="toolbar" role="group">
+				<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="payorder:payResultNotifyLog:add">
+					<i class="fa fa-plus"></i> 添加
+				</a>
+				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.edit()" shiro:hasPermission="payorder:payResultNotifyLog:edit">
+					<i class="fa fa-edit"></i> 修改
+				</a>
+				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="payorder:payResultNotifyLog:remove">
+					<i class="fa fa-remove"></i> 删除
+				</a>
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="payorder:payResultNotifyLog:export">
+						<i class="fa fa-download"></i> 导出
+				 </a>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('payorder:payResultNotifyLog:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('payorder:payResultNotifyLog:remove')}]];
+        var prefix = ctx + "payorder/payResultNotifyLog";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+                modalName: "支付结果通知日志",
+		        showExport: true,
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'notifyRequestId', 
+					title : '通知请求ID',
+					visible: false
+				},
+				{
+					field : 'notifyId', 
+					title : '通知ID',
+					sortable: true
+				},
+				{
+					field : 'notifyReturnData', 
+					title : '通知返回数据',
+					sortable: true
+				},
+				{
+					field : 'serverIdentity', 
+					title : '服务器IP',
+					sortable: true
+				},
+				{
+					field : 'gmtNotify', 
+					title : '创建时间',
+					sortable: true
+				},
+				{
+					field : 'gmtReturn', 
+					title : '修改时间',
+					sortable: true
+				},
+		        {
+		            title: '操作',
+		            align: 'center',
+		            formatter: function(value, row, index) {
+		            	var actions = [];
+		            	actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.notifyRequestId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.notifyRequestId + '\')"><i class="fa fa-remove"></i>删除</a>');
+						return actions.join('');
+		            }
+		        }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

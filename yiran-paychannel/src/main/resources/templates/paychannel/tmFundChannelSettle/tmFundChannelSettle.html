@@ -1,0 +1,196 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+						<ul>
+							<li>
+								资金源编码：<input type="text" name="fundChannelCode"/>
+							</li>
+
+							<li>
+								合同号：<input type="text" name="contractNo"/>
+							</li>
+
+							<li>
+								商户号：<input type="text" name="merchantNo"/>
+							</li>
+
+							<li>
+								结算账号：<input type="text" name="accountNo"/>
+							</li>
+
+							<li>
+								结算帐户名称：<input type="text" name="accountName"/>
+							</li>
+
+							<li>
+								结算方式：S（单笔），B（批量）：<input type="text" name="settleMode"/>
+							</li>
+
+							<li>
+								结算周期，以天为单位的数字：<input type="text" name="settleCycle"/>
+							</li>
+
+							<li>
+								清算文件获取支持模式：N（不支持），F（FTP），O（线上），U（线下）：<input type="text" name="clearingFileMode"/>
+							</li>
+
+							<li>
+								是否可用：Y（可用），N（不可用）：<input type="text" name="enable"/>
+							</li>
+
+							<li>
+								创建时间：<input type="text" name="gmtCreate"/>
+							</li>
+
+							<li>
+								最后修改时间：<input type="text" name="gmtModified"/>
+							</li>
+
+							<li>
+								备注：<input type="text" name="memo"/>
+							</li>
+
+							<li>
+								扩展信息：<input type="text" name="extension"/>
+							</li>
+
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+	        <div class="btn-group-sm hidden-xs" id="toolbar" role="group">
+				<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="paychannel:tmFundChannelSettle:add">
+					<i class="fa fa-plus"></i> 添加
+				</a>
+				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.edit()" shiro:hasPermission="paychannel:tmFundChannelSettle:edit">
+					<i class="fa fa-edit"></i> 修改
+				</a>
+				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="paychannel:tmFundChannelSettle:remove">
+					<i class="fa fa-remove"></i> 删除
+				</a>
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="paychannel:tmFundChannelSettle:export">
+						<i class="fa fa-download"></i> 导出
+				 </a>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('paychannel:tmFundChannelSettle:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('paychannel:tmFundChannelSettle:remove')}]];
+        var prefix = ctx + "paychannel/tmFundChannelSettle";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+                modalName: "资金渠道算",
+		        showExport: true,
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'settleId', 
+					title : '结算ID',
+					visible: false
+				},
+				{
+					field : 'fundChannelCode', 
+					title : '资金源编码',
+					sortable: true
+				},
+				{
+					field : 'contractNo', 
+					title : '合同号',
+					sortable: true
+				},
+				{
+					field : 'merchantNo', 
+					title : '商户号',
+					sortable: true
+				},
+				{
+					field : 'accountNo', 
+					title : '结算账号',
+					sortable: true
+				},
+				{
+					field : 'accountName', 
+					title : '结算帐户名称',
+					sortable: true
+				},
+				{
+					field : 'settleMode', 
+					title : '结算方式：S（单笔），B（批量）',
+					sortable: true
+				},
+				{
+					field : 'settleCycle', 
+					title : '结算周期，以天为单位的数字',
+					sortable: true
+				},
+				{
+					field : 'clearingFileMode', 
+					title : '清算文件获取支持模式：N（不支持），F（FTP），O（线上），U（线下）',
+					sortable: true
+				},
+				{
+					field : 'enable', 
+					title : '是否可用：Y（可用），N（不可用）',
+					sortable: true
+				},
+				{
+					field : 'gmtCreate', 
+					title : '创建时间',
+					sortable: true
+				},
+				{
+					field : 'gmtModified', 
+					title : '最后修改时间',
+					sortable: true
+				},
+				{
+					field : 'memo', 
+					title : '备注',
+					sortable: true
+				},
+				{
+					field : 'extension', 
+					title : '扩展信息',
+					sortable: true
+				},
+		        {
+		            title: '操作',
+		            align: 'center',
+		            formatter: function(value, row, index) {
+		            	var actions = [];
+		            	actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.settleId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.settleId + '\')"><i class="fa fa-remove"></i>删除</a>');
+						return actions.join('');
+		            }
+		        }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

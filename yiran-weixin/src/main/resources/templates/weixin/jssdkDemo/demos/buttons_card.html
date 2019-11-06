@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <title>jQuery WeUI</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.">
+    <link rel="stylesheet" th:href="@{/demo/jssdkDemo/src/lib/weui.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/demo/jssdkDemo/src/lib/jquery-weui.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/demo/jssdkDemo/demos/css/demos.css}">
+</head>
+  <body ontouchstart>
+
+    <header class='demos-header'>
+      <h1 class="demos-title">微信卡券 Demo</h1>
+    </header>
+
+    <div class='demos-content-padded'>
+     <a href="#" class="weui-btn weui-btn_default" id="addCard">添加卡券</a>
+     <br/>
+      <a href="#" class="weui-btn weui-btn_default" id="chooseCard">选择卡券</a>
+      <br/>
+      <a href="#" class="weui-btn weui-btn_default" id="openCard">查看卡券</a>
+    </div>
+    <script th:src="@{/demo/jssdkDemo/src/lib/jquery-2.1.4.js}"></script>
+    <script th:src="@{/demo/jssdkDemo/src/lib/fastclick.js}"></script>
+    <script th:src="@{/demo/jssdkDemo/src/lib/jweixin-1.4.0.js}"></script>
+    <script th:src="@{/demo/jssdkDemo/src/lib/jquery-weui.min.js}"></script>
+    <script th:inline="javascript">
+    	var appid = [[${wc.appId}]];
+    	var nonceStr = [[${wc.nonceStr}]];
+    	var signature = [[${wc.signature}]];
+    	var timestamp = [[${wc.timestamp}]];
+		wx.config({
+		    debug: [[${wc.debug}]],
+		    appId: [[${wc.appId}]],
+		    timestamp:[[${wc.timestamp}]],
+		    nonceStr: [[${wc.nonceStr}]],
+		    signature: [[${wc.signature}]],
+		    jsApiList: [
+		        'addCard',
+		        'chooseCard',
+		        'openCard'
+		      ]
+		});
+		wx.ready(function () {
+		 // 12.1 添加卡券
+		  document.querySelector('#addCard').onclick = function () {
+		    wx.addCard({
+		      cardList:[
+		    	  {
+		              cardId: [[${cardList.cardId}]],
+		              cardExt: [[${cardList.cardExt}]]
+		            }
+		      ],
+		      success: function (res) {
+		        alert('已添加卡券：' + JSON.stringify(res.cardList));
+		      },
+		      cancel: function (res) {
+		        alert(JSON.stringify(res))
+		      }
+		    });
+		  };
+
+		  var codes = [];
+		  // 12.2 选择卡券
+		  document.querySelector('#chooseCard').onclick = function () {
+		    wx.chooseCard({
+		      cardSign: [[${wxcard.cardSign}]],
+		      timestamp: [[${wxcard.timestamp}]],
+		      nonceStr: [[${wxcard.nonceStr}]],
+		      success: function (res) {
+		        res.cardList = JSON.parse(res.cardList);
+		        encrypt_code = res.cardList[0]['encrypt_code'];
+		        alert('已选择卡券：' + JSON.stringify(res.cardList));
+		        decryptCode(encrypt_code, function (code) {
+		          codes.push(code);
+		        });
+		      },
+		      cancel: function (res) {
+		        alert(JSON.stringify(res))
+		      }
+		    });
+		  };
+
+		  // 12.3 查看卡券
+		  document.querySelector('#openCard').onclick = function () {
+		    if (codes.length < 1) {
+		      alert('请先使用 chooseCard 接口选择卡券。');
+		      return false;
+		    }
+		    var cardList = [];
+		    for (var i = 0; i < codes.length; i++) {
+		      cardList.push({
+		        cardId: 'pDF3iY9tv9zCGCj4jTXFOo1DxHdo',
+		        code: codes[i]
+		      });
+		    }
+		    wx.openCard({
+		      cardList: cardList,
+		      cancel: function (res) {
+		        alert(JSON.stringify(res))
+		      }
+		    });
+		  };
+		 
+		});
+		
+    </script>
+  </body>
+</html>

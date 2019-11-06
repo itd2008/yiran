@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.reconciliation.mapper.ReconciliationAccountCheckMistakeScratchPoolMapper">
+    
+    <resultMap type="ReconciliationAccountCheckMistakeScratchPool" id="ReconciliationAccountCheckMistakeScratchPoolResult">
+        <result property="id"    column="id"    />
+        <result property="version"    column="version"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="editor"    column="editor"    />
+        <result property="creater"    column="creater"    />
+        <result property="editTime"    column="edit_time"    />
+        <result property="productName"    column="product_name"    />
+        <result property="merchantOrderNo"    column="merchant_order_no"    />
+        <result property="trxNo"    column="trx_no"    />
+        <result property="bankOrderNo"    column="bank_order_no"    />
+        <result property="bankTrxNo"    column="bank_trx_no"    />
+        <result property="orderAmount"    column="order_amount"    />
+        <result property="platIncome"    column="plat_income"    />
+        <result property="feeRate"    column="fee_rate"    />
+        <result property="platCost"    column="plat_cost"    />
+        <result property="platProfit"    column="plat_profit"    />
+        <result property="status"    column="status"    />
+        <result property="fundChannelCode"    column="fund_channel_code"    />
+        <result property="fundChannelName"    column="fund_channel_name"    />
+        <result property="paySuccessTime"    column="pay_success_time"    />
+        <result property="completeTime"    column="complete_time"    />
+        <result property="isRefund"    column="is_refund"    />
+        <result property="refundTimes"    column="refund_times"    />
+        <result property="successRefundAmount"    column="success_refund_amount"    />
+        <result property="remark"    column="remark"    />
+        <result property="batchNo"    column="batch_no"    />
+        <result property="billDate"    column="bill_date"    />
+    </resultMap>
+	
+	<sql id="selectReconciliationAccountCheckMistakeScratchPoolVo">
+        select id, version, create_time, editor, creater, edit_time, product_name, merchant_order_no, trx_no, bank_order_no, bank_trx_no, order_amount, plat_income, fee_rate, plat_cost, plat_profit, status, fund_channel_code, fund_channel_name, pay_success_time, complete_time, is_refund, refund_times, success_refund_amount, remark, batch_no, bill_date from reconciliation_account_check_mistake_scratch_pool
+    </sql>
+	
+    <select id="selectReconciliationAccountCheckMistakeScratchPoolList" parameterType="ReconciliationAccountCheckMistakeScratchPool" resultMap="ReconciliationAccountCheckMistakeScratchPoolResult">
+        <include refid="selectReconciliationAccountCheckMistakeScratchPoolVo"/>
+        <where>  
+             <if test="version != null "> and version = #{version}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="editor != null  and editor != '' "> and editor = #{editor}</if>
+             <if test="creater != null  and creater != '' "> and creater = #{creater}</if>
+             <if test="editTime != null "> and edit_time = #{editTime}</if>
+             <if test="productName != null  and productName != '' "> and product_name = #{productName}</if>
+             <if test="merchantOrderNo != null  and merchantOrderNo != '' "> and merchant_order_no = #{merchantOrderNo}</if>
+             <if test="trxNo != null  and trxNo != '' "> and trx_no = #{trxNo}</if>
+             <if test="bankOrderNo != null  and bankOrderNo != '' "> and bank_order_no = #{bankOrderNo}</if>
+             <if test="bankTrxNo != null  and bankTrxNo != '' "> and bank_trx_no = #{bankTrxNo}</if>
+             <if test="orderAmount != null "> and order_amount = #{orderAmount}</if>
+             <if test="platIncome != null "> and plat_income = #{platIncome}</if>
+             <if test="feeRate != null "> and fee_rate = #{feeRate}</if>
+             <if test="platCost != null "> and plat_cost = #{platCost}</if>
+             <if test="platProfit != null "> and plat_profit = #{platProfit}</if>
+             <if test="status != null  and status != '' "> and status = #{status}</if>
+             <if test="fundChannelCode != null  and fundChannelCode != '' "> and fund_channel_code = #{fundChannelCode}</if>
+             <if test="fundChannelName != null  and fundChannelName != '' "> and fund_channel_name = #{fundChannelName}</if>
+             <if test="paySuccessTime != null "> and pay_success_time = #{paySuccessTime}</if>
+             <if test="completeTime != null "> and complete_time = #{completeTime}</if>
+             <if test="isRefund != null  and isRefund != '' "> and is_refund = #{isRefund}</if>
+             <if test="refundTimes != null "> and refund_times = #{refundTimes}</if>
+             <if test="successRefundAmount != null "> and success_refund_amount = #{successRefundAmount}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+             <if test="batchNo != null  and batchNo != '' "> and batch_no = #{batchNo}</if>
+             <if test="billDate != null "> and bill_date = #{billDate}</if>
+         </where>
+    </select>
+    <!-- 查询是否有创建时间是三天前的数据 -->
+    <select id="listScratchPoolRecord" parameterType="java.util.Map" resultMap="ReconciliationAccountCheckMistakeScratchPoolResult">
+        <include refid="selectReconciliationAccountCheckMistakeScratchPoolVo"/>
+        <where>
+        	<if test="maxDate != null and maxDate != ''">
+				<![CDATA[ and create_time < #{maxDate}]]>
+			</if>
+        </where>
+    </select>
+    
+    <select id="listAllScratchPoolRecord"  resultMap="ReconciliationAccountCheckMistakeScratchPoolResult">
+        <include refid="selectReconciliationAccountCheckMistakeScratchPoolVo"/>
+    </select>
+    
+    <select id="selectReconciliationAccountCheckMistakeScratchPoolById" parameterType="Integer" resultMap="ReconciliationAccountCheckMistakeScratchPoolResult">
+        <include refid="selectReconciliationAccountCheckMistakeScratchPoolVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertReconciliationAccountCheckMistakeScratchPool" parameterType="ReconciliationAccountCheckMistakeScratchPool">
+        insert into reconciliation_account_check_mistake_scratch_pool
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="version != null  ">version,</if>
+			<if test="editor != null  and editor != ''  ">editor,</if>
+			<if test="creater != null  and creater != ''  ">creater,</if>
+			<if test="editTime != null  ">edit_time,</if>
+			<if test="productName != null  and productName != ''  ">product_name,</if>
+			<if test="merchantOrderNo != null  and merchantOrderNo != ''  ">merchant_order_no,</if>
+			<if test="trxNo != null  and trxNo != ''  ">trx_no,</if>
+			<if test="bankOrderNo != null  and bankOrderNo != ''  ">bank_order_no,</if>
+			<if test="bankTrxNo != null  and bankTrxNo != ''  ">bank_trx_no,</if>
+			<if test="orderAmount != null  ">order_amount,</if>
+			<if test="platIncome != null  ">plat_income,</if>
+			<if test="feeRate != null  ">fee_rate,</if>
+			<if test="platCost != null  ">plat_cost,</if>
+			<if test="platProfit != null  ">plat_profit,</if>
+			<if test="status != null  and status != ''  ">status,</if>
+			<if test="fundChannelCode != null  and fundChannelCode != ''  ">fund_channel_code,</if>
+			<if test="fundChannelName != null  and fundChannelName != ''  ">fund_channel_name,</if>
+			<if test="paySuccessTime != null  ">pay_success_time,</if>
+			<if test="completeTime != null  ">complete_time,</if>
+			<if test="isRefund != null  and isRefund != ''  ">is_refund,</if>
+			<if test="refundTimes != null  ">refund_times,</if>
+			<if test="successRefundAmount != null  ">success_refund_amount,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="batchNo != null  and batchNo != ''  ">batch_no,</if>
+			<if test="billDate != null  ">bill_date,</if>
+			create_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="version != null  ">#{version},</if>
+			<if test="editor != null  and editor != ''  ">#{editor},</if>
+			<if test="creater != null  and creater != ''  ">#{creater},</if>
+			<if test="editTime != null  ">#{editTime},</if>
+			<if test="productName != null  and productName != ''  ">#{productName},</if>
+			<if test="merchantOrderNo != null  and merchantOrderNo != ''  ">#{merchantOrderNo},</if>
+			<if test="trxNo != null  and trxNo != ''  ">#{trxNo},</if>
+			<if test="bankOrderNo != null  and bankOrderNo != ''  ">#{bankOrderNo},</if>
+			<if test="bankTrxNo != null  and bankTrxNo != ''  ">#{bankTrxNo},</if>
+			<if test="orderAmount != null  ">#{orderAmount},</if>
+			<if test="platIncome != null  ">#{platIncome},</if>
+			<if test="feeRate != null  ">#{feeRate},</if>
+			<if test="platCost != null  ">#{platCost},</if>
+			<if test="platProfit != null  ">#{platProfit},</if>
+			<if test="status != null  and status != ''  ">#{status},</if>
+			<if test="fundChannelCode != null  and fundChannelCode != ''  ">#{fundChannelCode},</if>
+			<if test="fundChannelName != null  and fundChannelName != ''  ">#{fundChannelName},</if>
+			<if test="paySuccessTime != null  ">#{paySuccessTime},</if>
+			<if test="completeTime != null  ">#{completeTime},</if>
+			<if test="isRefund != null  and isRefund != ''  ">#{isRefund},</if>
+			<if test="refundTimes != null  ">#{refundTimes},</if>
+			<if test="successRefundAmount != null  ">#{successRefundAmount},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="batchNo != null  and batchNo != ''  ">#{batchNo},</if>
+			<if test="billDate != null  ">#{billDate},</if>
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateReconciliationAccountCheckMistakeScratchPool" parameterType="ReconciliationAccountCheckMistakeScratchPool">
+        update reconciliation_account_check_mistake_scratch_pool
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="version != null  ">version = #{version},</if>
+            <if test="editor != null  and editor != ''  ">editor = #{editor},</if>
+            <if test="productName != null  and productName != ''  ">product_name = #{productName},</if>
+            <if test="merchantOrderNo != null  and merchantOrderNo != ''  ">merchant_order_no = #{merchantOrderNo},</if>
+            <if test="trxNo != null  and trxNo != ''  ">trx_no = #{trxNo},</if>
+            <if test="bankOrderNo != null  and bankOrderNo != ''  ">bank_order_no = #{bankOrderNo},</if>
+            <if test="bankTrxNo != null  and bankTrxNo != ''  ">bank_trx_no = #{bankTrxNo},</if>
+            <if test="orderAmount != null  ">order_amount = #{orderAmount},</if>
+            <if test="platIncome != null  ">plat_income = #{platIncome},</if>
+            <if test="feeRate != null  ">fee_rate = #{feeRate},</if>
+            <if test="platCost != null  ">plat_cost = #{platCost},</if>
+            <if test="platProfit != null  ">plat_profit = #{platProfit},</if>
+            <if test="status != null  and status != ''  ">status = #{status},</if>
+            <if test="fundChannelCode != null  and fundChannelCode != ''  ">fund_channel_code = #{fundChannelCode},</if>
+            <if test="fundChannelName != null  and fundChannelName != ''  ">fund_channel_name = #{fundChannelName},</if>
+            <if test="paySuccessTime != null  ">pay_success_time = #{paySuccessTime},</if>
+            <if test="completeTime != null  ">complete_time = #{completeTime},</if>
+            <if test="isRefund != null  and isRefund != ''  ">is_refund = #{isRefund},</if>
+            <if test="refundTimes != null  ">refund_times = #{refundTimes},</if>
+            <if test="successRefundAmount != null  ">success_refund_amount = #{successRefundAmount},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="batchNo != null  and batchNo != ''  ">batch_no = #{batchNo},</if>
+            <if test="billDate != null  ">bill_date = #{billDate},</if>
+            edit_time = sysdate()
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteReconciliationAccountCheckMistakeScratchPoolById" parameterType="Integer">
+        delete from reconciliation_account_check_mistake_scratch_pool where id = #{id}
+    </delete>
+	
+    <delete id="deleteReconciliationAccountCheckMistakeScratchPoolByIds" parameterType="String">
+        delete from reconciliation_account_check_mistake_scratch_pool where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

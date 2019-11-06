@@ -1,0 +1,229 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<style>
+	span{
+		color: red;
+	}
+</style>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-tmFundChannel-add">
+        
+        	<div class="row">
+            	<div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">渠道编号：<span >*</span></label>
+                        <div class="col-sm-8">
+                            <input id="fundChannelCode" name="fundChannelCode" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">渠道名称：<span >*</span></label>
+                        <div class="col-sm-8">
+                            <input id="name" name="name" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        	
+        	<div class="row">
+            	<div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">描述：</label>
+                        <div class="col-sm-8">
+                            <input id="description" name="description" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">机构代码：</label>
+                        <div class="col-sm-8">
+                            <select id="instCode" name="instCode" class="form-control " >
+								<option th:each="fci:${fundChannelInstList}" th:value="${fci.instCode}" th:text="${fci.instName}"></option>
+							</select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+        	<div class="row">
+            	<div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">业务类型：</label>
+                        <div class="col-sm-8">
+                            <select name="bizType" id="bizType" class="form-control " th:with="type=${@dict.getType('channel_biz_type')}">
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+							  </option>
+							</select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">支付方式：</label>
+                        <div class="col-sm-8">
+							<select id="payMode" name="payMode" class="form-control" th:with="type=${@dict.getType('channel_pay_type')}">
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+							</select>
+						</div>
+                    </div>
+                </div>
+            </div>
+            
+            
+        
+        <div class="row">
+            	<div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">签约公司：</label>
+                        <div class="col-sm-8">
+                            <select id="signedCrop" name="signedCrop" class="form-control" th:with="type=${@dict.getType('channel_signedCrop_type')}">
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+							</select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">是否可用：</label>
+                        <div class="col-sm-8">
+							<select id="status" name="status" class="form-control" th:with="type=${@dict.getType('channel_usability')}">
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+							</select>
+						</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+            	<div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">到账时间：<span >*</span></label>
+                        <div class="col-sm-8">
+                            <input id="expectArriveTime" name="expectArriveTime" class="form-control" type="text" placeholder="T+15M表示15分钟到帐，T+1D表示一天到帐，H小时">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">渠道类型：<span >*</span></label>
+                         <div class="col-sm-8">
+							<input id="channelMode" name="channelMode" class="form-control"  type="text" placeholder="网银01-07，出款01-04">
+						</div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="row">
+            	<div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">单笔最小金额：<span >*</span></label>
+                        <div class="col-sm-8">
+                            <input id="minAmount" name="minAmount" class="form-control"  type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">单笔最大金额：<span >*</span></label>
+                        <div class="col-sm-8">
+							<input id="maxAmount" name="maxAmount" class="form-control" type="text">
+						</div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="row">
+            	<div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">启用时间：<span >*</span></label>
+                        <div class="col-sm-8"> 
+                            <input id="validFrom" name="validFrom"  class="time-input form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">过期时间：<span >*</span></label>
+                        <div class="col-sm-8">
+							<input id="validTo" name="validTo" class="time-input form-control" type="text">
+						</div>
+                    </div>
+                </div>
+            </div>
+			
+			<div class="row">
+            	<div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">渠道优先级：<span >*</span></label>
+                        <div class="col-sm-8">
+                            <input id="priority" name="priority" class="form-control" type="text"  placeholder="1-99,数字越大优先级越高">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">备注：</label>
+                        <div class="col-sm-8">
+                           	<textarea name="memo" autocomplete="off" maxlength="500" class="form-control" rows="3"></textarea>
+						</div>
+                    </div>
+                </div>
+            </div>
+			
+		</form>
+	</div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "paychannel/tmFundChannel"
+		$("#form-tmFundChannel-add").validate({
+			rules:{
+				fundChannelCode:{
+					required:true
+				},
+				name:{
+					required:true
+				},
+				expectArriveTime:{
+					required:true
+				},
+				channelMode:{
+					required:true,
+					maxlength: 2
+				},
+				minAmount:{
+					required:true
+				},
+				maxAmount:{
+					required:true
+				},
+				validFrom:{
+					required:true
+				},
+				validTo:{
+					required:true
+				},
+				priority:{
+					required:true,
+					maxlength: 2
+				}
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/add", $('#form-tmFundChannel-add').serialize());
+	        }
+	    }
+		
+	</script>
+</body>
+</html>

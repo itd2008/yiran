@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.wechat.mapper.WechatProductAndAttributeMapper">
+    
+    <resultMap type="WechatProductAndAttribute" id="WechatProductAndAttributeResult">
+        <result property="productAndAttributeId"    column="product_and_attribute_id"    />
+        <result property="productId"    column="product_id"    />
+        <result property="productAttributeId"    column="product_attribute_id"    />
+        <result property="attrValue"    column="attr_value"    />
+    </resultMap>
+	
+	<sql id="selectWechatProductAndAttributeVo">
+        select product_and_attribute_id, product_id, product_attribute_id, attr_value from wechat_product_and_attribute
+    </sql>
+	
+    <select id="selectWechatProductAndAttributeList" parameterType="WechatProductAndAttribute" resultMap="WechatProductAndAttributeResult">
+        <include refid="selectWechatProductAndAttributeVo"/>
+        <where>  
+            <if test="productAndAttributeId != null "> and product_and_attribute_id = #{productAndAttributeId}</if>
+             <if test="productId != null "> and product_id = #{productId}</if>
+             <if test="productAttributeId != null "> and product_attribute_id = #{productAttributeId}</if>
+             <if test="attrValue != null  and attrValue != '' "> and attr_value = #{attrValue}</if>
+         </where>
+    </select>
+    
+    <select id="selectWechatProductAndAttributeById" parameterType="Integer" resultMap="WechatProductAndAttributeResult">
+        <include refid="selectWechatProductAndAttributeVo"/>
+        where product_and_attribute_id = #{productAndAttributeId}
+    </select>
+        
+    <insert id="insertWechatProductAndAttribute" parameterType="WechatProductAndAttribute" useGeneratedKeys="true" keyProperty="productAndAttributeId">
+        insert into wechat_product_and_attribute
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="productId != null  ">product_id,</if>
+			<if test="productAttributeId != null  ">product_attribute_id,</if>
+			<if test="attrValue != null  and attrValue != ''  ">attr_value,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="productId != null  ">#{productId},</if>
+			<if test="productAttributeId != null  ">#{productAttributeId},</if>
+			<if test="attrValue != null  and attrValue != ''  ">#{attrValue},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateWechatProductAndAttribute" parameterType="WechatProductAndAttribute">
+        update wechat_product_and_attribute
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="productId != null  ">product_id = #{productId},</if>
+            <if test="productAttributeId != null  ">product_attribute_id = #{productAttributeId},</if>
+            <if test="attrValue != null  and attrValue != ''  ">attr_value = #{attrValue},</if>
+        </trim>
+        where product_and_attribute_id = #{productAndAttributeId}
+    </update>
+
+	<delete id="deleteWechatProductAndAttributeById" parameterType="Integer">
+        delete from wechat_product_and_attribute where product_and_attribute_id = #{productAndAttributeId}
+    </delete>
+	
+    <delete id="deleteWechatProductAndAttributeByIds" parameterType="String">
+        delete from wechat_product_and_attribute where product_and_attribute_id in 
+        <foreach item="productAndAttributeId" collection="array" open="(" separator="," close=")">
+            #{productAndAttributeId}
+        </foreach>
+    </delete>
+    
+</mapper>

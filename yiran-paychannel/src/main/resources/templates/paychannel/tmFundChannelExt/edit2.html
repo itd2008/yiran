@@ -1,0 +1,108 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-tmFundChannelExt-edit" th:object="${tmFundChannelExt}">
+            <input id="extId" name="extId" th:field="*{extId}"  type="hidden">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">资金源编码：</label>
+				<div class="col-sm-8">
+					<input id="fundChannelCode" name="fundChannelCode" th:field="*{fundChannelCode}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">属性名：</label>
+				<div class="col-sm-8">
+					<input id="attrKey" name="attrKey" th:field="*{attrKey}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">属性值：</label>
+				<div class="col-sm-8">
+					<input id="attrValue" name="attrValue" th:field="*{attrValue}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">属性类型：N（无特殊制定），F（流量）：</label>
+				<div class="col-sm-8">
+					<input id="attrType" name="attrType" th:field="*{attrType}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">值类型：</label>
+				<div class="col-sm-8">
+					<input id="valueType" name="valueType" th:field="*{valueType}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">值分隔符，针对有多选属性使用：</label>
+				<div class="col-sm-8">
+					<input id="valueSplit" name="valueSplit" th:field="*{valueSplit}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">创建时间：</label>
+				<div class="col-sm-8">
+					<input id="gmtCreate" name="gmtCreate" th:field="*{gmtCreate}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">最后修改时间：</label>
+				<div class="col-sm-8">
+					<input id="gmtModified" name="gmtModified" th:field="*{gmtModified}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<input id="memo" name="memo" th:field="*{memo}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">属性字典标识：</label>
+				<div class="col-sm-8">
+					<input id="attrCodeKey" name="attrCodeKey" th:field="*{attrCodeKey}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">api编码：</label>
+				<div class="col-sm-8">
+					<input id="apiCode" name="apiCode" th:field="*{apiCode}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">是否需要满足VALUE指定：</label>
+				<div class="col-sm-8">
+					<input id="needMatch" name="needMatch" th:field="*{needMatch}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">比较类型：</label>
+				<div class="col-sm-8">
+					<input id="matchType" name="matchType" th:field="*{matchType}" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+    </div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "paychannel/tmFundChannelExt";
+		$("#form-tmFundChannelExt-edit").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/edit", $('#form-tmFundChannelExt-edit').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

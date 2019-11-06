@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.payorder.mapper.VPayOrderMapper">
+    
+    <resultMap type="VPayOrder" id="VPayOrderResult">
+        <result property="paySeqNo"    column="pay_seq_no"    />
+        <result property="paymentSeqNo"    column="payment_seq_no"    />
+        <result property="instOrderId"    column="inst_order_id"    />
+        <result property="payMode"    column="pay_mode"    />
+        <result property="instCode"    column="inst_code"    />
+        <result property="paymentNotifyStatus"    column="payment_notify_status"    />
+        <result property="status"    column="status"    />
+        <result property="confirmStatus"    column="confirm_status"    />
+        <result property="gmtCreate"    column="gmt_create"    />
+        <result property="gmtModified"    column="gmt_modified"    />
+    </resultMap>
+	
+	<sql id="selecVPayOrderVo">
+        select pay_seq_no,payment_seq_no,inst_order_id,pay_mode,inst_code,payment_notify_status,status,confirm_status,gmt_create,gmt_modified from v_pay_order
+    </sql>
+	
+    <select id="selectChannelPayOrderList" parameterType="VPayOrder" resultMap="VPayOrderResult">
+        <include refid="selecVPayOrderVo"/>
+        <where>  
+            <if test="paySeqNo != null "> and pay_seq_no = #{paySeqNo}</if>
+             <if test="paymentSeqNo != null  and paymentSeqNo != '' "> and payment_seq_no = #{paymentSeqNo}</if>
+             <if test="instCode != null  and instCode != '' "> and inst_code = #{instCode}</if>
+             <if test="paymentNotifyStatus != null  and paymentNotifyStatus != '' "> and payment_notify_status = #{paymentNotifyStatus}</if>
+             <if test="status != null  and status != '' "> and status = #{status}</if>
+             <if test="instOrderId != null and instOrderId != '' "> and inst_order_id = #{instOrderId}</if>
+             <if test="confirmStatus != null  and confirmStatus != '' "> and confirm_status = #{confirmStatus}</if>
+             <if test="payMode != null  and payMode != '' "> and pay_mode = #{payMode}</if>
+         </where>
+         order by gmt_create desc
+    </select>
+  
+    
+</mapper>

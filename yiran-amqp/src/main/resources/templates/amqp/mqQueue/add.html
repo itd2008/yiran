@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-mqQueue-add">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">队列名称：<span style="color: red;">*</span></label>
+				<div class="col-sm-8">
+					<input id="queueName" name="queueName" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">是否持久化：</label>
+				<div class="col-sm-8">
+					<select id="durability" name="durability"  class="form-control" th:with="type=${@dict.getType('rabbitmq_exchange_durability')}">
+					  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+					  </option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">是否自动删除：</label>
+				<div class="col-sm-8">
+					<select id="autoDelete" name="autoDelete"  class="form-control" th:with="type=${@dict.getType('rabbitmq_exchange_autoDelete')}">
+					  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+					  </option>
+					</select>
+					<p>不再被使用时(没有任何绑定的情况下），是否由RabbitMQ自动删除</p>
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">参数：</label>
+				<div class="col-sm-8">
+					<textarea name="arguments" autocomplete="off" maxlength="500" class="form-control" rows="3"></textarea>
+					<p>参数格式为json字符串</p>
+				</div>
+			</div>
+			
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">绑定到交换器：<span style="color: red;">*</span></label>
+				<div class="col-sm-8">
+					<select id="exchangesId" name="exchangesId" class="form-control " >
+						<option th:each="e:${exchangesList}" th:value="${e.exchangesId}" th:text="${e.name}"></option>
+					</select>
+					<p>不再被使用时(没有任何绑定的情况下），是否由RabbitMQ自动删除</p>
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">路由Key：<span style="color: red;">*</span></label>
+				<div class="col-sm-8">
+					<input id="routingKey" name="routingKey" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">应用名称(被那个系统使用）：<span style="color: red;">*</label>
+				<div class="col-sm-8">
+					<input id="appName" name="appName" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<textarea id="remark" name="remark" autocomplete="off" maxlength="500" class="form-control" rows="3"></textarea>
+				</div>
+			</div>
+		</form>
+	</div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "amqp/mqQueue"
+		$("#form-mqQueue-add").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/add", $('#form-mqQueue-add').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

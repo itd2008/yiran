@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-memberTmMerchant-edit" th:object="${memberTmMerchant}">
+            <input id="merchantId" name="merchantId" th:field="*{merchantId}"  type="hidden">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">会员编号：</label>
+				<div class="col-sm-8">
+					<input id="memberId" name="memberId" th:field="*{memberId}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">商户名,已注销的会被添加后缀：</label>
+				<div class="col-sm-8">
+					<input id="merchantName" name="merchantName" th:field="*{merchantName}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">商户类型：</label>
+				<div class="col-sm-8">
+					<input id="merchantType" name="merchantType" th:field="*{merchantType}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">微汇通行证：</label>
+				<div class="col-sm-8">
+					<input id="ptid" name="ptid" th:field="*{ptid}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">密钥类型：</label>
+				<div class="col-sm-8">
+					<input id="keyType" name="keyType" th:field="*{keyType}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">密钥：</label>
+				<div class="col-sm-8">
+					<input id="keyData" name="keyData" th:field="*{keyData}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">状态(0未激活 1正常  3注销)：</label>
+				<div class="col-sm-8">
+					<input id="status" name="status" th:field="*{status}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">建立时间：</label>
+				<div class="col-sm-8">
+					<input id="createTime" name="createTime" th:field="*{createTime}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">更新时间：</label>
+				<div class="col-sm-8">
+					<input id="updateTime" name="updateTime" th:field="*{updateTime}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">建立人：</label>
+				<div class="col-sm-8">
+					<input id="createUser" name="createUser" th:field="*{createUser}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">更新人：</label>
+				<div class="col-sm-8">
+					<input id="updateUser" name="updateUser" th:field="*{updateUser}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备注信息：</label>
+				<div class="col-sm-8">
+					<input id="memo" name="memo" th:field="*{memo}" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+    </div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "member/memberTmMerchant";
+		$("#form-memberTmMerchant-edit").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/edit", $('#form-memberTmMerchant-edit').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

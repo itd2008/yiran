@@ -1,0 +1,162 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link rel="stylesheet" th:href="@{/Bootstrapfileinput/css/theme.min.css}" />
+<link rel="stylesheet" th:href="@{/Bootstrapfileinput/css/fileinput.min.css}" />
+<link th:href="@{/ajax/libs/jquery-layout/jquery.layout-latest.css}" rel="stylesheet"/>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-wechatIndexPic-edit" th:object="${wechatIndexPic}">
+            <input id="id" name="id" th:field="*{id}"  type="hidden">
+            
+            <div class="form-group">	
+				<label class="col-sm-3 control-label">标题：</label>
+				<div class="col-sm-8">
+					<input id="title" name="title" class="form-control" type="text" th:field="*{title}">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">子标题：</label>
+				<div class="col-sm-8">
+					<input id="subTitle" name="subTitle" class="form-control" type="text" th:field="*{subTitle}">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">图片：</label>
+				<div class="col-sm-8">
+					<input id="linkUrl" name="linkUrl" class="form-control" type="hidden" th:field="*{linkUrl}">
+					<input id="kv-explorer"  type="file" data-overwrite-initial="false"> <br>
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">链接类型 ：</label>
+				<div class="col-sm-8">
+					<select id="linkType" name="linkType"  class="form-control" th:with="type=${@dict.getType('wechat_index_pic_type')}">
+					  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{linkType}">
+					  </option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label"> 图片的状态</label>
+				<div class="col-sm-8">
+					<select id="status" name="status"  class="form-control" th:with="type=${@dict.getType('wechat_index_pic_status')}">
+					  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{status}">
+					  </option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">排序：</label>
+				<div class="col-sm-8">
+					<input id="pos" name="pos" class="form-control" type="text" th:field="*{pos}">
+				</div>
+			</div>
+            
+		</form>
+    </div>
+    <script type="text/javascript" th:src="@{/Bootstrapfileinput/js/jquery-3.2.1.js}"></script>
+	<script type="text/javascript" th:src="@{/Bootstrapfileinput/js/bootstrap.min.js}"></script>
+	<script type="text/javascript" th:src="@{/Bootstrapfileinput/js/sortable.js}"></script>
+	<script type="text/javascript" th:src="@{/Bootstrapfileinput/js/fileinput.min.js}"></script>
+	<script type="text/javascript" th:src="@{/Bootstrapfileinput/js/theme.min.js}"></script>
+	<script type="text/javascript" th:src="@{/Bootstrapfileinput/js/zh.js}"></script>
+	<script th:src="@{/yiran/js/ry-ui.js?v=1.0}"></script>
+	<script th:src="@{/ajax/libs/layer/layer.min.js}"></script>
+	<script th:src="@{/ajax/libs/layui/layui.js}"></script>
+	<script th:src="@{/ajax/libs/blockUI/jquery.blockUI.js}"></script>
+	<script th:src="@{/ajax/libs/validate/jquery.validate.min.js}"></script>
+	<script th:src="@{/yiran/js/common.js}"></script>
+	<script th:inline="javascript"> var ctx = [[@{/}]]; </script>
+    <script type="text/javascript">
+		var prefix = ctx + "wechat/wechatIndexPic";
+		$(function () {
+			var linkUrl_ = $("#linkUrl").val();
+			 var initialPreview_ = linkUrl_;
+			 $("#kv-explorer").fileinput({
+				language: 'zh',
+				//'theme': 'explorer',	//文件展示的主题风格
+				'uploadUrl': ctx + "file/fileInfo/uploadImage",
+				showRemove:false,
+				showUpload: true, //是否显示上传按钮
+				initialPreviewAsData: true,
+				showCaption : false,//是否显示标题,就是那个文本框
+				previewFileType:['image'],//预览文件类型,内置['image', 'html', 'text', 'video', 'audio', 'flash', 'object',‘other‘]等格式
+				allowedFileExtensions:  ['jpg','png'],
+				enctype:'multipart/form-data',
+				showCancel:false,
+				overwriteInitial:false, //不覆盖已存在的图片
+				previewFileIcon: "<iclass='glyphicon glyphicon-king'></i>",
+				msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+				dropZoneEnabled : false,//是否显示拖拽区域，默认不写为true，但是会占用很大区域
+				//maxFileSize: 0,//单位为kb，如果为0表示不限制文件大小
+			    maxFileCount : 1, //表示允许同时上传的最大文件个数
+			    validateInitialCount:true,
+				//minImageWidth: 50, //图片的最小宽度
+			    //minImageHeight: 50,//图片的最小高度
+			    //maxImageWidth: 1000,//图片的最大宽度
+			    //maxImageHeight: 1000,//图片的最大高度
+				//uploadAync:false, //是否异步上传,这儿要注意的是uoloadAync这个属性，如果为true，那么上传多个文件就是多个请求，为false则为1次请求，即上传3个文件会发三次请求，且这三次请求不能保证顺序，如果要求保证上传文件的顺序，要么设置为false，要么就采用其他方式保证顺序。
+				layoutTemplates:{
+					//actionDelete:'',//除去上传按预览缩略图中删除图标
+					actionUpload:'',//除去上传按预览缩略图中上传图标
+					//actionZoom:'' //除去上传按预览缩略图中查看详情预览的缩略标
+				},
+				dropZoneTitle: "上传图片640 * 300分辨率效果更好",
+				previewSettings: {
+		            image: {width: "630px", height: "250px"},
+		        },
+			 	uploadExtraData:function(){//向后台传递参数
+	             	return { };
+			 	},
+			 	initialPreview: [initialPreview_],
+			 	// 这个配置就是解决办法了,初始化时限制图片大小
+		        /* previewSettings: {
+		            image: {width: "100px", height: "100px"},
+		        } */
+		        initialPreviewConfig: [
+		            {
+		                url: ctx + "file/fileInfo/deleteImage", // server delete action 
+		                key: $("#id").val(), 
+		                extra: {id: $("#linkUrl").val()}
+		            }]
+			});
+
+			//这是提交完成后的回调函数  
+			 $("#kv-explorer").on("fileuploaded", function (event, data, previewId, index) {
+				console.log('文件上传结果:'+data.response.result);
+				console.log('文件上传信息:'+data.response.msg);
+				console.log('文件上传路径:'+data.response.obj);
+				if(data.response.result == 1){//成功
+					$("#linkUrl").val(data.response.obj);
+					//重新刷新页面
+					//$.modal.msgReload("文件上传成功！","success");
+				}else if(data.response.result == 0){
+					
+					$(event.target)
+		              .fileinput('clear')
+		              .fileinput('unlock');
+		            $(event.target)
+		              .parent()
+		              .siblings('.fileinput-remove')
+		              .hide();
+		              $.modal.alertError("文件上传失败！");
+				}
+			 });
+			
+		 });
+		
+		
+		
+		function submitHandler() {
+			var iconPath = $("#linkUrl").val();
+			if(iconPath === ""){
+				 $.modal.alertError("请先上传图标");
+				return false;
+			}
+	        $.operate.save(prefix + "/edit", $('#form-wechatIndexPic-edit').serialize());
+	    }
+	</script>
+</body>
+</html>

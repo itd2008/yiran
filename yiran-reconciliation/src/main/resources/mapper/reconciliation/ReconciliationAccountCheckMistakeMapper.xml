@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.reconciliation.mapper.ReconciliationAccountCheckMistakeMapper">
+    
+    <resultMap type="ReconciliationAccountCheckMistake" id="ReconciliationAccountCheckMistakeResult">
+        <result property="id"    column="id"    />
+        <result property="version"    column="version"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="editor"    column="editor"    />
+        <result property="creater"    column="creater"    />
+        <result property="editTime"    column="edit_time"    />
+        <result property="status"    column="status"    />
+        <result property="remark"    column="remark"    />
+        <result property="accountCheckBatchNo"    column="account_check_batch_no"    />
+        <result property="billDate"    column="bill_date"    />
+        <result property="bankType"    column="bank_type"    />
+        <result property="orderTime"    column="order_time"    />
+        <result property="merchantName"    column="merchant_name"    />
+        <result property="merchantNo"    column="merchant_no"    />
+        <result property="orderNo"    column="order_no"    />
+        <result property="tradeTime"    column="trade_time"    />
+        <result property="trxNo"    column="trx_no"    />
+        <result property="orderAmount"    column="order_amount"    />
+        <result property="refundAmount"    column="refund_amount"    />
+        <result property="tradeStatus"    column="trade_status"    />
+        <result property="fee"    column="fee"    />
+        <result property="bankTradeTime"    column="bank_trade_time"    />
+        <result property="bankOrderNo"    column="bank_order_no"    />
+        <result property="bankTrxNo"    column="bank_trx_no"    />
+        <result property="bankTradeStatus"    column="bank_trade_status"    />
+        <result property="bankAmount"    column="bank_amount"    />
+        <result property="bankRefundAmount"    column="bank_refund_amount"    />
+        <result property="bankFee"    column="bank_fee"    />
+        <result property="errType"    column="err_type"    />
+        <result property="handleStatus"    column="handle_status"    />
+        <result property="handleValue"    column="handle_value"    />
+        <result property="handleRemark"    column="handle_remark"    />
+        <result property="operatorName"    column="operator_name"    />
+        <result property="operatorAccountNo"    column="operator_account_no"    />
+    </resultMap>
+	
+	<sql id="selectReconciliationAccountCheckMistakeVo">
+        select id, version, create_time, editor, creater, edit_time, status, remark, account_check_batch_no, bill_date, bank_type, order_time, merchant_name, merchant_no, order_no, trade_time, trx_no, order_amount, refund_amount, trade_status, fee, bank_trade_time, bank_order_no, bank_trx_no, bank_trade_status, bank_amount, bank_refund_amount, bank_fee, err_type, handle_status, handle_value, handle_remark, operator_name, operator_account_no from reconciliation_account_check_mistake
+    </sql>
+	
+    <select id="selectReconciliationAccountCheckMistakeList" parameterType="ReconciliationAccountCheckMistake" resultMap="ReconciliationAccountCheckMistakeResult">
+        <include refid="selectReconciliationAccountCheckMistakeVo"/>
+        <where>  
+             <if test="version != null "> and version = #{version}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="editor != null  and editor != '' "> and editor = #{editor}</if>
+             <if test="creater != null  and creater != '' "> and creater = #{creater}</if>
+             <if test="editTime != null "> and edit_time = #{editTime}</if>
+             <if test="status != null  and status != '' "> and status = #{status}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+             <if test="accountCheckBatchNo != null  and accountCheckBatchNo != '' "> and account_check_batch_no = #{accountCheckBatchNo}</if>
+             <if test="billDate != null "> and bill_date = #{billDate}</if>
+             <if test="bankType != null  and bankType != '' "> and bank_type = #{bankType}</if>
+             <if test="orderTime != null "> and order_time = #{orderTime}</if>
+             <if test="merchantName != null  and merchantName != '' "> and merchant_name = #{merchantName}</if>
+             <if test="merchantNo != null  and merchantNo != '' "> and merchant_no = #{merchantNo}</if>
+             <if test="orderNo != null  and orderNo != '' "> and order_no = #{orderNo}</if>
+             <if test="tradeTime != null "> and trade_time = #{tradeTime}</if>
+             <if test="trxNo != null  and trxNo != '' "> and trx_no = #{trxNo}</if>
+             <if test="orderAmount != null "> and order_amount = #{orderAmount}</if>
+             <if test="refundAmount != null "> and refund_amount = #{refundAmount}</if>
+             <if test="tradeStatus != null  and tradeStatus != '' "> and trade_status = #{tradeStatus}</if>
+             <if test="fee != null "> and fee = #{fee}</if>
+             <if test="bankTradeTime != null "> and bank_trade_time = #{bankTradeTime}</if>
+             <if test="bankOrderNo != null  and bankOrderNo != '' "> and bank_order_no = #{bankOrderNo}</if>
+             <if test="bankTrxNo != null  and bankTrxNo != '' "> and bank_trx_no = #{bankTrxNo}</if>
+             <if test="bankTradeStatus != null  and bankTradeStatus != '' "> and bank_trade_status = #{bankTradeStatus}</if>
+             <if test="bankAmount != null "> and bank_amount = #{bankAmount}</if>
+             <if test="bankRefundAmount != null "> and bank_refund_amount = #{bankRefundAmount}</if>
+             <if test="bankFee != null "> and bank_fee = #{bankFee}</if>
+             <if test="errType != null  and errType != '' "> and err_type = #{errType}</if>
+             <if test="handleStatus != null  and handleStatus != '' "> and handle_status = #{handleStatus}</if>
+             <if test="handleValue != null  and handleValue != '' "> and handle_value = #{handleValue}</if>
+             <if test="handleRemark != null  and handleRemark != '' "> and handle_remark = #{handleRemark}</if>
+             <if test="operatorName != null  and operatorName != '' "> and operator_name = #{operatorName}</if>
+             <if test="operatorAccountNo != null  and operatorAccountNo != '' "> and operator_account_no = #{operatorAccountNo}</if>
+         </where>
+    </select>
+    
+    <select id="selectReconciliationAccountCheckMistakeById" parameterType="Integer" resultMap="ReconciliationAccountCheckMistakeResult">
+        <include refid="selectReconciliationAccountCheckMistakeVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertReconciliationAccountCheckMistake" parameterType="ReconciliationAccountCheckMistake">
+        insert into reconciliation_account_check_mistake
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="version != null  ">version,</if>
+			<if test="editor != null  and editor != ''  ">editor,</if>
+			<if test="creater != null  and creater != ''  ">creater,</if>
+			<if test="editTime != null  ">edit_time,</if>
+			<if test="status != null  and status != ''  ">status,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="accountCheckBatchNo != null  and accountCheckBatchNo != ''  ">account_check_batch_no,</if>
+			<if test="billDate != null  ">bill_date,</if>
+			<if test="bankType != null  and bankType != ''  ">bank_type,</if>
+			<if test="orderTime != null  ">order_time,</if>
+			<if test="merchantName != null  and merchantName != ''  ">merchant_name,</if>
+			<if test="merchantNo != null  and merchantNo != ''  ">merchant_no,</if>
+			<if test="orderNo != null  and orderNo != ''  ">order_no,</if>
+			<if test="tradeTime != null  ">trade_time,</if>
+			<if test="trxNo != null  and trxNo != ''  ">trx_no,</if>
+			<if test="orderAmount != null  ">order_amount,</if>
+			<if test="refundAmount != null  ">refund_amount,</if>
+			<if test="tradeStatus != null  and tradeStatus != ''  ">trade_status,</if>
+			<if test="fee != null  ">fee,</if>
+			<if test="bankTradeTime != null  ">bank_trade_time,</if>
+			<if test="bankOrderNo != null  and bankOrderNo != ''  ">bank_order_no,</if>
+			<if test="bankTrxNo != null  and bankTrxNo != ''  ">bank_trx_no,</if>
+			<if test="bankTradeStatus != null  and bankTradeStatus != ''  ">bank_trade_status,</if>
+			<if test="bankAmount != null  ">bank_amount,</if>
+			<if test="bankRefundAmount != null  ">bank_refund_amount,</if>
+			<if test="bankFee != null  ">bank_fee,</if>
+			<if test="errType != null  and errType != ''  ">err_type,</if>
+			<if test="handleStatus != null  and handleStatus != ''  ">handle_status,</if>
+			<if test="handleValue != null  and handleValue != ''  ">handle_value,</if>
+			<if test="handleRemark != null  and handleRemark != ''  ">handle_remark,</if>
+			<if test="operatorName != null  and operatorName != ''  ">operator_name,</if>
+			<if test="operatorAccountNo != null  and operatorAccountNo != ''  ">operator_account_no,</if>
+			create_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="version != null  ">#{version},</if>
+			<if test="editor != null  and editor != ''  ">#{editor},</if>
+			<if test="creater != null  and creater != ''  ">#{creater},</if>
+			<if test="editTime != null  ">#{editTime},</if>
+			<if test="status != null  and status != ''  ">#{status},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="accountCheckBatchNo != null  and accountCheckBatchNo != ''  ">#{accountCheckBatchNo},</if>
+			<if test="billDate != null  ">#{billDate},</if>
+			<if test="bankType != null  and bankType != ''  ">#{bankType},</if>
+			<if test="orderTime != null  ">#{orderTime},</if>
+			<if test="merchantName != null  and merchantName != ''  ">#{merchantName},</if>
+			<if test="merchantNo != null  and merchantNo != ''  ">#{merchantNo},</if>
+			<if test="orderNo != null  and orderNo != ''  ">#{orderNo},</if>
+			<if test="tradeTime != null  ">#{tradeTime},</if>
+			<if test="trxNo != null  and trxNo != ''  ">#{trxNo},</if>
+			<if test="orderAmount != null  ">#{orderAmount},</if>
+			<if test="refundAmount != null  ">#{refundAmount},</if>
+			<if test="tradeStatus != null  and tradeStatus != ''  ">#{tradeStatus},</if>
+			<if test="fee != null  ">#{fee},</if>
+			<if test="bankTradeTime != null  ">#{bankTradeTime},</if>
+			<if test="bankOrderNo != null  and bankOrderNo != ''  ">#{bankOrderNo},</if>
+			<if test="bankTrxNo != null  and bankTrxNo != ''  ">#{bankTrxNo},</if>
+			<if test="bankTradeStatus != null  and bankTradeStatus != ''  ">#{bankTradeStatus},</if>
+			<if test="bankAmount != null  ">#{bankAmount},</if>
+			<if test="bankRefundAmount != null  ">#{bankRefundAmount},</if>
+			<if test="bankFee != null  ">#{bankFee},</if>
+			<if test="errType != null  and errType != ''  ">#{errType},</if>
+			<if test="handleStatus != null  and handleStatus != ''  ">#{handleStatus},</if>
+			<if test="handleValue != null  and handleValue != ''  ">#{handleValue},</if>
+			<if test="handleRemark != null  and handleRemark != ''  ">#{handleRemark},</if>
+			<if test="operatorName != null  and operatorName != ''  ">#{operatorName},</if>
+			<if test="operatorAccountNo != null  and operatorAccountNo != ''  ">#{operatorAccountNo},</if>
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateReconciliationAccountCheckMistake" parameterType="ReconciliationAccountCheckMistake">
+        update reconciliation_account_check_mistake
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="version != null  ">version = #{version},</if>
+            <if test="editor != null  and editor != ''  ">editor = #{editor},</if>
+            <if test="status != null  and status != ''  ">status = #{status},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="accountCheckBatchNo != null  and accountCheckBatchNo != ''  ">account_check_batch_no = #{accountCheckBatchNo},</if>
+            <if test="billDate != null  ">bill_date = #{billDate},</if>
+            <if test="bankType != null  and bankType != ''  ">bank_type = #{bankType},</if>
+            <if test="orderTime != null  ">order_time = #{orderTime},</if>
+            <if test="merchantName != null  and merchantName != ''  ">merchant_name = #{merchantName},</if>
+            <if test="merchantNo != null  and merchantNo != ''  ">merchant_no = #{merchantNo},</if>
+            <if test="orderNo != null  and orderNo != ''  ">order_no = #{orderNo},</if>
+            <if test="tradeTime != null  ">trade_time = #{tradeTime},</if>
+            <if test="trxNo != null  and trxNo != ''  ">trx_no = #{trxNo},</if>
+            <if test="orderAmount != null  ">order_amount = #{orderAmount},</if>
+            <if test="refundAmount != null  ">refund_amount = #{refundAmount},</if>
+            <if test="tradeStatus != null  and tradeStatus != ''  ">trade_status = #{tradeStatus},</if>
+            <if test="fee != null  ">fee = #{fee},</if>
+            <if test="bankTradeTime != null  ">bank_trade_time = #{bankTradeTime},</if>
+            <if test="bankOrderNo != null  and bankOrderNo != ''  ">bank_order_no = #{bankOrderNo},</if>
+            <if test="bankTrxNo != null  and bankTrxNo != ''  ">bank_trx_no = #{bankTrxNo},</if>
+            <if test="bankTradeStatus != null  and bankTradeStatus != ''  ">bank_trade_status = #{bankTradeStatus},</if>
+            <if test="bankAmount != null  ">bank_amount = #{bankAmount},</if>
+            <if test="bankRefundAmount != null  ">bank_refund_amount = #{bankRefundAmount},</if>
+            <if test="bankFee != null  ">bank_fee = #{bankFee},</if>
+            <if test="errType != null  and errType != ''  ">err_type = #{errType},</if>
+            <if test="handleStatus != null  and handleStatus != ''  ">handle_status = #{handleStatus},</if>
+            <if test="handleValue != null  and handleValue != ''  ">handle_value = #{handleValue},</if>
+            <if test="handleRemark != null  and handleRemark != ''  ">handle_remark = #{handleRemark},</if>
+            <if test="operatorName != null  and operatorName != ''  ">operator_name = #{operatorName},</if>
+            <if test="operatorAccountNo != null  and operatorAccountNo != ''  ">operator_account_no = #{operatorAccountNo},</if>
+            edit_time = sysdate()
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteReconciliationAccountCheckMistakeById" parameterType="Integer">
+        delete from reconciliation_account_check_mistake where id = #{id}
+    </delete>
+	
+    <delete id="deleteReconciliationAccountCheckMistakeByIds" parameterType="String">
+        delete from reconciliation_account_check_mistake where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.member.mapper.MemberTrPersonalMemberMapper">
+    
+    <resultMap type="MemberTrPersonalMember" id="MemberTrPersonalMemberResult">
+        <result property="memberId"    column="member_id"    />
+        <result property="defaultLoginName"    column="default_login_name"    />
+        <result property="trueName"    column="true_name"    />
+        <result property="certType"    column="cert_type"    />
+        <result property="idNo"    column="id_no"    />
+        <result property="gender"    column="gender"    />
+        <result property="postition"    column="postition"    />
+        <result property="career"    column="career"    />
+        <result property="birthday"    column="birthday"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createUser"    column="create_user"    />
+        <result property="updateUser"    column="update_user"    />
+        <result property="memo"    column="memo"    />
+    </resultMap>
+	
+	<sql id="selectMemberTrPersonalMemberVo">
+        select member_id, default_login_name, true_name, cert_type, id_no, gender, postition, career, birthday, create_time, update_time, create_user, update_user, memo from member_tr_personal_member
+    </sql>
+	
+    <select id="selectMemberTrPersonalMemberList" parameterType="MemberTrPersonalMember" resultMap="MemberTrPersonalMemberResult">
+        <include refid="selectMemberTrPersonalMemberVo"/>
+        <where>  
+            <if test="memberId != null  and memberId != '' "> and member_id = #{memberId}</if>
+             <if test="defaultLoginName != null  and defaultLoginName != '' "> and default_login_name = #{defaultLoginName}</if>
+             <if test="trueName != null  and trueName != '' "> and true_name = #{trueName}</if>
+             <if test="certType != null "> and cert_type = #{certType}</if>
+             <if test="idNo != null  and idNo != '' "> and id_no = #{idNo}</if>
+             <if test="gender != null "> and gender = #{gender}</if>
+             <if test="postition != null "> and postition = #{postition}</if>
+             <if test="career != null "> and career = #{career}</if>
+             <if test="birthday != null  and birthday != '' "> and birthday = #{birthday}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="createUser != null  and createUser != '' "> and create_user = #{createUser}</if>
+             <if test="updateUser != null  and updateUser != '' "> and update_user = #{updateUser}</if>
+             <if test="memo != null  and memo != '' "> and memo = #{memo}</if>
+         </where>
+    </select>
+    
+    <select id="selectMemberTrPersonalMemberById" parameterType="String" resultMap="MemberTrPersonalMemberResult">
+        <include refid="selectMemberTrPersonalMemberVo"/>
+        where member_id = #{memberId}
+    </select>
+        
+    <insert id="insertMemberTrPersonalMember" parameterType="MemberTrPersonalMember">
+        insert into member_tr_personal_member
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			member_id,
+			<if test="defaultLoginName != null  and defaultLoginName != ''  ">default_login_name,</if>
+			<if test="trueName != null  and trueName != ''  ">true_name,</if>
+			<if test="certType != null  ">cert_type,</if>
+			<if test="idNo != null  and idNo != ''  ">id_no,</if>
+			<if test="gender != null  ">gender,</if>
+			<if test="postition != null  ">postition,</if>
+			<if test="career != null  ">career,</if>
+			<if test="birthday != null  and birthday != ''  ">birthday,</if>
+			<if test="memo != null  and memo != ''  ">memo,</if>
+			create_time,
+			update_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        	#{memberId},
+			<if test="defaultLoginName != null  and defaultLoginName != ''  ">#{defaultLoginName},</if>
+			<if test="trueName != null  and trueName != ''  ">#{trueName},</if>
+			<if test="certType != null  ">#{certType},</if>
+			<if test="idNo != null  and idNo != ''  ">#{idNo},</if>
+			<if test="gender != null  ">#{gender},</if>
+			<if test="postition != null  ">#{postition},</if>
+			<if test="career != null  ">#{career},</if>
+			<if test="birthday != null  and birthday != ''  ">#{birthday},</if>
+			<if test="memo != null  and memo != ''  ">#{memo},</if>
+			sysdate(),
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateMemberTrPersonalMember" parameterType="MemberTrPersonalMember">
+        update member_tr_personal_member
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="defaultLoginName != null  and defaultLoginName != ''  ">default_login_name = #{defaultLoginName},</if>
+            <if test="trueName != null  and trueName != ''  ">true_name = #{trueName},</if>
+            <if test="certType != null  ">cert_type = #{certType},</if>
+            <if test="idNo != null  and idNo != ''  ">id_no = #{idNo},</if>
+            <if test="gender != null  ">gender = #{gender},</if>
+            <if test="postition != null  ">postition = #{postition},</if>
+            <if test="career != null  ">career = #{career},</if>
+            <if test="birthday != null  and birthday != ''  ">birthday = #{birthday},</if>
+            <if test="memo != null  and memo != ''  ">memo = #{memo},</if>
+            update_user = sysdate()
+        </trim>
+        where member_id = #{memberId}
+    </update>
+
+	<delete id="deleteMemberTrPersonalMemberById" parameterType="String">
+        delete from member_tr_personal_member where member_id = #{memberId}
+    </delete>
+	
+    <delete id="deleteMemberTrPersonalMemberByIds" parameterType="String">
+        delete from member_tr_personal_member where member_id in 
+        <foreach item="memberId" collection="array" open="(" separator="," close=")">
+            #{memberId}
+        </foreach>
+    </delete>
+    
+</mapper>

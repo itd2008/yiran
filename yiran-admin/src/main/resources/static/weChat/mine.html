@@ -1,0 +1,254 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>会员中心</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+<link rel="stylesheet" href="lib/weui.min.css">
+<link rel="stylesheet" href="css/jquery-weui.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body ontouchstart>
+<!--主体-->
+<div class='weui-content'>
+  <div class="wy-center-top">
+    <div class="weui-media-box weui-media-box_appmsg">
+      <div class="weui-media-box__hd"><img class="weui-media-box__thumb radius" id="weixin_img" src="upload/headimg.jpg" alt=""></div>
+      <div class="weui-media-box__bd">
+        <h4 class="weui-media-box__title user-name" id="weixin_user_name"></h4>
+        <p class="user-grade">等级：普通会员</p>
+				<p class="user-grade"><span id="province"></span>&nbsp;&nbsp;<span id="city"></span></p>
+      </div>
+    </div>
+<!-- <div class="xx-menu weui-flex">
+      <div class="weui-flex__item"><div class="xx-menu-list"><em>987</em><p>账户余额</p></div></div>
+      <div class="weui-flex__item"><div class="xx-menu-list"><em>459</em><p>我的蓝豆</p></div></div>
+      <div class="weui-flex__item"><div class="xx-menu-list"><em>4</em><p>收藏商品</p></div></div>
+    </div> -->
+  </div>
+  <div class="weui-panel weui-panel_access">
+    <div class="weui-panel__hd">
+      <a href="all_orders.html#tab1" class="weui-cell weui-cell_access center-alloder">
+        <div class="weui-cell__bd wy-cell">
+          <div class="weui-cell__hd"><img src="images/center-icon-order-all.png" alt="" class="center-list-icon"></div>
+          <div class="weui-cell__bd weui-cell_primary"><p class="center-list-txt">全部订单</p></div>
+        </div>
+        <span class="weui-cell__ft"></span>
+      </a>   
+    </div>
+    <div class="weui-panel__bd">
+      <div class="weui-flex">
+        <div class="weui-flex__item">
+          <a href="all_orders.html#tab2" class="center-ordersModule">
+            <span class="weui-badge" style="position: absolute;top:5px;right:10px; font-size:10px;" id="unpaid_product_number"></span>
+            <div class="imgicon"><img src="images/center-icon-order-dfk.png" /></div>
+            <div class="name">待付款</div>
+          </a>
+        </div>
+        <div class="weui-flex__item">
+          <a href="all_orders.html#tab3" class="center-ordersModule">
+            <span class="weui-badge" style="position: absolute;top:5px;right:10px; font-size:10px;" id="tobeShipped_product_number"></span>
+            <div class="imgicon"><img src="images/center-icon-order-dfh.png" /></div>
+            <div class="name">待发货</div>
+          </a>
+        </div>
+        <div class="weui-flex__item">
+          <a href="all_orders.html#tab4" class="center-ordersModule">
+						<span class="weui-badge" style="position: absolute;top:5px;right:10px; font-size:10px;" id="tobeReceived_product_number"></span>
+            <div class="imgicon"><img src="images/center-icon-order-dsh.png" /></div>
+            <div class="name">待收货</div>
+          </a>
+        </div>
+        <div class="weui-flex__item">
+          <a href="all_orders.html#tab5" class="center-ordersModule">
+            <span class="weui-badge" style="position: absolute;top:5px;right:10px; font-size:10px;" id="tobeEvaluated_product_number"></span>
+            <div class="imgicon"><img src="images/center-icon-order-dpj.png" /></div>
+            <div class="name">待评价</div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  
+  <div class="weui-panel">
+        <div class="weui-panel__bd">
+          <div class="weui-media-box weui-media-box_small-appmsg">
+            <div class="weui-cells">
+              
+             
+              <a class="weui-cell weui-cell_access" href="address_list.html">
+                <div class="weui-cell__hd"><img src="images/center-icon-dz.png" alt="" class="center-list-icon"></div>
+                <div class="weui-cell__bd weui-cell_primary">
+                  <p class="center-list-txt">地址管理</p>
+                </div>
+                <span class="weui-cell__ft"></span>
+              </a>
+              
+              <a class="weui-cell weui-cell_access" href="about-coupon.html">
+                <div class="weui-cell__hd"><img src="images/center-icon-jk.png" alt="" class="center-list-icon"></div>
+                <div class="weui-cell__bd weui-cell_primary">
+                  <p class="center-list-txt">我的优惠券</p>
+                </div>
+                <span class="weui-cell__ft"></span>
+              </a>
+              
+              
+            </div>
+          </div>
+        </div>
+      </div>
+  
+  
+  
+</div>
+
+<!--底部导航-->
+<div class="foot-black"></div>
+<div class="weui-tabbar wy-foot-menu">
+  <a href="index.html" class="weui-tabbar__item">
+    <div class="weui-tabbar__icon foot-menu-home"></div>
+    <p class="weui-tabbar__label">首页</p>
+  </a>
+  <a href="classify.html" class="weui-tabbar__item">
+    <div class="weui-tabbar__icon foot-menu-list"></div>
+    <p class="weui-tabbar__label">分类</p>
+  </a>
+  <a href="shopcart.html" class="weui-tabbar__item">
+  	<span id="car_product_badge_weui" class="weui-badge" style="position: absolute;top: -.4em;right: 1em;"><span id="car_product_number"></span></span>
+  	<div class="weui-tabbar__icon foot-menu-cart"></div>
+  	<p class="weui-tabbar__label">购物车</p>
+  </a>
+  <a href="mine.html" class="weui-tabbar__item weui-bar__item--on">
+    <div class="weui-tabbar__icon foot-menu-member"></div>
+    <p class="weui-tabbar__label">我的</p>
+  </a>
+</div>
+
+<script src="lib/jquery-2.1.4.js"></script> 
+<script src="lib/fastclick.js"></script> 
+<script>
+  $(function() {
+    FastClick.attach(document.body);
+  });
+</script> 
+<script src="js/jquery-weui.js"></script>
+<script src="js/config.js"></script>
+<script>
+function getOpenId() {
+	   var name,value;
+	   var str=location.href; //取得整个地址栏
+	   var num=str.indexOf("?")
+	   if(num == -1){
+		   return "";
+	   }else{
+		   str=str.substr(num+1); //取得所有参数   stringvar.substr(start [, length ]
+		   var param = str.indexOf("=");
+		   console.log(str)
+		   var openid = str.substr(param+1);
+		   return openid;
+	   }
+	   
+	}
+	
+var openId = getOpenId();
+if(openId != ""){
+	sessionStorage.openId = openId;
+}else{
+	openId = sessionStorage.openId
+}
+		$.ajax({
+			type: "post",
+			url: base_url+"/api/yiran/weChatMall/getUserInfo/"+openId,
+			async: false, //同步
+			success: function (data) {
+				var wxuser = data.data;
+				$("#weixin_user_name").html(wxuser.nickname);
+				$("#weixin_img").attr('src',wxuser.headimgurl); 
+				$("#province").html(wxuser.province);
+				$("#city").html(wxuser.city);
+			},
+			//调用出错执行的函数
+			error: function(){
+				//请求出错处理
+			}
+		});
+		
+		$.ajax({
+				type: "post",
+				url: base_url + "/api/yiran/weChatMall/order/getOrders/"+openId,
+				async: false, //同步
+				success: function(data) {
+					console.info(data.data);
+					//待付款
+					var unpaidList = data.data.unpaidList;
+					if(unpaidList.length > 0){
+						var unpaid = unpaidList.length;
+						$("#unpaid_product_number").html(unpaid);
+					}else{
+						$("#unpaid_product_number").hide();
+					}
+					//待发货订单
+					var tobeShippedList = data.data.tobeShippedList;
+					if(tobeShippedList.length > 0){
+						var tobeShipped = tobeShippedList.length;
+						$("#tobeShipped_product_number").html(tobeShipped);
+					}else{
+						$("#tobeShipped_product_number").hide();
+					}
+					//待收货
+					var tobeReceivedList = data.data.tobeReceivedList;
+					if(tobeReceivedList.length > 0){
+						var tobeReceived = tobeReceivedList.length;
+						$("#tobeReceived_product_number").html(tobeReceived);
+					}else{
+						$("#tobeReceived_product_number").hide();
+					}
+					//待评价
+					var tobeEvaluatedList = data.data.tobeEvaluatedList;
+					if(tobeEvaluatedList.length > 0){
+						var tobeEvaluated = tobeEvaluatedList.length;
+						$("#tobeEvaluated_product_number").html(tobeEvaluated);
+					}else{
+						$("#tobeEvaluated_product_number").hide();
+					}
+					
+		
+				},
+				//调用出错执行的函数
+				error: function() {
+					$.alert("请求服务器api失败，无法获取数据");
+				}
+			});
+		//购物车数量
+		
+		$.ajax({
+			type: "post",
+			url: base_url+"/api/yiran/weChatMall/queryCarProduct/"+openId,
+			async: false, //同步
+			success: function (data) {
+				var cardata = data.data;
+				var carHtml = "";
+				if(data.code == '200'){
+					if(cardata.length > 0){
+						carHtml = cardata.length;
+						$("#car_product_number").html(carHtml);
+					}else{
+						$("#car_product_badge_weui").hide();
+					}
+				}
+				
+			},
+			//调用出错执行的函数
+			error: function(){
+				//请求出错处理
+			}
+		});
+	
+</script>
+</body>
+</html>

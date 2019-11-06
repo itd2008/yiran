@@ -1,0 +1,167 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-wechatOrderLogistics-add">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">订单编号：</label>
+				<div class="col-sm-8">
+					<input id="orderId" name="orderId" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">物流单号:发货快递单号：</label>
+				<div class="col-sm-8">
+					<input id="expressNo" name="expressNo" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">收货人姓名: 收货地址表可能更新或删除，因此要在这里记录：</label>
+				<div class="col-sm-8">
+					<input id="consigneeRealname" name="consigneeRealname" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">联系电话:收货地址表可能更新或删除，因此要在这里记录：</label>
+				<div class="col-sm-8">
+					<input id="consigneeTelphone" name="consigneeTelphone" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备用联系电话:收货地址表可能更新或删除，因此要在这里记录：</label>
+				<div class="col-sm-8">
+					<input id="consigneeTelphone2" name="consigneeTelphone2" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">收货地址：</label>
+				<div class="col-sm-8">
+					<input id="consigneeAddress" name="consigneeAddress" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">邮政编码：</label>
+				<div class="col-sm-8">
+					<input id="consigneeZip" name="consigneeZip" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">物流方式：</label>
+				<div class="col-sm-8">
+					<input id="logisticsType" name="logisticsType" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">物流商家编号:物流商家表自动编号：</label>
+				<div class="col-sm-8">
+					<input id="logisticsId" name="logisticsId" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">物流发货运费:显示给客户的订单运费：</label>
+				<div class="col-sm-8">
+					<input id="logisticsFee" name="logisticsFee" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">快递代收货款费率: 快递公司代收货款费率，如货值的2%-5%，一般月结：</label>
+				<div class="col-sm-8">
+					<input id="agencyFee" name="agencyFee" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">物流成本金额:实际支付给物流公司的金额：</label>
+				<div class="col-sm-8">
+					<input id="deliveryAmount" name="deliveryAmount" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">物流状态：</label>
+				<div class="col-sm-8">
+					<input id="orderlogisticsStatus" name="orderlogisticsStatus" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">物流结算状态：</label>
+				<div class="col-sm-8">
+					<input id="logisticsSettlementStatus" name="logisticsSettlementStatus" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">物流最后状态描述：</label>
+				<div class="col-sm-8">
+					<input id="logisticsResultLast" name="logisticsResultLast" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">物流描述：</label>
+				<div class="col-sm-8">
+					<input id="logisticsResult" name="logisticsResult" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">发货时间：</label>
+				<div class="col-sm-8">
+					<input id="logisticsCreateTime" name="logisticsCreateTime" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">物流更新时间：</label>
+				<div class="col-sm-8">
+					<input id="logisticsUpdateTime" name="logisticsUpdateTime" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">物流结算时间：</label>
+				<div class="col-sm-8">
+					<input id="logisticsSettlementTime" name="logisticsSettlementTime" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">物流支付渠道：</label>
+				<div class="col-sm-8">
+					<input id="payChannel" name="payChannel" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">物流支付单号：</label>
+				<div class="col-sm-8">
+					<input id="escrowTradeNo" name="escrowTradeNo" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">物流公司已对账状态:0已对账,1未对账：</label>
+				<div class="col-sm-8">
+					<input id="reconciliationStatus" name="reconciliationStatus" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">物流公司对账日期：</label>
+				<div class="col-sm-8">
+					<input id="reconciliationTime" name="reconciliationTime" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+	</div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "wechat/wechatOrderLogistics"
+		$("#form-wechatOrderLogistics-add").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/add", $('#form-wechatOrderLogistics-add').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

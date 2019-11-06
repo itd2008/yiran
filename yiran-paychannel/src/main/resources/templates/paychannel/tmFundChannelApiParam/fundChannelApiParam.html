@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    <div class="container-div">
+		<div class="col-sm-12">
+           <!-- Example Events -->
+           <div class="example-wrap">
+               <div class="example">
+                   <div class="btn-group hidden-xs" id="exampleTableEventsToolbar" role="group">
+                       <button type="button" class="btn btn-success" onclick="addChannelAPIParam()">
+                           <i class="fa fa-plus"></i> 新增接口参数
+                       </button> 
+                   </div>
+                   <table id="exampleTableEvents" data-height="400" data-mobile-responsive="true">
+                       <thead>
+                           <tr>
+                           	   <th data-field="paramName">参数名</th>
+                               <th data-field="paramCodeKey">参数字典标识</th>
+                               <th data-field="paramDesc">参数描述</th>
+                               <th data-field="nullAble">是否可空</th>
+                               <th data-field="enable">是否使用</th>
+                               <th data-field="isSave">是否需要保存数据</th>
+                               <th data-field="isOrgin">使用场景</th>
+                               <th data-field="isChannelTrans">是否原订单的key</th>
+                               <th >操作</th>
+                           </tr>
+                       </thead>
+                       <tbody>
+                       		<tr th:each="fa,iterStat : ${list}">
+                       			<td data-field="paramName" th:text="${fa.paramName}"></td>
+                       			<td data-field="paramCodeKey" th:text="${fa.paramCodeKey}"></td>
+                       			<td data-field="paramDesc" th:text="${fa.paramDesc}"></td>
+                       			<td data-field="nullAble" th:if="${fa.nullAble =='N'}"><span>否</span></td>
+                       			<td data-field="nullAble" th:if="${fa.nullAble =='Y'}"><span>是</span></td>
+                       			<td data-field="enable" th:if="${fa.enable =='Y'}"><span>是</span></td>
+                       			<td data-field="enable" th:if="${fa.enable =='N'}"><span>否</span></td>
+                       			<td data-field="isSave" th:if="${fa.isSave =='Y'}"><span>是</span></td>
+                       			<td data-field="isSave" th:if="${fa.isSave =='N'}"><span>否</span></td>
+                       			<td data-field="isOrgin" th:if="${fa.isOrgin =='IN'}"><span>请求渠道</span></td>
+                       			<td data-field="isOrgin" th:if="${fa.isOrgin =='OUT'}"><span>渠道返回</span></td>
+                       			<td data-field="isChannelTrans" th:if="${fa.isChannelTrans =='Y'}"><span>是</span></td>
+                       			<td data-field="isChannelTrans" th:if="${fa.isChannelTrans =='N'}"><span>否</span></td>
+                           		<td >
+	                           		<a class="btn btn-success btn-xs"  th:onclick="editChannelApiParam([[${fa.paramId}]]);"><i class="fa fa-edit" ></i>编辑</a> 
+	                           		<a class="btn btn-danger btn-xs"  th:onclick="removeChannelApiParam([[${fa.paramId}]]);"><i class="fa fa-remove" ></i>删除</a>
+                           		</td>
+                           </tr>
+                       </tbody>
+                   </table>
+               </div>
+           </div>
+           <!-- End Example Events -->
+       </div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+    var prefix = ctx + "paychannel/tmFundChannelApiParam";
+	    function addChannelAPIParam(){
+			var apiCode = [[${apiCode}]];
+			var url = prefix+"/add/"+apiCode;
+			$.modal.open("资金渠道基本配置-维护资金源-新增渠道维接口参数",url)
+		}
+	    
+	    function editChannelApiParam(paramId){
+	    	var url = prefix+"/edit/"+paramId;
+    		$.modal.open("资金渠道基本配置-维护资金源-修改渠道维接口参数",url)
+	    }
+	    
+	    function removeChannelApiParam(paramId){
+	    	$.modal.confirm("确定删除该条信息吗？", function() {
+            	var data = { "ids": paramId };
+            	$.operate.submit(prefix + "/remove", "post", "json", data);
+            	window.location.href=prefix +"/setChannelApiParam/"+[[${apiCode}]];
+        	});
+	    }
+    </script>
+</body>
+</html>

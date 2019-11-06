@@ -1,0 +1,172 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+
+<div class="container-div">
+    <div class="row">
+        <div class="col-sm-12 search-collapse">
+            <form id="formId">
+                <div class="select-list">
+                    <ul>
+                        <li>
+                            状态：<select name="status" th:with="type=${@dict.getType('sys_normal_disable')}">
+                            <option value="">所有</option>
+                            <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+                                    th:value="${dict.dictValue}"></option>
+                        </select>
+                        </li>
+                        <li>
+                            文件名：<input type="text" name="fileName"/>
+                        </li>
+                        <li>
+                            文件类型：<select name="type" th:with="type=${@dict.getType('sys_file_type')}">
+                            <option value="">所有</option>
+                            <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+                                    th:value="${dict.dictValue}"></option>
+                        </select>
+                        </li>
+                        <li>
+                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
+                                    class="fa fa-search"></i>&nbsp;搜索</a>
+                            <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
+                                    class="fa fa-refresh"></i>&nbsp;重置</a>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-sm-12 select-table table-striped">
+            <table id="bootstrap-table" data-mobile-responsive="true"></table>
+        </div>
+    </div>
+</div>
+<div th:include="include :: footer"></div>
+<script th:inline="javascript">
+    var editFlag = [[${@permission.hasPermi('file:edit')}]];
+    var removeFlag = [[${@permission.hasPermi('file:remove')}]];
+    var flag = [[${@dict.getType('sys_normal_disable')}]];
+    var types = [[${@dict.getType('sys_file_type')}]];
+    var prefix = ctx + "file";
+    var channelId = '[[${channelId}]]';
+
+    $(function () {
+        var options = {
+            url: prefix + "/listWithNoSave",
+            createUrl: prefix + "/add",
+            updateUrl: prefix + "/edit/{id}",
+            removeUrl: prefix + "/remove",
+            exportUrl: prefix + "/export",
+            modalName: "文件上传",
+            search: false,
+            showExport: true,
+            columns: [{
+                checkbox: true
+            },
+                {
+                    field: 'id',
+                    title: '',
+                    visible: false
+                },
+                {
+                    field: 'url',
+                    title: '文件',
+                    sortable: true,
+                    width: "200px",
+                    height: "100px",
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        var s;
+                        if (row.url != null) {
+                            var url = "/profile/" + row.fileName + "." + row.suffix;
+                            if (row.type == "1") {//视频
+                                s = '<video controls="controls" height="100px" width="200px" name="vi"> <source  type="video/mp4" src="' + url + '"/>Your browser does not support the video tag.</video>';
+                            } else if (row.type == "0") {
+                                s = '<a class = "view"  href="javascript:void(0)"><img style="width:200px;height:100px;" src="' + url + '" /></a>';
+                            } else {
+                                s = '<a  style="width:200px;height:100px; text-align: center"> ' + row.fileName + '</a>'
+                            }
+                        }
+                        return s;
+                    }
+                },
+                {
+                    field: 'fileName',
+                    title: '文件名称',
+                    sortable: true
+                },
+                {
+                    field: 'suffix',
+                    title: '文件后缀',
+                    sortable: true
+                },
+                {
+                    field: 'type',
+                    title: '文件类型',
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        return $.table.selectDictLabel(types, value);
+                    }
+
+                }
+            ]
+        };
+        $.table.init(options);
+    });
+
+    window.operateEvents = {
+        'click .view': function (e, value, row, index) {
+            layer.open({
+                type: 1,
+                title: false,
+                closeBtn: 0,
+                area: 'auto',
+                skin: 'layui-layer-nobg', //没有背景色
+                shadeClose: true,
+                content: '<img src="' + row.url + '"/>'
+            });
+        },
+    };
+
+    function submitHandler() {
+
+        //获取选择的TABLE行
+        var selectedRows = $("#bootstrap-table").bootstrapTable('getSelections');
+        if (selectedRows.length < 1 ){
+            alert("请选择数据")
+            return
+        }
+        //var list = new Array();
+        var ids ="";
+        //var list = []
+        for (var i = 0 ; i < selectedRows.length ; i ++){
+            //list.push(selectedRows[i]);
+            // list[i] = new Object();
+            // list[i].id = selectedRows[i].id;
+            // list[i].channelId = $("#id").val()
+            ids +=selectedRows[i].id+",";
+        }
+        if (ids.length >1){
+            ids = ids.substr(0,ids.length-1);
+        }
+        $.ajax({
+            url: prefix + "/addFileToShow",
+            data: {"list":ids,"channelId":channelId},
+            type: "POST",
+            dataType: "json",
+            // processData: false,
+            // contentType: false,
+            success: function (result) {
+                $.operate.saveSuccess(result);
+            }
+        })
+
+
+
+        //$.operate.save(prefix + "/addFileToShow", $('#form-channel-add').serialize());
+    }
+</script>
+</body>
+</html>

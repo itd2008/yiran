@@ -1,0 +1,164 @@
+ <!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>会员</title>
+<link rel="stylesheet" href="fonts/iconfont.css"/>
+<link rel="stylesheet" href="css/font.css"/>
+<link rel="stylesheet" href="css/weui.min.css"/>
+<link rel="stylesheet" href="css/jquery-weui.min.css"/>
+<link rel="stylesheet" href="css/mui.css"/>
+<link rel="stylesheet" href="css/animate.css"/>
+<link rel="stylesheet" href="css/pages/app.css"/>
+<link rel="stylesheet" href="css/bootstrap4alpha.css"/>
+<link rel="stylesheet" href="css/dataTables.bootstrap4.css">
+<link rel="stylesheet" type="text/css" href="css/demo.css">
+<style>
+label{font-size: 14px;}
+#light{float: left;}
+#Blight{background-color: #c8e5bc;float: right;}
+#example > thead > tr > th {text-align: center;font-size: 12px;}
+.date{font-size: 14px;}    
+.container{width: 98%; margin: 0 auto; overflow: hidden;}
+.container section{position: relative;} 
+.table th, .table td{padding: .4rem;} 
+.pagination > li > a, .pagination > li > span{padding: .2rem .4rem;font-size: 14px;}
+#example_info{font-size: 14px !important;}
+div.container{margin-top: 2.8rem;}
+.tabbar.animate-slide li{height: 40px;width: 33.333333333333333%;float: left;}
+.tabbar.animate-slide li a{line-height: 40px;font-size: 14px;text-align: center;}
+.tabbar.animate-slide li a:focus{color: #0275d8;}
+.rectbar a, .slidebar a, .tabbar a{height: auto;font-weight: 400;font-family: "微软雅黑";display: block;color: #333;}
+#HBox{width: 100%; height: auto;}
+#HBox form ul{width: 100%; height:  auto;}
+#HBox form ul li{overflow: hidden;}
+#HBox form ul li strong{float: left;width: 40%;text-align: right;line-height: 40px;}
+#HBox form ul li .fl{float: left;width: 60%;text-align: left;line-height: 40px;}
+#HBox form ul li .fl input{width: 58%; height: 40px; border-radius: 3px; border: 1px solid #ddd;}
+#HBox form ul li .fl input:focus{border: 1px solid #36acf4;}
+#HBox form ul li input.submitBtn{display: block; margin: 10% auto; background-color: #36acf4; border: 1px solid #36acf4;line-height: 40px; border-radius: 3px;color: #fff;padding: 0 20%;}
+.detectionBtn{background-color:#36acf4;color: #fff; }
+</style>    
+
+</head>
+<body class="dt-example dt-example-bootstrap4">     
+<header>    
+    <div class="titlebar reverse">
+    <a href="javascript:back()">
+         <i class="iconfont">&#xe7d4;</i>
+    </a>             
+         <h1>会员</h1>
+    </div>
+
+     <ul class="tabbar animate-slide width-full" data-col="4" id="tabbar">
+         <li><a href="#/swap1?swap1=1" onclick="window.location.reload();">云币转出</a></li> 
+         <li><a href="#/swap2?swap2=1" onclick="window.location.reload();">云币转入</a></li> 
+         <li><a href="#/swap3?swap3=1" onclick="window.location.reload();">我要转账</a></li> 
+    </ul>
+</header>
+<div class="height_fixed"></div>
+<!-- 列表 -->
+<div class="container">
+    <section>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <table id="example" class="table table-bordered table-striped table-hover">
+                    <thead>
+                    <tr id="table_tr"></tr>
+                    </thead>
+                    <tbody>
+                </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</div>
+<!-- 列表 end -->
+<!-- section3  -->
+   <div id="HBox">
+      <form action="" method="post" onsubmit="return false;">
+        <ul class="list">
+          <li>
+            <strong>您目前的云币为：</strong>
+            <div class="fl">0.00</div>
+          </li>
+          <li>
+            <strong>转入会员账号：</strong>
+            <div class="fl">
+              <input type="text" name="member" value="" class="ipt" />
+              <input type="button" name="detection" value="检测会员账号" class="detectionBtn"  style="width:38%;font-size:12px;"/>
+            </div>
+            
+          </li>                   
+          <li>
+            <strong>转出金额：</strong>
+            <div class="fl"><input type="text" name="money" value="" class="ipt money" /></div>
+          </li>
+          <li><input type="submit" value="下一步" class="submitBtn" /></li>
+        </ul>
+      </form>
+    </div><!-- HBox end --> 
+<!-- 尾部 start -->
+        <footer>
+            <ul class="menubar animated fadeInUp delay3">
+                <li class="tab" onclick="window.location='notice.html'">
+                    <i class="iconfont">&#xe614;</i>
+                    <label class="tab-label">公告</label>              
+                </li>
+                <li class="tab active" onclick="window.location='index.html'">
+                    <i class="iconfont">&#xe6f0;</i>
+                    <label class="tab-label">应用</label>
+                    <span class="point"></span>
+                </li>
+                <li class="tab" onclick="window.location='self.html'">
+                    <i class="iconfont">&#xe60d;</i>
+                    <label class="tab-label">我的</label>
+                </li>
+            </ul>
+        </footer>
+<!-- 尾部 end -->
+</body>
+<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" language="javascript" src="js/jquery.dataTables.js"></script>
+<script type="text/javascript" language="javascript" src="js/dataTables.bootstrap4.js"></script>
+<script type="text/javascript" language="javascript" src="js/dataTables.buttons.js"></script>
+<script type="text/javascript" language="javascript" src="js/buttons.bootstrap4.js"></script>
+<script type="text/javascript" src="js/jszip.js"></script>
+<script type="text/javascript" language="javascript" src="js/buttons.html5.js"></script>
+<script type="text/javascript" src="route.js"></script>
+<script type="text/javascript" >
+    spaRouters.map('/swap1',function(transition){
+      spaRouters.asyncFun('js/swap1.js',transition)
+    })
+    spaRouters.map('/swap2',function(transition){
+      spaRouters.asyncFun('js/swap2.js',transition)
+    })
+    spaRouters.map('/swap3',function(transition){
+      spaRouters.asyncFun('js/swap3.js',transition)
+    })
+    spaRouters.beforeEach(function(transition){
+      console.log('切换之前dosomething')
+      setTimeout(function(){
+        //模拟切换之前延迟，比如说做个异步登录信息验证
+         transition.next()
+      },100)
+    })
+    spaRouters.afterEach(function(transition){
+      console.log("切换之后dosomething")
+    })
+    spaRouters.init()
+</script>
+<script>
+   function back(){
+      window.history.back(); 
+   }
+</script> 
+</html>
+
+
+
+
+
+
+

@@ -1,0 +1,186 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-reconciliationAccountCheckBatch-edit" th:object="${reconciliationAccountCheckBatch}">
+            <input id="id" name="id" th:field="*{id}"  type="hidden">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">version：</label>
+				<div class="col-sm-8">
+					<input id="version" name="version" th:field="*{version}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">创建时间：</label>
+				<div class="col-sm-8">
+					<input id="createTime" name="createTime" th:field="*{createTime}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">修改者：</label>
+				<div class="col-sm-8">
+					<input id="editor" name="editor" th:field="*{editor}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">创建者：</label>
+				<div class="col-sm-8">
+					<input id="creater" name="creater" th:field="*{creater}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">最后修改时间：</label>
+				<div class="col-sm-8">
+					<input id="editTime" name="editTime" th:field="*{editTime}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">状态 ACTIVE 激活  UNACTIVE冻结：</label>
+				<div class="col-sm-8">
+					<input id="status" name="status" th:field="*{status}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">：</label>
+				<div class="col-sm-8">
+					<input id="remark" name="remark" th:field="*{remark}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">对账批次号：</label>
+				<div class="col-sm-8">
+					<input id="batchNo" name="batchNo" th:field="*{batchNo}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">账单时间(账单交易发生时间)：</label>
+				<div class="col-sm-8">
+					<input id="billDate" name="billDate" th:field="*{billDate}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">账单类型：</label>
+				<div class="col-sm-8">
+					<input id="billType" name="billType" th:field="*{billType}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">批次处理状态, S已处理, A未处理：</label>
+				<div class="col-sm-8">
+					<input id="handleStatus" name="handleStatus" th:field="*{handleStatus}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">银行类型：</label>
+				<div class="col-sm-8">
+					<input id="bankType" name="bankType" th:field="*{bankType}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">所有差错总单数：</label>
+				<div class="col-sm-8">
+					<input id="mistakeCount" name="mistakeCount" th:field="*{mistakeCount}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">待处理的差错总单数：</label>
+				<div class="col-sm-8">
+					<input id="unhandleMistakeCount" name="unhandleMistakeCount" th:field="*{unhandleMistakeCount}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">平台总交易单数：</label>
+				<div class="col-sm-8">
+					<input id="tradeCount" name="tradeCount" th:field="*{tradeCount}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">银行总交易单数：</label>
+				<div class="col-sm-8">
+					<input id="bankTradeCount" name="bankTradeCount" th:field="*{bankTradeCount}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">平台交易总金额：</label>
+				<div class="col-sm-8">
+					<input id="tradeAmount" name="tradeAmount" th:field="*{tradeAmount}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">银行交易总金额：</label>
+				<div class="col-sm-8">
+					<input id="bankTradeAmount" name="bankTradeAmount" th:field="*{bankTradeAmount}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">平台退款总金额：</label>
+				<div class="col-sm-8">
+					<input id="refundAmount" name="refundAmount" th:field="*{refundAmount}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">银行退款总金额：</label>
+				<div class="col-sm-8">
+					<input id="bankRefundAmount" name="bankRefundAmount" th:field="*{bankRefundAmount}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">平台总手续费：</label>
+				<div class="col-sm-8">
+					<input id="bankFee" name="bankFee" th:field="*{bankFee}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">原始对账文件存放地址：</label>
+				<div class="col-sm-8">
+					<input id="orgCheckFilePath" name="orgCheckFilePath" th:field="*{orgCheckFilePath}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">解析后文件存放地址：</label>
+				<div class="col-sm-8">
+					<input id="releaseCheckFilePath" name="releaseCheckFilePath" th:field="*{releaseCheckFilePath}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">解析状态：</label>
+				<div class="col-sm-8">
+					<input id="releaseStatus" name="releaseStatus" th:field="*{releaseStatus}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">解析检查失败的描述信息 ：</label>
+				<div class="col-sm-8">
+					<input id="checkFailMsg" name="checkFailMsg" th:field="*{checkFailMsg}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">银行返回的错误信息：</label>
+				<div class="col-sm-8">
+					<input id="bankErrMsg" name="bankErrMsg" th:field="*{bankErrMsg}" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+    </div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "reconciliation/reconciliationAccountCheckBatch";
+		$("#form-reconciliationAccountCheckBatch-edit").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/edit", $('#form-reconciliationAccountCheckBatch-edit').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="fonts/iconfont.css"/>
+<link rel="stylesheet" href="css/font.css"/>
+<link rel="stylesheet" href="css/weui.min.css"/>
+<link rel="stylesheet" href="css/jquery-weui.min.css"/>
+<link rel="stylesheet" href="css/mui.css"/>
+<link rel="stylesheet" href="css/animate.css"/>
+<link rel="stylesheet" href="css/pages/app.css"/>
+<link rel="stylesheet" href="css/common.css">
+<link rel="stylesheet" href="css/bootstrap4alpha.css"/>
+<link rel="stylesheet" href="css/dataTables.bootstrap4.css">
+<link rel="stylesheet" type="text/css" href="css/demo.css">
+<style>
+label{font-size: 14px;}
+#light{
+    float: left;
+    }
+#Blight{
+    background-color: #c8e5bc;
+    float: right;
+    }
+#example > thead > tr > th {
+    text-align: center;
+    font-size: 12px;
+    }
+.date{font-size: 14px;}    
+.container{width: 98%; margin: 0 auto; overflow: hidden;}
+.container section{position: relative;} 
+.table th, .table td{padding: .4rem;} 
+.pagination > li > a, .pagination > li > span{padding: .2rem .4rem;font-size: 14px;}
+#example_info{font-size: 14px !important;}
+.iconfont{line-height: 20px;color: #fff;font-size: 24px;}	
+form{background-color: #fff; border: 1px solid #ccc;border-radius: 10px;}
+.fl{font-size: 16px;}
+.list li strong {width: 40%;float: left; display: inline-block;margin-right: 10px;text-align: right;line-height: 40px;font-size: 14px;font-weight: 400;}
+.list .fl {width: 55%;font-size: 14px;line-height: 40px;}
+.ipt{padding: 0;}
+
+</style>
+	<title>申请分销</title>
+</head>
+<body>
+<header>
+       <div class="titlebar reverse"> 
+       <a href="javascript:back()">
+         <i class="iconfont">&#xe7d4;</i>
+       </a>                
+          <h1>申请分销</h1>
+       </div>
+</header>
+<div class="height_fixed"></div>
+<div id="wrapper">
+	<div class="box">
+		<div class="demo">
+			<a href="javascript:;" class="bounceInDown dialog">申请分销中心</a>			
+		</div>
+		<div id="HBox">
+			<form action="" method="post" onsubmit="return false;">
+				<ul class="list">
+					<li>
+						<strong>申请会员：</strong>
+						<div class="fl">shop05843928</div>
+					</li>									
+					<li><input type="submit" value="提交申请" class="submitBtn" /></li>
+				</ul>
+			</form>
+		</div><!-- HBox end -->	
+	</div><!-- box end -->
+</div><!-- wrapper end -->
+<!-- 列表 -->
+<div class="container">
+    <section>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <table id="example" class="table table-bordered table-striped table-hover">
+                    <thead>
+                    <tr id="table_tr"></tr>
+                    </thead>
+                    <tbody>
+                </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</div>
+<!-- 列表 end -->
+
+
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.hDialog.js"></script>
+<script type="text/javascript" language="javascript" src="js/jquery.dataTables.js"></script>
+<script type="text/javascript" language="javascript" src="js/dataTables.bootstrap4.js"></script>
+<script type="text/javascript" language="javascript" src="js/dataTables.buttons.js"></script>
+<script type="text/javascript" language="javascript" src="js/buttons.bootstrap4.js"></script>
+<script type="text/javascript" src="js/jszip.js"></script>
+<script type="text/javascript" language="javascript" src="js/buttons.html5.js"></script>
+<script src="js/lists.js"></script>
+ <script type="text/javascript" language="javascript" class="init">
+        var dataTable;
+        $(document).ready(function() {
+        $.ajax({
+                   type: "get",
+                   url: "json/distributionBody.json",
+                   success: function(data){
+                        dataTable =data;
+                    },
+            });
+            $.ajax({
+              type: "get",
+              url: "json/distributionHead.json",
+              success: function(columName){
+                       lists(columName)
+
+                },
+            }); 
+        } );
+</script>
+<script>
+$(function(){
+	var $el = $('.dialog');
+	    $el.hDialog();
+	//提交并验证表单
+	   $('.submitBtn').click(function() {
+		var moneyReg = /^[1-9]{1}\d{2,}$/; //提取现金正则
+		var $money = $('.money'); 
+			$.tooltip('提交成功，2秒后自动关闭',2000,true);
+			setTimeout(function(){ 
+				//$el.hDialog('close',{box:'#HBox'},'http://smwell.sinaapp.com/');  //也可以加跳转链接哦~
+				$el.hDialog('close',{box:'#HBox'}); 
+			},2000);
+
+	});
+});
+
+function back(){
+    window.history.back(); 
+}
+
+</script>
+
+</body>
+</html> 

@@ -1,0 +1,179 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+						<ul>
+							<li>
+								卡号：<input type="text" name="cardNo"/>
+							</li>
+
+							<li>
+								持卡人姓名：<input type="text" name="cardHolder"/>
+							</li>
+
+							<li>
+								预留手机号码：<input type="text" name="mobileNo"/>
+							</li>
+
+							<li>
+								证件号：<input type="text" name="certNo"/>
+							</li>
+
+							<li>
+								证件类型：<input type="text" name="certType"/>
+							</li>
+
+							<li>
+								状态：
+								<select name="status" th:with="type=${@dict.getType('channel_pay_card_type')}">
+									<option value="">所有</option>
+									<option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+								</select>
+							</li>
+
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+	        <div class="btn-group-sm hidden-xs" id="toolbar" role="group">
+				<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="payorder:payBankCardInfo:add">
+					<i class="fa fa-plus"></i> 添加
+				</a>
+				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.edit()" shiro:hasPermission="payorder:payBankCardInfo:edit">
+					<i class="fa fa-edit"></i> 修改
+				</a>
+				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="payorder:payBankCardInfo:remove">
+					<i class="fa fa-remove"></i> 删除
+				</a>
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="payorder:payBankCardInfo:export">
+						<i class="fa fa-download"></i> 导出
+				 </a>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('payorder:payBankCardInfo:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('payorder:payBankCardInfo:remove')}]];
+        var prefix = ctx + "payorder/payBankCardInfo";
+        var channel_pay_card_type = [[${@dict.getType('channel_pay_card_type')}]];
+        var channel_pay_card_status = [[${@dict.getType('channel_pay_card_status')}]];
+        var channel_pay_card_certtype = [[${@dict.getType('channel_pay_card_certtype')}]];
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+                modalName: "银行卡",
+		        showExport: true,
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'bankCardId', 
+					title : '主键ID',
+					visible: false
+				},
+				{
+					field : 'cardHolder', 
+					title : '持卡人姓名',
+					sortable: true
+				},
+				{
+					field : 'cardNo', 
+					title : '卡号',
+					sortable: true
+				},
+				{
+					field : 'cardType', 
+					title : '卡类型',
+					sortable: true,
+		            formatter: function(value, row, index) {
+		            	return $.table.selectDictLabel(channel_pay_card_type, row.cardType);
+		            }
+				},
+				{
+					field : 'targetInstCode', 
+					title : '银行代码',
+					sortable: true
+				},
+				{
+					field : 'bankBranch', 
+					title : '开户行',
+					sortable: true
+				},
+				
+				{
+					field : 'mobileNo', 
+					title : '预留手机号码',
+					sortable: true
+				},
+				{
+					field : 'certNo', 
+					title : '证件号',
+					sortable: true
+				},
+				{
+					field : 'certType', 
+					title : '证件类型',
+					sortable: true,
+		            formatter: function(value, row, index) {
+		            	return $.table.selectDictLabel(channel_pay_card_certtype, row.certType);
+		            }
+				},
+				{
+					field : 'validDate', 
+					title : '有效期',
+					sortable: true
+				},
+				{
+					field : 'cvv2', 
+					title : '信用卡安全码',
+					sortable: true
+				},
+				{
+					field : 'status', 
+					title : '状态',
+					sortable: true,
+		            formatter: function(value, row, index) {
+		            	return $.table.selectDictLabel(channel_pay_card_status, row.status);
+		            }
+				},
+				{
+					field : 'gmtCreate', 
+					title : '创建时间',
+					sortable: true
+				},
+		        {
+		            title: '操作',
+		            align: 'center',
+		            formatter: function(value, row, index) {
+		            	var actions = [];
+		            	actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.bankCardId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.bankCardId + '\')"><i class="fa fa-remove"></i>删除</a>');
+						return actions.join('');
+		            }
+		        }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

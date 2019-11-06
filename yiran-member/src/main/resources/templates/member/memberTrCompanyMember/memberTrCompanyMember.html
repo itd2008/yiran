@@ -1,0 +1,286 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+						<ul>
+
+							<li>
+								商户营业执照：<input type="text" name="licenseNo"/>
+							</li>
+
+							<li>
+								企业编号：<input type="text" name="companyNo"/>
+							</li>
+
+							<li>
+								法人代表：<input type="text" name="legalPerson"/>
+							</li>
+
+							<li>
+								企业名称：<input type="text" name="companyName"/>
+							</li>
+
+
+							<li>
+								联系电话：<input type="text" name="telephone"/>
+							</li>
+
+							<li>
+								法人手机号码：<input type="text" name="legalPersonPhone"/>
+							</li>
+
+							<li>
+								登记证号名称：<input type="text" name="licenseName"/>
+							</li>
+
+							<li>
+								企业类型：
+								<select name="companyType" th:with="type=${@dict.getType('company_member_type')}">
+								  <option value="">所有</option>
+								  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+								  </option>
+								</select>
+							</li>
+
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+	        <div class="btn-group-sm hidden-xs" id="toolbar" role="group">
+				<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="member:memberTrCompanyMember:add">
+					<i class="fa fa-plus"></i> 添加
+				</a>
+				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.edit()" shiro:hasPermission="member:memberTrCompanyMember:edit">
+					<i class="fa fa-edit"></i> 修改
+				</a>
+				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="member:memberTrCompanyMember:remove">
+					<i class="fa fa-remove"></i> 删除
+				</a>
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="member:memberTrCompanyMember:export">
+						<i class="fa fa-download"></i> 导出
+				 </a>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('member:memberTrCompanyMember:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('member:memberTrCompanyMember:remove')}]];
+        var prefix = ctx + "member/memberTrCompanyMember";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+                modalName: "企业会员",
+		        showExport: true,
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'memberId', 
+					title : '会员ID',
+					visible: true
+				},
+				{
+					field : 'industry', 
+					title : '行业类型',
+					sortable: true
+				},
+				{
+					field : 'licenseNo', 
+					title : '商户营业执照',
+					sortable: true
+				},
+				{
+					field : 'licenseExpireDate', 
+					title : '企业营业执照失效时间(营业期限)',
+					sortable: true
+				},
+				{
+					field : 'companyNo', 
+					title : '企业编号',
+					sortable: true
+				},
+				{
+					field : 'legalPerson', 
+					title : '法人代表',
+					sortable: true
+				},
+				{
+					field : 'scale', 
+					title : '企业规模',
+					sortable: true
+				},
+				{
+					field : 'createTime', 
+					title : '建立时间',
+					sortable: true
+				},
+				{
+					field : 'memo', 
+					title : '备注信息',
+					sortable: true
+				},
+				{
+					field : 'website', 
+					title : '企业网址',
+					sortable: true
+				},
+				{
+					field : 'companyName', 
+					title : '企业名称',
+					sortable: true
+				},
+				{
+					field : 'address', 
+					title : '企业地址',
+					sortable: true
+				},
+				{
+					field : 'licenseAddress', 
+					title : '营业执照所在地',
+					sortable: true
+				},
+				{
+					field : 'businessScope', 
+					title : '营业范围',
+					sortable: true
+				},
+				{
+					field : 'telephone', 
+					title : '联系电话',
+					sortable: true
+				},
+				{
+					field : 'organizationNo', 
+					title : '组织机构代码',
+					sortable: true
+				},
+				{
+					field : 'summary', 
+					title : '企业简介',
+					sortable: true
+				},
+				{
+					field : 'licenseNoPath', 
+					title : '企业营业执照附件url',
+					sortable: true
+				},
+				{
+					field : 'organizationNoPath', 
+					title : '组织机构代码证附件url',
+					sortable: true
+				},
+				{
+					field : 'taxNoPath', 
+					title : '税务登记证附件url',
+					sortable: true
+				},
+				{
+					field : 'clearingAccountPath', 
+					title : '单位银行结算账户开户许可证附件url',
+					sortable: true
+				},
+				{
+					field : 'institutionLicensePath', 
+					title : '机构信用代码证附件url',
+					sortable: true
+				},
+				{
+					field : 'icpLicensePath', 
+					title : 'ICP备案许可附件url',
+					sortable: true
+				},
+				{
+					field : 'industryLicensePath', 
+					title : '行业许可证附件url',
+					sortable: true
+				},
+				{
+					field : 'legalPersonPhone', 
+					title : '法人手机号码',
+					sortable: true
+				},
+				{
+					field : 'licenseName', 
+					title : '登记证号名称',
+					sortable: true
+				},
+				{
+					field : 'legalPersonIdValidDate', 
+					title : '法人身份证有效期',
+					sortable: true
+				},
+				{
+					field : 'businessWebsite', 
+					title : '经营网址',
+					sortable: true
+				},
+				{
+					field : 'proxyPerson', 
+					title : '代理人名称',
+					sortable: true
+				},
+				{
+					field : 'companyType', 
+					title : '企业类型',
+					sortable: true,
+					formatter: function(value, row, index) {
+		                if (value == '0') {
+		                	return '<span>企业</span>';
+		                } else if (value == '1') {
+		                    return '<span>其他</span>';
+		                } else if (value == '2') {
+		                    return '<span>事业单位</span>';
+		                } else if (value == '3') {
+		                    return '<span>个体工商户</span>';
+		                } else if (value == '4') {
+		                    return '<span>民办非企业</span>';
+		                }
+		            }
+				},
+				{
+					field : 'proxyPersonIdValidDate', 
+					title : '代理人证件有效期',
+					sortable: true
+				},
+				{
+					field : 'shortName', 
+					title : '商户简称',
+					sortable: true
+				},
+		        {
+		            title: '操作',
+		            align: 'center',
+		            formatter: function(value, row, index) {
+		            	var actions = [];
+		            	actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.memberId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.memberId + '\')"><i class="fa fa-remove"></i>删除</a>');
+						return actions.join('');
+		            }
+		        }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

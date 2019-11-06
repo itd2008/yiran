@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta content="telephone=no" name="format-detection">
+    <link rel="stylesheet" href="../css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/tips.css">
+    <link rel="stylesheet" type="text/css" href="../css/layer.css">
+    <link rel="stylesheet" type="text/css" href="../css/weui.css">
+    <script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/layer.js"></script>
+    <script src="../lib/CryptoJS_v3.1.2/cryptojs-3.1.2.js" type="text/javascript"></script>
+    <script src="../js/jquery-geren-1.0.0.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var w, h, className;
+        function getSrceenWH() {
+            w = $(window).width();
+            h = $(window).height();
+            $('#dialogBg').width(w).height(h);
+        }
+        window.onresize = function () {
+            getSrceenWH();
+        }
+        $(window).resize();
+        $(function () {
+            getSrceenWH();
+            $('#dialogBg').fadeIn(300);
+            $('#dialog').fadeIn();
+            //关闭弹窗
+            $('.claseDialogBtn').click(function () {
+                layer.open({
+                    content: '确定要退出网页？',
+                    btn: ['确定', '取消'],
+                    yes: function (index) {
+                        layer.close(index);
+                        closeWindows();
+                    },
+                });
+            });
+            //提交
+            $('#makesure').click(function () {
+                var Login_name = $('.ipt').val();  //验证码
+                if (Login_name == "") {
+                    //信息框
+                    $('.ipt').val("");
+                    layer.open({
+                        content: '验证码为空'
+                        , btn: '我知道了'
+                    });
+                } else {
+                    var Crypto_name = Base64Encode(Login_name);  //验证码
+                    console.log("1reslult"+Crypto_name);
+
+                    var result = isJuge();
+                    if (Crypto_name != result) {
+                        $('.ipt').val("");
+                        layer.open({
+                            content: '验证码不正确 请重新输入'
+                            , btn: '我知道了'
+                        });
+                    } else if (Crypto_name == result) {
+                        $('#dialogBg').fadeOut(100, function () {
+                            $('#dialog').fadeOut();
+                        });
+                        toindex();
+                    }
+
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+
+<div>
+    <div id="dialogBg" class="bounceIn"></div>
+    <div id="dialog" class="animated">
+        <div href="javascript:;" class="help-tip " width="50" height="50">
+            <p>必须先输入正确验证码 才能进入网页!</p>
+        </div>
+
+        <div class="dialogTop">
+            <div href="javascript:;" class="claseDialogBtn ">退出</div>
+        </div>
+        <ul class="editInfos">
+            <li><label><font color="#ff0000">* </font>验证码：<input type="text" name="" required value=""
+                                                                 class="ipt"/></label>
+            </li>
+            <li><input type="submit" value="确认提交" class="submitBtn" id="makesure"/></li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

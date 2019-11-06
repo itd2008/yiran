@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.wechat.mapper.WechatOrderMapper">
+    
+    <resultMap type="WechatOrder" id="WechatOrderResult">
+        <result property="orderId"    column="order_id"    />
+        <result property="orderNo"    column="order_no"    />
+        <result property="shopId"    column="shop_id"    />
+        <result property="orderStatus"    column="order_status"    />
+        <result property="payStatus"    column="pay_status"    />
+        <result property="productCount"    column="product_count"    />
+        <result property="productAmountTotal"    column="product_amount_total"    />
+        <result property="logisticsFee"    column="logistics_fee"    />
+        <result property="isUnpackingInspection"    column="is_unpacking_inspection"    />
+        <result property="isOpenInvoice"    column="is_open_invoice"    />
+        <result property="invoiceNo"    column="invoice_no"    />
+        <result property="addressId"    column="address_id"    />
+        <result property="orderlogisticsId"    column="orderlogistics_id"    />
+        <result property="payChannel"    column="pay_channel"    />
+        <result property="escrowTradeNo"    column="escrow_trade_no"    />
+        <result property="payTime"    column="pay_time"    />
+        <result property="deliveryTime"    column="delivery_time"    />
+        <result property="userRemark"    column="user_remark"    />
+        <result property="orderSettlementStatus"    column="order_settlement_status"    />
+        <result property="orderSettlementTime"    column="order_settlement_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="extend"    column="extend"    />
+        <association property="weixinUser"    column="user_id" javaType="com.yiran.weixin.domain.WeixinUser" resultMap="WeixinUserResult" />
+    </resultMap>
+    
+    <resultMap type="WeixinUser" id="WeixinUserResult">
+        <result property="id"    column="id"    />
+        <result property="subscribe"    column="subscribe"    />
+        <result property="openid"    column="openid"    />
+        <result property="nickname"    column="nickname"    />
+        <result property="sex"    column="sex"    />
+        <result property="city"    column="city"    />
+        <result property="country"    column="country"    />
+        <result property="province"    column="province"    />
+        <result property="language"    column="language"    />
+        <result property="headimgurl"    column="headimgurl"    />
+        <result property="subscribeTime"    column="subscribe_time"    />
+        <result property="unionid"    column="unionid"    />
+        <result property="remark"    column="remark"    />
+        <result property="groupid"    column="groupid"    />
+        <result property="tagidList"    column="tagid_list"    />
+        <result property="bind"    column="bind"    />
+        <result property="username"    column="username"    />
+        <result property="password"    column="password"    />
+        <result property="name"    column="name"    />
+        <result property="phone"    column="phone"    />
+        <result property="address"    column="address"    />
+    </resultMap>
+   
+	<sql id="selectWechatOrderVo">
+        SELECT
+			o.order_id,
+			o.order_no,
+			o.shop_id,
+			o.order_status,
+			o.pay_status,
+			o.product_count,
+			o.product_amount_total,
+			o.logistics_fee,
+			o.is_unpacking_inspection,
+			o.is_open_invoice,
+			o.invoice_no,
+			o.address_id,
+			o.orderlogistics_id,
+			o.pay_channel,
+			o.escrow_trade_no,
+			o.pay_time,
+			o.delivery_time,
+			o.user_id,
+			o.user_remark,
+			o.order_settlement_status,
+			o.order_settlement_time,
+			o.create_by,
+			o.create_time,
+			o.update_by,
+			o.update_time,
+			o.extend,
+			u.id,
+		  	u.subscribe,
+		  	u.openid,
+		  	u.nickname,
+		  	u.sex,
+		  	u.city,
+		  	u.country,
+		  	u.province,
+		  	u.LANGUAGE,
+		  	u.headimgurl,
+		  	u.subscribe_time,
+		  	u.unionid,
+		  	u.remark,
+		  	u.groupid,
+		  	u.tagid_list,
+		  	u.bind,
+		  	u.username,
+		  	u.PASSWORD,
+		  	u.NAME,
+		  	u.phone,
+		  	u.address
+		  	
+		FROM
+			wechat_order o , sys_weixin_user u
+        
+    </sql>
+	
+    <select id="selectWechatOrderList" parameterType="WechatOrder" resultMap="WechatOrderResult">
+        SELECT
+			o.order_id,
+			o.order_no,
+			o.shop_id,
+			o.order_status,
+			o.pay_status,
+			o.product_count,
+			o.product_amount_total,
+			o.logistics_fee,
+			o.is_unpacking_inspection,
+			o.is_open_invoice,
+			o.invoice_no,
+			o.address_id,
+			o.orderlogistics_id,
+			o.pay_channel,
+			o.escrow_trade_no,
+			o.pay_time,
+			o.delivery_time,
+			o.user_id,
+			o.user_remark,
+			o.order_settlement_status,
+			o.order_settlement_time,
+			o.create_by,
+			o.create_time,
+			o.update_by,
+			o.update_time,
+			o.extend,
+			u.id,
+		  	u.subscribe,
+		  	u.openid,
+		  	u.nickname,
+		  	u.sex,
+		  	u.city,
+		  	u.country,
+		  	u.province,
+		  	u.LANGUAGE,
+		  	u.headimgurl,
+		  	u.subscribe_time,
+		  	u.unionid,
+		  	u.remark,
+		  	u.groupid,
+		  	u.tagid_list,
+		  	u.bind,
+		  	u.username,
+		  	u.PASSWORD,
+		  	u.NAME,
+		  	u.phone,
+		  	u.address
+		FROM
+			wechat_order o , sys_weixin_user u
+        <where>  
+        	o.user_id = u.openid
+            <if test="orderId != null "> and o.order_id = #{orderId}</if>
+             <if test="orderNo != null  and orderNo != '' "> and o.order_no = #{orderNo}</if>
+             <if test="shopId != null  and shopId != '' "> and o.shop_id = #{shopId}</if>
+             <if test="orderStatus != null  and orderStatus != '' "> and o.order_status = #{orderStatus}</if>
+             <if test="productCount != null  and productCount != '' "> and o.product_count = #{productCount}</if>
+             <if test="productAmountTotal != null  and productAmountTotal != '' "> and o.product_amount_total = #{productAmountTotal}</if>
+             <if test="logisticsFee != null  and logisticsFee != '' "> and o.logistics_fee = #{logisticsFee}</if>
+             <if test="isUnpackingInspection != null  and isUnpackingInspection != '' "> and o.is_unpacking_inspection = #{isUnpackingInspection}</if>
+             <if test="isOpenInvoice != null  and isOpenInvoice != '' "> and o.is_open_invoice = #{isOpenInvoice}</if>
+             <if test="invoiceNo != null  and invoiceNo != '' "> and o.invoice_no = #{invoiceNo}</if>
+             <if test="addressId != null  and addressId != '' "> and o.address_id = #{addressId}</if>
+             <if test="orderlogisticsId != null  and orderlogisticsId != '' "> and o.orderlogistics_id = #{orderlogisticsId}</if>
+             <if test="payChannel != null  and payChannel != '' "> and o.pay_channel = #{payChannel}</if>
+             <if test="escrowTradeNo != null  and escrowTradeNo != '' "> and o.escrow_trade_no = #{escrowTradeNo}</if>
+             <if test="payTime != null "> and o.pay_time = #{payTime}</if>
+             <if test="deliveryTime != null "> and o.delivery_time = #{deliveryTime}</if>
+             <if test="userId != null  and userId != '' "> and o.user_id = #{userId}</if>
+             <if test="userRemark != null  and userRemark != '' "> and o.user_remark = #{userRemark}</if>
+             <if test="orderSettlementStatus != null  and orderSettlementStatus != '' "> and o.order_settlement_status = #{orderSettlementStatus}</if>
+             <if test="orderSettlementTime != null  and orderSettlementTime != '' "> and o.order_settlement_time = #{orderSettlementTime}</if>
+             <if test="createBy != null  and createBy != '' "> and o.create_by = #{createBy}</if>
+             <if test="createTime != null "> and o.create_time = #{createTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and o.update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and o.update_time = #{updateTime}</if>
+         </where>
+         order by o.create_time desc
+    </select>
+    
+    <select id="selectWechatOrderById" parameterType="Integer" resultMap="WechatOrderResult">
+        <include refid="selectWechatOrderVo"/>
+        where o.user_id = u.openid
+        and o.order_id = #{orderId}
+    </select>
+    
+    <select id="selectOrderByOrderNo" parameterType="String" resultMap="WechatOrderResult">
+        <include refid="selectWechatOrderVo"/>
+        where o.user_id = u.openid
+        and o.order_no = #{orderNo}
+    </select>
+    
+    <select id="getOrderNumsUnshipped" resultType="Integer">
+       select count(1) from wechat_order t where t.order_status = 1 and pay_status = 'S' and t.orderlogistics_id is null
+    </select>
+        
+    <insert id="insertWechatOrder" parameterType="WechatOrder" useGeneratedKeys="true" keyProperty="orderId">
+        insert into wechat_order
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="orderNo != null  and orderNo != ''  ">order_no,</if>
+			<if test="shopId != null  and shopId != ''  ">shop_id,</if>
+			<if test="orderStatus != null  and orderStatus != ''  ">order_status,</if>
+			<if test="productCount != null  and productCount != ''  ">product_count,</if>
+			<if test="productAmountTotal != null  and productAmountTotal != ''  ">product_amount_total,</if>
+			<if test="logisticsFee != null  and logisticsFee != ''  ">logistics_fee,</if>
+			<if test="isUnpackingInspection != null  and isUnpackingInspection != ''  ">is_unpacking_inspection,</if>
+			<if test="isOpenInvoice != null  and isOpenInvoice != ''  ">is_open_invoice,</if>
+			<if test="invoiceNo != null  and invoiceNo != ''  ">invoice_no,</if>
+			<if test="addressId != null  and addressId != ''  ">address_id,</if>
+			<if test="orderlogisticsId != null  and orderlogisticsId != ''  ">orderlogistics_id,</if>
+			<if test="payChannel != null  and payChannel != ''  ">pay_channel,</if>
+			<if test="escrowTradeNo != null  and escrowTradeNo != ''  ">escrow_trade_no,</if>
+			<if test="payTime != null  ">pay_time,</if>
+			<if test="deliveryTime != null  ">delivery_time,</if>
+			<if test="userId != null  and userId != ''  ">user_id,</if>
+			<if test="userRemark != null  and userRemark != ''  ">user_remark,</if>
+			<if test="orderSettlementStatus != null  and orderSettlementStatus != ''  ">order_settlement_status,</if>
+			<if test="orderSettlementTime != null  and orderSettlementTime != ''  ">order_settlement_time,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			<if test="extend != null  and extend != ''  ">extend,</if>
+			create_time,
+			update_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="orderNo != null  and orderNo != ''  ">#{orderNo},</if>
+			<if test="shopId != null  and shopId != ''  ">#{shopId},</if>
+			<if test="orderStatus != null  and orderStatus != ''  ">#{orderStatus},</if>
+			<if test="productCount != null  and productCount != ''  ">#{productCount},</if>
+			<if test="productAmountTotal != null  and productAmountTotal != ''  ">#{productAmountTotal},</if>
+			<if test="logisticsFee != null  and logisticsFee != ''  ">#{logisticsFee},</if>
+			<if test="isUnpackingInspection != null  and isUnpackingInspection != ''  ">#{isUnpackingInspection},</if>
+			<if test="isOpenInvoice != null  and isOpenInvoice != ''  ">#{isOpenInvoice},</if>
+			<if test="invoiceNo != null  and invoiceNo != ''  ">#{invoiceNo},</if>
+			<if test="addressId != null  and addressId != ''  ">#{addressId},</if>
+			<if test="orderlogisticsId != null  and orderlogisticsId != ''  ">#{orderlogisticsId},</if>
+			<if test="payChannel != null  and payChannel != ''  ">#{payChannel},</if>
+			<if test="escrowTradeNo != null  and escrowTradeNo != ''  ">#{escrowTradeNo},</if>
+			<if test="payTime != null  ">#{payTime},</if>
+			<if test="deliveryTime != null  ">#{deliveryTime},</if>
+			<if test="userId != null  and userId != ''  ">#{userId},</if>
+			<if test="userRemark != null  and userRemark != ''  ">#{userRemark},</if>
+			<if test="orderSettlementStatus != null  and orderSettlementStatus != ''  ">#{orderSettlementStatus},</if>
+			<if test="orderSettlementTime != null  and orderSettlementTime != ''  ">#{orderSettlementTime},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			<if test="extend != null  and extend != ''  ">#{extend},</if>
+			sysdate(),
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateWechatOrder" parameterType="WechatOrder">
+        update wechat_order
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderNo != null  and orderNo != ''  ">order_no = #{orderNo},</if>
+            <if test="shopId != null  and shopId != ''  ">shop_id = #{shopId},</if>
+            <if test="orderStatus != null  and orderStatus != ''  ">order_status = #{orderStatus},</if>
+            <if test="payStatus != null  and payStatus != ''  ">pay_status = #{payStatus},</if>
+            <if test="productCount != null  and productCount != ''  ">product_count = #{productCount},</if>
+            <if test="productAmountTotal != null  and productAmountTotal != ''  ">product_amount_total = #{productAmountTotal},</if>
+            <if test="logisticsFee != null  and logisticsFee != ''  ">logistics_fee = #{logisticsFee},</if>
+            <if test="isUnpackingInspection != null  and isUnpackingInspection != ''  ">is_unpacking_inspection = #{isUnpackingInspection},</if>
+            <if test="isOpenInvoice != null  and isOpenInvoice != ''  ">is_open_invoice = #{isOpenInvoice},</if>
+            <if test="invoiceNo != null  and invoiceNo != ''  ">invoice_no = #{invoiceNo},</if>
+            <if test="addressId != null  and addressId != ''  ">address_id = #{addressId},</if>
+            <if test="orderlogisticsId != null  and orderlogisticsId != ''  ">orderlogistics_id = #{orderlogisticsId},</if>
+            <if test="payChannel != null  and payChannel != ''  ">pay_channel = #{payChannel},</if>
+            <if test="escrowTradeNo != null  and escrowTradeNo != ''  ">escrow_trade_no = #{escrowTradeNo},</if>
+            <if test="payTime != null  ">pay_time = #{payTime},</if>
+            <if test="deliveryTime != null  ">delivery_time = #{deliveryTime},</if>
+            <if test="userId != null  and userId != ''  ">user_id = #{userId},</if>
+            <if test="userRemark != null  and userRemark != ''  ">user_remark = #{userRemark},</if>
+            <if test="orderSettlementStatus != null  and orderSettlementStatus != ''  ">order_settlement_status = #{orderSettlementStatus},</if>
+            <if test="orderSettlementTime != null  and orderSettlementTime != ''  ">order_settlement_time = #{orderSettlementTime},</if>
+            <if test="extend != null  and extend != ''  ">extend = #{extend},</if>
+            update_time = sysdate()
+        </trim>
+        where order_id = #{orderId}
+    </update>
+
+	<delete id="deleteWechatOrderById" parameterType="Integer">
+        delete from wechat_order where order_id = #{orderId}
+    </delete>
+	
+    <delete id="deleteWechatOrderByIds" parameterType="String">
+        delete from wechat_order where order_id in 
+        <foreach item="orderId" collection="array" open="(" separator="," close=")">
+            #{orderId}
+        </foreach>
+    </delete>
+    
+    <update id="updateOrderStatustranSactionCompleted" >
+        update wechat_order
+           set order_status = '8',
+            update_time = sysdate()
+        where order_id = #{orderId}
+    </update>
+    
+    <update id="updateOrderStatus" >
+        update wechat_order
+           set order_status = #{orderStatus},
+            update_time = sysdate()
+        where order_no = #{orderNo}
+        and user_id = #{openId}
+    </update>
+    
+</mapper>

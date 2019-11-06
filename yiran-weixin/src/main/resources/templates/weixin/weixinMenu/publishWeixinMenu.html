@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link href="/ajax/libs/iCheck/custom.css" th:href="@{/ajax/libs/iCheck/custom.css}" rel="stylesheet"/>
+<body class="white-bg">
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+		<form class="form-horizontal m" id="form-menu-edit" >
+			
+			<h4 class="form-header h4">已发布微信菜单：</h4>
+            <div class="row">
+            	<div class="col-sm-12">
+                    <div class="form-group">
+                        <div class="col-xs-10" >
+                            <textarea id="remark" name="remark" class="form-control" cols="30" rows="20">[[*{ms}]]</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+		</form>
+	</div>
+	<div th:include="include::footer"></div>
+	<script th:src="@{/ajax/libs/iCheck/icheck.min.js}"></script>
+</body>
+</html>

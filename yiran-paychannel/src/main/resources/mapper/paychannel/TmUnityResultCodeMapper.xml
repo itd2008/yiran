@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.paychannel.mapper.TmUnityResultCodeMapper">
+    
+    <resultMap type="TmUnityResultCode" id="TmUnityResultCodeResult">
+        <result property="unityResultCode"    column="unity_result_code"    />
+        <result property="descriptionTemplate"    column="description_template"    />
+        <result property="gmtCreate"    column="gmt_create"    />
+        <result property="gmtModified"    column="gmt_modified"    />
+        <result property="memo"    column="memo"    />
+    </resultMap>
+	
+	<sql id="selectTmUnityResultCodeVo">
+        select unity_result_code, description_template, gmt_create, gmt_modified, memo from tm_unity_result_code
+    </sql>
+	
+    <select id="selectTmUnityResultCodeList" parameterType="TmUnityResultCode" resultMap="TmUnityResultCodeResult">
+        <include refid="selectTmUnityResultCodeVo"/>
+        <where>  
+            <if test="unityResultCode != null  and unityResultCode != '' "> and unity_result_code = #{unityResultCode}</if>
+             <if test="descriptionTemplate != null  and descriptionTemplate != '' "> and description_template = #{descriptionTemplate}</if>
+             <if test="gmtCreate != null "> and gmt_create = #{gmtCreate}</if>
+             <if test="gmtModified != null "> and gmt_modified = #{gmtModified}</if>
+             <if test="memo != null  and memo != '' "> and memo = #{memo}</if>
+         </where>
+    </select>
+    
+    <select id="selectTmUnityResultCodeById" parameterType="String" resultMap="TmUnityResultCodeResult">
+        <include refid="selectTmUnityResultCodeVo"/>
+        where unity_result_code = #{unityResultCode}
+    </select>
+        
+    <insert id="insertTmUnityResultCode" parameterType="TmUnityResultCode">
+        insert into tm_unity_result_code
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="unityResultCode != null  and unityResultCode != ''  ">unity_result_code,</if>
+			<if test="descriptionTemplate != null  and descriptionTemplate != ''  ">description_template,</if>
+			<if test="memo != null  and memo != ''  ">memo,</if>
+			gmt_create,
+			gmt_modified
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="unityResultCode != null  and unityResultCode != ''  ">#{unityResultCode},</if>
+			<if test="descriptionTemplate != null  and descriptionTemplate != ''  ">#{descriptionTemplate},</if>
+			<if test="memo != null  and memo != ''  ">#{memo},</if>
+			sysdate(),
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateTmUnityResultCode" parameterType="TmUnityResultCode">
+        update tm_unity_result_code
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="descriptionTemplate != null  and descriptionTemplate != ''  ">description_template = #{descriptionTemplate},</if>
+            <if test="memo != null  and memo != ''  ">memo = #{memo},</if>
+            gmt_modified = sysdate()
+        </trim>
+        where unity_result_code = #{unityResultCode}
+    </update>
+
+	<delete id="deleteTmUnityResultCodeById" parameterType="String">
+        delete from tm_unity_result_code where unity_result_code = #{unityResultCode}
+    </delete>
+	
+    <delete id="deleteTmUnityResultCodeByIds" parameterType="String">
+        delete from tm_unity_result_code where unity_result_code in 
+        <foreach item="unityResultCode" collection="array" open="(" separator="," close=")">
+            #{unityResultCode}
+        </foreach>
+    </delete>
+    
+    <select id="checkUnityResultCode" parameterType="String" resultType="int">
+		select count(1) from tm_unity_result_code where unity_result_code = #{unityResultCode}
+	</select>
+    
+</mapper>

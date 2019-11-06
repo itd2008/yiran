@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.payorder.mapper.PayRefundOrderMapper">
+    
+    <resultMap type="PayRefundOrder" id="PayRefundOrderResult">
+        <result property="instOrderId"    column="inst_order_id"    />
+        <result property="fundinOrderNo"    column="fundin_order_no"    />
+        <result property="fundinRealAmount"    column="fundin_real_amount"    />
+        <result property="fundinDate"    column="fundin_date"    />
+        <result property="gmtModified"    column="gmt_modified"    />
+    </resultMap>
+	
+	<sql id="selectPayRefundOrderVo">
+        select inst_order_id, fundin_order_no, fundin_real_amount, fundin_date, gmt_modified from pay_refund_order
+    </sql>
+	
+    <select id="selectPayRefundOrderList" parameterType="PayRefundOrder" resultMap="PayRefundOrderResult">
+        <include refid="selectPayRefundOrderVo"/>
+        <where>  
+            <if test="instOrderId != null "> and inst_order_id = #{instOrderId}</if>
+             <if test="fundinOrderNo != null  and fundinOrderNo != '' "> and fundin_order_no = #{fundinOrderNo}</if>
+             <if test="fundinRealAmount != null "> and fundin_real_amount = #{fundinRealAmount}</if>
+             <if test="fundinDate != null  and fundinDate != '' "> and fundin_date = #{fundinDate}</if>
+             <if test="gmtModified != null "> and gmt_modified = #{gmtModified}</if>
+         </where>
+    </select>
+    
+    <select id="selectPayRefundOrderById" parameterType="Integer" resultMap="PayRefundOrderResult">
+        <include refid="selectPayRefundOrderVo"/>
+        where inst_order_id = #{instOrderId}
+    </select>
+        
+    <insert id="insertPayRefundOrder" parameterType="PayRefundOrder">
+        insert into pay_refund_order
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="instOrderId != null  ">inst_order_id,</if>
+			<if test="fundinOrderNo != null  and fundinOrderNo != ''  ">fundin_order_no,</if>
+			<if test="fundinRealAmount != null  ">fundin_real_amount,</if>
+			<if test="fundinDate != null  and fundinDate != ''  ">fundin_date,</if>
+			<if test="gmtModified != null  ">gmt_modified,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="instOrderId != null  ">#{instOrderId},</if>
+			<if test="fundinOrderNo != null  and fundinOrderNo != ''  ">#{fundinOrderNo},</if>
+			<if test="fundinRealAmount != null  ">#{fundinRealAmount},</if>
+			<if test="fundinDate != null  and fundinDate != ''  ">#{fundinDate},</if>
+			<if test="gmtModified != null  ">#{gmtModified},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updatePayRefundOrder" parameterType="PayRefundOrder">
+        update pay_refund_order
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="fundinOrderNo != null  and fundinOrderNo != ''  ">fundin_order_no = #{fundinOrderNo},</if>
+            <if test="fundinRealAmount != null  ">fundin_real_amount = #{fundinRealAmount},</if>
+            <if test="fundinDate != null  and fundinDate != ''  ">fundin_date = #{fundinDate},</if>
+            <if test="gmtModified != null  ">gmt_modified = #{gmtModified},</if>
+        </trim>
+        where inst_order_id = #{instOrderId}
+    </update>
+
+	<delete id="deletePayRefundOrderById" parameterType="Integer">
+        delete from pay_refund_order where inst_order_id = #{instOrderId}
+    </delete>
+	
+    <delete id="deletePayRefundOrderByIds" parameterType="String">
+        delete from pay_refund_order where inst_order_id in 
+        <foreach item="instOrderId" collection="array" open="(" separator="," close=")">
+            #{instOrderId}
+        </foreach>
+    </delete>
+    
+</mapper>

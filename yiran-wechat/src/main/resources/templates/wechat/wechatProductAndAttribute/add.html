@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-wechatProductAndAttribute-add">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">商品编号：</label>
+				<div class="col-sm-8">
+					<input id="productId" name="productId" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">属性编号：</label>
+				<div class="col-sm-8">
+					<input id="productAttributeId" name="productAttributeId" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">属性值：</label>
+				<div class="col-sm-8">
+					<input id="attrValue" name="attrValue" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+	</div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "wechat/wechatProductAndAttribute"
+		$("#form-wechatProductAndAttribute-add").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/add", $('#form-wechatProductAndAttribute-add').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

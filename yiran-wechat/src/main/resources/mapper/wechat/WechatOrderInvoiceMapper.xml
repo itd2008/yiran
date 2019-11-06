@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.wechat.mapper.WechatOrderInvoiceMapper">
+    
+    <resultMap type="WechatOrderInvoice" id="WechatOrderInvoiceResult">
+        <result property="invoiceId"    column="invoice_id"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="isVat"    column="is_vat"    />
+        <result property="invoiceTitle"    column="invoice_title"    />
+        <result property="invoiceContent"    column="invoice_content"    />
+        <result property="invoiceAmount"    column="invoice_amount"    />
+        <result property="invoiceTaxNo"    column="invoice_tax_no"    />
+        <result property="invoiceTax"    column="invoice_tax"    />
+        <result property="vatCompanyName"    column="vat_company_name"    />
+        <result property="vatCompanyAddress"    column="vat_company_address"    />
+        <result property="vatTelphone"    column="vat_telphone"    />
+        <result property="vatBankName"    column="vat_bank_name"    />
+        <result property="vatBankAccount"    column="vat_bank_account"    />
+        <result property="orderSettlementTime"    column="order_settlement_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+	
+	<sql id="selectWechatOrderInvoiceVo">
+        select invoice_id, order_id, is_vat, invoice_title, invoice_content, invoice_amount, invoice_tax_no, invoice_tax, vat_company_name, vat_company_address, vat_telphone, vat_bank_name, vat_bank_account, order_settlement_time, create_by, create_time, update_by, update_time from wechat_order_invoice
+    </sql>
+	
+    <select id="selectWechatOrderInvoiceList" parameterType="WechatOrderInvoice" resultMap="WechatOrderInvoiceResult">
+        <include refid="selectWechatOrderInvoiceVo"/>
+        <where>  
+            <if test="invoiceId != null "> and invoice_id = #{invoiceId}</if>
+             <if test="orderId != null "> and order_id = #{orderId}</if>
+             <if test="isVat != null "> and is_vat = #{isVat}</if>
+             <if test="invoiceTitle != null  and invoiceTitle != '' "> and invoice_title = #{invoiceTitle}</if>
+             <if test="invoiceContent != null  and invoiceContent != '' "> and invoice_content = #{invoiceContent}</if>
+             <if test="invoiceAmount != null  and invoiceAmount != '' "> and invoice_amount = #{invoiceAmount}</if>
+             <if test="invoiceTaxNo != null  and invoiceTaxNo != '' "> and invoice_tax_no = #{invoiceTaxNo}</if>
+             <if test="invoiceTax != null  and invoiceTax != '' "> and invoice_tax = #{invoiceTax}</if>
+             <if test="vatCompanyName != null  and vatCompanyName != '' "> and vat_company_name = #{vatCompanyName}</if>
+             <if test="vatCompanyAddress != null  and vatCompanyAddress != '' "> and vat_company_address = #{vatCompanyAddress}</if>
+             <if test="vatTelphone != null  and vatTelphone != '' "> and vat_telphone = #{vatTelphone}</if>
+             <if test="vatBankName != null  and vatBankName != '' "> and vat_bank_name = #{vatBankName}</if>
+             <if test="vatBankAccount != null  and vatBankAccount != '' "> and vat_bank_account = #{vatBankAccount}</if>
+             <if test="orderSettlementTime != null  and orderSettlementTime != '' "> and order_settlement_time = #{orderSettlementTime}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+         </where>
+    </select>
+    
+    <select id="selectWechatOrderInvoiceById" parameterType="Integer" resultMap="WechatOrderInvoiceResult">
+        <include refid="selectWechatOrderInvoiceVo"/>
+        where invoice_id = #{invoiceId}
+    </select>
+        
+    <insert id="insertWechatOrderInvoice" parameterType="WechatOrderInvoice" useGeneratedKeys="true" keyProperty="invoiceId">
+        insert into wechat_order_invoice
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="orderId != null  ">order_id,</if>
+			<if test="isVat != null  ">is_vat,</if>
+			<if test="invoiceTitle != null  and invoiceTitle != ''  ">invoice_title,</if>
+			<if test="invoiceContent != null  and invoiceContent != ''  ">invoice_content,</if>
+			<if test="invoiceAmount != null  and invoiceAmount != ''  ">invoice_amount,</if>
+			<if test="invoiceTaxNo != null  and invoiceTaxNo != ''  ">invoice_tax_no,</if>
+			<if test="invoiceTax != null  and invoiceTax != ''  ">invoice_tax,</if>
+			<if test="vatCompanyName != null  and vatCompanyName != ''  ">vat_company_name,</if>
+			<if test="vatCompanyAddress != null  and vatCompanyAddress != ''  ">vat_company_address,</if>
+			<if test="vatTelphone != null  and vatTelphone != ''  ">vat_telphone,</if>
+			<if test="vatBankName != null  and vatBankName != ''  ">vat_bank_name,</if>
+			<if test="vatBankAccount != null  and vatBankAccount != ''  ">vat_bank_account,</if>
+			<if test="orderSettlementTime != null  and orderSettlementTime != ''  ">order_settlement_time,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			<if test="updateTime != null  ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="orderId != null  ">#{orderId},</if>
+			<if test="isVat != null  ">#{isVat},</if>
+			<if test="invoiceTitle != null  and invoiceTitle != ''  ">#{invoiceTitle},</if>
+			<if test="invoiceContent != null  and invoiceContent != ''  ">#{invoiceContent},</if>
+			<if test="invoiceAmount != null  and invoiceAmount != ''  ">#{invoiceAmount},</if>
+			<if test="invoiceTaxNo != null  and invoiceTaxNo != ''  ">#{invoiceTaxNo},</if>
+			<if test="invoiceTax != null  and invoiceTax != ''  ">#{invoiceTax},</if>
+			<if test="vatCompanyName != null  and vatCompanyName != ''  ">#{vatCompanyName},</if>
+			<if test="vatCompanyAddress != null  and vatCompanyAddress != ''  ">#{vatCompanyAddress},</if>
+			<if test="vatTelphone != null  and vatTelphone != ''  ">#{vatTelphone},</if>
+			<if test="vatBankName != null  and vatBankName != ''  ">#{vatBankName},</if>
+			<if test="vatBankAccount != null  and vatBankAccount != ''  ">#{vatBankAccount},</if>
+			<if test="orderSettlementTime != null  and orderSettlementTime != ''  ">#{orderSettlementTime},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			<if test="updateTime != null  ">#{updateTime},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateWechatOrderInvoice" parameterType="WechatOrderInvoice">
+        update wechat_order_invoice
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderId != null  ">order_id = #{orderId},</if>
+            <if test="isVat != null  ">is_vat = #{isVat},</if>
+            <if test="invoiceTitle != null  and invoiceTitle != ''  ">invoice_title = #{invoiceTitle},</if>
+            <if test="invoiceContent != null  and invoiceContent != ''  ">invoice_content = #{invoiceContent},</if>
+            <if test="invoiceAmount != null  and invoiceAmount != ''  ">invoice_amount = #{invoiceAmount},</if>
+            <if test="invoiceTaxNo != null  and invoiceTaxNo != ''  ">invoice_tax_no = #{invoiceTaxNo},</if>
+            <if test="invoiceTax != null  and invoiceTax != ''  ">invoice_tax = #{invoiceTax},</if>
+            <if test="vatCompanyName != null  and vatCompanyName != ''  ">vat_company_name = #{vatCompanyName},</if>
+            <if test="vatCompanyAddress != null  and vatCompanyAddress != ''  ">vat_company_address = #{vatCompanyAddress},</if>
+            <if test="vatTelphone != null  and vatTelphone != ''  ">vat_telphone = #{vatTelphone},</if>
+            <if test="vatBankName != null  and vatBankName != ''  ">vat_bank_name = #{vatBankName},</if>
+            <if test="vatBankAccount != null  and vatBankAccount != ''  ">vat_bank_account = #{vatBankAccount},</if>
+            <if test="orderSettlementTime != null  and orderSettlementTime != ''  ">order_settlement_time = #{orderSettlementTime},</if>
+            <if test="createBy != null  and createBy != ''  ">create_by = #{createBy},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+        </trim>
+        where invoice_id = #{invoiceId}
+    </update>
+
+	<delete id="deleteWechatOrderInvoiceById" parameterType="Integer">
+        delete from wechat_order_invoice where invoice_id = #{invoiceId}
+    </delete>
+	
+    <delete id="deleteWechatOrderInvoiceByIds" parameterType="String">
+        delete from wechat_order_invoice where invoice_id in 
+        <foreach item="invoiceId" collection="array" open="(" separator="," close=")">
+            #{invoiceId}
+        </foreach>
+    </delete>
+    
+</mapper>

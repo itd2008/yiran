@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.wechat.mapper.BsAreaMapper">
+    
+    <resultMap type="BsArea" id="BsAreaResult">
+        <result property="areaId"    column="AREA_ID"    />
+        <result property="areaCode"    column="AREA_CODE"    />
+        <result property="cityCode"    column="CITY_CODE"    />
+        <result property="areaName"    column="AREA_NAME"    />
+        <result property="shortName"    column="SHORT_NAME"    />
+        <result property="lng"    column="LNG"    />
+        <result property="lat"    column="LAT"    />
+        <result property="sort"    column="SORT"    />
+        <result property="gmtCreate"    column="GMT_CREATE"    />
+        <result property="gmtModified"    column="GMT_MODIFIED"    />
+        <result property="memo"    column="MEMO"    />
+        <result property="dataState"    column="DATA_STATE"    />
+        <result property="tenantCode"    column="TENANT_CODE"    />
+    </resultMap>
+	
+	<sql id="selectBsAreaVo">
+        select AREA_ID, AREA_CODE, CITY_CODE, AREA_NAME, SHORT_NAME, LNG, LAT, SORT, GMT_CREATE, GMT_MODIFIED, MEMO, DATA_STATE, TENANT_CODE from bs_area
+    </sql>
+	
+    <select id="selectBsAreaList" parameterType="BsArea" resultMap="BsAreaResult">
+        <include refid="selectBsAreaVo"/>
+        <where>  
+            <if test="areaId != null "> and AREA_ID = #{areaId}</if>
+             <if test="areaCode != null  and areaCode != '' "> and AREA_CODE = #{areaCode}</if>
+             <if test="cityCode != null  and cityCode != '' "> and CITY_CODE = #{cityCode}</if>
+             <if test="areaName != null  and areaName != '' "> and AREA_NAME = #{areaName}</if>
+             <if test="shortName != null  and shortName != '' "> and SHORT_NAME = #{shortName}</if>
+             <if test="dataState != null "> and DATA_STATE = #{dataState}</if>
+             <if test="tenantCode != null  and tenantCode != '' "> and TENANT_CODE = #{tenantCode}</if>
+         </where>
+    </select>
+    
+     <select id="selectBsAreaListByCityCode" parameterType="BsArea" resultMap="BsAreaResult">
+        <include refid="selectBsAreaVo"/>
+        where CITY_CODE = #{cityCode}
+    </select>
+    
+    <select id="selectBsAreaById" parameterType="Integer" resultMap="BsAreaResult">
+        <include refid="selectBsAreaVo"/>
+        where AREA_ID = #{areaId}
+    </select>
+        
+    <insert id="insertBsArea" parameterType="BsArea" useGeneratedKeys="true" keyProperty="areaId">
+        insert into bs_area
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="areaCode != null  and areaCode != ''  ">AREA_CODE,</if>
+			<if test="cityCode != null  and cityCode != ''  ">CITY_CODE,</if>
+			<if test="areaName != null  and areaName != ''  ">AREA_NAME,</if>
+			<if test="shortName != null  and shortName != ''  ">SHORT_NAME,</if>
+			<if test="lng != null  and lng != ''  ">LNG,</if>
+			<if test="lat != null  and lat != ''  ">LAT,</if>
+			<if test="sort != null  ">SORT,</if>
+			<if test="gmtCreate != null  ">GMT_CREATE,</if>
+			<if test="gmtModified != null  ">GMT_MODIFIED,</if>
+			<if test="memo != null  and memo != ''  ">MEMO,</if>
+			<if test="dataState != null  ">DATA_STATE,</if>
+			<if test="tenantCode != null  and tenantCode != ''  ">TENANT_CODE,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="areaCode != null  and areaCode != ''  ">#{areaCode},</if>
+			<if test="cityCode != null  and cityCode != ''  ">#{cityCode},</if>
+			<if test="areaName != null  and areaName != ''  ">#{areaName},</if>
+			<if test="shortName != null  and shortName != ''  ">#{shortName},</if>
+			<if test="lng != null  and lng != ''  ">#{lng},</if>
+			<if test="lat != null  and lat != ''  ">#{lat},</if>
+			<if test="sort != null  ">#{sort},</if>
+			<if test="gmtCreate != null  ">#{gmtCreate},</if>
+			<if test="gmtModified != null  ">#{gmtModified},</if>
+			<if test="memo != null  and memo != ''  ">#{memo},</if>
+			<if test="dataState != null  ">#{dataState},</if>
+			<if test="tenantCode != null  and tenantCode != ''  ">#{tenantCode},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateBsArea" parameterType="BsArea">
+        update bs_area
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="areaCode != null  and areaCode != ''  ">AREA_CODE = #{areaCode},</if>
+            <if test="cityCode != null  and cityCode != ''  ">CITY_CODE = #{cityCode},</if>
+            <if test="areaName != null  and areaName != ''  ">AREA_NAME = #{areaName},</if>
+            <if test="shortName != null  and shortName != ''  ">SHORT_NAME = #{shortName},</if>
+            <if test="lng != null  and lng != ''  ">LNG = #{lng},</if>
+            <if test="lat != null  and lat != ''  ">LAT = #{lat},</if>
+            <if test="sort != null  ">SORT = #{sort},</if>
+            <if test="gmtCreate != null  ">GMT_CREATE = #{gmtCreate},</if>
+            <if test="gmtModified != null  ">GMT_MODIFIED = #{gmtModified},</if>
+            <if test="memo != null  and memo != ''  ">MEMO = #{memo},</if>
+            <if test="dataState != null  ">DATA_STATE = #{dataState},</if>
+            <if test="tenantCode != null  and tenantCode != ''  ">TENANT_CODE = #{tenantCode},</if>
+        </trim>
+        where AREA_ID = #{areaId}
+    </update>
+
+	<delete id="deleteBsAreaById" parameterType="Integer">
+        delete from bs_area where AREA_ID = #{areaId}
+    </delete>
+	
+    <delete id="deleteBsAreaByIds" parameterType="String">
+        delete from bs_area where AREA_ID in 
+        <foreach item="areaId" collection="array" open="(" separator="," close=")">
+            #{areaId}
+        </foreach>
+    </delete>
+    
+</mapper>

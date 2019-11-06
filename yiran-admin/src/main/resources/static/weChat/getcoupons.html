@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>领取优惠券</title>
+		<meta name="keywords" content="KEYWORDS..." />
+		<meta name="description" content="DESCRIPTION..." />
+		<meta name="author" content="DeathGhost" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name='apple-touch-fullscreen' content='yes'>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no">
+		<meta name="format-detection" content="address=no">
+		<meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, user-scalable=no">
+		<link rel="stylesheet" type="text/css" href="css/coupon/style.css" />
+		<link rel="stylesheet" type="text/css" href="css/coupon/reset.css" />
+	</head>
+
+	<body>
+	<dl class="tab_proList" id="youhuiquan">
+			
+	</dl>
+
+		<script src="lib/jquery-2.1.4.js"></script> 
+		<script src="js/swiper.min.js"></script>
+		<script type="text/javascript" src="js/config.js"></script>
+		<script type="text/javascript">
+		$(document).ready(function () {      
+				$.ajax({
+					type: "post",
+					url: base_url+"/api/yiran/weChatMall/product/queryCouponIsGet/"+sessionStorage.openId,
+					async: false, //同步
+					success: function (data) {
+						var coupondata = data.data;
+						console.info(coupondata)
+						var couponHtml = "";
+						for(var i=0;i<coupondata.length;i++){
+							if(coupondata[i].isGet == "1"){//已经领取
+								couponHtml += "<dd style='margin-top:0;' id='bgImg-user1'><ul><li class='coupon-list'><a href='javascript:getCoupons(\""+coupondata[i].serialNo+"\")' class='clearfix'><div class='fl coupon-left'><h1 class='f05 fl line-height14 colorfff'>¥<em>"+coupondata[i].faceValue+"</em></h1><h2 class='f032 fl colorfff mt10 ml5 line-height-02rem'>YUAN</br>优惠券</h2></div><div class='fr coupon-right f028 '><p>1."+coupondata[i].conditionDesc+"</p><p style='line-height:0.35rem'>2.有限期至："+new Date((new Date(coupondata[i].endTime)).getTime()).format("yyyy-MM-dd hh:mm:ss")+"</p></div><div class='syImg'><img src='img/ylq.png' /></div></a></li></ul><input type='hidden' id='isgetcoupone_"+coupondata[i].serialNo+"' value='1'/></dd>";
+							}else{//未领取
+								couponHtml +="<dd style='margin-top:0;' id='"+coupondata[i].serialNo+"'><ul><li class='coupon-list'><a href='javascript:getCoupons(\""+coupondata[i].serialNo+"\")' class='clearfix'><div class='fl coupon-left'><h1 class='f05 fl line-height14 colorfff'>¥<em>"+coupondata[i].faceValue+"</em></h1><h2 class='f032 fl colorfff mt10 ml5 line-height-02rem'>YUAN</br>优惠券</h2></div><div class='fr coupon-right f028 '><p>1."+coupondata[i].conditionDesc+"</p><pstyle='line-height:0.35rem'>2.有限期至："+new Date((new Date(coupondata[i].endTime)).getTime()).format("yyyy-MM-dd hh:mm:ss")+"</p></div></a></li></ul><input type='hidden' id='isgetcoupone_"+coupondata[i].serialNo+"' value='0'/></dd>";
+							}
+							
+						}
+						$("#youhuiquan").html(couponHtml);
+					},
+					//调用出错执行的函数
+					error: function(){
+						$("#youhuiquan").html("请求服务器api失败，无法获取数据");
+					}
+				});
+			
+			})
+			
+			Date.prototype.format = function(fmt) { 
+		     var o = { 
+		        "M+" : this.getMonth()+1,                 //月份 
+		        "d+" : this.getDate(),                    //日 
+		        "h+" : this.getHours(),                   //小时 
+		        "m+" : this.getMinutes(),                 //分 
+		        "s+" : this.getSeconds(),                 //秒 
+		        "q+" : Math.floor((this.getMonth()+3)/3), //季度 
+		        "S"  : this.getMilliseconds()             //毫秒 
+		    }; 
+		    if(/(y+)/.test(fmt)) {
+		            fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length)); 
+		    }
+		     for(var k in o) {
+		        if(new RegExp("("+ k +")").test(fmt)){
+		             fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+		         }
+		     }
+		    return fmt; 
+		}  
+		
+			var getCoupons = function (serialNo){
+				var isgetcoupone = $("#isgetcoupone_"+serialNo).val();
+				if(isgetcoupone == "1"){
+					alert("优惠券已经领取");
+					return false;
+				}
+				
+				//优惠券跟用户关联
+				$.ajax({
+					type: "post",
+					url: base_url+"/api/yiran/weChatMall/product/saveCouponBySerialNo/"+serialNo+"/"+sessionStorage.openId,
+					async: false, //同步
+					success: function (data) {
+						alert("优惠券已经成功");
+						window.location.href="getcoupons.html";
+					},
+					//调用出错执行的函数
+					error: function(){
+						alert("请求服务器api失败，无法获取数据");
+					}
+				});
+				
+			}
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.member.mapper.MemberTmContactMapper">
+    
+    <resultMap type="MemberTmContact" id="MemberTmContactResult">
+        <result property="contactId"    column="contact_id"    />
+        <result property="objectId"    column="object_id"    />
+        <result property="contactName"    column="contact_name"    />
+        <result property="contactType"    column="contact_type"    />
+        <result property="country"    column="country"    />
+        <result property="province"    column="province"    />
+        <result property="city"    column="city"    />
+        <result property="town"    column="town"    />
+        <result property="address"    column="address"    />
+        <result property="postcode"    column="postcode"    />
+        <result property="website"    column="website"    />
+        <result property="fax"    column="fax"    />
+        <result property="mobile"    column="mobile"    />
+        <result property="tel"    column="tel"    />
+        <result property="email"    column="email"    />
+        <result property="qq"    column="qq"    />
+        <result property="wechart"    column="wechart"    />
+        <result property="position"    column="position"    />
+        <result property="dept"    column="dept"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createUser"    column="create_user"    />
+        <result property="updateUser"    column="update_user"    />
+        <result property="memo"    column="memo"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+	
+	<sql id="selectMemberTmContactVo">
+        select contact_id, object_id, contact_name, contact_type, country, province, city, town, address, postcode, website, fax, mobile, tel, email, qq, wechart, position, dept, create_time, update_time, create_user, update_user, memo, status from member_tm_contact
+    </sql>
+	
+    <select id="selectMemberTmContactList" parameterType="MemberTmContact" resultMap="MemberTmContactResult">
+        <include refid="selectMemberTmContactVo"/>
+        <where>  
+            <if test="contactId != null "> and contact_id = #{contactId}</if>
+             <if test="objectId != null  and objectId != '' "> and object_id = #{objectId}</if>
+             <if test="contactName != null  and contactName != '' "> and contact_name = #{contactName}</if>
+             <if test="contactType != null "> and contact_type = #{contactType}</if>
+             <if test="country != null  and country != '' "> and country = #{country}</if>
+             <if test="province != null  and province != '' "> and province = #{province}</if>
+             <if test="city != null  and city != '' "> and city = #{city}</if>
+             <if test="town != null  and town != '' "> and town = #{town}</if>
+             <if test="address != null  and address != '' "> and address = #{address}</if>
+             <if test="postcode != null  and postcode != '' "> and postcode = #{postcode}</if>
+             <if test="website != null  and website != '' "> and website = #{website}</if>
+             <if test="fax != null  and fax != '' "> and fax = #{fax}</if>
+             <if test="mobile != null  and mobile != '' "> and mobile = #{mobile}</if>
+             <if test="tel != null  and tel != '' "> and tel = #{tel}</if>
+             <if test="email != null  and email != '' "> and email = #{email}</if>
+             <if test="qq != null  and qq != '' "> and qq = #{qq}</if>
+             <if test="wechart != null  and wechart != '' "> and wechart = #{wechart}</if>
+             <if test="position != null  and position != '' "> and position = #{position}</if>
+             <if test="dept != null  and dept != '' "> and dept = #{dept}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="createUser != null  and createUser != '' "> and create_user = #{createUser}</if>
+             <if test="updateUser != null  and updateUser != '' "> and update_user = #{updateUser}</if>
+             <if test="memo != null  and memo != '' "> and memo = #{memo}</if>
+             <if test="status != null "> and status = #{status}</if>
+         </where>
+    </select>
+    
+    <select id="selectMemberTmContactById" parameterType="Integer" resultMap="MemberTmContactResult">
+        <include refid="selectMemberTmContactVo"/>
+        where contact_id = #{contactId}
+    </select>
+    
+    <select id="queryMemberTmContact"  resultMap="MemberTmContactResult">
+        <include refid="selectMemberTmContactVo"/>
+        where status =1
+        	and object_id = #{objectId}
+        	and contact_type = #{contactType}
+    </select>
+        
+    <insert id="insertMemberTmContact" parameterType="MemberTmContact" useGeneratedKeys="true" keyProperty="contactId">
+        insert into member_tm_contact
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="objectId != null  and objectId != ''  ">object_id,</if>
+			<if test="contactName != null  and contactName != ''  ">contact_name,</if>
+			<if test="contactType != null  ">contact_type,</if>
+			<if test="country != null  and country != ''  ">country,</if>
+			<if test="province != null  and province != ''  ">province,</if>
+			<if test="city != null  and city != ''  ">city,</if>
+			<if test="town != null  and town != ''  ">town,</if>
+			<if test="address != null  and address != ''  ">address,</if>
+			<if test="postcode != null  and postcode != ''  ">postcode,</if>
+			<if test="website != null  and website != ''  ">website,</if>
+			<if test="fax != null  and fax != ''  ">fax,</if>
+			<if test="mobile != null  and mobile != ''  ">mobile,</if>
+			<if test="tel != null  and tel != ''  ">tel,</if>
+			<if test="email != null  and email != ''  ">email,</if>
+			<if test="qq != null  and qq != ''  ">qq,</if>
+			<if test="wechart != null  and wechart != ''  ">wechart,</if>
+			<if test="position != null  and position != ''  ">position,</if>
+			<if test="dept != null  and dept != ''  ">dept,</if>
+			<if test="memo != null  and memo != ''  ">memo,</if>
+			<if test="status != null  ">status,</if>
+			create_time,
+			update_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="objectId != null  and objectId != ''  ">#{objectId},</if>
+			<if test="contactName != null  and contactName != ''  ">#{contactName},</if>
+			<if test="contactType != null  ">#{contactType},</if>
+			<if test="country != null  and country != ''  ">#{country},</if>
+			<if test="province != null  and province != ''  ">#{province},</if>
+			<if test="city != null  and city != ''  ">#{city},</if>
+			<if test="town != null  and town != ''  ">#{town},</if>
+			<if test="address != null  and address != ''  ">#{address},</if>
+			<if test="postcode != null  and postcode != ''  ">#{postcode},</if>
+			<if test="website != null  and website != ''  ">#{website},</if>
+			<if test="fax != null  and fax != ''  ">#{fax},</if>
+			<if test="mobile != null  and mobile != ''  ">#{mobile},</if>
+			<if test="tel != null  and tel != ''  ">#{tel},</if>
+			<if test="email != null  and email != ''  ">#{email},</if>
+			<if test="qq != null  and qq != ''  ">#{qq},</if>
+			<if test="wechart != null  and wechart != ''  ">#{wechart},</if>
+			<if test="position != null  and position != ''  ">#{position},</if>
+			<if test="dept != null  and dept != ''  ">#{dept},</if>
+			<if test="memo != null  and memo != ''  ">#{memo},</if>
+			<if test="status != null  ">#{status},</if>
+			sysdate(),
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateMemberTmContact" parameterType="MemberTmContact">
+        update member_tm_contact
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="objectId != null  and objectId != ''  ">object_id = #{objectId},</if>
+            <if test="contactName != null  and contactName != ''  ">contact_name = #{contactName},</if>
+            <if test="contactType != null  ">contact_type = #{contactType},</if>
+            <if test="country != null  and country != ''  ">country = #{country},</if>
+            <if test="province != null  and province != ''  ">province = #{province},</if>
+            <if test="city != null  and city != ''  ">city = #{city},</if>
+            <if test="town != null  and town != ''  ">town = #{town},</if>
+            <if test="address != null  and address != ''  ">address = #{address},</if>
+            <if test="postcode != null  and postcode != ''  ">postcode = #{postcode},</if>
+            <if test="website != null  and website != ''  ">website = #{website},</if>
+            <if test="fax != null  and fax != ''  ">fax = #{fax},</if>
+            <if test="mobile != null  and mobile != ''  ">mobile = #{mobile},</if>
+            <if test="tel != null  and tel != ''  ">tel = #{tel},</if>
+            <if test="email != null  and email != ''  ">email = #{email},</if>
+            <if test="qq != null  and qq != ''  ">qq = #{qq},</if>
+            <if test="wechart != null  and wechart != ''  ">wechart = #{wechart},</if>
+            <if test="position != null  and position != ''  ">position = #{position},</if>
+            <if test="dept != null  and dept != ''  ">dept = #{dept},</if>
+            <if test="memo != null  and memo != ''  ">memo = #{memo},</if>
+            <if test="status != null  ">status = #{status},</if>
+            create_time = sysdate()
+        </trim>
+        where contact_id = #{contactId}
+    </update>
+
+	<delete id="deleteMemberTmContactById" parameterType="Integer">
+        delete from member_tm_contact where contact_id = #{contactId}
+    </delete>
+	
+    <delete id="deleteMemberTmContactByIds" parameterType="String">
+        delete from member_tm_contact where contact_id in 
+        <foreach item="contactId" collection="array" open="(" separator="," close=")">
+            #{contactId}
+        </foreach>
+    </delete>
+    
+</mapper>

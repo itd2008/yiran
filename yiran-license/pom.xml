@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.yiran</groupId>
+    <artifactId>yiran</artifactId>
+    <version>1.0</version>
+  </parent>
+  <artifactId>yiran-license</artifactId>
+  <name>yiran-license</name>
+  <url>http://maven.apache.org</url>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!-- License -->
+	<truelicense>1.33</truelicense>
+	<!-- JUnit单元测试 -->
+	<junit>4.12</junit>
+	<!-- Apache Commons系列公共库 -->
+	<commons-lang3>3.7</commons-lang3>
+	<commons-io>2.6</commons-io>
+	<commons-codec>1.11</commons-codec>
+	<!-- Apache HttpClient -->
+	<httpclient>4.5.5</httpclient>
+	<!-- Fastjson -->
+	<fastjson>1.2.47</fastjson>
+	<!-- Java Servlet API -->
+	<javax.servlet-api>4.0.1</javax.servlet-api>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <!-- License -->
+	<dependency>
+		<groupId>de.schlichtherle.truelicense</groupId>
+		<artifactId>truelicense-core</artifactId>
+		<version>${truelicense}</version>
+	</dependency>
+	<!-- Commons -->
+	<dependency>
+		<groupId>org.apache.commons</groupId>
+		<artifactId>commons-lang3</artifactId>
+		<version>${commons-lang3}</version>
+	</dependency>
+	<dependency>
+		<groupId>commons-io</groupId>
+		<artifactId>commons-io</artifactId>
+		<version>${commons-io}</version>
+	</dependency>
+	<dependency>
+		<groupId>commons-codec</groupId>
+		<artifactId>commons-codec</artifactId>
+		<version>${commons-codec}</version>
+	</dependency>
+
+	<!-- Apache HttpClient -->
+	<dependency>
+		<groupId>org.apache.httpcomponents</groupId>
+		<artifactId>httpclient</artifactId>
+		<version>${httpclient}</version>
+	</dependency>
+
+	<!-- Fastjson -->
+	<dependency>
+		<groupId>com.alibaba</groupId>
+		<artifactId>fastjson</artifactId>
+		<version>${fastjson}</version>
+	</dependency>
+
+	<!-- Java Servlet API -->
+	<dependency>
+		<groupId>javax.servlet</groupId>
+		<artifactId>javax.servlet-api</artifactId>
+		<version>${javax.servlet-api}</version>
+		<scope>provided</scope>
+	</dependency>
+
+	<!-- Jackson对自动解析JSON和XML格式的支持 -->
+	<dependency>
+		<groupId>com.fasterxml.jackson.jaxrs</groupId>
+		<artifactId>jackson-jaxrs-json-provider</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>com.fasterxml.jackson.dataformat</groupId>
+		<artifactId>jackson-dataformat-xml</artifactId>
+	</dependency>
+
+	<!-- SLF4J和LogBack -->
+	<dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>slf4j-api</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>jcl-over-slf4j</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>net.sourceforge.nekohtml</groupId>
+		<artifactId>nekohtml</artifactId>
+		<version>1.9.22</version>
+	</dependency>
+  </dependencies>
+</project>

@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.wechat.mapper.WechatShoppingCartMapper">
+    
+    <resultMap type="WechatShoppingCart" id="WechatShoppingCartResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="nickName"    column="nick_name"    />
+        <result property="shopId"    column="shop_id"    />
+        <result property="productId"    column="product_id"    />
+        <result property="productTitle"    column="product_title"    />
+        <result property="attr"    column="attr"    />
+        <result property="isProductExists"    column="is_product_exists"    />
+        <result property="number"    column="number"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="price"    column="price"    />
+        <association property="wechatProduct"    column="product_id" javaType="WechatProduct" resultMap="WechatProductResult"/>
+    </resultMap>
+    
+    <resultMap type="WechatProduct" id="WechatProductResult">
+        <result property="productId"    column="product_id"    />
+        <result property="productName"    column="product_name"    />
+        <result property="marque"    column="marque"    />
+        <result property="barcode"    column="barcode"    />
+        <result property="typeId"    column="type_id"    />
+        <result property="brandId"    column="brand_id"    />
+        <result property="price"    column="price"    />
+        <result property="marketPrice"    column="market_price"    />
+        <result property="costPrice"    column="cost_price"    />
+        <result property="stock"    column="stock"    />
+        <result property="warningStock"    column="warning_stock"    />
+        <result property="integral"    column="integral"    />
+        <result property="pictureUrl"    column="picture_url"    />
+        <result property="status"    column="status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="p1"    column="p1"    />
+        <result property="p2"    column="p2"    />
+        <result property="p3"    column="p3"    />
+        <result property="p4"    column="p4"    />
+        <result property="p5"    column="p5"    />
+        <result property="p6"    column="p6"    />
+        <result property="p7"    column="p7"    />
+        <result property="p8"    column="p8"    />
+        <result property="p9"    column="p9"    />
+        <result property="p10"    column="p10"    />
+        <result property="brandName"    column="brand_name"    />
+        <result property="title"    column="title"    />
+         
+    </resultMap>
+	
+	<sql id="selectWechatShoppingCartVo">
+        select id, user_id,nick_name, shop_id, product_id,product_title, attr,is_product_exists, number, create_time ,price
+        from wechat_shopping_cart 
+    </sql>
+	
+    <select id="selectWechatShoppingCartList" parameterType="WechatShoppingCart" resultMap="WechatShoppingCartResult">
+        <include refid="selectWechatShoppingCartVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+             <if test="userId != null  and userId != '' "> and user_id = #{userId}</if>
+             <if test="nickName != null  and nickName != '' "> and nick_name = #{nickName}</if>
+             <if test="shopId != null "> and shop_id = #{shopId}</if>
+             <if test="productId != null "> and product_id = #{productId}</if>
+             <if test="productTitle != null  and productTitle != '' "> and product_title = #{productTitle}</if>
+             <if test="isProductExists != null "> and is_product_exists = #{isProductExists}</if>
+             <if test="number != null "> and number = #{number}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="attr != null  and attr != '' "> and attr = #{attr}</if>
+         </where>
+        order by create_time desc
+    </select>
+    
+    <select id="selectWechatShoppingCartById" parameterType="Integer" resultMap="WechatShoppingCartResult">
+        <include refid="selectWechatShoppingCartVo"/>
+        where id = #{id}
+    </select>
+    
+    <select id="selectWechatShoppingCartBypProductId" parameterType="Integer" resultMap="WechatShoppingCartResult">
+        <include refid="selectWechatShoppingCartVo"/>
+        where product_id = #{productId}
+    </select>
+    
+    <select id="selectWechatShoppingCartByOpenId" parameterType="String" resultMap="WechatShoppingCartResult">
+    	SELECT
+			c.id,
+			c.user_id,
+			c.nick_name,
+			c.shop_id,
+			c.product_id,
+			c.product_title,
+			c.attr,
+			c.is_product_exists,
+			c.number,
+			c.create_time,
+			c.price,
+			p.product_id,
+			p.product_name,
+			p.marque,
+			p.barcode,
+			p.type_id,
+			p.category_id,
+			p.brand_id,
+			p.price,
+			p.market_price,
+			p.cost_price,
+			p.stock,
+			p.warning_stock,
+			p.integral,
+			p.picture_url,
+			p. STATUS,
+			p.create_time,
+			p.p1,
+			p.p2,
+			p.p3,
+			p.p4,
+			p.p5,
+			p.p6,
+			p.p7,
+			p.p8,
+			p.p9,
+			p.p10
+		FROM
+			wechat_shopping_cart c
+		LEFT JOIN wechat_product p ON c.product_id = p.product_id
+			where c.user_id = #{openId}
+		ORDER BY
+			c.create_time DESC
+    </select>
+        
+    <insert id="insertWechatShoppingCart" parameterType="WechatShoppingCart" useGeneratedKeys="true" keyProperty="id">
+        insert into wechat_shopping_cart
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userId != null  and userId != ''  ">user_id,</if>
+			<if test="nickName != null and nickName != '' ">nick_name,</if>
+			<if test="shopId != null  ">shop_id,</if>
+			<if test="productId != null  ">product_id,</if>
+			<if test="productTitle != null  and productTitle != ''">product_title,</if>
+			<if test="isProductExists != null  ">is_product_exists,</if>
+			<if test="number != null  ">number,</if>
+			<if test="attr != null  ">attr,</if>
+			<if test="price != null  ">price,</if>
+			create_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userId != null  and userId != ''  ">#{userId},</if>
+			<if test="nickName != null  and nickName != ''  ">#{nickName},</if>
+			<if test="shopId != null  ">#{shopId},</if>
+			<if test="productId != null  ">#{productId},</if>
+			<if test="productTitle != null  and productTitle != ''">#{productTitle},</if>
+			<if test="isProductExists != null  ">#{isProductExists},</if>
+			<if test="number != null  ">#{number},</if>
+			<if test="attr != null  ">#{attr},</if>
+			<if test="price != null  ">#{price},</if>
+			sysdate()
+         </trim>
+    </insert>
+    
+	 <update id="updateWechatShoppingCart" parameterType="WechatShoppingCart">
+	 	update wechat_shopping_cart set number =#{number}
+	 	where id = #{id}
+	 </update>
+    
+
+	<delete id="deleteWechatShoppingCartById" parameterType="Integer">
+        delete from wechat_shopping_cart where id = #{id}
+    </delete>
+	
+    <delete id="deleteWechatShoppingCartByIds" parameterType="String">
+        delete from wechat_shopping_cart where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+    <delete id="deleteWechatShoppingCartByIdAndUserId" >
+        delete from wechat_shopping_cart 
+        where user_id = #{userId}
+        and product_id in 
+        <foreach item="productId" collection="productIds" open="(" separator="," close=")">
+            #{productId}
+        </foreach>
+    </delete>
+    
+    <delete id="deleteWechatShoppingByProductId" parameterType="Integer">
+        delete from wechat_shopping_cart where product_id = #{productId}
+    </delete>
+    
+</mapper>

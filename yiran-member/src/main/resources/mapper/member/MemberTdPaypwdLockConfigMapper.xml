@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.member.mapper.MemberTdPaypwdLockConfigMapper">
+    
+    <resultMap type="MemberTdPaypwdLockConfig" id="MemberTdPaypwdLockConfigResult">
+        <result property="id"    column="id"    />
+        <result property="lockStrategy"    column="lock_strategy"    />
+        <result property="inputDetectSpan"    column="input_detect_span"    />
+        <result property="wrongInputCount"    column="wrong_input_count"    />
+        <result property="lockSpan"    column="lock_span"    />
+        <result property="status"    column="status"    />
+        <result property="memo"    column="memo"    />
+    </resultMap>
+	
+	<sql id="selectMemberTdPaypwdLockConfigVo">
+        select id, lock_strategy, input_detect_span, wrong_input_count, lock_span, status, memo from member_td_paypwd_lock_config
+    </sql>
+	
+    <select id="selectMemberTdPaypwdLockConfigList" parameterType="MemberTdPaypwdLockConfig" resultMap="MemberTdPaypwdLockConfigResult">
+        <include refid="selectMemberTdPaypwdLockConfigVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+             <if test="lockStrategy != null  and lockStrategy != '' "> and lock_strategy = #{lockStrategy}</if>
+             <if test="inputDetectSpan != null "> and input_detect_span = #{inputDetectSpan}</if>
+             <if test="wrongInputCount != null "> and wrong_input_count = #{wrongInputCount}</if>
+             <if test="lockSpan != null "> and lock_span = #{lockSpan}</if>
+             <if test="status != null "> and status = #{status}</if>
+             <if test="memo != null  and memo != '' "> and memo = #{memo}</if>
+         </where>
+    </select>
+    
+    <select id="selectMemberTdPaypwdLockConfigById" parameterType="Integer" resultMap="MemberTdPaypwdLockConfigResult">
+        <include refid="selectMemberTdPaypwdLockConfigVo"/>
+        where id = #{id}
+    </select>
+    
+    <select id="selectMemberTdPaypwdLockConfigBylockStrategy" parameterType="String" resultMap="MemberTdPaypwdLockConfigResult">
+        <include refid="selectMemberTdPaypwdLockConfigVo"/>
+        where lock_strategy = #{lockStrategy}
+    </select>
+        
+    <insert id="insertMemberTdPaypwdLockConfig" parameterType="MemberTdPaypwdLockConfig" useGeneratedKeys="true" keyProperty="id">
+        insert into member_td_paypwd_lock_config
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="lockStrategy != null  and lockStrategy != ''  ">lock_strategy,</if>
+			<if test="inputDetectSpan != null  ">input_detect_span,</if>
+			<if test="wrongInputCount != null  ">wrong_input_count,</if>
+			<if test="lockSpan != null  ">lock_span,</if>
+			<if test="status != null  ">status,</if>
+			<if test="memo != null  and memo != ''  ">memo,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="lockStrategy != null  and lockStrategy != ''  ">#{lockStrategy},</if>
+			<if test="inputDetectSpan != null  ">#{inputDetectSpan},</if>
+			<if test="wrongInputCount != null  ">#{wrongInputCount},</if>
+			<if test="lockSpan != null  ">#{lockSpan},</if>
+			<if test="status != null  ">#{status},</if>
+			<if test="memo != null  and memo != ''  ">#{memo},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateMemberTdPaypwdLockConfig" parameterType="MemberTdPaypwdLockConfig">
+        update member_td_paypwd_lock_config
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="lockStrategy != null  and lockStrategy != ''  ">lock_strategy = #{lockStrategy},</if>
+            <if test="inputDetectSpan != null  ">input_detect_span = #{inputDetectSpan},</if>
+            <if test="wrongInputCount != null  ">wrong_input_count = #{wrongInputCount},</if>
+            <if test="lockSpan != null  ">lock_span = #{lockSpan},</if>
+            <if test="status != null  ">status = #{status},</if>
+            <if test="memo != null  and memo != ''  ">memo = #{memo},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteMemberTdPaypwdLockConfigById" parameterType="Integer">
+        delete from member_td_paypwd_lock_config where id = #{id}
+    </delete>
+	
+    <delete id="deleteMemberTdPaypwdLockConfigByIds" parameterType="String">
+        delete from member_td_paypwd_lock_config where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

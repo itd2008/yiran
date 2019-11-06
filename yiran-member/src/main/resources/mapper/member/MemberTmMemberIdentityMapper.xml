@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.member.mapper.MemberTmMemberIdentityMapper">
+    
+    <resultMap type="MemberTmMemberIdentity" id="MemberTmMemberIdentityResult">
+        <result property="memberId"    column="member_id"    />
+        <result property="identity"    column="identity"    />
+        <result property="status"    column="status"    />
+        <result property="isRecvAddr"    column="is_recv_addr"    />
+        <result property="identityType"    column="identity_type"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="memo"    column="memo"    />
+        <result property="pid"    column="pid"    />
+        <result property="isUnionAccount"    column="is_union_account"    />
+        <result property="unionAccountStatus"    column="union_account_status"    />
+    </resultMap>
+	
+	<sql id="selectMemberTmMemberIdentityVo">
+        select member_id, identity, status, is_recv_addr, identity_type, create_time, update_time, memo, pid, is_union_account, union_account_status from member_tm_member_identity
+    </sql>
+	
+    <select id="selectMemberTmMemberIdentityList" parameterType="MemberTmMemberIdentity" resultMap="MemberTmMemberIdentityResult">
+        <include refid="selectMemberTmMemberIdentityVo"/>
+        <where>  
+            <if test="memberId != null  and memberId != '' "> and member_id = #{memberId}</if>
+             <if test="identity != null  and identity != '' "> and identity = #{identity}</if>
+             <if test="status != null "> and status = #{status}</if>
+             <if test="isRecvAddr != null "> and is_recv_addr = #{isRecvAddr}</if>
+             <if test="identityType != null "> and identity_type = #{identityType}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="memo != null  and memo != '' "> and memo = #{memo}</if>
+             <if test="pid != null "> and pid = #{pid}</if>
+             <if test="isUnionAccount != null "> and is_union_account = #{isUnionAccount}</if>
+             <if test="unionAccountStatus != null "> and union_account_status = #{unionAccountStatus}</if>
+         </where>
+    </select>
+    
+    <select id="selectMemberTmMemberIdentityById" parameterType="String" resultMap="MemberTmMemberIdentityResult">
+        <include refid="selectMemberTmMemberIdentityVo"/>
+        where member_id = #{memberId}
+    </select>
+    
+    <select id="queryMemberId"  resultType="String">
+    	select member_id from member_tm_member_identity
+        where identity = #{memberIdentity} and pid = #{platformType}
+    </select>
+        
+    <insert id="insertMemberTmMemberIdentity" parameterType="MemberTmMemberIdentity">
+        insert into member_tm_member_identity
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="memberId != null  and memberId != ''  ">member_id,</if>
+			<if test="identity != null  and identity != ''  ">identity,</if>
+			<if test="status != null  ">status,</if>
+			<if test="isRecvAddr != null  ">is_recv_addr,</if>
+			<if test="identityType != null  ">identity_type,</if>
+			<if test="memo != null  and memo != ''  ">memo,</if>
+			<if test="pid != null  ">pid,</if>
+			<if test="isUnionAccount != null  ">is_union_account,</if>
+			<if test="unionAccountStatus != null  ">union_account_status,</if>
+			create_time,
+			update_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="memberId != null  and memberId != ''  ">#{memberId},</if>
+			<if test="identity != null  and identity != ''  ">#{identity},</if>
+			<if test="status != null  ">#{status},</if>
+			<if test="isRecvAddr != null  ">#{isRecvAddr},</if>
+			<if test="identityType != null  ">#{identityType},</if>
+			<if test="memo != null  and memo != ''  ">#{memo},</if>
+			<if test="pid != null  ">#{pid},</if>
+			<if test="isUnionAccount != null  ">#{isUnionAccount},</if>
+			<if test="unionAccountStatus != null  ">#{unionAccountStatus},</if>
+			sysdate(),
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateMemberTmMemberIdentity" parameterType="MemberTmMemberIdentity">
+        update member_tm_member_identity
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="identity != null  and identity != ''  ">identity = #{identity},</if>
+            <if test="status != null  ">status = #{status},</if>
+            <if test="isRecvAddr != null  ">is_recv_addr = #{isRecvAddr},</if>
+            <if test="identityType != null  ">identity_type = #{identityType},</if>
+            <if test="memo != null  and memo != ''  ">memo = #{memo},</if>
+            <if test="pid != null  ">pid = #{pid},</if>
+            <if test="isUnionAccount != null  ">is_union_account = #{isUnionAccount},</if>
+            <if test="unionAccountStatus != null  ">union_account_status = #{unionAccountStatus},</if>
+            update_time = sysdate()
+        </trim>
+        where member_id = #{memberId}
+    </update>
+
+	<delete id="deleteMemberTmMemberIdentityById" parameterType="String">
+        delete from member_tm_member_identity where member_id = #{memberId}
+    </delete>
+	
+    <delete id="deleteMemberTmMemberIdentityByIds" parameterType="String">
+        delete from member_tm_member_identity where member_id in 
+        <foreach item="memberId" collection="array" open="(" separator="," close=")">
+            #{memberId}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.member.mapper.MemberTrCompanyMemberMapper">
+    
+    <resultMap type="MemberTrCompanyMember" id="MemberTrCompanyMemberResult">
+        <result property="memberId"    column="member_id"    />
+        <result property="industry"    column="industry"    />
+        <result property="licenseNo"    column="license_no"    />
+        <result property="licenseExpireDate"    column="license_expire_date"    />
+        <result property="companyNo"    column="company_no"    />
+        <result property="legalPerson"    column="legal_person"    />
+        <result property="scale"    column="scale"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createUser"    column="create_user"    />
+        <result property="updateUser"    column="update_user"    />
+        <result property="memo"    column="memo"    />
+        <result property="website"    column="website"    />
+        <result property="companyName"    column="company_name"    />
+        <result property="address"    column="address"    />
+        <result property="licenseAddress"    column="license_address"    />
+        <result property="businessScope"    column="business_scope"    />
+        <result property="telephone"    column="telephone"    />
+        <result property="organizationNo"    column="organization_no"    />
+        <result property="summary"    column="summary"    />
+        <result property="licenseNoPath"    column="license_no_path"    />
+        <result property="organizationNoPath"    column="organization_no_path"    />
+        <result property="taxNoPath"    column="tax_no_path"    />
+        <result property="clearingAccountPath"    column="clearing_account_path"    />
+        <result property="institutionLicensePath"    column="institution_license_path"    />
+        <result property="icpLicensePath"    column="icp_license_path"    />
+        <result property="industryLicensePath"    column="industry_license_path"    />
+        <result property="legalPersonPhone"    column="legal_person_phone"    />
+        <result property="licenseName"    column="license_name"    />
+        <result property="legalPersonIdValidDate"    column="legal_person_id_valid_date"    />
+        <result property="businessWebsite"    column="business_website"    />
+        <result property="proxyPerson"    column="proxy_person"    />
+        <result property="companyType"    column="company_type"    />
+        <result property="proxyPersonIdValidDate"    column="proxy_person_id_valid_date"    />
+        <result property="shortName"    column="short_name"    />
+    </resultMap>
+	
+	<sql id="selectMemberTrCompanyMemberVo">
+        select member_id, industry, license_no, license_expire_date, company_no, legal_person, scale, create_time, update_time, create_user, update_user, memo, website, company_name, address, license_address, business_scope, telephone, organization_no, summary, license_no_path, organization_no_path, tax_no_path, clearing_account_path, institution_license_path, icp_license_path, industry_license_path, legal_person_phone, license_name, legal_person_id_valid_date, business_website, proxy_person, company_type, proxy_person_id_valid_date, short_name from member_tr_company_member
+    </sql>
+	
+    <select id="selectMemberTrCompanyMemberList" parameterType="MemberTrCompanyMember" resultMap="MemberTrCompanyMemberResult">
+        <include refid="selectMemberTrCompanyMemberVo"/>
+        <where>  
+            <if test="memberId != null  and memberId != '' "> and member_id = #{memberId}</if>
+             <if test="industry != null  and industry != '' "> and industry = #{industry}</if>
+             <if test="licenseNo != null  and licenseNo != '' "> and license_no = #{licenseNo}</if>
+             <if test="licenseExpireDate != null "> and license_expire_date = #{licenseExpireDate}</if>
+             <if test="companyNo != null  and companyNo != '' "> and company_no = #{companyNo}</if>
+             <if test="legalPerson != null  and legalPerson != '' "> and legal_person = #{legalPerson}</if>
+             <if test="scale != null "> and scale = #{scale}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="createUser != null  and createUser != '' "> and create_user = #{createUser}</if>
+             <if test="updateUser != null  and updateUser != '' "> and update_user = #{updateUser}</if>
+             <if test="memo != null  and memo != '' "> and memo = #{memo}</if>
+             <if test="website != null  and website != '' "> and website = #{website}</if>
+             <if test="companyName != null  and companyName != '' "> and company_name = #{companyName}</if>
+             <if test="address != null  and address != '' "> and address = #{address}</if>
+             <if test="licenseAddress != null  and licenseAddress != '' "> and license_address = #{licenseAddress}</if>
+             <if test="businessScope != null  and businessScope != '' "> and business_scope = #{businessScope}</if>
+             <if test="telephone != null  and telephone != '' "> and telephone = #{telephone}</if>
+             <if test="organizationNo != null  and organizationNo != '' "> and organization_no = #{organizationNo}</if>
+             <if test="summary != null  and summary != '' "> and summary = #{summary}</if>
+             <if test="licenseNoPath != null  and licenseNoPath != '' "> and license_no_path = #{licenseNoPath}</if>
+             <if test="organizationNoPath != null  and organizationNoPath != '' "> and organization_no_path = #{organizationNoPath}</if>
+             <if test="taxNoPath != null  and taxNoPath != '' "> and tax_no_path = #{taxNoPath}</if>
+             <if test="clearingAccountPath != null  and clearingAccountPath != '' "> and clearing_account_path = #{clearingAccountPath}</if>
+             <if test="institutionLicensePath != null  and institutionLicensePath != '' "> and institution_license_path = #{institutionLicensePath}</if>
+             <if test="icpLicensePath != null  and icpLicensePath != '' "> and icp_license_path = #{icpLicensePath}</if>
+             <if test="industryLicensePath != null  and industryLicensePath != '' "> and industry_license_path = #{industryLicensePath}</if>
+             <if test="legalPersonPhone != null  and legalPersonPhone != '' "> and legal_person_phone = #{legalPersonPhone}</if>
+             <if test="licenseName != null  and licenseName != '' "> and license_name = #{licenseName}</if>
+             <if test="legalPersonIdValidDate != null "> and legal_person_id_valid_date = #{legalPersonIdValidDate}</if>
+             <if test="businessWebsite != null  and businessWebsite != '' "> and business_website = #{businessWebsite}</if>
+             <if test="proxyPerson != null  and proxyPerson != '' "> and proxy_person = #{proxyPerson}</if>
+             <if test="companyType != null "> and company_type = #{companyType}</if>
+             <if test="proxyPersonIdValidDate != null "> and proxy_person_id_valid_date = #{proxyPersonIdValidDate}</if>
+             <if test="shortName != null  and shortName != '' "> and short_name = #{shortName}</if>
+         </where>
+    </select>
+    
+    <select id="selectMemberTrCompanyMemberById" parameterType="String" resultMap="MemberTrCompanyMemberResult">
+        <include refid="selectMemberTrCompanyMemberVo"/>
+        where member_id = #{memberId}
+    </select>
+        
+    <insert id="insertMemberTrCompanyMember" parameterType="MemberTrCompanyMember">
+        insert into member_tr_company_member
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="memberId != null  and memberId != ''  ">member_id,</if>
+			<if test="industry != null  and industry != ''  ">industry,</if>
+			<if test="licenseNo != null  and licenseNo != ''  ">license_no,</if>
+			<if test="licenseExpireDate != null  ">license_expire_date,</if>
+			<if test="companyNo != null  and companyNo != ''  ">company_no,</if>
+			<if test="legalPerson != null  and legalPerson != ''  ">legal_person,</if>
+			<if test="scale != null  ">scale,</if>
+			<if test="memo != null  and memo != ''  ">memo,</if>
+			<if test="website != null  and website != ''  ">website,</if>
+			<if test="companyName != null  and companyName != ''  ">company_name,</if>
+			<if test="address != null  and address != ''  ">address,</if>
+			<if test="licenseAddress != null  and licenseAddress != ''  ">license_address,</if>
+			<if test="businessScope != null  and businessScope != ''  ">business_scope,</if>
+			<if test="telephone != null  and telephone != ''  ">telephone,</if>
+			<if test="organizationNo != null  and organizationNo != ''  ">organization_no,</if>
+			<if test="summary != null  and summary != ''  ">summary,</if>
+			<if test="licenseNoPath != null  and licenseNoPath != ''  ">license_no_path,</if>
+			<if test="organizationNoPath != null  and organizationNoPath != ''  ">organization_no_path,</if>
+			<if test="taxNoPath != null  and taxNoPath != ''  ">tax_no_path,</if>
+			<if test="clearingAccountPath != null  and clearingAccountPath != ''  ">clearing_account_path,</if>
+			<if test="institutionLicensePath != null  and institutionLicensePath != ''  ">institution_license_path,</if>
+			<if test="icpLicensePath != null  and icpLicensePath != ''  ">icp_license_path,</if>
+			<if test="industryLicensePath != null  and industryLicensePath != ''  ">industry_license_path,</if>
+			<if test="legalPersonPhone != null  and legalPersonPhone != ''  ">legal_person_phone,</if>
+			<if test="licenseName != null  and licenseName != ''  ">license_name,</if>
+			<if test="legalPersonIdValidDate != null  ">legal_person_id_valid_date,</if>
+			<if test="businessWebsite != null  and businessWebsite != ''  ">business_website,</if>
+			<if test="proxyPerson != null  and proxyPerson != ''  ">proxy_person,</if>
+			<if test="companyType != null  ">company_type,</if>
+			<if test="proxyPersonIdValidDate != null  ">proxy_person_id_valid_date,</if>
+			<if test="shortName != null  and shortName != ''  ">short_name,</if>
+			create_time,
+			update_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="memberId != null  and memberId != ''  ">#{memberId},</if>
+			<if test="industry != null  and industry != ''  ">#{industry},</if>
+			<if test="licenseNo != null  and licenseNo != ''  ">#{licenseNo},</if>
+			<if test="licenseExpireDate != null  ">#{licenseExpireDate},</if>
+			<if test="companyNo != null  and companyNo != ''  ">#{companyNo},</if>
+			<if test="legalPerson != null  and legalPerson != ''  ">#{legalPerson},</if>
+			<if test="scale != null  ">#{scale},</if>
+			<if test="memo != null  and memo != ''  ">#{memo},</if>
+			<if test="website != null  and website != ''  ">#{website},</if>
+			<if test="companyName != null  and companyName != ''  ">#{companyName},</if>
+			<if test="address != null  and address != ''  ">#{address},</if>
+			<if test="licenseAddress != null  and licenseAddress != ''  ">#{licenseAddress},</if>
+			<if test="businessScope != null  and businessScope != ''  ">#{businessScope},</if>
+			<if test="telephone != null  and telephone != ''  ">#{telephone},</if>
+			<if test="organizationNo != null  and organizationNo != ''  ">#{organizationNo},</if>
+			<if test="summary != null  and summary != ''  ">#{summary},</if>
+			<if test="licenseNoPath != null  and licenseNoPath != ''  ">#{licenseNoPath},</if>
+			<if test="organizationNoPath != null  and organizationNoPath != ''  ">#{organizationNoPath},</if>
+			<if test="taxNoPath != null  and taxNoPath != ''  ">#{taxNoPath},</if>
+			<if test="clearingAccountPath != null  and clearingAccountPath != ''  ">#{clearingAccountPath},</if>
+			<if test="institutionLicensePath != null  and institutionLicensePath != ''  ">#{institutionLicensePath},</if>
+			<if test="icpLicensePath != null  and icpLicensePath != ''  ">#{icpLicensePath},</if>
+			<if test="industryLicensePath != null  and industryLicensePath != ''  ">#{industryLicensePath},</if>
+			<if test="legalPersonPhone != null  and legalPersonPhone != ''  ">#{legalPersonPhone},</if>
+			<if test="licenseName != null  and licenseName != ''  ">#{licenseName},</if>
+			<if test="legalPersonIdValidDate != null  ">#{legalPersonIdValidDate},</if>
+			<if test="businessWebsite != null  and businessWebsite != ''  ">#{businessWebsite},</if>
+			<if test="proxyPerson != null  and proxyPerson != ''  ">#{proxyPerson},</if>
+			<if test="companyType != null  ">#{companyType},</if>
+			<if test="proxyPersonIdValidDate != null  ">#{proxyPersonIdValidDate},</if>
+			<if test="shortName != null  and shortName != ''  ">#{shortName},</if>
+			sysdate(),
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateMemberTrCompanyMember" parameterType="MemberTrCompanyMember">
+        update member_tr_company_member
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="industry != null  and industry != ''  ">industry = #{industry},</if>
+            <if test="licenseNo != null  and licenseNo != ''  ">license_no = #{licenseNo},</if>
+            <if test="licenseExpireDate != null  ">license_expire_date = #{licenseExpireDate},</if>
+            <if test="companyNo != null  and companyNo != ''  ">company_no = #{companyNo},</if>
+            <if test="legalPerson != null  and legalPerson != ''  ">legal_person = #{legalPerson},</if>
+            <if test="scale != null  ">scale = #{scale},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+            <if test="createUser != null  and createUser != ''  ">create_user = #{createUser},</if>
+            <if test="updateUser != null  and updateUser != ''  ">update_user = #{updateUser},</if>
+            <if test="memo != null  and memo != ''  ">memo = #{memo},</if>
+            <if test="website != null  and website != ''  ">website = #{website},</if>
+            <if test="companyName != null  and companyName != ''  ">company_name = #{companyName},</if>
+            <if test="address != null  and address != ''  ">address = #{address},</if>
+            <if test="licenseAddress != null  and licenseAddress != ''  ">license_address = #{licenseAddress},</if>
+            <if test="businessScope != null  and businessScope != ''  ">business_scope = #{businessScope},</if>
+            <if test="telephone != null  and telephone != ''  ">telephone = #{telephone},</if>
+            <if test="organizationNo != null  and organizationNo != ''  ">organization_no = #{organizationNo},</if>
+            <if test="summary != null  and summary != ''  ">summary = #{summary},</if>
+            <if test="licenseNoPath != null  and licenseNoPath != ''  ">license_no_path = #{licenseNoPath},</if>
+            <if test="organizationNoPath != null  and organizationNoPath != ''  ">organization_no_path = #{organizationNoPath},</if>
+            <if test="taxNoPath != null  and taxNoPath != ''  ">tax_no_path = #{taxNoPath},</if>
+            <if test="clearingAccountPath != null  and clearingAccountPath != ''  ">clearing_account_path = #{clearingAccountPath},</if>
+            <if test="institutionLicensePath != null  and institutionLicensePath != ''  ">institution_license_path = #{institutionLicensePath},</if>
+            <if test="icpLicensePath != null  and icpLicensePath != ''  ">icp_license_path = #{icpLicensePath},</if>
+            <if test="industryLicensePath != null  and industryLicensePath != ''  ">industry_license_path = #{industryLicensePath},</if>
+            <if test="legalPersonPhone != null  and legalPersonPhone != ''  ">legal_person_phone = #{legalPersonPhone},</if>
+            <if test="licenseName != null  and licenseName != ''  ">license_name = #{licenseName},</if>
+            <if test="legalPersonIdValidDate != null  ">legal_person_id_valid_date = #{legalPersonIdValidDate},</if>
+            <if test="businessWebsite != null  and businessWebsite != ''  ">business_website = #{businessWebsite},</if>
+            <if test="proxyPerson != null  and proxyPerson != ''  ">proxy_person = #{proxyPerson},</if>
+            <if test="companyType != null  ">company_type = #{companyType},</if>
+            <if test="proxyPersonIdValidDate != null  ">proxy_person_id_valid_date = #{proxyPersonIdValidDate},</if>
+            <if test="shortName != null  and shortName != ''  ">short_name = #{shortName},</if>
+            update_time = sysdate()
+        </trim>
+        where member_id = #{memberId}
+    </update>
+
+	<delete id="deleteMemberTrCompanyMemberById" parameterType="String">
+        delete from member_tr_company_member where member_id = #{memberId}
+    </delete>
+	
+    <delete id="deleteMemberTrCompanyMemberByIds" parameterType="String">
+        delete from member_tr_company_member where member_id in 
+        <foreach item="memberId" collection="array" open="(" separator="," close=")">
+            #{memberId}
+        </foreach>
+    </delete>
+    
+</mapper>

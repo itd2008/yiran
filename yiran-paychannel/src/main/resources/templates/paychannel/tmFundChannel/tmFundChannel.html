@@ -1,0 +1,176 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+						<ul>
+							<li>
+								渠道编码：<input type="text" name="fundChannelCode"/>
+							</li>
+							<li>
+								渠道名称：<input type="text" name="name"/>
+							</li>
+
+							<li>
+								机构代码：<input type="text" name="instCode"/>
+							</li>
+
+							<li>
+								业务类型：
+								<select name="bizType" th:with="type=${@dict.getType('channel_biz_type')}">
+								  <option value="">所有</option>
+								  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+								  </option>
+								</select>
+							</li>
+
+							<li>
+								支付方式：
+								<select name="payMode" th:with="type=${@dict.getType('channel_pay_type')}">
+								  <option value="">所有</option>
+								  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+								  </option>
+								</select>
+							</li>
+
+
+							<li>
+								是否可用:
+								<select name="status" th:with="type=${@dict.getType('channel_usability')}">
+								  <option value="">所有</option>
+								  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+								  </option>
+								</select>
+							</li>
+
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+	        <div class="btn-group-sm hidden-xs" id="toolbar" role="group">
+				<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="paychannel:tmFundChannel:add">
+					<i class="fa fa-plus"></i> 新增资金渠道
+				</a>
+				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.setTargetInst()" >
+					<i class="fa fa-edit"></i> 设置目标机构
+				</a>
+				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.setFundChannelExt()" >
+					<i class="fa fa-edit"></i> 设置特性
+				</a>
+				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.setChannelMaintenancePeriod()" >
+					<i class="fa fa-edit"></i> 设置目维护期
+				</a>
+				
+				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.setChannelApi()" >
+					<i class="fa fa-edit"></i> 设置渠道接口
+				</a>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('paychannel:tmFundChannel:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('paychannel:tmFundChannel:remove')}]];
+        var prefix = ctx + "paychannel/tmFundChannel";
+        var setTargetInstPrefix = ctx + "paychannel/trFcTargetInstRelation";
+        var setFundChannelExtPrefix = ctx + "paychannel/tmFundChannelExt";
+        var setChannelMaintenancePeriodPrefix = ctx + "paychannel/tmFundChannelMaintain";
+        var setChannelApiPrefix = ctx + "paychannel/tmFundChannelApi";
+        var bizTypedatas = [[${@dict.getType('channel_biz_type')}]];
+        var payTypedatas = [[${@dict.getType('channel_pay_type')}]];
+        var usabilitydatas = [[${@dict.getType('channel_usability')}]];
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                setTargetInstUrl:setTargetInstPrefix + "/setTargetInst/{id}",
+                setFundChannelExtUrl:setFundChannelExtPrefix+"/setFundChannelExt/{id}",
+                setChannelMaintenancePeriodUrl:setChannelMaintenancePeriodPrefix+"/setChannelMaintenancePeriod/{id}",
+                setChannelApiUrl:setChannelApiPrefix+"/setChannelApi/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+                modalName: "资金渠道",
+		        showExport: true,
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'fundChannelCode', 
+					title : '渠道编码',
+					visible: true
+				},
+				{
+					field : 'name', 
+					title : '渠道名称',
+					sortable: true
+				},
+				{
+					field : 'instCode', 
+					title : '机构代码',
+					sortable: true
+				},
+				{
+					field : 'bizType', 
+					title : '业务类型',
+					sortable: true,
+				 	formatter: function(value, row, index) {
+				      return $.table.selectDictLabel(bizTypedatas, value);
+				  	}
+				},
+				{
+					field : 'payMode', 
+					title : '支付方式',
+					sortable: true,
+					formatter: function(value, row, index) {
+				      return $.table.selectDictLabel(payTypedatas, value);
+				  	}
+				},
+				{
+					field : 'status', 
+					title : '是否可用',
+					sortable: true,
+					formatter: function(value, row, index) {
+				      return $.table.selectDictLabel(usabilitydatas, value);
+				  	}
+				},
+				{
+					field : 'validFrom', 
+					title : '启用时间',
+					sortable: true
+				},
+				{
+					field : 'validTo', 
+					title : '过期时间',
+					sortable: true
+				},
+		        {
+		            title: '操作',
+		            align: 'center',
+		            formatter: function(value, row, index) {
+		            	var actions = [];
+		            	actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.fundChannelCode + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.fundChannelCode + '\')"><i class="fa fa-remove"></i>删除</a>');
+						return actions.join('');
+		            }
+		        }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-tmFundChannelMaintain-edit" th:object="${tmFundChannelMaintain}">
+            <input id="maintainId" name="maintainId" th:field="*{maintainId}"  type="hidden">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">资金源编码：</label>
+				<div class="col-sm-8">
+					<input id="fundChannelCode" name="fundChannelCode" th:field="*{fundChannelCode}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">资金渠道接口：</label>
+				<div class="col-sm-8">
+					<input id="fundChannelApi" name="fundChannelApi" th:field="*{fundChannelApi}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">描述：</label>
+				<div class="col-sm-8">
+					<input id="description" name="description" th:field="*{description}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">维护公告：</label>
+				<div class="col-sm-8">
+					<input id="maintainContent" name="maintainContent" th:field="*{maintainContent}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">维护开始时间：</label>
+				<div class="col-sm-8">
+					<input id="gmtBegin" name="gmtBegin" th:field="*{gmtBegin}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">维护结束时间：</label>
+				<div class="col-sm-8">
+					<input id="gmtEnd" name="gmtEnd" th:field="*{gmtEnd}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备用资金源：</label>
+				<div class="col-sm-8">
+					<input id="fundChannelBackup" name="fundChannelBackup" th:field="*{fundChannelBackup}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">创建时间：</label>
+				<div class="col-sm-8">
+					<input id="gmtCreate" name="gmtCreate" th:field="*{gmtCreate}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">最后修改时间：</label>
+				<div class="col-sm-8">
+					<input id="gmtModified" name="gmtModified" th:field="*{gmtModified}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<input id="memo" name="memo" th:field="*{memo}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">机构代码：</label>
+				<div class="col-sm-8">
+					<input id="instCode" name="instCode" th:field="*{instCode}" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+    </div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "paychannel/tmFundChannelMaintain";
+		$("#form-tmFundChannelMaintain-edit").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/edit", $('#form-tmFundChannelMaintain-edit').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

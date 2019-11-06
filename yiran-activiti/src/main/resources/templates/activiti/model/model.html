@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+
+<div class="container-div">
+	<div class="row">
+		<div class="btn-group-sm hidden-xs" id="toolbar" role="group">
+			<a class="btn btn-success " onclick="$.operate.addFull()" shiro:hasPermission="activiti:model:add">
+				<i class="fa fa-plus"></i> 添加模型
+			</a>
+			<a class="btn btn-danger btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="activiti:model:remove">
+				<i class="fa fa-remove"></i> 删除
+			</a>
+		</div>
+
+		<div class="col-sm-12 select-table table-striped">
+			<table id="bootstrap-table" data-mobile-responsive="true"></table>
+		</div>
+	</div>
+</div>
+<div th:include="include :: footer"></div>
+<script th:inline="javascript">
+    var editFlag = [[${@permission.hasPermi('activiti:model:edit')}]];
+    var removeFlag = [[${@permission.hasPermi('activiti:model:remove')}]];
+    var deployFlag = [[${@permission.hasPermi('activiti:model:deploy')}]];
+    var exportFlag = [[${@permission.hasPermi('activiti:model:export')}]];
+
+    var prefix = ctx + "activiti/model";
+
+
+    $(function () {
+        var options = {
+            url: prefix + "/list",
+            createUrl : prefix+"/add",
+            removeUrl: prefix + "/remove",
+            updateUrl: prefix + "/edit/{id}",
+            exportUrl: prefix + "/export",
+            deploy: prefix + "/deploy/",
+            sortName: "createTime",
+            sortOrder: "desc",
+            modalName: "模型管理",
+            search: false,
+            showExport: true,
+            columns: [
+                {
+                    checkbox: true
+                },
+                {
+                    field: 'id', // 列字段名
+                    title: '模型id' // 列标题
+                },
+                {
+                    field: 'key', // 列字段名
+                    title: '模型标识' // 列标题
+                },
+                {
+                    field: 'name',
+                    title: '模型名称'
+                },
+                {
+                    field: 'version',
+                    title: '版本号'
+                },
+                {
+                    field: 'createTime',
+                    title: '创建时间'
+                },
+                {
+                    field: 'lastUpdateTime',
+                    title: '最后更新时间'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-primary btn-xs ' + deployFlag + '" href="#" onclick="deploy(\'' + row.id + '\')"><i class="fa fa-play-circle-o"></i>部署流程</a> ');
+                        actions.push('<a class="btn btn-success btn-xs ' + exportFlag + '" href="#" onclick="exportXml(\'' + row.id + '\')"><i class="fa  fa-download"></i>导出</a> ');
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.editFull(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+        };
+        $.table.init(options);
+    });
+
+    function deploy(id) {
+        $.modal.confirm("确认要部署该流程吗？", function () {
+            var url = prefix + "/deploy/" + id;
+            $.operate.get(url);
+        });
+    }
+    function exportXml(id) {
+        window.open(prefix + "/export/" + id);
+    }
+</script>
+</body>
+</html>

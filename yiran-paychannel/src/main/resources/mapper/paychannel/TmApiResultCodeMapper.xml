@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.paychannel.mapper.TmApiResultCodeMapper">
+    
+    <resultMap type="TmApiResultCode" id="TmApiResultCodeResult">
+        <result property="apiResultCodeId"    column="api_result_code_id"    />
+        <result property="fundChannelCode"    column="fund_channel_code"    />
+        <result property="apiType"    column="api_type"    />
+        <result property="resultCode"    column="result_code"    />
+        <result property="resultSubCode"    column="result_sub_code"    />
+        <result property="expression"    column="expression"    />
+        <result property="descriptionTemplate"    column="description_template"    />
+        <result property="unityResultCode"    column="unity_result_code"    />
+        <result property="orderStatus"    column="order_status"    />
+        <result property="useMapping"    column="use_mapping"    />
+        <result property="gmtCreate"    column="gmt_create"    />
+        <result property="gmtModified"    column="gmt_modified"    />
+        <result property="memo"    column="memo"    />
+    </resultMap>
+	
+	<sql id="selectTmApiResultCodeVo">
+        select api_result_code_id, fund_channel_code, api_type, result_code, result_sub_code, expression, description_template, unity_result_code, order_status, use_mapping, gmt_create, gmt_modified, memo from tm_api_result_code
+    </sql>
+	
+    <select id="selectTmApiResultCodeList" parameterType="TmApiResultCode" resultMap="TmApiResultCodeResult">
+        <include refid="selectTmApiResultCodeVo"/>
+        <where>  
+            <if test="apiResultCodeId != null "> and api_result_code_id = #{apiResultCodeId}</if>
+             <if test="fundChannelCode != null  and fundChannelCode != '' "> and fund_channel_code = #{fundChannelCode}</if>
+             <if test="apiType != null  and apiType != '' "> and api_type = #{apiType}</if>
+             <if test="resultCode != null  and resultCode != '' "> and result_code = #{resultCode}</if>
+             <if test="resultSubCode != null  and resultSubCode != '' "> and result_sub_code = #{resultSubCode}</if>
+             <if test="expression != null  and expression != '' "> and expression = #{expression}</if>
+             <if test="descriptionTemplate != null  and descriptionTemplate != '' "> and description_template = #{descriptionTemplate}</if>
+             <if test="unityResultCode != null  and unityResultCode != '' "> and unity_result_code = #{unityResultCode}</if>
+             <if test="orderStatus != null  and orderStatus != '' "> and order_status = #{orderStatus}</if>
+             <if test="useMapping != null  and useMapping != '' "> and use_mapping = #{useMapping}</if>
+             <if test="gmtCreate != null "> and gmt_create = #{gmtCreate}</if>
+             <if test="gmtModified != null "> and gmt_modified = #{gmtModified}</if>
+             <if test="memo != null  and memo != '' "> and memo = #{memo}</if>
+         </where>
+         order by gmt_create desc
+    </select>
+    
+    <select id="selectTmApiResultCodeById" parameterType="Integer" resultMap="TmApiResultCodeResult">
+        <include refid="selectTmApiResultCodeVo"/>
+        where api_result_code_id = #{apiResultCodeId}
+    </select>
+    
+    <select id="loadByChannelAndResultCode"  resultMap="TmApiResultCodeResult">
+        <include refid="selectTmApiResultCodeVo"/>
+        <where>
+	        1=1
+	        and fund_channel_code = #{fundChannelCode}
+	        and api_type = #{api_type}
+	        <if test="resultCode != null  and resultCode != '' "> and result_code = #{resultCode}</if>
+	        <if test="resultSubCode != null  and resultSubCode != '' "> and result_sub_code = #{resultSubCode}</if>
+        </where>
+    </select>
+        
+    <insert id="insertTmApiResultCode" parameterType="TmApiResultCode" useGeneratedKeys="true" keyProperty="apiResultCodeId">
+        insert into tm_api_result_code
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="fundChannelCode != null  and fundChannelCode != ''  ">fund_channel_code,</if>
+			<if test="apiType != null  and apiType != ''  ">api_type,</if>
+			<if test="resultCode != null  and resultCode != ''  ">result_code,</if>
+			<if test="resultSubCode != null  and resultSubCode != ''  ">result_sub_code,</if>
+			<if test="expression != null  and expression != ''  ">expression,</if>
+			<if test="descriptionTemplate != null  and descriptionTemplate != ''  ">description_template,</if>
+			<if test="unityResultCode != null  and unityResultCode != ''  ">unity_result_code,</if>
+			<if test="orderStatus != null  and orderStatus != ''  ">order_status,</if>
+			<if test="useMapping != null  and useMapping != ''  ">use_mapping,</if>
+			<if test="memo != null  and memo != ''  ">memo,</if>
+			gmt_create,
+			gmt_modified
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="fundChannelCode != null  and fundChannelCode != ''  ">#{fundChannelCode},</if>
+			<if test="apiType != null  and apiType != ''  ">#{apiType},</if>
+			<if test="resultCode != null  and resultCode != ''  ">#{resultCode},</if>
+			<if test="resultSubCode != null  and resultSubCode != ''  ">#{resultSubCode},</if>
+			<if test="expression != null  and expression != ''  ">#{expression},</if>
+			<if test="descriptionTemplate != null  and descriptionTemplate != ''  ">#{descriptionTemplate},</if>
+			<if test="unityResultCode != null  and unityResultCode != ''  ">#{unityResultCode},</if>
+			<if test="orderStatus != null  and orderStatus != ''  ">#{orderStatus},</if>
+			<if test="useMapping != null  and useMapping != ''  ">#{useMapping},</if>
+			<if test="memo != null  and memo != ''  ">#{memo},</if>
+			sysdate(),
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateTmApiResultCode" parameterType="TmApiResultCode">
+        update tm_api_result_code
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="fundChannelCode != null  and fundChannelCode != ''  ">fund_channel_code = #{fundChannelCode},</if>
+            <if test="apiType != null  and apiType != ''  ">api_type = #{apiType},</if>
+            <if test="resultCode != null  and resultCode != ''  ">result_code = #{resultCode},</if>
+            <if test="resultSubCode != null  and resultSubCode != ''  ">result_sub_code = #{resultSubCode},</if>
+            <if test="expression != null  and expression != ''  ">expression = #{expression},</if>
+            <if test="descriptionTemplate != null  and descriptionTemplate != ''  ">description_template = #{descriptionTemplate},</if>
+            <if test="unityResultCode != null  and unityResultCode != ''  ">unity_result_code = #{unityResultCode},</if>
+            <if test="orderStatus != null  and orderStatus != ''  ">order_status = #{orderStatus},</if>
+            <if test="useMapping != null  and useMapping != ''  ">use_mapping = #{useMapping},</if>
+            <if test="memo != null  and memo != ''  ">memo = #{memo},</if>
+            gmt_modified = sysdate()
+        </trim>
+        where api_result_code_id = #{apiResultCodeId}
+    </update>
+
+	<delete id="deleteTmApiResultCodeById" parameterType="Integer">
+        delete from tm_api_result_code where api_result_code_id = #{apiResultCodeId}
+    </delete>
+	
+    <delete id="deleteTmApiResultCodeByIds" parameterType="String">
+        delete from tm_api_result_code where api_result_code_id in 
+        <foreach item="apiResultCodeId" collection="array" open="(" separator="," close=")">
+            #{apiResultCodeId}
+        </foreach>
+    </delete>
+    
+</mapper>

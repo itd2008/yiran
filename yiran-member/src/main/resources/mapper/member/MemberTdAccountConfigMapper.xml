@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.member.mapper.MemberTdAccountConfigMapper">
+    
+    <resultMap type="MemberTdAccountConfig" id="MemberTdAccountConfigResult">
+        <result property="id"    column="id"    />
+        <result property="accountType"    column="account_type"    />
+        <result property="maxAccountCount"    column="max_account_count"    />
+        <result property="status"    column="status"    />
+        <result property="supportMemberTypes"    column="support_member_types"    />
+        <result property="memo"    column="memo"    />
+        <result property="shareBasePwd"    column="share_base_pwd"    />
+        <result property="accountAttr"    column="account_attr"    />
+        <result property="accountSubType"    column="account_sub_type"    />
+    </resultMap>
+	
+	<sql id="selectMemberTdAccountConfigVo">
+        select id, account_type, max_account_count, status, support_member_types, memo, share_base_pwd, account_attr, account_sub_type from member_td_account_config
+    </sql>
+	
+    <select id="selectMemberTdAccountConfigList" parameterType="MemberTdAccountConfig" resultMap="MemberTdAccountConfigResult">
+        <include refid="selectMemberTdAccountConfigVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+             <if test="accountType != null "> and account_type = #{accountType}</if>
+             <if test="maxAccountCount != null "> and max_account_count = #{maxAccountCount}</if>
+             <if test="status != null "> and status = #{status}</if>
+             <if test="supportMemberTypes != null  and supportMemberTypes != '' "> and support_member_types = #{supportMemberTypes}</if>
+             <if test="memo != null  and memo != '' "> and memo = #{memo}</if>
+             <if test="shareBasePwd != null "> and share_base_pwd = #{shareBasePwd}</if>
+             <if test="accountAttr != null "> and account_attr = #{accountAttr}</if>
+             <if test="accountSubType != null "> and account_sub_type = #{accountSubType}</if>
+         </where>
+    </select>
+    
+    <select id="selectMemberTdAccountConfigById" parameterType="Integer" resultMap="MemberTdAccountConfigResult">
+        <include refid="selectMemberTdAccountConfigVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertMemberTdAccountConfig" parameterType="MemberTdAccountConfig" useGeneratedKeys="true" keyProperty="id">
+        insert into member_td_account_config
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="accountType != null  ">account_type,</if>
+			<if test="maxAccountCount != null  ">max_account_count,</if>
+			<if test="status != null  ">status,</if>
+			<if test="supportMemberTypes != null  and supportMemberTypes != ''  ">support_member_types,</if>
+			<if test="memo != null  and memo != ''  ">memo,</if>
+			<if test="shareBasePwd != null  ">share_base_pwd,</if>
+			<if test="accountAttr != null  ">account_attr,</if>
+			<if test="accountSubType != null  ">account_sub_type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="accountType != null  ">#{accountType},</if>
+			<if test="maxAccountCount != null  ">#{maxAccountCount},</if>
+			<if test="status != null  ">#{status},</if>
+			<if test="supportMemberTypes != null  and supportMemberTypes != ''  ">#{supportMemberTypes},</if>
+			<if test="memo != null  and memo != ''  ">#{memo},</if>
+			<if test="shareBasePwd != null  ">#{shareBasePwd},</if>
+			<if test="accountAttr != null  ">#{accountAttr},</if>
+			<if test="accountSubType != null  ">#{accountSubType},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateMemberTdAccountConfig" parameterType="MemberTdAccountConfig">
+        update member_td_account_config
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="accountType != null  ">account_type = #{accountType},</if>
+            <if test="maxAccountCount != null  ">max_account_count = #{maxAccountCount},</if>
+            <if test="status != null  ">status = #{status},</if>
+            <if test="supportMemberTypes != null  and supportMemberTypes != ''  ">support_member_types = #{supportMemberTypes},</if>
+            <if test="memo != null  and memo != ''  ">memo = #{memo},</if>
+            <if test="shareBasePwd != null  ">share_base_pwd = #{shareBasePwd},</if>
+            <if test="accountAttr != null  ">account_attr = #{accountAttr},</if>
+            <if test="accountSubType != null  ">account_sub_type = #{accountSubType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteMemberTdAccountConfigById" parameterType="Integer">
+        delete from member_td_account_config where id = #{id}
+    </delete>
+	
+    <delete id="deleteMemberTdAccountConfigByIds" parameterType="String">
+        delete from member_td_account_config where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

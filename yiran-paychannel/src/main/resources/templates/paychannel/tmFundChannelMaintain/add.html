@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-tmFundChannelMaintain-add">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">资金源编码：</label>
+				<div class="col-sm-8">
+					<input id="fundChannelCode" name="fundChannelCode" th:value="${fundChannelCode}" readonly="readonly" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备用资金源：</label>
+				<div class="col-sm-8">
+					<input id="fundChannelBackup" name="fundChannelBackup" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">维护开始时间：</label>
+				<div class="col-sm-8">
+					<input id="gmtBegin" name="gmtBegin" class="time-input form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">维护结束时间：</label>
+				<div class="col-sm-8">
+					<input id="gmtEnd" name="gmtEnd" class="time-input form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">描述：</label>
+				<div class="col-sm-8">
+					<textarea name="description" id="description" autocomplete="off" maxlength="500" class="form-control" rows="3"></textarea>
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">维护公告：</label>
+				<div class="col-sm-8">
+					<textarea name="maintainContent" id="maintainContent" autocomplete="off" maxlength="500" class="form-control" rows="3"></textarea>
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<textarea name="memo" id="memo" autocomplete="off" maxlength="500" class="form-control" rows="3"></textarea>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">机构代码：</label>
+				<div class="col-sm-8">
+					<input id="instCode" name="instCode" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+	</div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "paychannel/tmFundChannelMaintain"
+		$("#form-tmFundChannelMaintain-add").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/add", $('#form-tmFundChannelMaintain-add').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

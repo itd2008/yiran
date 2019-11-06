@@ -1,0 +1,236 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+						<ul>
+							<li>
+								会员名称：<input type="text" name="memberName"/>
+							</li>
+							<li>
+								会员类型:
+								<select name="memberType" th:with="type=${@dict.getType('member_type')}">
+								  <option value="">所有</option>
+								  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+								  </option>
+								</select>
+							</li>
+
+							<li>
+								会员状态：
+								<select name="status" th:with="type=${@dict.getType('member_status')}">
+								  <option value="">所有</option>
+								  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+								  </option>
+								</select>
+							</li>
+
+							<li>
+								会员锁定状态：
+								<select name="lockStatus" th:with="type=${@dict.getType('member_lock_status')}">
+								  <option value="">所有</option>
+								  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+								  </option>
+								</select>
+							</li>
+
+							<li>
+								认证等级 ：
+								<select name="verifyLevel" th:with="type=${@dict.getType('member_verifyLevel')}">
+								  <option value="">所有</option>
+								  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+								  </option>
+								</select>
+							</li>
+
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+	        <div class="btn-group-sm hidden-xs" id="toolbar" role="group">
+				<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="member:memberTmMember:add">
+					<i class="fa fa-plus"></i> 添加
+				</a>
+				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.edit()" shiro:hasPermission="member:memberTmMember:edit">
+					<i class="fa fa-edit"></i> 修改
+				</a>
+				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="member:memberTmMember:remove">
+					<i class="fa fa-remove"></i> 删除
+				</a>
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="member:memberTmMember:export">
+						<i class="fa fa-download"></i> 导出
+				 </a>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('member:memberTmMember:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('member:memberTmMember:remove')}]];
+        var prefix = ctx + "member/memberTmMember";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+                modalName: "会员",
+		        showExport: true,
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'memberId', 
+					title : '会员ID',
+					visible: true
+				},
+				{
+					field : 'memberName', 
+					title : '会员名称',
+					sortable: true
+				},
+				{
+					field : 'memberShortName', 
+					title : '会员缩略名',
+					sortable: true
+				},
+				{
+					field : 'memberType', 
+					title : '会员类型',
+					sortable: true,
+					formatter: function(value, row, index) {
+		                if (value == '1') {
+		                	return '<span>个人</span>';
+		                } else if (value == '2') {
+		                    return '<span>公司</span>';
+		                } else if (value == '3') {
+		                    return '<span>组织</span>';
+		                } else if (value == '9') {
+		                    return '<span>虚拟商户</span>';
+		                }
+		            }
+				},
+				{
+					field : 'status', 
+					title : '会员状态',
+					sortable: true,
+					formatter: function(value, row, index) {
+		                if (value == '0') {
+		                	return '<span>未激活</span>';
+		                } else if (value == '1') {
+		                    return '<span>正常</span>';
+		                } else if (value == '2') {
+		                    return '<span>休眠</span>';
+		                } else if (value == '3') {
+		                    return '<span>注销</span>';
+		                } 
+		            }
+				},
+				{
+					field : 'lockStatus', 
+					title : '会员锁定状态',
+					sortable: true,
+					formatter: function(value, row, index) {
+		                if (value == '0') {
+		                	return '<span>未锁定</span>';
+		                } else if (value == '1') {
+		                    return '<span>已锁定</span>';
+		                }
+		            }
+				},
+				{
+					field : 'fromIp', 
+					title : 'IP地址',
+					sortable: true
+				},
+				{
+					field : 'activeTime', 
+					title : '激活时间',
+					sortable: true
+				},
+				{
+					field : 'createTime', 
+					title : '建立时间',
+					sortable: true
+				},
+				{
+					field : 'memo', 
+					title : '备注信息',
+					sortable: true
+				},
+				{
+					field : 'registerSource', 
+					title : '注册来源',
+					sortable: true,
+					formatter: function(value, row, index) {
+		                if (value == '0') {
+		                	return '<span>浙江永达</span>';
+		                } else if (value == '1') {
+		                    return '<span>手机端 </span>';
+		                } else if (value == '2') {
+		                    return '<span>海融易</span>';
+		                } else if (value == '3') {
+		                    return '<span>人人创客</span>';
+		                } else if (value == '99') {
+		                    return '<span>其他</span>';
+		                }
+		            }
+				},
+				{
+					field : 'verifyLevel', 
+					title : '认证等级 ',
+					sortable: true,
+					formatter: function(value, row, index) {
+		                if (value == '0') {
+		                	return '<span>未认证</span>';
+		                } else if (value == '1') {
+		                    return '<span>实名校验</span>';
+		                } else if (value == '2') {
+		                    return '<span>实名认证V1</span>';
+		                } else if (value == '3') {
+		                    return '<span>实名认证V2</span>';
+		                }
+		            }
+				},
+				{
+					field : 'invitCode', 
+					title : '邀请码',
+					sortable: true
+				},
+				{
+					field : 'registerSourceExt', 
+					title : '注册来源扩展json',
+					sortable: true
+				},
+		        {
+		            title: '操作',
+		            align: 'center',
+		            formatter: function(value, row, index) {
+		            	var actions = [];
+		            	actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.memberId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.memberId + '\')"><i class="fa fa-remove"></i>删除</a>');
+						return actions.join('');
+		            }
+		        }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

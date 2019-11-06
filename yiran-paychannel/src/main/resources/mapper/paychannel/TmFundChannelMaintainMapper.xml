@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.paychannel.mapper.TmFundChannelMaintainMapper">
+    
+    <resultMap type="TmFundChannelMaintain" id="TmFundChannelMaintainResult">
+        <result property="maintainId"    column="maintain_id"    />
+        <result property="fundChannelCode"    column="fund_channel_code"    />
+        <result property="fundChannelApi"    column="fund_channel_api"    />
+        <result property="description"    column="description"    />
+        <result property="maintainContent"    column="maintain_content"    />
+        <result property="gmtBegin"    column="gmt_begin"    />
+        <result property="gmtEnd"    column="gmt_end"    />
+        <result property="fundChannelBackup"    column="fund_channel_backup"    />
+        <result property="gmtCreate"    column="gmt_create"    />
+        <result property="gmtModified"    column="gmt_modified"    />
+        <result property="memo"    column="memo"    />
+        <result property="instCode"    column="inst_code"    />
+    </resultMap>
+	
+	<sql id="selectTmFundChannelMaintainVo">
+        select maintain_id, fund_channel_code, fund_channel_api, description, maintain_content, gmt_begin, gmt_end, fund_channel_backup, gmt_create, gmt_modified, memo, inst_code from tm_fund_channel_maintain
+    </sql>
+	
+    <select id="selectTmFundChannelMaintainList" parameterType="TmFundChannelMaintain" resultMap="TmFundChannelMaintainResult">
+        <include refid="selectTmFundChannelMaintainVo"/>
+        <where>  
+            <if test="maintainId != null "> and maintain_id = #{maintainId}</if>
+             <if test="fundChannelCode != null  and fundChannelCode != '' "> and fund_channel_code = #{fundChannelCode}</if>
+             <if test="fundChannelApi != null  and fundChannelApi != '' "> and fund_channel_api = #{fundChannelApi}</if>
+             <if test="description != null  and description != '' "> and description = #{description}</if>
+             <if test="maintainContent != null  and maintainContent != '' "> and maintain_content = #{maintainContent}</if>
+             <if test="gmtBegin != null "> and gmt_begin = #{gmtBegin}</if>
+             <if test="gmtEnd != null "> and gmt_end = #{gmtEnd}</if>
+             <if test="fundChannelBackup != null  and fundChannelBackup != '' "> and fund_channel_backup = #{fundChannelBackup}</if>
+             <if test="gmtCreate != null "> and gmt_create = #{gmtCreate}</if>
+             <if test="gmtModified != null "> and gmt_modified = #{gmtModified}</if>
+             <if test="memo != null  and memo != '' "> and memo = #{memo}</if>
+             <if test="instCode != null  and instCode != '' "> and inst_code = #{instCode}</if>
+         </where>
+    </select>
+    
+    <select id="selectTmFundChannelMaintainById" parameterType="Integer" resultMap="TmFundChannelMaintainResult">
+        <include refid="selectTmFundChannelMaintainVo"/>
+        where maintain_id = #{maintainId}
+    </select>
+        
+    <insert id="insertTmFundChannelMaintain" parameterType="TmFundChannelMaintain" useGeneratedKeys="true" keyProperty="maintainId">
+        insert into tm_fund_channel_maintain
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="fundChannelCode != null  and fundChannelCode != ''  ">fund_channel_code,</if>
+			<if test="fundChannelApi != null  and fundChannelApi != ''  ">fund_channel_api,</if>
+			<if test="description != null  and description != ''  ">description,</if>
+			<if test="maintainContent != null  and maintainContent != ''  ">maintain_content,</if>
+			<if test="gmtBegin != null  ">gmt_begin,</if>
+			<if test="gmtEnd != null  ">gmt_end,</if>
+			<if test="fundChannelBackup != null  and fundChannelBackup != ''  ">fund_channel_backup,</if>
+			<if test="memo != null  and memo != ''  ">memo,</if>
+			<if test="instCode != null  and instCode != ''  ">inst_code,</if>
+			gmt_create,
+			gmt_modified
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="fundChannelCode != null  and fundChannelCode != ''  ">#{fundChannelCode},</if>
+			<if test="fundChannelApi != null  and fundChannelApi != ''  ">#{fundChannelApi},</if>
+			<if test="description != null  and description != ''  ">#{description},</if>
+			<if test="maintainContent != null  and maintainContent != ''  ">#{maintainContent},</if>
+			<if test="gmtBegin != null  ">#{gmtBegin},</if>
+			<if test="gmtEnd != null  ">#{gmtEnd},</if>
+			<if test="fundChannelBackup != null  and fundChannelBackup != ''  ">#{fundChannelBackup},</if>
+			<if test="memo != null  and memo != ''  ">#{memo},</if>
+			<if test="instCode != null  and instCode != ''  ">#{instCode},</if>
+			sysdate(),
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateTmFundChannelMaintain" parameterType="TmFundChannelMaintain">
+        update tm_fund_channel_maintain
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="fundChannelCode != null  and fundChannelCode != ''  ">fund_channel_code = #{fundChannelCode},</if>
+            <if test="fundChannelApi != null  and fundChannelApi != ''  ">fund_channel_api = #{fundChannelApi},</if>
+            <if test="description != null  and description != ''  ">description = #{description},</if>
+            <if test="maintainContent != null  and maintainContent != ''  ">maintain_content = #{maintainContent},</if>
+            <if test="gmtBegin != null  ">gmt_begin = #{gmtBegin},</if>
+            <if test="gmtEnd != null  ">gmt_end = #{gmtEnd},</if>
+            <if test="fundChannelBackup != null  and fundChannelBackup != ''  ">fund_channel_backup = #{fundChannelBackup},</if>
+            <if test="memo != null  and memo != ''  ">memo = #{memo},</if>
+            <if test="instCode != null  and instCode != ''  ">inst_code = #{instCode},</if>
+            gmt_modified = sysdate()
+        </trim>
+        where maintain_id = #{maintainId}
+    </update>
+
+	<delete id="deleteTmFundChannelMaintainById" parameterType="Integer">
+        delete from tm_fund_channel_maintain where maintain_id = #{maintainId}
+    </delete>
+	
+    <delete id="deleteTmFundChannelMaintainByIds" parameterType="String">
+        delete from tm_fund_channel_maintain where maintain_id in 
+        <foreach item="maintainId" collection="array" open="(" separator="," close=")">
+            #{maintainId}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,34 @@
+.item-6 {
+    font-size: 15px;
+}
+
+.item-6 .top{
+    background: #16BA9D;
+    width: 100%;
+    height: 30px;
+    position: absolute;
+    top: 0;
+    z-index: 10;
+    /*display: none;*/
+}
+
+.item-6 .foot{
+    background: #16BA9D;
+    width: 100%;
+    height: 30px;
+    position: absolute;
+    bottom: 0;
+    z-index: 10;
+    /*display: none;*/
+}
+.item-6 .word {
+    font-size: 20px;
+}
+
+
+
+
+
+
+
+

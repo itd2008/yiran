@@ -1,0 +1,108 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-tmFundChannelSettle-edit" th:object="${tmFundChannelSettle}">
+            <input id="settleId" name="settleId" th:field="*{settleId}"  type="hidden">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">资金源编码：</label>
+				<div class="col-sm-8">
+					<input id="fundChannelCode" name="fundChannelCode" th:field="*{fundChannelCode}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">合同号：</label>
+				<div class="col-sm-8">
+					<input id="contractNo" name="contractNo" th:field="*{contractNo}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">商户号：</label>
+				<div class="col-sm-8">
+					<input id="merchantNo" name="merchantNo" th:field="*{merchantNo}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">结算账号：</label>
+				<div class="col-sm-8">
+					<input id="accountNo" name="accountNo" th:field="*{accountNo}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">结算帐户名称：</label>
+				<div class="col-sm-8">
+					<input id="accountName" name="accountName" th:field="*{accountName}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">结算方式：S（单笔），B（批量）：</label>
+				<div class="col-sm-8">
+					<input id="settleMode" name="settleMode" th:field="*{settleMode}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">结算周期，以天为单位的数字：</label>
+				<div class="col-sm-8">
+					<input id="settleCycle" name="settleCycle" th:field="*{settleCycle}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">清算文件获取支持模式：N（不支持），F（FTP），O（线上），U（线下）：</label>
+				<div class="col-sm-8">
+					<input id="clearingFileMode" name="clearingFileMode" th:field="*{clearingFileMode}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">是否可用：Y（可用），N（不可用）：</label>
+				<div class="col-sm-8">
+					<input id="enable" name="enable" th:field="*{enable}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">创建时间：</label>
+				<div class="col-sm-8">
+					<input id="gmtCreate" name="gmtCreate" th:field="*{gmtCreate}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">最后修改时间：</label>
+				<div class="col-sm-8">
+					<input id="gmtModified" name="gmtModified" th:field="*{gmtModified}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<input id="memo" name="memo" th:field="*{memo}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">扩展信息：</label>
+				<div class="col-sm-8">
+					<input id="extension" name="extension" th:field="*{extension}" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+    </div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "paychannel/tmFundChannelSettle";
+		$("#form-tmFundChannelSettle-edit").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/edit", $('#form-tmFundChannelSettle-edit').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

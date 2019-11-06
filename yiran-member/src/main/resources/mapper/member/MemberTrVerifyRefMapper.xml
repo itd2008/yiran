@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.member.mapper.MemberTrVerifyRefMapper">
+    
+    <resultMap type="MemberTrVerifyRef" id="MemberTrVerifyRefResult">
+        <result property="verifyId"    column="verify_id"    />
+        <result property="memberId"    column="member_id"    />
+        <result property="verifyEntityId"    column="verify_entity_id"    />
+        <result property="verifiedTime"    column="verified_time"    />
+        <result property="expireTime"    column="expire_time"    />
+        <result property="verifyImgPath"    column="verify_img_path"    />
+        <result property="status"    column="status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="memo"    column="memo"    />
+    </resultMap>
+	
+	<sql id="selectMemberTrVerifyRefVo">
+        select verify_id, member_id, verify_entity_id, verified_time, expire_time, verify_img_path, status, create_time, update_time, memo from member_tr_verify_ref
+    </sql>
+	
+    <select id="selectMemberTrVerifyRefList" parameterType="MemberTrVerifyRef" resultMap="MemberTrVerifyRefResult">
+        <include refid="selectMemberTrVerifyRefVo"/>
+        <where>  
+            <if test="verifyId != null "> and verify_id = #{verifyId}</if>
+             <if test="memberId != null  and memberId != '' "> and member_id = #{memberId}</if>
+             <if test="verifyEntityId != null "> and verify_entity_id = #{verifyEntityId}</if>
+             <if test="verifiedTime != null "> and verified_time = #{verifiedTime}</if>
+             <if test="expireTime != null "> and expire_time = #{expireTime}</if>
+             <if test="verifyImgPath != null  and verifyImgPath != '' "> and verify_img_path = #{verifyImgPath}</if>
+             <if test="status != null "> and status = #{status}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="memo != null  and memo != '' "> and memo = #{memo}</if>
+         </where>
+    </select>
+    
+    <select id="selectMemberTrVerifyRefById" parameterType="Integer" resultMap="MemberTrVerifyRefResult">
+        <include refid="selectMemberTrVerifyRefVo"/>
+        where verify_id = #{verifyId}
+    </select>
+    
+    <select id="selectMemberTrVerifyRefByverifyEntityId" parameterType="Integer" resultMap="MemberTrVerifyRefResult">
+        <include refid="selectMemberTrVerifyRefVo"/>
+        where verify_entity_id = #{verifyEntityId}
+    </select>
+    
+    <select id="selectMemberTrVerifyRefByMemberId" parameterType="String" resultMap="MemberTrVerifyRefResult">
+        <include refid="selectMemberTrVerifyRefVo"/>
+        where member_id = #{memberId}
+    </select>
+        
+    <insert id="insertMemberTrVerifyRef" parameterType="MemberTrVerifyRef" useGeneratedKeys="true" keyProperty="verifyId">
+        insert into member_tr_verify_ref
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="memberId != null  and memberId != ''  ">member_id,</if>
+			<if test="verifyEntityId != null  ">verify_entity_id,</if>
+			<if test="verifiedTime != null  ">verified_time,</if>
+			<if test="expireTime != null  ">expire_time,</if>
+			<if test="verifyImgPath != null  and verifyImgPath != ''  ">verify_img_path,</if>
+			<if test="status != null  ">status,</if>
+			<if test="memo != null  and memo != ''  ">memo,</if>
+			create_time,
+			update_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="memberId != null  and memberId != ''  ">#{memberId},</if>
+			<if test="verifyEntityId != null  ">#{verifyEntityId},</if>
+			<if test="verifiedTime != null  ">#{verifiedTime},</if>
+			<if test="expireTime != null  ">#{expireTime},</if>
+			<if test="verifyImgPath != null  and verifyImgPath != ''  ">#{verifyImgPath},</if>
+			<if test="status != null  ">#{status},</if>
+			<if test="memo != null  and memo != ''  ">#{memo},</if>
+			sysdate(),
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateMemberTrVerifyRef" parameterType="MemberTrVerifyRef">
+        update member_tr_verify_ref
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="memberId != null  and memberId != ''  ">member_id = #{memberId},</if>
+            <if test="verifyEntityId != null  ">verify_entity_id = #{verifyEntityId},</if>
+            <if test="verifiedTime != null  ">verified_time = #{verifiedTime},</if>
+            <if test="expireTime != null  ">expire_time = #{expireTime},</if>
+            <if test="verifyImgPath != null  and verifyImgPath != ''  ">verify_img_path = #{verifyImgPath},</if>
+            <if test="status != null  ">status = #{status},</if>
+            <if test="memo != null  and memo != ''  ">memo = #{memo},</if>
+            update_time = sysdate()
+        </trim>
+        where verify_id = #{verifyId}
+    </update>
+
+	<delete id="deleteMemberTrVerifyRefById" parameterType="Integer">
+        delete from member_tr_verify_ref where verify_id = #{verifyId}
+    </delete>
+	
+    <delete id="deleteMemberTrVerifyRefByIds" parameterType="String">
+        delete from member_tr_verify_ref where verify_id in 
+        <foreach item="verifyId" collection="array" open="(" separator="," close=")">
+            #{verifyId}
+        </foreach>
+    </delete>
+    
+</mapper>

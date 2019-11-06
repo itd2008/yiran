@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.wechat.mapper.WechatIconSortMapper">
+    
+    <resultMap type="WechatIconSort" id="WechatIconSortResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="urlLink"    column="url_link"    />
+        <result property="isShow"    column="is_show"    />
+        <result property="orders"    column="orders"    />
+        <result property="iconPath"    column="icon_path"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+	
+	<sql id="selectWechatIconSortVo">
+        select id, name,url_link, is_show, orders, icon_path, create_by, create_time, update_by, update_time from wechat_icon_sort
+    </sql>
+	
+    <select id="selectWechatIconSortList" parameterType="WechatIconSort" resultMap="WechatIconSortResult">
+        <include refid="selectWechatIconSortVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+             <if test="name != null "> and name = #{name}</if>
+             <if test="isShow != null "> and is_show = #{isShow}</if>
+             <if test="orders != null "> and orders = #{orders}</if>
+             <if test="iconPath != null  and iconPath != '' "> and icon_path = #{iconPath}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+         </where>
+    </select>
+    
+    <select id="selectWechatIconSortById" parameterType="Integer" resultMap="WechatIconSortResult">
+        <include refid="selectWechatIconSortVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertWechatIconSort" parameterType="WechatIconSort" useGeneratedKeys="true" keyProperty="id">
+        insert into wechat_icon_sort
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name != null  ">name,</if>
+			<if test="urlLink != null  ">url_link,</if>
+			<if test="isShow != null  ">is_show,</if>
+			<if test="orders != null  ">orders,</if>
+			<if test="iconPath != null  and iconPath != ''  ">icon_path,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			create_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="name != null  ">#{name},</if>
+			<if test="urlLink != null  ">#{urlLink},</if>
+			<if test="isShow != null  ">#{isShow},</if>
+			<if test="orders != null  ">#{orders},</if>
+			<if test="iconPath != null  and iconPath != ''  ">#{iconPath},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateWechatIconSort" parameterType="WechatIconSort">
+        update wechat_icon_sort
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null  ">name = #{name},</if>
+            <if test="urlLink != null  ">url_link = #{urlLink},</if>
+            <if test="isShow != null  ">is_show = #{isShow},</if>
+            <if test="orders != null  ">orders = #{orders},</if>
+            <if test="iconPath != null  and iconPath != ''  ">icon_path = #{iconPath},</if>
+            update_time = sysdate()
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteWechatIconSortById" parameterType="Integer">
+        delete from wechat_icon_sort where id = #{id}
+    </delete>
+	
+    <delete id="deleteWechatIconSortByIds" parameterType="String">
+        delete from wechat_icon_sort where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

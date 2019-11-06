@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.wechat.mapper.WechatOrderDetailMapper">
+    
+    <resultMap type="WechatOrderDetail" id="WechatOrderDetailResult">
+        <result property="orderDetailId"    column="order_detail_id"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="productId"    column="product_id"    />
+        <result property="productName"    column="product_name"    />
+        <result property="productPrice"    column="product_price"    />
+        <result property="productMarque"    column="product_marque"    />
+        <result property="productStoreBarcode"    column="product_store_barcode"    />
+        <result property="productModeDesc"    column="product_mode_desc"    />
+        <result property="productModeParams"    column="product_mode_params"    />
+        <result property="discountRate"    column="discount_rate"    />
+        <result property="discountAmount"    column="discount_amount"    />
+        <result property="number"    column="number"    />
+        <result property="subtotal"    column="subtotal"    />
+        <result property="isProductExists"    column="is_product_exists"    />
+        <result property="userRemark"    column="user_remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="imgUrl"    column="img_url"    />
+        <result property="isComment"    column="is_comment"    />
+        
+    </resultMap>
+	
+	<sql id="selectWechatOrderDetailVo">
+        select order_detail_id, order_id, product_id, product_name, product_price, product_marque, product_store_barcode, product_mode_desc, product_mode_params, discount_rate, discount_amount, number, subtotal, is_product_exists, user_remark, create_by, create_time, update_by, update_time,img_url,is_comment from wechat_order_detail
+    </sql>
+	
+    <select id="selectWechatOrderDetailList" parameterType="WechatOrderDetail" resultMap="WechatOrderDetailResult">
+        <include refid="selectWechatOrderDetailVo"/>
+        <where>  
+            <if test="orderDetailId != null "> and order_detail_id = #{orderDetailId}</if>
+             <if test="orderId != null  and orderId != '' "> and order_id = #{orderId}</if>
+             <if test="productId != null "> and product_id = #{productId}</if>
+             <if test="productName != null  and productName != '' "> and product_name = #{productName}</if>
+             <if test="productPrice != null  and productPrice != '' "> and product_price = #{productPrice}</if>
+             <if test="productMarque != null  and productMarque != '' "> and product_marque = #{productMarque}</if>
+             <if test="productStoreBarcode != null  and productStoreBarcode != '' "> and product_store_barcode = #{productStoreBarcode}</if>
+             <if test="productModeDesc != null  and productModeDesc != '' "> and product_mode_desc = #{productModeDesc}</if>
+             <if test="productModeParams != null  and productModeParams != '' "> and product_mode_params = #{productModeParams}</if>
+             <if test="discountRate != null  and discountRate != '' "> and discount_rate = #{discountRate}</if>
+             <if test="discountAmount != null  and discountAmount != '' "> and discount_amount = #{discountAmount}</if>
+             <if test="number != null  and number != '' "> and number = #{number}</if>
+             <if test="subtotal != null  and subtotal != '' "> and subtotal = #{subtotal}</if>
+             <if test="isProductExists != null "> and is_product_exists = #{isProductExists}</if>
+             <if test="userRemark != null  and userRemark != '' "> and user_remark = #{userRemark}</if>
+             <if test="isComment != null  and isComment != '' "> and is_comment = #{isComment}</if>
+         </where>
+    </select>
+    
+    <select id="selectWechatOrderDetailById" parameterType="Integer" resultMap="WechatOrderDetailResult">
+        <include refid="selectWechatOrderDetailVo"/>
+        where order_detail_id = #{orderDetailId}
+    </select>
+        
+    <insert id="insertWechatOrderDetail" parameterType="WechatOrderDetail" useGeneratedKeys="true" keyProperty="orderDetailId">
+        insert into wechat_order_detail
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="orderId != null  and orderId != ''  ">order_id,</if>
+			<if test="productId != null  ">product_id,</if>
+			<if test="productName != null  and productName != ''  ">product_name,</if>
+			<if test="productPrice != null  and productPrice != ''  ">product_price,</if>
+			<if test="productMarque != null  and productMarque != ''  ">product_marque,</if>
+			<if test="productStoreBarcode != null  and productStoreBarcode != ''  ">product_store_barcode,</if>
+			<if test="productModeDesc != null  and productModeDesc != ''  ">product_mode_desc,</if>
+			<if test="productModeParams != null  and productModeParams != ''  ">product_mode_params,</if>
+			<if test="discountRate != null  and discountRate != ''  ">discount_rate,</if>
+			<if test="discountAmount != null  and discountAmount != ''  ">discount_amount,</if>
+			<if test="number != null  and number != ''  ">number,</if>
+			<if test="subtotal != null  and subtotal != ''  ">subtotal,</if>
+			<if test="isProductExists != null  ">is_product_exists,</if>
+			<if test="userRemark != null  and userRemark != ''  ">user_remark,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="imgUrl != null  and imgUrl != ''  ">img_url,</if>
+			is_comment,
+			create_time,
+			update_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="orderId != null  and orderId != ''  ">#{orderId},</if>
+			<if test="productId != null  ">#{productId},</if>
+			<if test="productName != null  and productName != ''  ">#{productName},</if>
+			<if test="productPrice != null  and productPrice != ''  ">#{productPrice},</if>
+			<if test="productMarque != null  and productMarque != ''  ">#{productMarque},</if>
+			<if test="productStoreBarcode != null  and productStoreBarcode != ''  ">#{productStoreBarcode},</if>
+			<if test="productModeDesc != null  and productModeDesc != ''  ">#{productModeDesc},</if>
+			<if test="productModeParams != null  and productModeParams != ''  ">#{productModeParams},</if>
+			<if test="discountRate != null  and discountRate != ''  ">#{discountRate},</if>
+			<if test="discountAmount != null  and discountAmount != ''  ">#{discountAmount},</if>
+			<if test="number != null  and number != ''  ">#{number},</if>
+			<if test="subtotal != null  and subtotal != ''  ">#{subtotal},</if>
+			<if test="isProductExists != null  ">#{isProductExists},</if>
+			<if test="userRemark != null  and userRemark != ''  ">#{userRemark},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="imgUrl != null  and imgUrl != ''  ">#{imgUrl},</if>
+			'0',
+			sysdate(),
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateWechatOrderDetail" parameterType="WechatOrderDetail">
+        update wechat_order_detail
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''  ">order_id = #{orderId},</if>
+            <if test="productId != null  ">product_id = #{productId},</if>
+            <if test="productName != null  and productName != ''  ">product_name = #{productName},</if>
+            <if test="productPrice != null  and productPrice != ''  ">product_price = #{productPrice},</if>
+            <if test="productMarque != null  and productMarque != ''  ">product_marque = #{productMarque},</if>
+            <if test="productStoreBarcode != null  and productStoreBarcode != ''  ">product_store_barcode = #{productStoreBarcode},</if>
+            <if test="productModeDesc != null  and productModeDesc != ''  ">product_mode_desc = #{productModeDesc},</if>
+            <if test="productModeParams != null  and productModeParams != ''  ">product_mode_params = #{productModeParams},</if>
+            <if test="discountRate != null  and discountRate != ''  ">discount_rate = #{discountRate},</if>
+            <if test="discountAmount != null  and discountAmount != ''  ">discount_amount = #{discountAmount},</if>
+            <if test="number != null  and number != ''  ">number = #{number},</if>
+            <if test="subtotal != null  and subtotal != ''  ">subtotal = #{subtotal},</if>
+            <if test="isProductExists != null  ">is_product_exists = #{isProductExists},</if>
+            <if test="userRemark != null  and userRemark != ''  ">user_remark = #{userRemark},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            update_time = sysdate()
+        </trim>
+        where order_detail_id = #{orderDetailId}
+    </update>
+
+	<delete id="deleteWechatOrderDetailById" parameterType="Integer">
+        delete from wechat_order_detail where order_detail_id = #{orderDetailId}
+    </delete>
+	
+    <delete id="deleteWechatOrderDetailByIds" parameterType="String">
+        delete from wechat_order_detail where order_detail_id in 
+        <foreach item="orderDetailId" collection="array" open="(" separator="," close=")">
+            #{orderDetailId}
+        </foreach>
+    </delete>
+    
+    
+    <update id="updateOrderDetilIsCommentStatus" >
+        update wechat_order_detail
+        set is_comment ='1',
+        update_time = sysdate()
+        where order_id = #{orderId} 
+        and product_id = #{productId}
+    </update>
+    
+</mapper>

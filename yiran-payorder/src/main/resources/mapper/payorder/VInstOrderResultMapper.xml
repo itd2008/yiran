@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.payorder.mapper.VInstOrderResultMapper">
+    
+    <resultMap type="VInstOrderResult" id="VInstOrderResultResult">
+        <result property="resultId"    column="result_id"    />
+        <result property="instOrderId"    column="inst_order_id"    />
+        <result property="instSeqNo"    column="inst_seq_no"    />
+        <result property="batchType"    column="batch_type"    />
+        <result property="instStatus"    column="inst_status"    />
+        <result property="instResultCode"    column="inst_result_code"    />
+        <result property="apiResultCode"    column="api_result_code"    />
+        <result property="realAmount"    column="real_amount"    />
+        <result property="cardType"    column="card_type"    />
+        <result property="compareStatus"    column="compare_status"    />
+        <result property="gmtCreate"    column="gmt_create"    />
+        <result property="gmtModified"    column="gmt_modified"    />
+        <result property="memo"    column="memo"    />
+    </resultMap>
+	
+	<sql id="selectVInstOrderResultVo">
+        SELECT
+			result_id,
+			inst_order_id,
+			inst_seq_no,
+			batch_type,
+			inst_status,
+			inst_result_code,
+			api_result_code,
+			real_amount,
+			card_type,
+			compare_status,
+			gmt_create,
+			gmt_modified,
+			memo
+		FROM
+			v_inst_order_result
+    </sql>
+	
+    <select id="selectInstOrderResultList" parameterType="VInstOrderResult" resultMap="VInstOrderResultResult">
+        <include refid="selectVInstOrderResultVo"/>
+        <where>  
+            <if test="resultId != null "> and result_id = #{resultId}</if>
+             <if test="instOrderId != null "> and inst_order_id = #{instOrderId}</if>
+             <if test="instSeqNo != null  and instSeqNo != '' "> and inst_seq_no = #{instSeqNo}</if>
+         </where>
+         order by gmt_create desc
+    </select>
+    
+   
+</mapper>

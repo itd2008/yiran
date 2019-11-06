@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<head th:include="include :: header"></head>
+</head>
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>微信支付 <small>扫码支付（Native支付）</small></h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-sm-6 b-r">
+                                    <div class="form-group">
+                                        <label>商品描述</label>
+                                        <input type="text" name="productDes" id="productDes" class="form-control" value="测试商品">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>商户订单号</label>
+                                        <input type="text" name="orderNo" id="orderNo" class="form-control" readonly="readonly">
+                                        <button style="margin-top: 2px;" class="btn btn-sm btn-primary  m-t-n-xs" type="button" onclick="refreshOrderNo();"><strong>刷新订单号</strong></button>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>商品价格</label>
+                                        <input type="text" name="orderPrice" id="orderPrice" class="form-control" value="0.01 ">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>交易类型</label>
+                                        <select class="form-control m-b" name="tradeType" id="tradeType">
+	                                        <option value="NATIVE">Native支付</option>
+	                                        <option value="JSAPI">JSAPI支付 </option>
+	                                    </select>
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-sm btn-primary  m-t-n-xs" type="button" onclick="weixinPay();"><strong>创建测试支付订单</strong>
+                                        </button>
+                                    </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <img alt="扫码支付" th:src="@{/img/sm.png}" width="245px">
+                                <p class="text-center" style="margin-top: 5px;">
+                                    <img id="qrcode_img_default" alt="" th:src="@{/img/default.png}">
+                                    <div id="qrcode_img" ></div>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-sm-6">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>支付宝支付 <small>PC场景下单并支付</small></h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-sm-12 b-r">
+                                    <div class="form-group">
+                                        <label>商品描述</label>
+                                        <input type="text" name="productDes" id="productDes2" class="form-control" value="测试商品">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>商户订单号</label>
+                                        <input type="text" name="orderNo" id="orderNo2" class="form-control" readonly="readonly">
+                                        <button style="margin-top: 2px;" class="btn btn-sm btn-primary  m-t-n-xs" type="button" onclick="refreshOrderNo2();"><strong>刷新订单号</strong></button>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>商品价格</label>
+                                        <input type="text" name="orderPrice" id="orderPrice2" class="form-control" value="0.01 ">
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-sm btn-primary  m-t-n-xs" type="button" onclick="aliPay();"><strong>创建测试支付订单</strong>
+                                        </button>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+        
+    </div>
+
+    <th:block th:include="include :: footer" />
+    <script th:src="@{/js/qrcode.js}"></script>
+    <script th:inline="javascript">
+    var prefix = ctx + "payorder/paytest";
+    $(function() {
+    	var rand = Math.floor(Math.random() * 900) + 100;
+    	var orderNo = generateTimeReqestNumber() + rand;
+    	$("#orderNo").val(orderNo);
+    	$("#orderNo2").val(orderNo);
+    	$("#qrcode_img").hide();
+    	
+    });
+  	function refreshOrderNo(){
+  		var rand = Math.floor(Math.random() * 900) + 100;
+    	var orderNo = generateTimeReqestNumber() + rand;
+    	$("#orderNo").val(orderNo);
+  	}
+  	
+  	function refreshOrderNo2(){
+  		var rand = Math.floor(Math.random() * 900) + 100;
+    	var orderNo = generateTimeReqestNumber() + rand;
+    	$("#orderNo2").val(orderNo);
+  	}
+    var CreatOrderForm = function CreatOrderForm(productDes,orderNo,orderPrice,tradeType) {
+		this.productDes = productDes;
+		this.orderNo = orderNo;
+		this.orderPrice = orderPrice;
+		this.tradeType = tradeType;
+		
+	}
+  //二维码
+	var qrcode = new QRCode("qrcode_img", {
+	    text: "",
+	    width: 245,
+	    height: 245,
+	    colorDark : "#000000",
+	    colorLight : "#ffffff",
+	    correctLevel : QRCode.CorrectLevel.H
+	});
+    function weixinPay(){
+    	$.modal.loading("订单创建中，请等待...");
+    	var productDes = $("#productDes").val();
+    	var orderNo = $("#orderNo").val();
+    	var orderPrice = $("#orderPrice").val();
+    	var tradeType = $("#tradeType").val();
+    	var creatOrderForm = new CreatOrderForm(productDes,orderNo,orderPrice,tradeType);
+		console.info(JSON.stringify(creatOrderForm));
+		var jsondata = JSON.stringify(creatOrderForm);
+    	$.ajax({
+			type: "post",
+			url: prefix+"/creatOrder",
+			data: jsondata,
+			//参数格式为json
+  			contentType: "application/json; charset=utf-8",
+			//async: false, //同步
+			success: function (data) {
+				$.modal.closeLoading();
+				console.info(data);
+				$("#qrcode_img_default").hide();
+				$("#qrcode_img").show();
+				qrcode.clear() //清除二维码 
+		        qrcode.makeCode(data.data.codeUrl) //生成另一个新的二维码
+			},
+			//调用出错执行的函数
+			error: function(){
+				console.info("请求服务器api失败，无法获取数据");
+			}
+		});
+	
+    }
+    
+    function pad2(n) {
+    	return n < 10 ? '0' + n : n
+    }
+    function generateTimeReqestNumber() {
+    	var date = new Date();
+    	return date.getFullYear().toString() + pad2(date.getMonth() + 1) + pad2(date.getDate()) + pad2(date.getHours()) + pad2(
+    		date.getMinutes());
+    }
+    
+    function aliPay(){
+    	$.modal.loading("订单创建中，请等待...");
+    	var productDes = $("#productDes2").val();
+    	var orderNo = $("#orderNo2").val();
+    	var orderPrice = $("#orderPrice2").val();
+    	var creatOrderForm = new CreatOrderForm(productDes,orderNo,orderPrice);
+		console.info(JSON.stringify(creatOrderForm));
+		var jsondata = JSON.stringify(creatOrderForm);
+    	$.ajax({
+			type: "post",
+			url: prefix+"/creatAliPayOrder",
+			data: jsondata,
+			//参数格式为json
+  			contentType: "application/json; charset=utf-8",
+			//async: false, //同步
+			success: function (data) {
+				console.info(data.data.htmlText);
+				$.modal.closeLoading();
+				// 添加之前先删除一下，如果单页面，页面不刷新，添加进去的内容会一直保留在页面中，二次调用form表单会出错
+				let divForm = document.getElementsByTagName('divform')
+			    if (divForm.length) {
+			      document.body.removeChild(divForm[0])
+			    }
+			    const div=document.createElement('divform');
+			    div.innerHTML=data.data.htmlText; // data就是接口返回的form 表单字符串
+			    document.body.appendChild(div);
+			    document.forms[0].acceptCharset='utf-8';
+			    document.forms[0].setAttribute('target', '_blank') // 新开窗口跳转
+			    document.forms[0].submit();
+				
+			},
+			//调用出错执行的函数
+			error: function(){
+				console.info("请求服务器api失败，无法获取数据");
+			}
+		});
+	
+    }
+</script>
+</body>
+</html>

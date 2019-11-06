@@ -1,0 +1,123 @@
+@import "base.css";
+@import "page-1.css";
+@import "page-2.css";
+@import "page-3.css";
+@import "page-4.css";
+@import "page-5.css";
+@import "page-6.css";
+@import "background.css";
+@import "movement.css";
+.resume-hide{
+    display: none;
+}
+
+.section.item-1 ,
+.section.item-2 ,
+.section.item-3 ,
+.section.item-4 ,
+.section.item-6 {
+    text-align: center;
+    font: 50px "Microsoft Yahei";
+    color: #fff;
+}
+
+.num {
+    width: 600px;
+    height: 70px;
+    border: 0.5px solid #ccc;
+    font-size: 20px;
+    position: relative;
+    line-height: 70px;
+    text-align: center;
+}
+
+
+.snow-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 100001; }
+
+
+
+/**********************导航条**********************************/
+.resume{
+    position: fixed;
+    right: 0;
+    left: 0;
+    z-index: 10;
+    border: none;
+}
+.navbar {
+    background: rgba(0,0,0,0);
+    transition: 1s all ease;
+}
+.navbar.blue {
+    background: rgba(71, 166, 173,1);
+}
+.navbar.black {
+    background: rgba(51, 51, 51,.7);
+}
+
+.resume .navbar-brand,
+.resume .navbar-brand:visited,
+.resume .navbar-brand:hover
+{
+    color: #A7E615;
+    font-size: 18px;
+}
+.resume .navbar-right li a,
+.resume .navbar-right li a:visited{
+    color: #ffffff;!important;
+    font-weight: 500;
+    text-decoration: none;
+}
+.resume .navbar-right li a:hover {
+    color: #ffffff;!important;
+    text-decoration: none;
+}
+
+.navbar-default .navbar-nav>.active>a:hover,
+.navbar-default .navbar-nav>.active>a:visited,
+.navbar-default .navbar-nav>.active>a:focus {
+    color: #ffffff;
+    background-color:#0F698A ;
+    text-decoration: none;
+}
+.navbar-default .navbar-toggle {
+    background-color: #122b40;
+}
+.navbar-default .navbar-toggle:focus{
+    background-color: #122b40;
+}
+.navbar-default .navbar-toggle:hover {
+    background-color: #122b40;
+}
+/********************导航条End***************************************/
+
+/********************右侧导航栏*************************************/
+
+#fp-nav{
+    top: 80%;
+}
+
+#fp-nav ul li{
+    vertical-align: middle;
+    margin: 10px 50px 0 ;
+}
+#fp-nav li .active {
+    background-position: 0 bottom;
+}
+#fp-nav ul li a {
+    display: block;
+    color: #8F9DA4;
+    width: 21px;
+    height: 21px;
+    background: url(../img/dot.png) 5px 5px no-repeat;
+    /*right: 0;*/
+}
+#fp-nav span {
+    display: none;
+}
+
+
+/****************************右侧导航栏End******************************/
+
+
+

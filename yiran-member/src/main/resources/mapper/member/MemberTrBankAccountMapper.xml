@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.member.mapper.MemberTrBankAccountMapper">
+    
+    <resultMap type="MemberTrBankAccount" id="MemberTrBankAccountResult">
+        <result property="id"    column="id"    />
+        <result property="memberId"    column="member_id"    />
+        <result property="bankId"    column="bank_id"    />
+        <result property="bankName"    column="bank_name"    />
+        <result property="bankBranch"    column="bank_branch"    />
+        <result property="bankAccountNo"    column="bank_account_no"    />
+        <result property="bankAccountName"    column="bank_account_name"    />
+        <result property="cardAttribute"    column="card_attribute"    />
+        <result property="cardType"    column="card_type"    />
+        <result property="agreementNo"    column="agreement_no"    />
+        <result property="alias"    column="alias"    />
+        <result property="cardSkin"    column="card_skin"    />
+        <result property="accountNoSummary"    column="account_no_summary"    />
+        <result property="province"    column="province"    />
+        <result property="city"    column="city"    />
+        <result property="isVerified"    column="is_verified"    />
+        <result property="isSigning"    column="is_signing"    />
+        <result property="status"    column="status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createUser"    column="create_user"    />
+        <result property="updateUser"    column="update_user"    />
+        <result property="memo"    column="memo"    />
+        <result property="extendable"    column="extendable"    />
+        <result property="signNo"    column="sign_no"    />
+        <result property="signId"    column="sign_id"    />
+        <result property="certType"    column="cert_type"    />
+        <result property="certNo"    column="cert_no"    />
+        <result property="cvNo"    column="cv_no"    />
+        <result property="cardValidDate"    column="card_valid_date"    />
+        <result property="agreementValidDate"    column="agreement_valid_date"    />
+        <result property="mobileNo"    column="mobile_no"    />
+        <result property="payAttribute"    column="pay_attribute"    />
+        <result property="isFillCertNo"    column="is_fill_cert_no"    />
+        <result property="channelCode"    column="channel_code"    />
+        <result property="activateDate"    column="activate_date"    />
+        <result property="branchNo"    column="branch_no"    />
+        <result property="financialCard"    column="financial_card"    />
+    </resultMap>
+	
+	<sql id="selectMemberTrBankAccountVo">
+        select id, member_id, bank_id, bank_name, bank_branch, bank_account_no, bank_account_name, card_attribute, card_type, agreement_no, alias, card_skin, account_no_summary, province, city, is_verified, is_signing, status, create_time, update_time, create_user, update_user, memo, extendable, sign_no, sign_id, cert_type, cert_no, cv_no, card_valid_date, agreement_valid_date, mobile_no, pay_attribute, is_fill_cert_no, channel_code, activate_date, branch_no, financial_card from member_tr_bank_account
+    </sql>
+	
+    <select id="selectMemberTrBankAccountList" parameterType="MemberTrBankAccount" resultMap="MemberTrBankAccountResult">
+        <include refid="selectMemberTrBankAccountVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+             <if test="memberId != null  and memberId != '' "> and member_id = #{memberId}</if>
+             <if test="bankId != null  and bankId != '' "> and bank_id = #{bankId}</if>
+             <if test="bankName != null  and bankName != '' "> and bank_name = #{bankName}</if>
+             <if test="bankBranch != null  and bankBranch != '' "> and bank_branch = #{bankBranch}</if>
+             <if test="bankAccountNo != null  and bankAccountNo != '' "> and bank_account_no = #{bankAccountNo}</if>
+             <if test="bankAccountName != null  and bankAccountName != '' "> and bank_account_name = #{bankAccountName}</if>
+             <if test="cardAttribute != null "> and card_attribute = #{cardAttribute}</if>
+             <if test="cardType != null "> and card_type = #{cardType}</if>
+             <if test="agreementNo != null  and agreementNo != '' "> and agreement_no = #{agreementNo}</if>
+             <if test="alias != null  and alias != '' "> and alias = #{alias}</if>
+             <if test="cardSkin != null  and cardSkin != '' "> and card_skin = #{cardSkin}</if>
+             <if test="accountNoSummary != null  and accountNoSummary != '' "> and account_no_summary = #{accountNoSummary}</if>
+             <if test="province != null  and province != '' "> and province = #{province}</if>
+             <if test="city != null  and city != '' "> and city = #{city}</if>
+             <if test="isVerified != null "> and is_verified = #{isVerified}</if>
+             <if test="isSigning != null  and isSigning != '' "> and is_signing = #{isSigning}</if>
+             <if test="status != null "> and status = #{status}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="createUser != null  and createUser != '' "> and create_user = #{createUser}</if>
+             <if test="updateUser != null  and updateUser != '' "> and update_user = #{updateUser}</if>
+             <if test="memo != null  and memo != '' "> and memo = #{memo}</if>
+             <if test="extendable != null  and extendable != '' "> and extendable = #{extendable}</if>
+             <if test="signNo != null  and signNo != '' "> and sign_no = #{signNo}</if>
+             <if test="signId != null  and signId != '' "> and sign_id = #{signId}</if>
+             <if test="certType != null  and certType != '' "> and cert_type = #{certType}</if>
+             <if test="certNo != null  and certNo != '' "> and cert_no = #{certNo}</if>
+             <if test="cvNo != null  and cvNo != '' "> and cv_no = #{cvNo}</if>
+             <if test="cardValidDate != null  and cardValidDate != '' "> and card_valid_date = #{cardValidDate}</if>
+             <if test="agreementValidDate != null "> and agreement_valid_date = #{agreementValidDate}</if>
+             <if test="mobileNo != null  and mobileNo != '' "> and mobile_no = #{mobileNo}</if>
+             <if test="payAttribute != null  and payAttribute != '' "> and pay_attribute = #{payAttribute}</if>
+             <if test="isFillCertNo != null  and isFillCertNo != '' "> and is_fill_cert_no = #{isFillCertNo}</if>
+             <if test="channelCode != null  and channelCode != '' "> and channel_code = #{channelCode}</if>
+             <if test="activateDate != null "> and activate_date = #{activateDate}</if>
+             <if test="branchNo != null  and branchNo != '' "> and branch_no = #{branchNo}</if>
+             <if test="financialCard != null  and financialCard != '' "> and financial_card = #{financialCard}</if>
+         </where>
+    </select>
+    
+    <select id="selectMemberTrBankAccountById" parameterType="Integer" resultMap="MemberTrBankAccountResult">
+        <include refid="selectMemberTrBankAccountVo"/>
+        where id = #{id}
+    </select>
+    
+     <select id="queryBySignNo" parameterType="MemberTrBankAccount" resultMap="MemberTrBankAccountResult">
+        <include refid="selectMemberTrBankAccountVo"/>
+        where	(sign_no = #{signNo}
+					or 
+					sign_id = #{signId})
+				and
+					member_id = #{memberId}
+				and
+					channel_code = #{channelCode}
+				and		(status != 0 and status != 3)
+     </select>
+     
+     <select id="queryBySign" parameterType="MemberTrBankAccount" resultMap="MemberTrBankAccountResult">
+        <include refid="selectMemberTrBankAccountVo"/>
+         <where>  
+         	<if test="memberId != null  and memberId != '' "> and member_id = #{memberId}</if>
+             <if test="signNo != null  and signNo != '' "> and sign_no = #{signNo}</if>
+             <if test="signId != null  and signId != '' "> and sign_id = #{signId}</if>
+             <if test="channelCode != null  and channelCode != '' "> and channel_code = #{channelCode}</if>
+             <if test="status != null "> and status != 0 and status != 3</if>
+         </where>
+     </select>
+    
+    
+    <select id="selectMemberTrBankAccountByMemberId" parameterType="String" resultMap="MemberTrBankAccountResult">
+        <include refid="selectMemberTrBankAccountVo"/>
+        where member_id = #{memberId}
+    </select>
+    
+    <select id="queryBankAccountByBankcardId" parameterType="String" resultMap="MemberTrBankAccountResult">
+        <include refid="selectMemberTrBankAccountVo"/>
+        where bank_account_no = #{bankAccountNo}
+    </select>
+        
+    <insert id="insertMemberTrBankAccount" parameterType="MemberTrBankAccount" useGeneratedKeys="true" keyProperty="id">
+        insert into member_tr_bank_account
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="memberId != null  and memberId != ''  ">member_id,</if>
+			<if test="bankId != null  and bankId != ''  ">bank_id,</if>
+			<if test="bankName != null  and bankName != ''  ">bank_name,</if>
+			<if test="bankBranch != null  and bankBranch != ''  ">bank_branch,</if>
+			<if test="bankAccountNo != null  and bankAccountNo != ''  ">bank_account_no,</if>
+			<if test="bankAccountName != null  and bankAccountName != ''  ">bank_account_name,</if>
+			<if test="cardAttribute != null  ">card_attribute,</if>
+			<if test="cardType != null  ">card_type,</if>
+			<if test="agreementNo != null  and agreementNo != ''  ">agreement_no,</if>
+			<if test="alias != null  and alias != ''  ">alias,</if>
+			<if test="cardSkin != null  and cardSkin != ''  ">card_skin,</if>
+			<if test="accountNoSummary != null  and accountNoSummary != ''  ">account_no_summary,</if>
+			<if test="province != null  and province != ''  ">province,</if>
+			<if test="city != null  and city != ''  ">city,</if>
+			<if test="isVerified != null  ">is_verified,</if>
+			<if test="isSigning != null  and isSigning != ''  ">is_signing,</if>
+			<if test="status != null  ">status,</if>
+			<if test="memo != null  and memo != ''  ">memo,</if>
+			<if test="extendable != null  and extendable != ''  ">extendable,</if>
+			<if test="signNo != null  and signNo != ''  ">sign_no,</if>
+			<if test="signId != null  and signId != ''  ">sign_id,</if>
+			<if test="certType != null  and certType != ''  ">cert_type,</if>
+			<if test="certNo != null  and certNo != ''  ">cert_no,</if>
+			<if test="cvNo != null  and cvNo != ''  ">cv_no,</if>
+			<if test="cardValidDate != null  and cardValidDate != ''  ">card_valid_date,</if>
+			<if test="agreementValidDate != null  ">agreement_valid_date,</if>
+			<if test="mobileNo != null  and mobileNo != ''  ">mobile_no,</if>
+			<if test="payAttribute != null  and payAttribute != ''  ">pay_attribute,</if>
+			<if test="isFillCertNo != null  and isFillCertNo != ''  ">is_fill_cert_no,</if>
+			<if test="channelCode != null  and channelCode != ''  ">channel_code,</if>
+			<if test="activateDate != null  ">activate_date,</if>
+			<if test="branchNo != null  and branchNo != ''  ">branch_no,</if>
+			<if test="financialCard != null  and financialCard != ''  ">financial_card,</if>
+			create_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="memberId != null  and memberId != ''  ">#{memberId},</if>
+			<if test="bankId != null  and bankId != ''  ">#{bankId},</if>
+			<if test="bankName != null  and bankName != ''  ">#{bankName},</if>
+			<if test="bankBranch != null  and bankBranch != ''  ">#{bankBranch},</if>
+			<if test="bankAccountNo != null  and bankAccountNo != ''  ">#{bankAccountNo},</if>
+			<if test="bankAccountName != null  and bankAccountName != ''  ">#{bankAccountName},</if>
+			<if test="cardAttribute != null  ">#{cardAttribute},</if>
+			<if test="cardType != null  ">#{cardType},</if>
+			<if test="agreementNo != null  and agreementNo != ''  ">#{agreementNo},</if>
+			<if test="alias != null  and alias != ''  ">#{alias},</if>
+			<if test="cardSkin != null  and cardSkin != ''  ">#{cardSkin},</if>
+			<if test="accountNoSummary != null  and accountNoSummary != ''  ">#{accountNoSummary},</if>
+			<if test="province != null  and province != ''  ">#{province},</if>
+			<if test="city != null  and city != ''  ">#{city},</if>
+			<if test="isVerified != null  ">#{isVerified},</if>
+			<if test="isSigning != null  and isSigning != ''  ">#{isSigning},</if>
+			<if test="status != null  ">#{status},</if>
+			<if test="memo != null  and memo != ''  ">#{memo},</if>
+			<if test="extendable != null  and extendable != ''  ">#{extendable},</if>
+			<if test="signNo != null  and signNo != ''  ">#{signNo},</if>
+			<if test="signId != null  and signId != ''  ">#{signId},</if>
+			<if test="certType != null  and certType != ''  ">#{certType},</if>
+			<if test="certNo != null  and certNo != ''  ">#{certNo},</if>
+			<if test="cvNo != null  and cvNo != ''  ">#{cvNo},</if>
+			<if test="cardValidDate != null  and cardValidDate != ''  ">#{cardValidDate},</if>
+			<if test="agreementValidDate != null  ">#{agreementValidDate},</if>
+			<if test="mobileNo != null  and mobileNo != ''  ">#{mobileNo},</if>
+			<if test="payAttribute != null  and payAttribute != ''  ">#{payAttribute},</if>
+			<if test="isFillCertNo != null  and isFillCertNo != ''  ">#{isFillCertNo},</if>
+			<if test="channelCode != null  and channelCode != ''  ">#{channelCode},</if>
+			<if test="activateDate != null  ">#{activateDate},</if>
+			<if test="branchNo != null  and branchNo != ''  ">#{branchNo},</if>
+			<if test="financialCard != null  and financialCard != ''  ">#{financialCard},</if>
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateMemberTrBankAccount" parameterType="MemberTrBankAccount">
+        update member_tr_bank_account
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="memberId != null  and memberId != ''  ">member_id = #{memberId},</if>
+            <if test="bankId != null  and bankId != ''  ">bank_id = #{bankId},</if>
+            <if test="bankName != null  and bankName != ''  ">bank_name = #{bankName},</if>
+            <if test="bankBranch != null  and bankBranch != ''  ">bank_branch = #{bankBranch},</if>
+            <if test="bankAccountNo != null  and bankAccountNo != ''  ">bank_account_no = #{bankAccountNo},</if>
+            <if test="bankAccountName != null  and bankAccountName != ''  ">bank_account_name = #{bankAccountName},</if>
+            <if test="cardAttribute != null  ">card_attribute = #{cardAttribute},</if>
+            <if test="cardType != null  ">card_type = #{cardType},</if>
+            <if test="agreementNo != null  and agreementNo != ''  ">agreement_no = #{agreementNo},</if>
+            <if test="alias != null  and alias != ''  ">alias = #{alias},</if>
+            <if test="cardSkin != null  and cardSkin != ''  ">card_skin = #{cardSkin},</if>
+            <if test="accountNoSummary != null  and accountNoSummary != ''  ">account_no_summary = #{accountNoSummary},</if>
+            <if test="province != null  and province != ''  ">province = #{province},</if>
+            <if test="city != null  and city != ''  ">city = #{city},</if>
+            <if test="isVerified != null  ">is_verified = #{isVerified},</if>
+            <if test="isSigning != null  and isSigning != ''  ">is_signing = #{isSigning},</if>
+            <if test="status != null  ">status = #{status},</if>
+            <if test="memo != null  and memo != ''  ">memo = #{memo},</if>
+            <if test="extendable != null  and extendable != ''  ">extendable = #{extendable},</if>
+            <if test="signNo != null  and signNo != ''  ">sign_no = #{signNo},</if>
+            <if test="signId != null  and signId != ''  ">sign_id = #{signId},</if>
+            <if test="certType != null  and certType != ''  ">cert_type = #{certType},</if>
+            <if test="certNo != null  and certNo != ''  ">cert_no = #{certNo},</if>
+            <if test="cvNo != null  and cvNo != ''  ">cv_no = #{cvNo},</if>
+            <if test="cardValidDate != null  and cardValidDate != ''  ">card_valid_date = #{cardValidDate},</if>
+            <if test="agreementValidDate != null  ">agreement_valid_date = #{agreementValidDate},</if>
+            <if test="mobileNo != null  and mobileNo != ''  ">mobile_no = #{mobileNo},</if>
+            <if test="payAttribute != null  and payAttribute != ''  ">pay_attribute = #{payAttribute},</if>
+            <if test="isFillCertNo != null  and isFillCertNo != ''  ">is_fill_cert_no = #{isFillCertNo},</if>
+            <if test="channelCode != null  and channelCode != ''  ">channel_code = #{channelCode},</if>
+            <if test="activateDate != null  ">activate_date = #{activateDate},</if>
+            <if test="branchNo != null  and branchNo != ''  ">branch_no = #{branchNo},</if>
+            <if test="financialCard != null  and financialCard != ''  ">financial_card = #{financialCard},</if>
+            update_user = sysdate()
+        </trim>
+        where id = #{id}
+    </update>
+    
+    <update id="disabledAllBankAccount" parameterType="MemberTrBankAccount">
+        update member_tr_bank_account 
+        set
+        	status = 0,
+            update_user = sysdate()
+        where member_id = #{memberId} and pay_attribute = #{payAttribute} and status <![CDATA[<>]]> 0
+    </update>
+    
+    <update id="updateStatus" parameterType="MemberTrBankAccount">
+        update member_tr_bank_account 
+        set
+        	status = #{status},
+            update_user = sysdate()
+        <where>  
+         	<if test="id != null "> and id = #{id}</if>
+             <if test="memberId != null  and memberId != '' "> and member_id = #{memberId}</if>
+             <if test="bankId != null  and bankId != '' "> and bank_id = #{bankId}</if>
+             <if test="bankAccountNo != null  and bankAccountNo != '' "> and bank_account_no = #{bankAccountNo}</if>
+             <if test="payAttribute != null  and payAttribute != ''  ">and pay_attribute = #{payAttribute},</if>
+         </where>
+    </update>
+
+	<delete id="deleteMemberTrBankAccountById" parameterType="Integer">
+        delete from member_tr_bank_account where id = #{id}
+    </delete>
+	
+    <delete id="deleteMemberTrBankAccountByIds" parameterType="String">
+        delete from member_tr_bank_account where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+    <update id="disabledBankAccount" parameterType="MemberTrBankAccount">
+        update member_tr_bank_account 
+        set
+        	status = 0,
+            update_user = sysdate()
+        where member_id = #{memberId} and pay_attribute = #{payAttribute} and status =1 and bank_account_no = #{bankAccountNo} and id <![CDATA[<>]]> #{id}
+    </update>
+    
+</mapper>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.paychannel.mapper.TmChannelTransInfoMapper">
+    
+    <resultMap type="TmChannelTransInfoDO" id="TmChannelTransInfoResult">
+        <result property="transId"    column="trans_id"    />
+        <result property="fundChannelCode"    column="fund_channel_code"    />
+        <result property="apiType"    column="api_type"    />
+        <result property="transCode"    column="trans_code"    />
+        <result property="status"    column="status"    />
+        <result property="extension"    column="extension"    />
+        <result property="memo"    column="memo"    />
+        <result property="gmtCreate"    column="gmt_create"    />
+        <result property="gmtModified"    column="gmt_modified"    />
+    </resultMap>
+	
+	<sql id="selectTmChannelTransInfoVo">
+        select trans_id, fund_channel_code, api_type, trans_code, status, extension, memo, gmt_create, gmt_modified from tm_channel_trans_info
+    </sql>
+	
+    <select id="selectTmChannelTransInfoList" parameterType="TmChannelTransInfoDO" resultMap="TmChannelTransInfoResult">
+        select trans_id, fund_channel_code, api_type, trans_code, status, extension, memo, gmt_create, gmt_modified 
+        	from tm_channel_trans_info
+        <where> 
+        	1=1 
+             and fund_channel_code = #{fundChannelCode}
+			 and status = #{status}
+			 and trans_code = #{transCode}
+             <if test="apiType != null  and apiType != '' "> and api_type = #{apiType}</if>
+         </where>
+    </select>
+    
+    <select id="loadByCondition" parameterType="TmChannelTransInfoDO" resultMap="TmChannelTransInfoResult">
+        <include refid="selectTmChannelTransInfoVo"/>
+        <where>  
+            <if test="transId != null "> and trans_id = #{transId}</if>
+             <if test="fundChannelCode != null  and fundChannelCode != '' "> and fund_channel_code = #{fundChannelCode}</if>
+             <if test="apiType != null  and apiType != '' "> and api_type = #{apiType}</if>
+             <if test="transCode != null  and transCode != '' "> and trans_code = #{transCode}</if>
+             <if test="status != null  and status != '' "> and status = #{status}</if>
+             <if test="extension != null  and extension != '' "> and extension = #{extension}</if>
+             <if test="memo != null  and memo != '' "> and memo = #{memo}</if>
+             <if test="gmtCreate != null "> and gmt_create = #{gmtCreate}</if>
+             <if test="gmtModified != null "> and gmt_modified = #{gmtModified}</if>
+         </where>
+    </select>
+    
+    <select id="selectTmChannelTransInfoById" parameterType="Integer" resultMap="TmChannelTransInfoResult">
+        <include refid="selectTmChannelTransInfoVo"/>
+        where trans_id = #{transId}
+    </select>
+        
+    <insert id="insertTmChannelTransInfo" parameterType="TmChannelTransInfoDO" useGeneratedKeys="true" keyProperty="transId">
+        insert into tm_channel_trans_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="fundChannelCode != null  and fundChannelCode != ''  ">fund_channel_code,</if>
+			<if test="apiType != null  and apiType != ''  ">api_type,</if>
+			<if test="transCode != null  and transCode != ''  ">trans_code,</if>
+			<if test="status != null  and status != ''  ">status,</if>
+			<if test="extension != null  and extension != ''  ">extension,</if>
+			<if test="memo != null  and memo != ''  ">memo,</if>
+			<if test="gmtCreate != null  ">gmt_create,</if>
+			<if test="gmtModified != null  ">gmt_modified,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="fundChannelCode != null  and fundChannelCode != ''  ">#{fundChannelCode},</if>
+			<if test="apiType != null  and apiType != ''  ">#{apiType},</if>
+			<if test="transCode != null  and transCode != ''  ">#{transCode},</if>
+			<if test="status != null  and status != ''  ">#{status},</if>
+			<if test="extension != null  and extension != ''  ">#{extension},</if>
+			<if test="memo != null  and memo != ''  ">#{memo},</if>
+			<if test="gmtCreate != null  ">#{gmtCreate},</if>
+			<if test="gmtModified != null  ">#{gmtModified},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateTmChannelTransInfo" parameterType="TmChannelTransInfoDO">
+        update tm_channel_trans_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="fundChannelCode != null  and fundChannelCode != ''  ">fund_channel_code = #{fundChannelCode},</if>
+            <if test="apiType != null  and apiType != ''  ">api_type = #{apiType},</if>
+            <if test="transCode != null  and transCode != ''  ">trans_code = #{transCode},</if>
+            <if test="status != null  and status != ''  ">status = #{status},</if>
+            <if test="extension != null  and extension != ''  ">extension = #{extension},</if>
+            <if test="memo != null  and memo != ''  ">memo = #{memo},</if>
+            <if test="gmtCreate != null  ">gmt_create = #{gmtCreate},</if>
+            <if test="gmtModified != null  ">gmt_modified = #{gmtModified},</if>
+        </trim>
+        where trans_id = #{transId}
+    </update>
+
+	<delete id="deleteTmChannelTransInfoById" parameterType="Integer">
+        delete from tm_channel_trans_info where trans_id = #{transId}
+    </delete>
+	
+    <delete id="deleteTmChannelTransInfoByIds" parameterType="String">
+        delete from tm_channel_trans_info where trans_id in 
+        <foreach item="transId" collection="array" open="(" separator="," close=")">
+            #{transId}
+        </foreach>
+    </delete>
+    
+</mapper>

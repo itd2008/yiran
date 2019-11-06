@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<style>
+	img{
+	    width: 150px !important;
+	    height: 100px !important;
+	    border-radius: 0 !important;
+	
+	}
+</style>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var prefix = ctx + "wechat/wechatOrder";
+		var orderId = [[${orderId}]];
+        $(function() {
+            var options = {
+                url: prefix + "/orderDetailList/"+orderId,
+                modalName: "订单商品详情",
+                showSearch: false,
+		        showRefresh: false,
+		        showToggle: false,
+		        showColumns: false,
+                columns: [
+				{
+					field : 'imgUrl', 
+					title : '缩略图',
+					width: 80,
+				    formatter: function(value, row, index) {
+				        return $.table.imageView(value);
+				    }
+				},
+				{
+					field : 'productName', 
+					title : '商品名称',
+					sortable: true,
+					formatter: function(value, row, index) {
+				        return $.table.tooltip(value);
+				    }
+				},
+				{
+					field : 'productPrice', 
+					title : '商品价格',
+					sortable: true
+				},
+				
+				{
+					field : 'productModeParams', 
+					title : '商品型号参数',
+					sortable: true
+				},
+				
+				{
+					field : 'number', 
+					title : '购买数量',
+					sortable: true
+				},
+				{
+					field : 'subtotal', 
+					title : '小计金额',
+					sortable: true
+				},
+				
+				{
+					field : 'userRemark', 
+					title : '客户备注',
+					sortable: true
+				},
+				
+				{
+					field : 'createTime', 
+					title : '创建时间',
+					sortable: true
+				}]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

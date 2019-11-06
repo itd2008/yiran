@@ -1,0 +1,28 @@
+#topbar {
+    /* height: 60px; */
+    overflow: hidden;
+}
+.rolling-notice {
+    /* margin: 18px 0 0 10px; */
+    float: left;
+}
+.rolling-notice .notice-title { float: left ;    color: white;}
+.rolling-notice .notice-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 1.5em;
+    position: relative;
+    width: 50em;
+}
+.rolling-notice .notice-list li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 1.5em;
+    position: relative;
+}
+
+

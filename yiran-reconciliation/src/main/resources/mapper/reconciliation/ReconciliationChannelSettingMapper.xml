@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.reconciliation.mapper.ReconciliationChannelSettingMapper">
+    
+    <resultMap type="ReconciliationChannelSetting" id="ReconciliationChannelSettingResult">
+        <result property="id"    column="id"    />
+        <result property="channelName"    column="channel_name"    />
+        <result property="fundChannelCode"    column="fund_channel_code"    />
+        <result property="instCode"    column="inst_code"    />
+        <result property="reconcileDesc"    column="reconcile_desc"    />
+        <result property="status"    column="status"    />
+        <result property="billDay"    column="bill_day"    />
+        <result property="extend"    column="extend"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+	
+	<sql id="selectReconciliationChannelSettingVo">
+        select id, channel_name, fund_channel_code,inst_code, reconcile_desc, status, bill_day, extend, create_by, create_time, update_by, update_time, remark from reconciliation_channel_setting
+    </sql>
+	
+    <select id="selectReconciliationChannelSettingList" parameterType="ReconciliationChannelSetting" resultMap="ReconciliationChannelSettingResult">
+        <include refid="selectReconciliationChannelSettingVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+             <if test="channelName != null  and channelName != '' "> and channel_name = #{channelName}</if>
+             <if test="fundChannelCode != null  and fundChannelCode != '' "> and fund_channel_code = #{fundChannelCode}</if>
+             <if test="reconcileDesc != null  and reconcileDesc != '' "> and reconcile_desc = #{reconcileDesc}</if>
+             <if test="status != null  and status != '' "> and status = #{status}</if>
+             <if test="billDay != null "> and bill_day = #{billDay}</if>
+             <if test="extend != null  and extend != '' "> and extend = #{extend}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+         </where>
+    </select>
+    
+    <select id="selectReconciliationChannelSettingById" parameterType="Integer" resultMap="ReconciliationChannelSettingResult">
+        <include refid="selectReconciliationChannelSettingVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertReconciliationChannelSetting" parameterType="ReconciliationChannelSetting" useGeneratedKeys="true" keyProperty="id">
+        insert into reconciliation_channel_setting
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="channelName != null  and channelName != ''  ">channel_name,</if>
+			<if test="fundChannelCode != null  and fundChannelCode != ''  ">fund_channel_code,</if>
+			<if test="instCode != null  and instCode != ''  ">inst_code,</if>
+			<if test="reconcileDesc != null  and reconcileDesc != ''  ">reconcile_desc,</if>
+			<if test="status != null  and status != ''  ">status,</if>
+			<if test="billDay != null  ">bill_day,</if>
+			<if test="extend != null  and extend != ''  ">extend,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			create_time,
+			update_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="channelName != null  and channelName != ''  ">#{channelName},</if>
+			<if test="fundChannelCode != null  and fundChannelCode != ''  ">#{fundChannelCode},</if>
+			<if test="instCode != null  and instCode != ''  ">#{instCode},</if>
+			<if test="reconcileDesc != null  and reconcileDesc != ''  ">#{reconcileDesc},</if>
+			<if test="status != null  and status != ''  ">#{status},</if>
+			<if test="billDay != null  ">#{billDay},</if>
+			<if test="extend != null  and extend != ''  ">#{extend},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			sysdate(),
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateReconciliationChannelSetting" parameterType="ReconciliationChannelSetting">
+        update reconciliation_channel_setting
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="channelName != null  and channelName != ''  ">channel_name = #{channelName},</if>
+            <if test="fundChannelCode != null  and fundChannelCode != ''  ">fund_channel_code = #{fundChannelCode},</if>
+            <if test="instCode != null  and instCode != ''  ">inst_code = #{instCode},</if>
+            <if test="reconcileDesc != null  and reconcileDesc != ''  ">reconcile_desc = #{reconcileDesc},</if>
+            <if test="status != null  and status != ''  ">status = #{status},</if>
+            <if test="billDay != null  ">bill_day = #{billDay},</if>
+            <if test="extend != null  and extend != ''  ">extend = #{extend},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            update_time = sysdate()
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteReconciliationChannelSettingById" parameterType="Integer">
+        delete from reconciliation_channel_setting where id = #{id}
+    </delete>
+	
+    <delete id="deleteReconciliationChannelSettingByIds" parameterType="String">
+        delete from reconciliation_channel_setting where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

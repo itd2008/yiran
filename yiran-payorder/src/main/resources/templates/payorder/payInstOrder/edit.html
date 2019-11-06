@@ -1,0 +1,222 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-payInstOrder-edit" th:object="${payInstOrder}">
+            <input id="instOrderId" name="instOrderId" th:field="*{instOrderId}"  type="hidden">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">机构编码：</label>
+				<div class="col-sm-8">
+					<input id="instCode" name="instCode" th:field="*{instCode}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">机构订单号：</label>
+				<div class="col-sm-8">
+					<input id="instOrderNo" name="instOrderNo" th:field="*{instOrderNo}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">订单类型：I（入款），B（退款），O（出款）：</label>
+				<div class="col-sm-8">
+					<input id="orderType" name="orderType" th:field="*{orderType}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">币种：</label>
+				<div class="col-sm-8">
+					<input id="currency" name="currency" th:field="*{currency}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">金额：</label>
+				<div class="col-sm-8">
+					<input id="amount" name="amount" th:field="*{amount}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">状态：I（处理中），S（成功），F（失败）：</label>
+				<div class="col-sm-8">
+					<input id="status" name="status" th:field="*{status}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">通讯类型，S（单笔通信），B（批量通信）：</label>
+				<div class="col-sm-8">
+					<input id="communicateType" name="communicateType" th:field="*{communicateType}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">通讯类型，类型为单笔时：A（等待指令发送），S（指令已经发送），R（数据已经返回），F（指令发送失败）批量时：A（等待数据归档），G（归档已经生成），S（归档数据已经提交），R（归档数据已经返回），F（归档数据提交失败：</label>
+				<div class="col-sm-8">
+					<input id="communicateStatus" name="communicateStatus" th:field="*{communicateStatus}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">归档批次ID：</label>
+				<div class="col-sm-8">
+					<input id="archiveBatchId" name="archiveBatchId" th:field="*{archiveBatchId}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">提交时间：</label>
+				<div class="col-sm-8">
+					<input id="gmtSubmit" name="gmtSubmit" th:field="*{gmtSubmit}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">创建时间：</label>
+				<div class="col-sm-8">
+					<input id="gmtCreate" name="gmtCreate" th:field="*{gmtCreate}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">最后修改时间：</label>
+				<div class="col-sm-8">
+					<input id="gmtModified" name="gmtModified" th:field="*{gmtModified}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<input id="memo" name="memo" th:field="*{memo}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">产品编号：</label>
+				<div class="col-sm-8">
+					<input id="productCode" name="productCode" th:field="*{productCode}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">支付code：</label>
+				<div class="col-sm-8">
+					<input id="paymentCode" name="paymentCode" th:field="*{paymentCode}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">支付方式：</label>
+				<div class="col-sm-8">
+					<input id="payMode" name="payMode" th:field="*{payMode}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">渠道编号：</label>
+				<div class="col-sm-8">
+					<input id="fundChannelCode" name="fundChannelCode" th:field="*{fundChannelCode}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">渠道API：</label>
+				<div class="col-sm-8">
+					<input id="fundChannelApi" name="fundChannelApi" th:field="*{fundChannelApi}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">归档模板ID：</label>
+				<div class="col-sm-8">
+					<input id="archiveTemplateId" name="archiveTemplateId" th:field="*{archiveTemplateId}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">优先：</label>
+				<div class="col-sm-8">
+					<input id="submitPriority" name="submitPriority" th:field="*{submitPriority}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">预计提交时间：</label>
+				<div class="col-sm-8">
+					<input id="gmtBookingSubmit" name="gmtBookingSubmit" th:field="*{gmtBookingSubmit}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">补单次数：</label>
+				<div class="col-sm-8">
+					<input id="retryTimes" name="retryTimes" th:field="*{retryTimes}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">下次补单时间：</label>
+				<div class="col-sm-8">
+					<input id="gmtNextRetry" name="gmtNextRetry" th:field="*{gmtNextRetry}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">执行标志：</label>
+				<div class="col-sm-8">
+					<input id="flag" name="flag" th:field="*{flag}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">I,等待审核结果;F,发送请求失败;P,审核通过;R,审核拒绝：</label>
+				<div class="col-sm-8">
+					<input id="riskStatus" name="riskStatus" th:field="*{riskStatus}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">路由版本：</label>
+				<div class="col-sm-8">
+					<input id="routeVersion" name="routeVersion" th:field="*{routeVersion}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">冲正状态：</label>
+				<div class="col-sm-8">
+					<input id="reversalStatus" name="reversalStatus" th:field="*{reversalStatus}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">渠道订单号：</label>
+				<div class="col-sm-8">
+					<input id="paySeqNo" name="paySeqNo" th:field="*{paySeqNo}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">是否拆分：</label>
+				<div class="col-sm-8">
+					<input id="isSplit" name="isSplit" th:field="*{isSplit}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">扩展信息：</label>
+				<div class="col-sm-8">
+					<textarea name="extension" autocomplete="off" maxlength="800" class="form-control" rows="5">[[*{extension}]]</textarea>
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">期望到账时间 ：</label>
+				<div class="col-sm-8">
+					<input id="expectTime" name="expectTime" th:field="*{expectTime}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">批量入款批量出款批次id：</label>
+				<div class="col-sm-8">
+					<input id="fundinOutBatchId" name="fundinOutBatchId" th:field="*{fundinOutBatchId}" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+    </div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "payorder/payInstOrder";
+		$("#form-payInstOrder-edit").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/edit", $('#form-payInstOrder-edit').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

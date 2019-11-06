@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.wechat.mapper.WechatProductStatisticsMapper">
+    
+    <resultMap type="WechatProductStatistics" id="WechatProductStatisticsResult">
+        <result property="productId"    column="product_id"    />
+        <result property="visitCount"    column="visit_count"    />
+        <result property="replyCount"    column="reply_count"    />
+        <result property="saleQuantity"    column="sale_quantity"    />
+        <result property="saleAmount"    column="sale_amount"    />
+        <result property="purchaseQuantity"    column="purchase_quantity"    />
+        <result property="purchaseAmount"    column="purchase_amount"    />
+        <result property="costPrice"    column="cost_price"    />
+        <result property="grossProfit"    column="gross_profit"    />
+    </resultMap>
+	
+	<sql id="selectWechatProductStatisticsVo">
+        select product_id, visit_count, reply_count, sale_quantity, sale_amount, purchase_quantity, purchase_amount, cost_price, gross_profit from wechat_product_statistics
+    </sql>
+	
+    <select id="selectWechatProductStatisticsList" parameterType="WechatProductStatistics" resultMap="WechatProductStatisticsResult">
+        <include refid="selectWechatProductStatisticsVo"/>
+        <where>  
+            <if test="productId != null "> and product_id = #{productId}</if>
+             <if test="visitCount != null  and visitCount != '' "> and visit_count = #{visitCount}</if>
+             <if test="replyCount != null  and replyCount != '' "> and reply_count = #{replyCount}</if>
+             <if test="saleQuantity != null  and saleQuantity != '' "> and sale_quantity = #{saleQuantity}</if>
+             <if test="saleAmount != null  and saleAmount != '' "> and sale_amount = #{saleAmount}</if>
+             <if test="purchaseQuantity != null  and purchaseQuantity != '' "> and purchase_quantity = #{purchaseQuantity}</if>
+             <if test="purchaseAmount != null  and purchaseAmount != '' "> and purchase_amount = #{purchaseAmount}</if>
+             <if test="costPrice != null  and costPrice != '' "> and cost_price = #{costPrice}</if>
+             <if test="grossProfit != null  and grossProfit != '' "> and gross_profit = #{grossProfit}</if>
+         </where>
+    </select>
+    
+    <select id="selectWechatProductStatisticsById" parameterType="Integer" resultMap="WechatProductStatisticsResult">
+        <include refid="selectWechatProductStatisticsVo"/>
+        where product_id = #{productId}
+    </select>
+        
+    <insert id="insertWechatProductStatistics" parameterType="WechatProductStatistics">
+        insert into wechat_product_statistics
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="productId != null  ">product_id,</if>
+			<if test="visitCount != null  and visitCount != ''  ">visit_count,</if>
+			<if test="replyCount != null  and replyCount != ''  ">reply_count,</if>
+			<if test="saleQuantity != null  and saleQuantity != ''  ">sale_quantity,</if>
+			<if test="saleAmount != null  and saleAmount != ''  ">sale_amount,</if>
+			<if test="purchaseQuantity != null  and purchaseQuantity != ''  ">purchase_quantity,</if>
+			<if test="purchaseAmount != null  and purchaseAmount != ''  ">purchase_amount,</if>
+			<if test="costPrice != null  and costPrice != ''  ">cost_price,</if>
+			<if test="grossProfit != null  and grossProfit != ''  ">gross_profit,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="productId != null  ">#{productId},</if>
+			<if test="visitCount != null  and visitCount != ''  ">#{visitCount},</if>
+			<if test="replyCount != null  and replyCount != ''  ">#{replyCount},</if>
+			<if test="saleQuantity != null  and saleQuantity != ''  ">#{saleQuantity},</if>
+			<if test="saleAmount != null  and saleAmount != ''  ">#{saleAmount},</if>
+			<if test="purchaseQuantity != null  and purchaseQuantity != ''  ">#{purchaseQuantity},</if>
+			<if test="purchaseAmount != null  and purchaseAmount != ''  ">#{purchaseAmount},</if>
+			<if test="costPrice != null  and costPrice != ''  ">#{costPrice},</if>
+			<if test="grossProfit != null  and grossProfit != ''  ">#{grossProfit},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateWechatProductStatistics" parameterType="WechatProductStatistics">
+        update wechat_product_statistics
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="visitCount != null  and visitCount != ''  ">visit_count = #{visitCount},</if>
+            <if test="replyCount != null  and replyCount != ''  ">reply_count = #{replyCount},</if>
+            <if test="saleQuantity != null  and saleQuantity != ''  ">sale_quantity = #{saleQuantity},</if>
+            <if test="saleAmount != null  and saleAmount != ''  ">sale_amount = #{saleAmount},</if>
+            <if test="purchaseQuantity != null  and purchaseQuantity != ''  ">purchase_quantity = #{purchaseQuantity},</if>
+            <if test="purchaseAmount != null  and purchaseAmount != ''  ">purchase_amount = #{purchaseAmount},</if>
+            <if test="costPrice != null  and costPrice != ''  ">cost_price = #{costPrice},</if>
+            <if test="grossProfit != null  and grossProfit != ''  ">gross_profit = #{grossProfit},</if>
+        </trim>
+        where product_id = #{productId}
+    </update>
+
+	<delete id="deleteWechatProductStatisticsById" parameterType="Integer">
+        delete from wechat_product_statistics where product_id = #{productId}
+    </delete>
+	
+    <delete id="deleteWechatProductStatisticsByIds" parameterType="String">
+        delete from wechat_product_statistics where product_id in 
+        <foreach item="productId" collection="array" open="(" separator="," close=")">
+            #{productId}
+        </foreach>
+    </delete>
+    
+</mapper>

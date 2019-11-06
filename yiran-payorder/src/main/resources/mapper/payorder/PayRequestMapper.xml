@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.payorder.mapper.PayRequestMapper">
+    
+    <resultMap type="PayRequest" id="PayRequestResult">
+        <result property="paymentSeqNo"    column="payment_seq_no"    />
+        <result property="canRetry"    column="can_retry"    />
+        <result property="gmtCreate"    column="gmt_create"    />
+        <result property="gmtModified"    column="gmt_modified"    />
+        <result property="settlementId"    column="settlement_id"    />
+    </resultMap>
+	
+	<sql id="selectPayRequestVo">
+        select payment_seq_no, can_retry, gmt_create, gmt_modified, settlement_id from pay_request
+    </sql>
+	
+    <select id="selectPayRequestList" parameterType="PayRequest" resultMap="PayRequestResult">
+        <include refid="selectPayRequestVo"/>
+        <where>  
+            <if test="paymentSeqNo != null "> and payment_seq_no = #{paymentSeqNo}</if>
+             <if test="canRetry != null  and canRetry != '' "> and can_retry = #{canRetry}</if>
+             <if test="gmtCreate != null "> and gmt_create = #{gmtCreate}</if>
+             <if test="gmtModified != null "> and gmt_modified = #{gmtModified}</if>
+             <if test="settlementId != null  and settlementId != '' "> and settlement_id = #{settlementId}</if>
+         </where>
+         order by gmt_create desc
+    </select>
+    
+    <select id="selectPayRequestById" parameterType="Integer" resultMap="PayRequestResult">
+        <include refid="selectPayRequestVo"/>
+        where payment_seq_no = #{paymentSeqNo}
+    </select>
+    
+    <select id="lockedById"  resultMap="PayRequestResult">
+        select payment_seq_no, can_retry, gmt_create, gmt_modified, settlement_id from pay_request
+        where payment_seq_no = #{paymentSeqNo} and settlement_id =#{settlementId} for update
+    </select>
+        
+    <insert id="insertPayRequest" parameterType="PayRequest">
+        insert into pay_request
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="paymentSeqNo != null  ">payment_seq_no,</if>
+			<if test="canRetry != null  and canRetry != ''  ">can_retry,</if>
+			<if test="settlementId != null  and settlementId != ''  ">settlement_id,</if>
+			gmt_create,
+			gmt_modified
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="paymentSeqNo != null  ">#{paymentSeqNo},</if>
+			<if test="canRetry != null  and canRetry != ''  ">#{canRetry},</if>
+			<if test="settlementId != null  and settlementId != ''  ">#{settlementId},</if>
+			sysdate(),
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updatePayRequest" parameterType="PayRequest">
+        update pay_request
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="canRetry != null  and canRetry != ''  ">can_retry = #{canRetry},</if>
+            <if test="gmtCreate != null  ">gmt_create = #{gmtCreate},</if>
+            <if test="gmtModified != null  ">gmt_modified = #{gmtModified},</if>
+            <if test="settlementId != null  and settlementId != ''  ">settlement_id = #{settlementId},</if>
+        </trim>
+        where payment_seq_no = #{paymentSeqNo}
+    </update>
+    
+    <update id="updateStatusById" parameterType="PayRequest">
+        update pay_requestcan_retry = #{canRetry},gmt_modified = sysdate()
+        where payment_seq_no = #{paymentSeqNo} and settlement_id =#{settlementId}
+    </update>
+
+	<delete id="deletePayRequestById" parameterType="Integer">
+        delete from pay_request where payment_seq_no = #{paymentSeqNo}
+    </delete>
+	
+    <delete id="deletePayRequestByIds" parameterType="String">
+        delete from pay_request where payment_seq_no in 
+        <foreach item="paymentSeqNo" collection="array" open="(" separator="," close=")">
+            #{paymentSeqNo}
+        </foreach>
+    </delete>
+    
+</mapper>

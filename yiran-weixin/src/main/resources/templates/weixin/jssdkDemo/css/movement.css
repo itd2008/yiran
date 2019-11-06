@@ -1,0 +1,116 @@
+@keyframes nextPage {
+    0% {
+        top:-55px
+    }
+    100% {
+        top: 30px;
+    }
+}
+
+@-webkit-keyframes nextPage {
+    0% {
+        top:-55px
+    }
+
+    100% {
+        top: 30px;
+    }
+}
+
+@-webkit-keyframes corner1 {
+    from {
+        opacity: .5;
+        -webkit-transform: rotate(-90deg);
+    }
+    to {
+        opacity: 1;
+        -webkit-transform: rotate(0deg);
+    }
+}
+
+@-webkit-keyframes corner2 {
+    from {
+        opacity: .5;
+        -webkit-transform: rotate(90deg);
+    }
+    to {
+        opacity: 1;
+        -webkit-transform: rotate(0deg);
+    }
+}
+
+@-webkit-keyframes corner3 {
+    from {
+        opacity: .5;
+        -webkit-transform: rotate(90deg);
+    }
+    to {
+        opacity: 1;
+        -webkit-transform: rotate(0deg);
+    }
+}
+
+@-webkit-keyframes corner4 {
+    from {
+        opacity: .5;
+        -webkit-transform: rotate(-90deg);
+    }
+    to {
+        opacity: 1;
+        -webkit-transform: rotate(0deg);
+    }
+}
+
+@-webkit-keyframes word {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes p-fly {
+    0% {
+        -webkit-transform: scale(3.0);
+    }
+    50%{
+        -webkit-transform: scale(.5);
+    }
+    100%{
+        -webkit-transform: scale(1);
+    }
+}
+@-webkit-keyframes sm-img {
+    from{
+        width: 200px;
+        opacity: 0;
+    }
+    to{
+        width: 309px;
+        bottom: 30%;
+        right:15% ;
+        opacity: 1;
+    }
+}
+@-webkit-keyframes bg-img {
+    from{
+        bottom: -20%;
+    }
+    to{
+        bottom: 0;
+    }
+}
+
+@-webkit-keyframes team-img {
+    from{
+        border: 4px solid transparent;
+    }
+    50%{
+        border: 4px solid orangered;
+        opacity: 0.7;
+    }
+    to{
+        border: 4px solid transparent;
+    }
+}

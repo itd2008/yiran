@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.message.mapper.SysSmsTemplateMapper">
+    
+    <resultMap type="SysSmsTemplate" id="SysSmsTemplateResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="code"    column="code"    />
+        <result property="businessType"    column="business_type"    />
+        <result property="templateId"    column="template_id"    />
+        <result property="templateContent"    column="template_content"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateDate"    column="update_date"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="remarks"    column="remarks"    />
+    </resultMap>
+	
+	<sql id="selectSysSmsTemplateVo">
+        select id, name, code, business_type, template_id, template_content, create_by, create_date, update_by, update_date, del_flag, remarks from sys_sms_template
+    </sql>
+	
+    <select id="selectSysSmsTemplateList" parameterType="SysSmsTemplate" resultMap="SysSmsTemplateResult">
+        <include refid="selectSysSmsTemplateVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+             <if test="name != null  and name != '' "> and name = #{name}</if>
+             <if test="code != null  and code != '' "> and code = #{code}</if>
+             <if test="businessType != null  and businessType != '' "> and business_type = #{businessType}</if>
+             <if test="templateId != null  and templateId != '' "> and template_id = #{templateId}</if>
+             <if test="templateContent != null  and templateContent != '' "> and template_content = #{templateContent}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="createDate != null "> and create_date = #{createDate}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="updateDate != null "> and update_date = #{updateDate}</if>
+             <if test="delFlag != null  and delFlag != '' "> and del_flag = #{delFlag}</if>
+             <if test="remarks != null  and remarks != '' "> and remarks = #{remarks}</if>
+         </where>
+    </select>
+    
+    <select id="selectSysSmsTemplateById" parameterType="Integer" resultMap="SysSmsTemplateResult">
+        <include refid="selectSysSmsTemplateVo"/>
+        where id = #{id}
+    </select>
+    
+    <select id="selectSmsTemplateByTemplateId" parameterType="String" resultMap="SysSmsTemplateResult">
+        <include refid="selectSysSmsTemplateVo"/>
+        where template_id = #{templateId}
+    </select>
+        
+    <insert id="insertSysSmsTemplate" parameterType="SysSmsTemplate" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_sms_template
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name != null  and name != ''  ">name,</if>
+			<if test="code != null  and code != ''  ">code,</if>
+			<if test="businessType != null  and businessType != ''  ">business_type,</if>
+			<if test="templateId != null  and templateId != ''  ">template_id,</if>
+			<if test="templateContent != null  and templateContent != ''  ">template_content,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="delFlag != null  and delFlag != ''  ">del_flag,</if>
+			<if test="remarks != null  and remarks != ''  ">remarks,</if>
+			create_date
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="name != null  and name != ''  ">#{name},</if>
+			<if test="code != null  and code != ''  ">#{code},</if>
+			<if test="businessType != null  and businessType != ''  ">#{businessType},</if>
+			<if test="templateId != null  and templateId != ''  ">#{templateId},</if>
+			<if test="templateContent != null  and templateContent != ''  ">#{templateContent},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="delFlag != null  and delFlag != ''  ">#{delFlag},</if>
+			<if test="remarks != null  and remarks != ''  ">#{remarks},</if>
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateSysSmsTemplate" parameterType="SysSmsTemplate">
+        update sys_sms_template
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null  and name != ''  ">name = #{name},</if>
+            <if test="code != null  and code != ''  ">code = #{code},</if>
+            <if test="businessType != null  and businessType != ''  ">business_type = #{businessType},</if>
+            <if test="templateId != null  and templateId != ''  ">template_id = #{templateId},</if>
+            <if test="templateContent != null  and templateContent != ''  ">template_content = #{templateContent},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="delFlag != null  and delFlag != ''  ">del_flag = #{delFlag},</if>
+            <if test="remarks != null  and remarks != ''  ">remarks = #{remarks},</if>
+            update_date = sysdate()
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteSysSmsTemplateById" parameterType="Integer">
+        delete from sys_sms_template where id = #{id}
+    </delete>
+	
+    <delete id="deleteSysSmsTemplateByIds" parameterType="String">
+        delete from sys_sms_template where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

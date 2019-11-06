@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.paychannel.mapper.SequenceMapper">
+    
+    <resultMap type="Sequence" id="SequenceResult">
+        <result property="name"    column="name"    />
+        <result property="currentValue"    column="current_value"    />
+        <result property="increment"    column="increment"    />
+    </resultMap>
+	
+	<sql id="selectSequenceVo">
+        select name, current_value, increment from sequence
+    </sql>
+	
+    <select id="selectSequenceList" parameterType="Sequence" resultMap="SequenceResult">
+        <include refid="selectSequenceVo"/>
+        <where>  
+            <if test="name != null  and name != '' "> and name = #{name}</if>
+             <if test="currentValue != null "> and current_value = #{currentValue}</if>
+             <if test="increment != null "> and increment = #{increment}</if>
+         </where>
+    </select>
+    
+    <select id="selectSequenceById" parameterType="String" resultMap="SequenceResult">
+        <include refid="selectSequenceVo"/>
+        where name = #{name}
+    </select>
+        
+    <insert id="insertSequence" parameterType="Sequence">
+        insert into sequence
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name != null  and name != ''  ">name,</if>
+			<if test="currentValue != null  ">current_value,</if>
+			<if test="increment != null  ">increment,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="name != null  and name != ''  ">#{name},</if>
+			<if test="currentValue != null  ">#{currentValue},</if>
+			<if test="increment != null  ">#{increment},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateSequence" parameterType="Sequence">
+        update sequence
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="currentValue != null  ">current_value = #{currentValue},</if>
+            <if test="increment != null  ">increment = #{increment},</if>
+        </trim>
+        where name = #{name}
+    </update>
+
+	<delete id="deleteSequenceById" parameterType="String">
+        delete from sequence where name = #{name}
+    </delete>
+	
+    <delete id="deleteSequenceByIds" parameterType="String">
+        delete from sequence where name in 
+        <foreach item="name" collection="array" open="(" separator="," close=")">
+            #{name}
+        </foreach>
+    </delete>
+    
+    <select id="setval"  resultType="java.lang.Integer">
+    	SELECT SETVAL(#{name}, #{currentValue}) FROM dual
+    </select>
+    
+    <select id="currval"  parameterType="java.lang.String" resultType="java.lang.Integer">
+    	SELECT CURRVAL(#{name}) FROM dual
+    </select>
+    
+    <select id="nextval"  parameterType="java.lang.String" resultType="java.lang.Integer">
+    	SELECT NEXTVAL(#{name}) FROM dual
+    </select>
+</mapper>

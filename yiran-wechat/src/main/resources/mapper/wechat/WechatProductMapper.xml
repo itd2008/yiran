@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.wechat.mapper.WechatProductMapper">
+    
+    <resultMap type="WechatProduct" id="WechatProductResult">
+        <result property="productId"    column="product_id"    />
+        <result property="productName"    column="product_name"    />
+        <result property="marque"    column="marque"    />
+        <result property="barcode"    column="barcode"    />
+        <result property="typeId"    column="type_id"    />
+        <result property="brandId"    column="brand_id"    />
+        <result property="price"    column="price"    />
+        <result property="marketPrice"    column="market_price"    />
+        <result property="costPrice"    column="cost_price"    />
+        <result property="stock"    column="stock"    />
+        <result property="warningStock"    column="warning_stock"    />
+        <result property="integral"    column="integral"    />
+        <result property="pictureUrl"    column="picture_url"    />
+        <result property="status"    column="status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="p1"    column="p1"    />
+        <result property="p2"    column="p2"    />
+        <result property="p3"    column="p3"    />
+        <result property="p4"    column="p4"    />
+        <result property="p5"    column="p5"    />
+        <result property="p6"    column="p6"    />
+        <result property="p7"    column="p7"    />
+        <result property="p8"    column="p8"    />
+        <result property="p9"    column="p9"    />
+        <result property="p10"    column="p10"    />
+        <result property="brandName"    column="brand_name"    />
+        <result property="title"    column="title"    />
+         
+        <association property="productCategory"    column="category_id" javaType="WechatShopProductCategory" resultMap="productCategoryResult"/>
+    </resultMap>
+    
+    <resultMap id="productCategoryResult" type="WechatShopProductCategory">
+		<result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="orders"    column="orders"    />
+        <result property="status"    column="status"    />
+        <result property="pid"    column="pid"    />
+	</resultMap>
+	
+	<sql id="selectWechatProductVo">
+        select product_id, product_name, marque, barcode, type_id, category_id, brand_id, price, market_price, cost_price, stock, warning_stock, integral, picture_url, status, create_time,p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,update_time from wechat_product
+    </sql>
+	
+    <select id="selectWechatProductList" parameterType="WechatProduct" resultMap="WechatProductResult">
+        select p.product_id, p.product_name, p.marque, p.barcode, p.type_id, p.category_id, p.brand_id, p.price, p.market_price, p.cost_price, p.stock, p.warning_stock, p.integral, p.picture_url, p.status, p.create_time ,p.p1,p.p2,p.p3,p.p4,p.p5,p.p6,p.p7,p.p8,p.p9,p.p10,p.update_time,
+        b.name as brand_name,
+        pd.title,
+        c.name
+        from wechat_product p
+        left join wechat_shop_product_category c on p.category_id = c.id
+        left join wechat_product_brand b on p.brand_id = b.product_brand_id
+        left join wechat_product_description pd on p.product_id = pd.product_id
+        where 1=1
+             <if test="productId != null  and productId != '' "> and product_id = #{productId}</if>
+             <if test="productName != null  and productName != '' "> and product_name = #{productName}</if>
+             <if test="marque != null  and marque != '' "> and marque = #{marque}</if>
+             <if test="barcode != null  and barcode != '' "> and barcode = #{barcode}</if>
+             <if test="status != null  and status != '' "> and status = #{status}</if>
+             <if test="categoryId != null  and categoryId != '' "> and category_id = #{categoryId}</if>
+             <if test="p1 != null  and p1 != ''  ">and p1 =#{p1}</if>
+			<if test="p2 != null  and p2 != ''  ">and p2=#{p2}</if>
+			<if test="p3 != null  and p3 != ''  ">and p3=#{p3}</if>
+			<if test="categoryId != null and pid != 0 and categoryId != 1 and pid != 1">
+				AND p.category_id IN (SELECT ch.id FROM wechat_shop_product_category ch WHERE ch.id = #{categoryId} OR ch.pid = #{pid})
+			</if>
+    </select>
+    
+    <select id="selectWechatProductById" parameterType="Integer" resultMap="WechatProductResult">
+        select p.product_id, p.product_name, p.marque, p.barcode, p.type_id, p.category_id, p.brand_id, p.price, p.market_price, p.cost_price, p.stock, p.warning_stock, p.integral, p.picture_url, p.status, p.create_time ,p.p1,p.p2,p.p3,p.p4,p.p5,p.p6,p.p7,p.p8,p.p9,p.p10,p.update_time,
+        b.name as brand_name,
+        pd.title,
+        c.name,
+        c.id
+        from wechat_product p
+        left join wechat_shop_product_category c on p.category_id = c.id
+        left join wechat_product_brand b on p.brand_id = b.product_brand_id
+        left join wechat_product_description pd on p.product_id = pd.product_id
+        where  p.product_id = #{productId}
+    </select>
+        
+    <insert id="insertWechatProduct" parameterType="WechatProduct" useGeneratedKeys="true" keyProperty="productId">
+        insert into wechat_product
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="productName != null  and productName != ''  ">product_name,</if>
+			<if test="marque != null  and marque != ''  ">marque,</if>
+			<if test="barcode != null  and barcode != ''  ">barcode,</if>
+			<if test="typeId != null  and typeId != ''  ">type_id,</if>
+			<if test="categoryId != null  and categoryId != ''  ">category_id,</if>
+			<if test="brandId != null  and brandId != ''  ">brand_id,</if>
+			<if test="price != null  and price != ''  ">price,</if>
+			<if test="marketPrice != null  and marketPrice != ''  ">market_price,</if>
+			<if test="costPrice != null  and costPrice != ''  ">cost_price,</if>
+			<if test="stock != null  and stock != ''  ">stock,</if>
+			<if test="warningStock != null  and warningStock != ''  ">warning_stock,</if>
+			<if test="integral != null  and integral != ''  ">integral,</if>
+			<if test="pictureUrl != null  and pictureUrl != ''  ">picture_url,</if>
+			<if test="status != null  and status != ''  ">status,</if>
+			<if test="p1 != null  and p1 != ''  ">p1,</if>
+			<if test="p2 != null  and p2 != ''  ">p2,</if>
+			<if test="p3 != null  and p3 != ''  ">p3,</if>
+			<if test="p4 != null  and p4 != ''  ">p4,</if>
+			<if test="p5 != null  and p5 != ''  ">p5,</if>
+			<if test="p6 != null  and p6 != ''  ">p6,</if>
+			<if test="p7 != null  and p7 != ''  ">p7,</if>
+			<if test="p8 != null  and p8 != ''  ">p8,</if>
+			<if test="p9 != null  and p9 != ''  ">p9,</if>
+			<if test="p10 != null  and p10 != ''  ">p10,</if>
+			create_time,
+			update_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="productName != null  and productName != ''  ">#{productName},</if>
+			<if test="marque != null  and marque != ''  ">#{marque},</if>
+			<if test="barcode != null  and barcode != ''  ">#{barcode},</if>
+			<if test="typeId != null  and typeId != ''  ">#{typeId},</if>
+			<if test="categoryId != null  and categoryId != ''  ">#{categoryId},</if>
+			<if test="brandId != null  and brandId != ''  ">#{brandId},</if>
+			<if test="price != null  and price != ''  ">#{price},</if>
+			<if test="marketPrice != null  and marketPrice != ''  ">#{marketPrice},</if>
+			<if test="costPrice != null  and costPrice != ''  ">#{costPrice},</if>
+			<if test="stock != null  and stock != ''  ">#{stock},</if>
+			<if test="warningStock != null  and warningStock != ''  ">#{warningStock},</if>
+			<if test="integral != null  and integral != ''  ">#{integral},</if>
+			<if test="pictureUrl != null  and pictureUrl != ''  ">#{pictureUrl},</if>
+			<if test="status != null  and status != ''  ">#{status},</if>
+			<if test="p1 != null  and p1 != ''  ">#{p1},</if>
+			<if test="p2 != null  and p2 != ''  ">#{p2},</if>
+			<if test="p3 != null  and p3 != ''  ">#{p3},</if>
+			<if test="p4 != null  and p4 != ''  ">#{p4},</if>
+			<if test="p5 != null  and p5 != ''  ">#{p5},</if>
+			<if test="p6 != null  and p6 != ''  ">#{p6},</if>
+			<if test="p7 != null  and p7 != ''  ">#{p7},</if>
+			<if test="p8 != null  and p8 != ''  ">#{p8},</if>
+			<if test="p9 != null  and p9 != ''  ">#{p9},</if>
+			<if test="p10 != null  and p10 != ''  ">#{p10},</if>
+			sysdate(),
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateWechatProduct" parameterType="WechatProduct">
+        update wechat_product
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="productName != null  and productName != ''  ">product_name = #{productName},</if>
+            <if test="marque != null  and marque != ''  ">marque = #{marque},</if>
+            <if test="barcode != null  and barcode != ''  ">barcode = #{barcode},</if>
+            <if test="typeId != null  and typeId != ''  ">type_id = #{typeId},</if>
+            <if test="categoryId != null  and categoryId != ''  ">category_id = #{categoryId},</if>
+            <if test="brandId != null  and brandId != ''  ">brand_id = #{brandId},</if>
+            <if test="price != null  and price != ''  ">price = #{price},</if>
+            <if test="marketPrice != null  and marketPrice != ''  ">market_price = #{marketPrice},</if>
+            <if test="costPrice != null  and costPrice != ''  ">cost_price = #{costPrice},</if>
+            <if test="stock != null  and stock != ''  ">stock = #{stock},</if>
+            <if test="warningStock != null  and warningStock != ''  ">warning_stock = #{warningStock},</if>
+            <if test="integral != null  and integral != ''  ">integral = #{integral},</if>
+            <if test="pictureUrl != null  and pictureUrl != ''  ">picture_url = #{pictureUrl},</if>
+            <if test="status != null  and status != ''  ">status = #{status},</if>
+            update_time = sysdate()
+        </trim>
+        where product_id = #{productId}
+    </update>
+
+	<delete id="deleteWechatProductById" parameterType="Integer">
+        delete from wechat_product where product_id = #{productId}
+    </delete>
+	
+    <delete id="deleteWechatProductByIds" parameterType="String">
+        delete from wechat_product where product_id in 
+        <foreach item="productId" collection="array" open="(" separator="," close=")">
+            #{productId}
+        </foreach>
+    </delete>
+    
+</mapper>

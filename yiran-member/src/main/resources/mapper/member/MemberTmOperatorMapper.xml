@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiran.member.mapper.MemberTmOperatorMapper">
+    
+    <resultMap type="MemberTmOperator" id="MemberTmOperatorResult">
+        <result property="operatorId"    column="operator_id"    />
+        <result property="memberId"    column="member_id"    />
+        <result property="nickname"    column="nickname"    />
+        <result property="operatorType"    column="operator_type"    />
+        <result property="isDefault"    column="is_default"    />
+        <result property="status"    column="status"    />
+        <result property="activeTime"    column="active_time"    />
+        <result property="lockStatus"    column="lock_status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createUser"    column="create_user"    />
+        <result property="updateUser"    column="update_user"    />
+        <result property="memo"    column="memo"    />
+        <result property="securityFlag"    column="security_flag"    />
+        <result property="password"    column="password"    />
+        <result property="contact"    column="contact"    />
+        <result property="pwdStatus"    column="pwd_status"    />
+        <result property="contactVerify"    column="contact_verify"    />
+    </resultMap>
+	
+	<sql id="selectMemberTmOperatorVo">
+        select operator_id, member_id, nickname, operator_type, is_default, status, active_time, lock_status, create_time, update_time, create_user, update_user, memo, security_flag, password, contact, pwd_status, contact_verify from member_tm_operator
+    </sql>
+	
+    <select id="selectMemberTmOperatorList" parameterType="MemberTmOperator" resultMap="MemberTmOperatorResult">
+        <include refid="selectMemberTmOperatorVo"/>
+        <where>  
+            <if test="operatorId != null  and operatorId != '' "> and operator_id = #{operatorId}</if>
+             <if test="memberId != null  and memberId != '' "> and member_id = #{memberId}</if>
+             <if test="nickname != null  and nickname != '' "> and nickname = #{nickname}</if>
+             <if test="operatorType != null "> and operator_type = #{operatorType}</if>
+             <if test="isDefault != null "> and is_default = #{isDefault}</if>
+             <if test="status != null "> and status = #{status}</if>
+             <if test="activeTime != null "> and active_time = #{activeTime}</if>
+             <if test="lockStatus != null "> and lock_status = #{lockStatus}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="createUser != null  and createUser != '' "> and create_user = #{createUser}</if>
+             <if test="updateUser != null  and updateUser != '' "> and update_user = #{updateUser}</if>
+             <if test="memo != null  and memo != '' "> and memo = #{memo}</if>
+             <if test="securityFlag != null "> and security_flag = #{securityFlag}</if>
+             <if test="password != null  and password != '' "> and password = #{password}</if>
+             <if test="contact != null  and contact != '' "> and contact = #{contact}</if>
+             <if test="pwdStatus != null "> and pwd_status = #{pwdStatus}</if>
+             <if test="contactVerify != null "> and contact_verify = #{contactVerify}</if>
+         </where>
+    </select>
+    
+    <select id="selectMemberTmOperatorById" parameterType="String" resultMap="MemberTmOperatorResult">
+        <include refid="selectMemberTmOperatorVo"/>
+        where operator_id = #{operatorId}
+    </select>
+    
+    <select id="selectMemberTmOperatorByMemberId" parameterType="String" resultMap="MemberTmOperatorResult">
+        <include refid="selectMemberTmOperatorVo"/>
+        where member_id = #{memberId}
+    </select>
+    
+    <!-- <select id="queryOperatorIdByPwssaord" resultMap="MemberTmOperatorResult">
+         <include refid="selectMemberTmOperatorVo"/>
+        where member_id = #{memberId} and password = #{password}
+    </select> -->
+        
+    <insert id="insertMemberTmOperator" parameterType="MemberTmOperator">
+        insert into member_tm_operator
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="operatorId != null  and operatorId != ''  ">operator_id,</if>
+			<if test="memberId != null  and memberId != ''  ">member_id,</if>
+			<if test="nickname != null  and nickname != ''  ">nickname,</if>
+			<if test="operatorType != null  ">operator_type,</if>
+			<if test="isDefault != null  ">is_default,</if>
+			<if test="status != null  ">status,</if>
+			<if test="activeTime != null  ">active_time,</if>
+			<if test="lockStatus != null  ">lock_status,</if>
+			<if test="memo != null  and memo != ''  ">memo,</if>
+			<if test="securityFlag != null  ">security_flag,</if>
+			<if test="password != null  and password != ''  ">password,</if>
+			<if test="contact != null  and contact != ''  ">contact,</if>
+			<if test="pwdStatus != null  ">pwd_status,</if>
+			<if test="contactVerify != null  ">contact_verify,</if>
+			create_time,
+			update_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="operatorId != null  and operatorId != ''  ">#{operatorId},</if>
+			<if test="memberId != null  and memberId != ''  ">#{memberId},</if>
+			<if test="nickname != null  and nickname != ''  ">#{nickname},</if>
+			<if test="operatorType != null  ">#{operatorType},</if>
+			<if test="isDefault != null  ">#{isDefault},</if>
+			<if test="status != null  ">#{status},</if>
+			<if test="activeTime != null  ">#{activeTime},</if>
+			<if test="lockStatus != null  ">#{lockStatus},</if>
+			<if test="memo != null  and memo != ''  ">#{memo},</if>
+			<if test="securityFlag != null  ">#{securityFlag},</if>
+			<if test="password != null  and password != ''  ">#{password},</if>
+			<if test="contact != null  and contact != ''  ">#{contact},</if>
+			<if test="pwdStatus != null  ">#{pwdStatus},</if>
+			<if test="contactVerify != null  ">#{contactVerify},</if>
+			sysdate(),
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateMemberTmOperator" parameterType="MemberTmOperator">
+        update member_tm_operator
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="memberId != null  and memberId != ''  ">member_id = #{memberId},</if>
+            <if test="nickname != null  and nickname != ''  ">nickname = #{nickname},</if>
+            <if test="operatorType != null  ">operator_type = #{operatorType},</if>
+            <if test="isDefault != null  ">is_default = #{isDefault},</if>
+            <if test="status != null  ">status = #{status},</if>
+            <if test="activeTime != null  ">active_time = #{activeTime},</if>
+            <if test="lockStatus != null  ">lock_status = #{lockStatus},</if>
+            <if test="memo != null  and memo != ''  ">memo = #{memo},</if>
+            <if test="securityFlag != null  ">security_flag = #{securityFlag},</if>
+            <if test="password != null  and password != ''  ">password = #{password},</if>
+            <if test="contact != null  and contact != ''  ">contact = #{contact},</if>
+            <if test="pwdStatus != null  ">pwd_status = #{pwdStatus},</if>
+            <if test="contactVerify != null  ">contact_verify = #{contactVerify},</if>
+            update_user = sysdate()
+        </trim>
+        where operator_id = #{operatorId}
+    </update>
+
+	<delete id="deleteMemberTmOperatorById" parameterType="String">
+        delete from member_tm_operator where operator_id = #{operatorId}
+    </delete>
+	
+    <delete id="deleteMemberTmOperatorByIds" parameterType="String">
+        delete from member_tm_operator where operator_id in 
+        <foreach item="operatorId" collection="array" open="(" separator="," close=")">
+            #{operatorId}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,97 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+     <div class="container-div">
+		<div class="col-sm-12">
+           <!-- Example Events -->
+           <div class="example-wrap">
+               <div class="example">
+                   <div class="btn-group hidden-xs" id="exampleTableEventsToolbar" role="group">
+                       <button type="button" class="btn btn-success" onclick="addChannelExt()">
+                           <i class="fa fa-plus"></i> 新增资金源特性
+                       </button> 
+                   </div>
+                   <table id="exampleTableEvents" data-height="400" data-mobile-responsive="true">
+                       <thead>
+                           <tr>
+                               <th data-field="fundChannelCode">资金源编码</th>
+                               <th data-field="attrKey">属性名</th>
+                               <th data-field="attrValue">属性值</th>
+                               <th data-field="attrType">属性类型</th>
+                               <th data-field="valueType">值类型</th>
+                               <th data-field="valueSplit">值分隔符</th>
+                               <th data-field="attrCodeKey">属性字典标识</th>
+                               <th data-field="apiCode">api编码</th>
+                               <th data-field="needMatch">是否需要满足VALUE指定</th>
+                               <th data-field="matchType">比较类型</th>
+                               <th data-field="opt">操作</th>
+                           </tr>
+                       </thead>
+                       <tbody>
+                       		<tr th:each="fe,iterStat : ${list}">
+                           		<td data-field="fundChannelCode" th:text="${fe.fundChannelCode}"></td>
+                           		<td data-field="attrKey" th:text="${fe.attrKey}"></td>
+                           		<td data-field="attrValue" th:text="${fe.attrValue}"></td>
+                           		<td data-field="attrType" th:if="${fe.attrType =='N'}"><span>无特殊制定</span></td>
+                           		<td data-field="attrType" th:if="${fe.attrType =='F'}"><span>流量</span></td>
+                           		<td data-field="valueType" th:if="${fe.valueType =='String'}"><span>字符串</span></td>
+                           		<td data-field="valueType" th:if="${fe.valueType =='StringArray'}"><span>字符串数组</span></td>
+                           		<td data-field="valueType" th:if="${fe.valueType =='Integer'}"><span>整数</span></td>
+                           		<td data-field="valueType" th:if="${fe.valueType =='IntegerArray'}"><span>整数数组</span></td>
+                           		<td data-field="valueType" th:if="${fe.valueType =='Money'}"><span>金额</span></td>
+                           		<td data-field="valueType" th:if="${fe.valueType =='MoneyArray'}"><span>金额数组</span></td>
+                           		<td data-field="valueType" th:if="${fe.valueType =='BigDecimal'}"><span>BigDecimal</span></td>
+                           		<td data-field="valueType" th:if="${fe.valueType =='BigDecimalArray'}"><span>BigDecimal数组</span></td>
+                           		<td data-field="valueType" th:if="${fe.valueType =='Boolean'}"><span>布尔类型</span></td>
+                           		<td data-field="valueType" th:if="${fe.valueType =='CompanyOrPersonal'}"><span>对公对私枚举</span></td>
+                           		<td data-field="valueType" th:if="${fe.valueType =='CompanyOrPersonalArray'}"><span>对公对私枚举数组</span></td>
+                           		<td data-field="valueSplit" th:text="${fe.valueSplit}"></td>
+                           		<td data-field="attrCodeKey" th:text="${fe.attrCodeKey}"></td>
+                           		<td data-field="apiCode" th:text="${fe.apiCode}"></td>
+                           		<td data-field="needMatch" th:if="${fe.needMatch =='NO'}"><span>否</span></td>
+                           		<td data-field="needMatch" th:if="${fe.needMatch =='YES'}"><span>是</span></td>
+                           		<td data-field="matchType" th:if="${fe.matchType =='BETWEEN'}"><span>区间</span></td>
+                           		<td data-field="matchType" th:if="${fe.matchType =='GREETER'}"><span>大于</span></td>
+                           		<td data-field="matchType" th:if="${fe.matchType =='LOWER'}"><span>小于</span></td>
+                           		<td data-field="matchType" th:if="${fe.matchType =='IN'}"><span>包含</span></td>
+                           		<td data-field="matchType" th:if="${fe.matchType =='NOTNULL'}"><span>不为空</span></td>
+                           		<td data-field="matchType" th:if="${fe.matchType =='NULL'}"><span>空</span></td>
+                           		<td data-field="matchType" th:if="${fe.matchType =='NOTIN'}"><span>不包含</span></td>
+                           		<td data-field="opt">
+                           		<a class="btn btn-success btn-xs" href="#" th:onclick="'javascript:editChannelExt('+${fe.extId}+');'"><i class="fa fa-edit" ></i>编辑</a> 
+                           		<a class="btn btn-danger btn-xs" href="#" th:onclick="'javascript:removeChannelExt('+${fe.extId}+');'"><i class="fa fa-remove" ></i>删除</a></td>
+                           </tr>
+                       </tbody>
+                   </table>
+               </div>
+           </div>
+           <!-- End Example Events -->
+       </div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+    	var prefix = ctx + "paychannel/tmFundChannelExt"
+    
+    	function addChannelExt(){
+    		var fundChannelCode = [[${fundChannelCode}]];
+    		var url = prefix+"/add/"+fundChannelCode;
+    		$.modal.open("资金渠道基本配置 - 维护资金源 - 新增渠道特性",url)
+    	}
+    	
+    	function editChannelExt(extId){
+    		var url = prefix+"/edit/"+extId;
+    		$.modal.open("资金渠道基本配置 - 维护资金源 - 修改渠道特性",url)
+    	}
+    	
+    	function removeChannelExt(extId){
+    		$.modal.confirm("确定删除该条信息吗？", function() {
+            	var data = { "ids": extId };
+            	$.operate.submit(prefix + "/remove", "post", "json", data);
+            	window.location.reload();
+        	});
+    	}
+    </script>
+</body>
+</html>

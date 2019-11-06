@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<meta charset="utf-8">
+<link rel="stylesheet" th:href="@{/product/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/product/css/font-awesome.css}" />
+<link rel="stylesheet" th:href="@{/product/css/iCheck/custom.css}" />
+<link rel="stylesheet" th:href="@{/product/css/slick.css}" />
+<link rel="stylesheet" th:href="@{/product/css/slick-theme.css}" />
+<link rel="stylesheet" th:href="@{/product/css/jquery.steps.css}" />
+<link rel="stylesheet" th:href="@{/product/css/animate.css}" />
+<link rel="stylesheet" th:href="@{/product/css/style.css}" />
+<link rel="stylesheet" th:href="@{/Bootstrapfileinput/css/theme.min.css}" />
+<link rel="stylesheet" th:href="@{/Bootstrapfileinput/css/fileinput.min.css}" />
+<link th:href="@{/ajax/libs/jquery-layout/jquery.layout-latest.css}" rel="stylesheet"/>
+<link th:href="@{/ajax/libs/summernote/summernote.css}" rel="stylesheet"/>
+<link th:href="@{/ajax/libs/summernote/summernote-bs3.css}" rel="stylesheet"/>
+<script th:inline="javascript"> var ctx = [[@{/}]]; </script>
+<style>
+	label{
+		text-align: right !important;
+    	font-size: 14px !important;
+    	font-family: auto !important;
+	}
+	
+</style>
+<body>
+     <div class="wrapper wrapper-content animated fadeInRight">
+            
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox">
+                        <div class="ibox-title">
+                            <h2>
+                                	添加商品信息
+                            </h2>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            
+                            <form id="form" th:action="@{/wechat/wechatProduct/add}" class="wizard-big" th:method="POST" enctype="multipart/form-data">
+                            	<input name="categoryId" type="hidden" id="treeId"/>
+                                <h1>商品类目</h1>
+                                <fieldset>
+                                    <h2>请选择商品类目</h2>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="input-group">
+						                    	<input name="productCategoryName" onclick="selectProductCategoryTree()" id="treeName" type="text" placeholder="请选择类目" class="form-control required">
+						                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+						                    </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="text-center">
+                                                <div style="margin-top: 20px">
+                                                    <i class="fa fa-sign-in" style="font-size: 180px;color: #e5e5e5 "></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </fieldset>
+                                <h1>基本信息</h1>
+                                <fieldset>
+                                    <h2>标题和主图</h2>
+                                    <div class="row">
+						            	<div class="col-sm-12">
+						                    <div class="form-group">
+						                        <label class="col-sm-2">商品名称：</label>
+						                        <div class="col-sm-10">
+						                            <input id="productName" name="productName" class="form-control required" type="text" >
+						                        </div>
+						                    </div>
+						                </div>
+						            </div>
+						            <br/>
+                                    <div class="row">
+						            	<div class="col-sm-12">
+						                    <div class="form-group">
+						                        <label class="col-sm-2">商品标题：</label>
+						                        <div class="col-sm-10">
+						                            <input id="title" name="title" class="form-control required" type="text" >
+						                        </div>
+						                    </div>
+						                </div>
+						            </div>
+						            <br/>
+						            <div class="row">
+						            	<div class="col-sm-12">
+						                    <div class="form-group">
+						                        <label class="col-sm-2">主页图片：</label>
+						                        <div class="col-sm-10">
+						                            <!-- <input id="linkUrl" name="linkUrl" class="form-control" type="hidden"> -->
+													<input id="kv-explorer"  name="linkUrl" type="file" data-overwrite-initial="false" multiple> <br>
+						                        </div>
+						                    </div>
+						                </div>
+						            </div>
+						            <br/>
+						            <div class="row">
+						            	<div class="col-sm-12">
+						                    <div class="form-group">
+						                        <label class="col-sm-2">商品型号：</label>
+						                        <div class="col-sm-10">
+						                            <input id="marque" name="marque" class="form-control required" type="text" >
+						                        </div>
+						                    </div>
+						                </div>
+						            </div>
+                                </fieldset>
+
+                                <h1>品牌和属性</h1>
+                                <fieldset>
+                                    <h2>商品品牌</h2>
+                                    <div class="row">
+						            	<div class="col-sm-12">
+						                    <div class="form-group">
+						                        <label class="col-sm-2">商品品牌：</label>
+						                        <div class="col-sm-10" id="showBrand">
+						                        </div>
+						                    </div>
+						                </div>
+						            </div>
+						            <br/>
+						            <h2>商品属性</h2>
+                                    <div class="row">
+						            	<div class="col-sm-12">
+						                    <div class="form-group">
+						                        <label class="col-sm-2">商品属性：</label>
+						                        <div class="col-sm-10" id="showAttr">
+						                        </div>
+						                    </div>
+						                </div>
+						            </div>
+						            <br/>
+                                </fieldset>
+                                
+                                <h1>详细描述</h1>
+                                <fieldset>
+                                    <div class="row">
+						            	<div class="col-sm-12">
+						                    <div class="form-group">
+						                    	<textarea id="summernote" name="description"></textarea>
+						                    </div>
+						                </div>
+						            </div>
+                                </fieldset>
+                                
+                                <h1>商品规格与库存</h1>
+                                <fieldset>
+                                    <h2>商品规格</h2>
+                                    <div class="row" id="specification_id">
+						            	
+						            </div>
+						            <div class="row">
+						            	<div class="col-sm-12">
+						                    <div class="form-group">
+						                        <label class="col-sm-2"></label>
+						                        <div class="col-sm-10" >
+						                        	<input type="button" value="添加规格" onclick="addSpecification()"/>
+						                        </div>
+						                    </div>
+						                </div>
+						            </div>
+						            <br/>
+						            <h2>商品价格、库存</h2>
+						            <input type="hidden" name="specificationPriceAndQuantity" id="specificationPriceAndQuantity"/>
+                                    <div class="row">
+						            	<div class="col-sm-12">
+						                    <div class="form-group">
+						                        <div class="col-sm-12">
+						                        	<div class="ibox-content">
+							                            <table class="table table-bordered">
+							                                <thead>
+							                                <tr>
+							                                    <th>规格</th>
+							                                    <th>价格</th>
+							                                    <th>折扣</th>
+							                                    <th>折扣价</th>
+							                                    <th>库存</th>
+							                                    <th>操作</th>
+							                                </tr>
+							                                </thead>
+							                                <tbody id="specificationTablePrice">
+							                                </tbody>
+							                            </table>
+							                        </div>
+						                        </div>
+						                    </div>
+						                </div>
+						            </div>
+						            <br/>
+                                </fieldset>
+
+                                <h1>服务与承诺</h1>
+                                <fieldset>
+                                    <h2>服务与承诺</h2>
+                                    <div class="row">
+						            	<div class="col-sm-12">
+						                    <div class="form-group">
+						                        <label class="col-sm-2">商品类型：</label>
+						                        <div class="col-sm-10">
+						                        	<div class='radio'><input type='radio' id='productType0' checked="checked" value='普通商品' name='productType'><label for='productType0'>普通商品</label></div>
+						                        	<div class='radio'><input type='radio' id='productType1' value='进口商品' name='productType'><label for='productType1'>进口商品</label></div>
+						                        	<div class='radio'><input type='radio' id='productType2' value='直供商品' name='productType'><label for='productType2'>直供商品</label></div>
+						                        	<div class='radio'><input type='radio' id='productType3' value='直邮商品' name='productType'><label for='productType3'>直邮商品</label></div>
+						                        </div>
+						                    </div>
+						                </div>
+						                <div class="row">
+							                <div class="col-sm-12">
+							                    <div class="form-group">
+							                        <label class="col-sm-2">是否预售：</label>
+							                        <div class="col-sm-10">
+							                        	<div class='radio'><input type='radio' id='advanceSale0' value='0' checked="checked" name='isAdvanceSale'><label for='advanceSale0'>非预售</label></div>
+							                        	<div class='radio'><input type='radio' id='advanceSale1' value='1' name='isAdvanceSale'><label for='advanceSale1'>预售</label></div>
+							                        </div>
+							                    </div>
+							                </div>
+						                </div>
+						                <div class="row">
+							                <div class="col-sm-12">
+							                    <div class="form-group">
+							                        <label class="col-sm-2">限时秒杀：</label>
+							                        <div class="col-sm-10">
+							                        	<div class='radio'><input type='radio' id='p_0' value='0' checked="checked" name='p1'><label for='p_0'>否</label></div>
+							                        	<div class='radio'><input type='radio' id='p_1' value='1' name='p1'><label for='p_1'>是</label></div>
+							                        </div>
+							                    </div>
+							                </div>
+						                </div>
+						                <div class="row">
+							                <div class="col-sm-12">
+							                    <div class="form-group">
+							                        <label class="col-sm-2">新品推荐：</label>
+							                        <div class="col-sm-10">
+							                        	<div class='radio'><input type='radio' id='p2_0' value='0' checked="checked" name='p2'><label for='p2_0'>否</label></div>
+							                        	<div class='radio'><input type='radio' id='p2_1' value='1' name='p2'><label for='p2_1'>是</label></div>
+							                        </div>
+							                    </div>
+							                </div>
+						                </div>
+						                <div class="row">
+							                <div class="col-sm-12">
+							                    <div class="form-group">
+							                        <label class="col-sm-2">猜你喜欢：</label>
+							                        <div class="col-sm-10">
+							                        	<div class='radio'><input type='radio' id='p3_0' value='0' checked="checked" name='p3'><label for='p3_0'>否</label></div>
+							                        	<div class='radio'><input type='radio' id='p3_1' value='1' name='p3'><label for='p3_1'>是</label></div>
+							                        </div>
+							                    </div>
+							                </div>
+						                </div>
+						                <div class="row">
+							                <div class="col-sm-12">
+							                    <div class="form-group">
+							                        <label class="col-sm-2">发货时间承诺：</label>
+							                        <div class="col-sm-10">
+							                        	<div class='radio'><input type='radio' id='deliveryTime0' value='0' name='deliveryTime'><label for='deliveryTime0'>当日发货</label></div>
+							                        	<div class='radio'><input type='radio' id='deliveryTime1' value='1' name='deliveryTime'><label for='deliveryTime2'>24小时</label></div>
+							                        	<div class='radio'><input type='radio' id='deliveryTime2' checked="checked" value='2' name='deliveryTime'><label for='deliveryTime2'>48小时</label></div>
+							                        </div>
+							                    </div>
+							                </div>
+						                </div>
+						                
+						                <div class="row">
+							            	<div class="col-sm-12">
+							                    <div class="form-group">
+							                        <label class="col-sm-2">运费模板：</label>
+							                        <div class="col-sm-10" id="freightTemplate">
+							                        </div>
+							                    </div>
+							                </div>
+							            </div>
+							            
+							            <div class="row">
+							            	<div class="col-sm-12">
+							                    <div class="form-group">
+							                        <label class="col-sm-2"></label>
+							                        <div class="col-sm-10" >
+							                        	<div class="ibox-content">
+								                            <table class="table table-bordered">
+								                                <thead>
+								                                <tr>
+								                                    <th>包邮区域</th>
+								                                    <th>不包邮区域</th>
+								                                </tr>
+								                                </thead>
+								                                <tbody>
+								                                	<tr>
+								                                		<td id="freightTemplate_parcelPostArea"></td>
+								                                		<td id="freightTemplate_nonDistributionArea"></td>
+								                                	</tr>
+								                                </tbody>
+								                            </table>
+								                        </div>
+							                        </div>
+							                    </div>
+							                </div>
+							            </div>
+						                <br/>
+	                                    <div class="row">
+							            	<div class="col-sm-12">
+							                    <div class="form-group">
+							                        <label class="col-sm-2">承诺：</label>
+							                        <div class="col-sm-10" >
+							                        	<div><input type='checkbox' checked="checked" value='true' name='free7days'> <i></i> 7天无理由退换货&nbsp;该类商品，必须支持【七天无理由退换货】服务</div>
+							                        	<div><input type='checkbox' checked="checked" value='true' name='oneFalsePaysTen'> <i></i> 假一赔十&nbsp;该类商品，必须支持假一赔十服务</div>
+							                        </div>
+							                    </div>
+							                </div>
+							            </div>
+						            </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                    </div>
+
+                </div>
+            </div>
+    <script type="text/javascript" th:src="@{/Bootstrapfileinput/js/jquery-3.2.1.js}"></script>
+	<script type="text/javascript" th:src="@{/Bootstrapfileinput/js/bootstrap.min.js}"></script>
+	<script type="text/javascript" th:src="@{/Bootstrapfileinput/js/sortable.js}"></script>
+	<script type="text/javascript" th:src="@{/Bootstrapfileinput/js/fileinput.min.js}"></script>
+	<script type="text/javascript" th:src="@{/Bootstrapfileinput/js/theme.min.js}"></script>
+	<script type="text/javascript" th:src="@{/Bootstrapfileinput/js/zh.js}"></script>
+    <!-- Mainly scripts -->
+	<script th:src="@{/product/js/jquery.metisMenu.js}"></script>
+	<script th:src="@{/product/js/jquery.slimscroll.min.js}"></script>
+
+	<!-- Custom and plugin javascript -->
+	<script th:src="@{/product/js/inspinia.js}"></script>
+	<script th:src="@{/product/js/pace.min.js}"></script>
+
+	<script th:src="@{/product/js/jquery.steps.min.js}"></script>
+	<script th:src="@{/product/js/jquery.validate.min.js}"></script>
+	
+	<script th:src="@{/ajax/libs/select/select2.js}"></script>
+	<script th:src="@{/ajax/libs/blockUI/jquery.blockUI.js}"></script>
+	<script th:src="@{/ajax/libs/iCheck/icheck.min.js}"></script>
+	<script th:src="@{/ajax/libs/layer/layer.min.js}"></script>
+	<script th:src="@{/ajax/libs/layui/layui.js}"></script>
+	<script th:src="@{/yiran/js/common.js?v=1.0}"></script>
+	<script th:src="@{/yiran/js/ry-ui.js?v=1.0}"></script>
+	
+	<script th:src="@{/ajax/libs/summernote/summernote.min.js}"></script>
+    <script th:src="@{/ajax/libs/summernote/summernote-zh-CN.js}"></script>
+	<script>
+		var prefix = ctx + "wechat/wechatProduct"
+		$(document).ready(function(){
+	        $("#form").steps({
+	        	headerTag: "h1", // 指定头部对应什么HTML标签
+	        	bodyTag: "fieldset", // 指定步骤内容对应的HTML标签
+	        	stepsOrientation: 0, // 指定步骤为水平--vertical（垂直） horizontal（水平）
+	            transitionEffect: "slideLeft", // 步骤切换动画
+	            //autoFocus: true, // 将焦点设置为第一个向导实例，以便从一开始就启用关键导航 if true  优先级在startIndex之下
+	            //forceMoveForward: true, // 防止跳转到下一步(没有上一步)
+	            preloadContent: true,
+	            //startIndex: currentStepxl, // 通过修改这个值来改变当前步数指向，即通过索引值确定向导加载后开始步骤是哪一步
+	            labels: {
+	                finish: "完成", // 修改按钮得文本
+	                next: "下一步", // 下一步按钮的文本
+	                previous: "上一步", // 上一步按钮的文本
+	                loading: "Loading ..."
+	            },
+	            onStepChanging: function (event, currentIndex, newIndex)/*步骤更改之前进行验证，默认验证结果是true*/
+	            {
+	            	return true;
+	            },
+	            onStepChanged: function (event, currentIndex, priorIndex){/*切换section显示区后  触发的函数   */
+	                // Suppress (skip) "Warning" step if the user is old enough.
+	                //$(this).steps("previous");//跳回上一步
+	                //$(this).steps("next");//跳到下一步
+	            },
+	            onFinishing: function (event, currentIndex){/*点击 finish 前 触发的事件，默认验证结果是false */
+	            	return true
+	            },
+	            onFinished: function (event, currentIndex){/*点击 finish 后触发的事件*/
+	            	
+	            	$("#specificationPriceAndQuantity").val($("#specificationTablePrice").html());
+	            	
+	                var form = $(this);
+	                form.submit();
+	            }
+	        });
+	        
+	        $("#kv-explorer").fileinput({
+				language: 'zh',
+				//'theme': 'explorer',	//文件展示的主题风格
+				//'uploadUrl': ctx + "file/fileInfo/uploadBatchImage",
+				'uploadUrl': '#',
+				showRemove:false,
+				showUpload: false, //是否显示上传按钮
+				initialPreviewAsData: true,
+				showCaption : false,//是否显示标题,就是那个文本框
+				previewFileType:['image'],
+				allowedFileExtensions:  ['jpg','png'],
+				enctype:'multipart/form-data',
+				showCancel:false,
+				overwriteInitial:true, //不覆盖已存在的图片
+				previewFileIcon: "<iclass='glyphicon glyphicon-king'></i>",
+				msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+				dropZoneEnabled : true,//是否显示拖拽区域，默认不写为true，但是会占用很大区域
+			    maxFileCount : 8, //表示允许同时上传的最大文件个数
+			    validateInitialCount:true,
+			    uploadAsync:false, //false 同步上传，后台用数组接收，true 异步上传，每次上传一个file,会调用多次接口
+			   /*  minImageWidth: 550, //图片的最小宽度
+			    minImageHeight: 280,//图片的最小高度
+			    maxImageWidth: 650,//图片的最大宽度
+			    maxImageHeight: 300,//图片的最大高度 */
+				layoutTemplates:{
+					//actionDelete:'',//除去上传按预览缩略图中删除图标
+					actionUpload:'',//除去上传按预览缩略图中上传图标
+					//actionZoom:'' //除去上传按预览缩略图中查看详情预览的缩略标
+					actionDownload:'' //去除上传预览缩略图中的下载图标
+				},
+				dropZoneTitle: "最多只能上传8张图片",
+			 	uploadExtraData:function(){//向后台传递参数
+	             	return { };
+			 	}
+			});
+
+			//这是提交完成后的回调函数  
+			 $("#kv-explorer").on("filebatchuploadsuccess", function (event, data, previewId, index) {
+				console.log('文件上传结果:'+data.response.result);
+				console.log('文件上传信息:'+data.response.msg);
+				console.log('文件上传路径:'+data.response.obj);
+				if(data.response.result == 1){//成功
+					$("#linkUrl").val(data.response.obj);
+					//重新刷新页面
+					//$.modal.msgReload("文件上传成功！","success");
+				}else if(data.response.result == 0){
+					
+					$(event.target)
+		              .fileinput('clear')
+		              .fileinput('unlock');
+		            $(event.target)
+		              .parent()
+		              .siblings('.fileinput-remove')
+		              .hide();
+		              $.modal.alertError("文件上传失败！");
+				}
+			 });
+			
+			 $('#summernote').summernote({
+				 lang:'zh-CN',
+				 height: 300,
+				 focus: true
+			 });
+			 
+	  	});
+		
+		/*类目选择*/
+        function selectProductCategoryTree() {
+        	var treeId = $("#treeId").val();
+        	var productCategoryId = $.common.isEmpty(treeId) ? "1" : $("#treeId").val();
+			var options = {
+				title: '选择类目',
+				width: "380",
+				url: ctx + "wechat/wechatShopProductCategory/selectChannelTree/" + productCategoryId,
+				callBack: doSubmit
+			};
+			$.modal.openOptions(options);
+		}
+		
+        function doSubmit(index, layero){
+			var tree = layero.find("iframe")[0].contentWindow.$._tree;
+			if ($.tree.notAllowParents(tree)) {
+				var body = layer.getChildFrame('body', index);
+    			$("#treeId").val(body.find('#treeId').val());
+    			$("#treeName").val(body.find('#treeName').val());
+    			$("#productCategoryName").val(body.find('#treeName').val());
+    			//根据类目Id获取类目下的品牌，属性，规格信息展示到页面
+    			$.ajax({
+		            url:  ctx  + "wechat/wechatProductBrand/findBrandsByCategoryId/"+body.find('#treeId').val(),
+		            type: "get",
+		            dataType: "json",
+		            success: function (data) {
+						console.log("attr:"+data.data);
+						var list = data.data;
+						var html="<select id='brandId' name='brandId' class='form-control ' ><option value=''>--请选择--</option>";
+						for(var i=0; i<list.length;i++){
+							html += "<option value='"+list[i].productCategoryId+"'>"+list[i].name+"</option>";
+						}
+						html += "</select>";
+						console.log(html)
+						$("#showBrand").html(html);
+		            }
+        		});
+        		//获取属性
+        		$.ajax({
+		            url:  ctx  + "wechat/wechatProductAttribute/findProductAttrByCategoryId/"+body.find('#treeId').val(),
+		            type: "get",
+		            dataType: "json",
+		            success: function (data) {
+						console.log(data.data);
+						var list = data.data;
+						var html="";
+						for(var j=0; j<list.length;j++){
+							html+="<div ><label class='check-box'> <input type='checkbox' value='"+list[j].productAttributeId+"' name='attrs'> <i></i> "+list[j].name+" </label></div>";
+						}
+						console.log(html)
+						$("#showAttr").html(html);
+		            }
+        		});
+        		
+        		//获取获取特性值
+        		$.ajax({
+		            url:  ctx  + "wechat/wechatProductSpecification/findProductSpecificationByCategoryId/"+body.find('#treeId').val(),
+		            type: "get",
+		            dataType: "json",
+		            success: function (data) {
+		            	var map = data.data;
+		            	var html = "";
+		            	for(var key in map){
+	            		  console.log("属性：" + key + ",值：" + map[key]);
+	            		  html +="<div class='col-sm-12'><div class='form-group'><label class='col-sm-2' id='specification_type'>"+map[key][0].specificationType+"：</label><div class='col-sm-10' id='specification_value'>";
+	            		  var list = map[key];
+	            		  for(var i=0;i<list.length;i++){
+	            			  //specification_type
+	            			  html +="<div class='radio'><input type='radio' id='"+list[i].specificationCode+list[i].productSpecification+"' value='"+list[i].productSpecification+"_"+list[i].specificationType+":"+list[i].specificationValue+"' name='"+list[i].specificationCode+"'><label for='"+list[i].specificationCode+list[i].productSpecification+"'>"+list[i].specificationValue+"</label></div>";
+	            		  }
+	            		  html +="</div></div></div>";
+	            		}
+		            	console.log(html)
+		            	$("#specification_id").html(html);
+		            }
+        		});
+    			
+    			layer.close(index);
+			}
+		}
+        
+      //获取运费模板
+		$.ajax({
+            url:  ctx  + "wechat/wechatFreightTemplate/findTemplates",
+            type: "POST",
+            dataType: "json",
+            success: function (data) {
+            	console.log("findTemplates:"+data.data);
+				var list = data.data;
+				var html="<select id='freightTemplateId' name='freightTemplateId' >";
+				for(var i=0; i<list.length;i++){
+					html += "<option value='"+list[i].freightTemplateId+"'>"+list[i].templateName+"</option>";
+				}
+				html += "</select>";
+				console.log(html)
+				$("#freightTemplate").html(html);
+				
+				$("#freightTemplate_parcelPostArea").html(list[0].parcelPostArea);
+				$("#freightTemplate_nonDistributionArea").html(list[0].nonDistributionArea);
+				
+            }
+		}); 
+      
+        function addSpecification(){
+        	var myarray = [];
+        	$("#specification_id :checked").each(function () {
+        	   var value = $(this).val();
+        	   myarray[myarray.length] = value;
+        	});
+        	console.log(myarray)
+        	var specification = "";
+        	var nums ='';
+        	var nums2 ='';
+        	for (var i = 0; i <myarray.length; i++){
+        		var str = myarray[i];
+        		var temp = str.substring(str.indexOf('_')+1)+" ";
+        		specification += temp;
+        		var temp2 = str.substring(0,str.indexOf('_'))
+        		nums += temp2;
+        		nums2 +="_"+temp2
+        	}
+        	console.log(specification)
+        	var html = $("#specificationTablePrice").html();
+        	html +="<tr id='tr_"+nums+"'>"
+        		+"<td><input type='hidden' name='specificationIds' value='"+nums2+"'/>"+specification+"</td>"
+        		+"<td><input id='price_"+nums+"' type='text' name='price' onBlur='noinputedit("+nums+")'/></td>"
+        		+"<td><input id='discount_"+nums+"' type='text' name='discount' onBlur='noinputedit("+nums+")'/></td>"
+        		+"<td><input id='discountPrice_"+nums+"' style='border:0px;' type='text' name='discountPrice' onBlur='noinputedit("+nums+")'/></td>"
+        		+"<td><input id='inventory_"+nums+"' type='text' name='inventory' onBlur='noinputedit("+nums+")'/></td>"
+        		+"<td><input type='button' value='删除' onclick='deleteSpecification(this)' /></td>"
+        		+"</tr>";
+        	$("#specificationTablePrice").html(html);
+        	console.log(html)
+        }
+        //动态删除表格的行
+        function deleteSpecification(obj){
+        	console.log("删除行ID:"+obj)
+        	var isDelete=confirm("确定要删除吗？");
+			if(isDelete){
+				var tr=obj.parentNode.parentNode;
+				var tbody=tr.parentNode;
+				tbody.removeChild(tr);
+        	}
+        }
+        
+        function noinputedit(trId){
+        	var price_value = $("#price_"+trId).val();
+        	 //$(this).css('border-color','red');
+        	 if(price_value != ""){
+        		$("#price_"+trId).css('border','0px');
+             	$("#price_"+trId).attr('value',price_value);
+        	 }
+        	var discount_value = $("#discount_"+trId).val();
+        	var discountPrice_value ="";
+        	if(discount_value != ""){
+        		$("#discount_"+trId).css('border','0px');
+             	$("#discount_"+trId).attr('value',discount_value);
+             	discountPrice_value = price_value * (discount_value/10);
+        	}else{
+        		discountPrice_value = price_value;
+        	}
+        	
+			if(discountPrice_value != ""){
+				$("#discountPrice_"+trId).css('border','0px');
+             	$("#discountPrice_"+trId).attr('value',discountPrice_value);
+        	}
+        	var inventory_value = $("#inventory_"+trId).val();
+			if(inventory_value != ""){
+				$("#inventory_"+trId).css('border','0px');
+             	$("#inventory_"+trId).attr('value',inventory_value);
+        	}
+        }
+        
+    </script>
+</body>
+</html>

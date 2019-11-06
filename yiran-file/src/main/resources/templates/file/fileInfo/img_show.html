@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="css/viewer.min.css">
+<link rel="stylesheet" th:href="@{/Bootstrapfileinput/css/viewer.min.css}" />
+<script th:src="@{/js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/Bootstrapfileinput/js/viewer.min.js}"></script>
+<style>
+* { margin: 0; padding: 0;}
+#dowebok { width: 700px; margin: 0 auto; font-size: 0;}
+#dowebok li { display: inline-block; width: 32%; margin-left: 30%; padding-top: 1%;}
+#dowebok li img { width: 100%;}
+</style>
+</head>
+
+<body>
+<div style="margin: 0 auto;width: 200px;color: red;">点击图片查看原图</div>
+<ul id="dowebok">
+	<li><img id="show_img"  th:src="${info.ossUrl}" ></li>
+</ul>
+
+<script>
+$(function () {
+	var data_original = '[[${info.ossUrl}]]';
+	$("#show_img").attr("data-original",data_original)
+});
+var viewer = new Viewer(document.getElementById('dowebok'), {
+	url: 'data-original'
+});
+</script>
+</body>
+</html>
