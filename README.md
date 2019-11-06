@@ -119,6 +119,7 @@ YiRan //依然快速开发平台
 用户名：test  密码:123456
 ```
 - 演示地址：www.yirantrade.com
+- 文档地址：https://www.showdoc.cc/507593531047031
 - 微信公账号商城体验
 - ![输入图片说明](https://images.gitee.com/uploads/images/2019/1106/134819_0609ee7e_928853.png "屏幕截图.png")
 ## 演示图
