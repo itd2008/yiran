@@ -31,7 +31,7 @@
 - 分布式文件系统：FastDFS
 - 持续集成：Jenkins
 ## 系统结构
-'''
+```
 YiRan //依然快速开发平台
 |
 ├── yiran-activiti //工作流模块
