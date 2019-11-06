@@ -71,4 +71,5 @@ YiRan //依然快速开发平台
 ├── yiran-wechat //微信商城模块
 |
 ├── yiran-weixin //微信公众号模块
+```
 ## 架构图
