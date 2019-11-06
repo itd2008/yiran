@@ -31,43 +31,44 @@
 - 分布式文件系统：FastDFS
 - 持续集成：Jenkins
 ## 系统结构
->YiRan //依然快速开发平台
->|
->>├── yiran-activiti //工作流模块
->|
->>├── yiran-admin //后台管理模块 单独部署
->|
->>├── yiran-amqp //MQ消息队列模块
->|
->>├── yiran-api //api接口模块 单独部署
->|
->>├── yiran-common //公共基础模块
->|
->>├── yiran-file //文件管理模块
->|
->>├── yiran-framework //系统核心模块
->|
->>├── yiran-generator //代码生成模块
->|
->>├── yiran-license //license模块
->|
->>├── yiran-member //会员管理模块
->|
->>├── yiran-message //消息模块
->|
->>├── yiran-pay-sdk //支付SDK模块
->|
->>├── yiran-paychannel //支付渠道路由模块
->|
->>├── yiran-payorder //支付核心模块
->|
->>├── yiran-quartz //定时任务模块
->|
->>├── yiran-reconciliation //交易对账模块
->|
->>├── yiran-system //系统管理模块
->|
->>├── yiran-wechat //微信商城模块
->|
->>├── yiran-weixin //微信公众号模块
+'''
+YiRan //依然快速开发平台
+|
+├── yiran-activiti //工作流模块
+|
+├── yiran-admin //后台管理模块 单独部署
+|
+├── yiran-amqp //MQ消息队列模块
+|
+├── yiran-api //api接口模块 单独部署
+|
+├── yiran-common //公共基础模块
+|
+├── yiran-file //文件管理模块
+|
+├── yiran-framework //系统核心模块
+|
+├── yiran-generator //代码生成模块
+|
+├── yiran-license //license模块
+|
+├── yiran-member //会员管理模块
+|
+├── yiran-message //消息模块
+|
+├── yiran-pay-sdk //支付SDK模块
+|
+├── yiran-paychannel //支付渠道路由模块
+|
+├── yiran-payorder //支付核心模块
+|
+├── yiran-quartz //定时任务模块
+|
+├── yiran-reconciliation //交易对账模块
+|
+├── yiran-system //系统管理模块
+|
+├── yiran-wechat //微信商城模块
+|
+├── yiran-weixin //微信公众号模块
 ## 架构图
