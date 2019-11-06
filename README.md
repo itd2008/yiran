@@ -73,3 +73,4 @@ YiRan //依然快速开发平台
 ├── yiran-weixin //微信公众号模块
 ```
 ## 架构图
+![](https://www.showdoc.cc/server/api/common/visitfile/sign/0793d6985a00e7030b417947ca3735c5?showdoc=.jpg)
