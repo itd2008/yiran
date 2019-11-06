@@ -73,4 +73,7 @@ YiRan //依然快速开发平台
 ├── yiran-weixin //微信公众号模块
 ```
 ## 架构图
-![](https://www.showdoc.cc/server/api/common/visitfile/sign/0793d6985a00e7030b417947ca3735c5?showdoc=.jpg)
+![输入图片说明](https://images.gitee.com/uploads/images/2019/1106/133143_4621a5b7_928853.png "屏幕截图.png")
+## 支付流程
+![输入图片说明](https://images.gitee.com/uploads/images/2019/1106/133214_5e0b5cba_928853.png "屏幕截图.png")
+
