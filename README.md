@@ -131,5 +131,6 @@ YiRan //依然快速开发平台
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/1106/140458_97da2ea8_928853.png "屏幕截图.png")
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/1106/140615_097e8c4b_928853.png "屏幕截图.png")
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/1106/140648_445f80ef_928853.png "屏幕截图.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2019/1106/142625_4860e86f_928853.png "屏幕截图.png")
 ## 微信商城演示
 
