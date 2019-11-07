@@ -122,9 +122,12 @@ YiRan //依然快速开发平台
 用户名：test  密码:123456
 ```
 - 演示地址：www.yirantrade.com
+- API地址: http://api.yirantrade.com/swagger-ui.html
 - 文档地址：https://www.showdoc.cc/507593531047031
 - 微信公账号商城体验
 - ![输入图片说明](https://images.gitee.com/uploads/images/2019/1106/134819_0609ee7e_928853.png "屏幕截图.png")
+## API接口
+![输入图片说明](https://images.gitee.com/uploads/images/2019/1107/085300_49bf8325_928853.png "屏幕截图.png")
 ## 演示图
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/1106/135337_e85b0d12_928853.png "屏幕截图.png")
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/1106/135411_127852ec_928853.png "屏幕截图.png")
